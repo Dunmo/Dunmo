@@ -9,16 +9,16 @@ var checkForUser = function() {
   this.next();
 };
 
-Router.onBeforeAction(checkForUser);
+// Router.onBeforeAction(checkForUser);
 
 Router.route('/', function () {
-  this.redirect('/loggedIn');
+  this.redirect('/login');
 });
 
 Router.route('/login', function () {
-  if (Meteor.user()) {
-    this.redirect('/');
-  }
+  // if (Meteor.user()) {
+  //   this.redirect('/');
+  // }
   this.render('login');
 });
 
