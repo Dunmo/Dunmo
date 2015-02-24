@@ -19,3 +19,4 @@ meteorhacks:fast-render
 nemo64:bootstrap
 stevezhu:lodash
 service-configuration
+jaywon:meteor-node-uuid
