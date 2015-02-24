@@ -7,3 +7,14 @@
 meteor-platform
 autopublish
 insecure
+accounts-google
+cfs:gridfs
+cfs:standard-packages
+dburles:collection-helpers
+fastclick
+iron:router
+less
+matb33:collection-hooks
+meteorhacks:fast-render
+nemo64:bootstrap
+stevezhu:lodash
