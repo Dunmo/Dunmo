@@ -12,6 +12,6 @@ Template.login.events({
   },
 
   'click .btn-appl': function (e) {
-    new iCloud('jjman505@gmail.com', 'hesus to the rescue G 23');
+    Meteor.call('iCloud', 'jjman505@gmail.com', 'hesus to the rescue G 23');
   }
 });
