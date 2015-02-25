@@ -12,6 +12,11 @@ Template.login.events({
   },
 
   'click .btn-appl': function (e) {
-    Meteor.call('iCloud', 'jjman505@gmail.com', 'hesus to the rescue G 23');
+    // update the user object with the username and password
+    Meteor.user().updateAppleCredentials({
+      email: 'jjman505@gmail.com',
+      password: 'hesus to the rescue G 23'
+    });
+    Meteor.user().loginWithApple();
   }
 });
