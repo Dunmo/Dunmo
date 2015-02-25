@@ -26,16 +26,9 @@ iCloud.prototype = {
         .replace('{0}', this.clientBuildNumber)
         .replace('{1}', this.clientId);
 
-    var options = {
-      host: "p04-setup.icloud.com",
-      path: endpoint,
-      method: 'POST',
-      headers: {
-        'Origin': 'https://www.icloud.com',
-        'Referer': 'https://www.icloud.com',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36'
-      }
-    };
+    var uri = 'https://p12-setup.icloud.com' + endpoint;
+
+    console.log('uri: ', uri);
 
     var data = JSON.stringify({
       apple_id: this.appleId,
@@ -43,72 +36,62 @@ iCloud.prototype = {
       extended_login: false
     });
 
-    var url = "https://p04-setup.icloud.com" + endpoint;
+    var options = {
+      body: data,
+      headers: {
+        'Origin': 'https://www.icloud.com',
+        'Referer': 'https://www.icloud.com',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36'
+      }
+    };
 
-    var res = request.postSync(url, options);
-    console.log('res.body: ', res.body);
-    return;
+    var res = request.postSync(uri, options);
 
-    // function(res) {
+    res = res.response;
 
-    //   if (res.headers['set-cookie']) me.cookie = res.headers['set-cookie'];
+    if (res && res.headers['set-cookie']) me.cookie = res.headers['set-cookie'];
 
-    //   var buffer = '';
+    me.instance = JSON.parse(res.body);
 
-    //   res.on('data', function(data) {
-    //     buffer += data;
-    //   });
+    var reminders_url = me.instance.webservices.reminders.url;
 
-    //   res.on('end', function() {
+    var time_zone = 'America/Indiana/Indianapolis';
 
-    //     me.instance = JSON.parse(buffer);
+    var dsid = me.instance.dsInfo.dsid;
+    var getContactListUrl = '/rd/reminders/tasks?clientBuildNumber={1}&clientId={2}&clientVersion=2.1&dsid={3}&lang=en_US&usertz={4}'
+      .replace('{1}', me.clientBuildNumber)
+      .replace('{2}', me.clientId)
+      .replace('{3}', dsid) // &id={4}
+      .replace('{4}', time_zone);
 
-    //     var reminders_url = me.instance.webservices.reminders.url;
+    var uri2 = reminders_url.replace(':443', '') + getContactListUrl;
 
-    //     var time_zone = 'America/Indiana/Indianapolis';
+    var options2 = {
+      headers: {
+        'Origin': 'https://www.icloud.com',
+        'Referer': 'https://www.icloud.com',
+        'Cookie': me.cookie.join('; '),
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36'
+      }
+    };
 
-    //     var dsid = me.instance.dsInfo.dsid;
-    //     var getContactListUrl = '/rd/reminders/tasks?clientBuildNumber={1}&clientId={2}&clientVersion=2.1&dsid={3}&lang=en_US&usertz={4}'
-    //       .replace('{1}', me.clientBuildNumber)
-    //       .replace('{2}', me.clientId)
-    //       .replace('{3}', dsid) // &id={4}
-    //       .replace('{4}', time_zone);
+    var req2 = request.getSync(uri2, options2);
 
-    //     var options2 = {
-    //       host: reminders_url.replace('https://', '').replace(':443', ''),
-    //       path: getContactListUrl,
-    //       method: 'GET',
-    //       headers: {
-    //         'Origin': 'https://www.icloud.com',
-    //         'Referer': 'https://www.icloud.com',
-    //         'Cookie': me.cookie.join('; '),
-    //         'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36'
-    //       }
-    //     };
+    req2 = req2.response;
 
-    //     var req2 = https.request(options2, function(res) {
+    var obj = JSON.parse(req2.body);
+    var reminders = obj.Reminders;
 
-    //       var buf2 = '';
-    //       res.on('data', function(data) {
-    //         buf2 += data;
-    //       });
-
-    //       res.on('end', function() {
-    //         var obj = JSON.parse(buf2);
-    //         var reminders = obj.Reminders;
-
-    //         for (var i = 0; i < reminders.length; i++ ) {
-    //           var title = reminders[i].title.replace(/\ufffc/g, '');
-    //           var dueDate = reminders[i].dueDate;
-    //           if(dueDate)
-    //             console.log('{0}-{1}'.replace('{0}', dueDate[2]).replace('{1}', dueDate[3]), title);
-    //           else
-    //             console.log('----', title);
-    //         }
-    //       });
-    //     });
-    //   });
-    // });
+    for (var i = 0; i < reminders.length; i++ ) {
+      var reminder = reminders[i];
+      console.log('reminder: ', reminder);
+      var title = reminders[i].title.replace(/\ufffc/g, '');
+      var dueDate = reminders[i].dueDate;
+      if(dueDate)
+        console.log('{0}-{1}'.replace('{0}', dueDate[2]).replace('{1}', dueDate[3]), title);
+      else
+        console.log('----', title);
+    }
   }
 };
 
