@@ -1,8 +1,8 @@
 /*
  * Task
  * =========
- * appleReminderId : String
  * ownerId         : String
+ * appleReminderId : String
  * calendarId      : String
  * title           : String
  * importance      : <1,2,3>
@@ -18,7 +18,7 @@
 Tasks = new Mongo.Collection('tasks');
 
 Tasks.before.insert(function(uid, doc) {
-
+  return doc;
 });
 
 Tasks.helpers({
@@ -27,6 +27,25 @@ Tasks.helpers({
   }
 });
 
-Tasks.create = function(str) {
+// input: obj OR str, obj
+// if `str` is given, attrs will be parsed
+// otherwise, all attrs must be present in `obj`
+Tasks.create = function(str, obj) {
+  if(typeof(str) === 'object') obj = str;
+  else                         obj.title = obj.title || str;
+
   console.log('str: ', str);
+
+  obj.ownerId         = obj.ownerId         || Meteor.userId();
+  obj.appleReminderId = obj.appleReminderId || null;
+  obj.calendarId      = obj.calendarId      || null;
+  obj.title           = obj.title           || "";
+  obj.importance      = obj.importance      || Natural.parseImportance(str);
+  obj.dueAt           = obj.dueAt           || Natural.parseDueAt(str);
+  obj.remaining       = obj.remaining       || Natural.parseDuration(str).asMilliseconds();
+  obj.spent           = obj.spent           || 0;
+  obj.snoozedUntil    = obj.snoozedUntil    || null;
+  obj.description     = obj.description     || "";
+
+  return Tasks.insert(obj);
 };

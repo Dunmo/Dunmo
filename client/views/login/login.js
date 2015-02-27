@@ -2,6 +2,10 @@
 Template.login.helpers({
   'loggedIn': function() {
     return Meteor.userId();
+  },
+
+  'tasks': function() {
+    return Tasks.find({ ownerId: Meteor.userId() });
   }
 });
 
@@ -31,6 +35,6 @@ Template.login.events({
 
   'click #submit': function (e) {
     var str = $('#input').val();
-    Tasks.create(str);
+    Tasks.create(str, { ownerId: Meteor.userId() });
   }
 });

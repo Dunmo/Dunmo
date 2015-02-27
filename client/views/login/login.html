@@ -5,6 +5,8 @@
     Add a task
     <input id="input" type="text">
     <button id="submit">add</button>
-    {{tasks}}
+    {{#each tasks}}
+      {{> task}}
+    {{/each}}
   {{/if}}
 </template>
