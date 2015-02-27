@@ -1,4 +1,10 @@
 
+Template.login.helpers({
+  'loggedIn': function() {
+    return Meteor.userId();
+  }
+});
+
 Template.login.events({
   'click .btn-goog': function (e) {
     Meteor.loginWithGoogle({
@@ -13,10 +19,18 @@ Template.login.events({
 
   'click .btn-appl': function (e) {
     // update the user object with the username and password
-    Meteor.user().updateAppleCredentials({
-      email: 'jjman505@gmail.com',
+    Meteor.user().setAppleCredentials({
+      appleId:  'jjman505@gmail.com',
       password: 'hesus to the rescue G 23'
     });
-    Meteor.user().loginWithApple();
+
+    var user = Meteor.user();
+    user.loginWithApple();
+    console.log('tasks: ', user.tasks());
+  },
+
+  'click #submit': function (e) {
+    var str = $('#input').val();
+    Tasks.create(str);
   }
 });

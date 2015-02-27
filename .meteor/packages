@@ -21,3 +21,5 @@ stevezhu:lodash
 service-configuration
 jaywon:meteor-node-uuid
 froatsnook:request
+digilord:sugarjs
+momentjs:moment

@@ -1,4 +1,10 @@
 <template name="login">
   <button class="btn btn-lg btn-goog">Login with Google</button>
   <button class="btn btn-lg btn-appl">Login with iCloud</button>
+  {{#if loggedIn}}
+    Add a task
+    <input id="input" type="text">
+    <button id="submit">add</button>
+    {{tasks}}
+  {{/if}}
 </template>
