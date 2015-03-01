@@ -130,6 +130,9 @@ function getFreetimes() {
   gapi.client.load('calendar', 'v3', function() {
     var items = Meteor.user().calendarIdObjects();
 
+    var minTime = new Date('2015-03-02');
+    var maxTime = new Date('2015-03-06');
+
     var request = gapi.client.calendar.freebusy.query({
       'timeMin': '2015-03-02T00:00:00.000Z',
       'timeMax': '2015-03-06T00:00:00.000Z',
@@ -147,6 +150,8 @@ function getFreetimes() {
         var calendar = calendars[k];
         console.log('calendar: ', calendar);
         calendar.busy.forEach(function(busy) {
+          busy.start = moment(busy.start);
+          busy.end   = moment(busy.end);
           busytimes.push(busy);
         });
       });
