@@ -65,6 +65,24 @@ Meteor.users.helpers({
   'tasks': function () {
     this.syncReminders();
     return Tasks.find({ ownerId: this._id });
+  },
+
+  'calendars': function () {
+    var uid = this._id;
+    return Calendars.find({ ownerId: uid });
+  },
+
+  'activeCalendars': function () {
+    var uid = this._id;
+    return Calendars.find({ ownerId: uid, active: true });
+  },
+
+  'calendarIdObjects': function () {
+    var calendars = this.activeCalendars();
+    var idObjects = calendars.map(function(calendar) {
+      return { id: calendar.googleCalendarId };
+    });
+    return idObjects;
   }
 });
 

@@ -1,0 +1,16 @@
+<template name="gapiCalendar">
+  <div id="content">
+    <!-- <button id="getFreetimes">Get Freetimes</button> -->
+    <button id="getCalendars">Get Calendars</button>
+    <button id="getFreetimes">Get Freetimes</button>
+    <button id="insertCalendar">Add Calendar</button>
+    <button id="deleteCalendar">Remove Calendar</button>
+    <button id="addEvent">Add Event</button>
+    <h1>Events</h1>
+    <ul>
+      {{#each calendars}}
+        {{> calendar}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
