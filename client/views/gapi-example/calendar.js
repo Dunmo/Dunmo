@@ -159,12 +159,51 @@ function getFreetimes() {
 
       busytimes = _.sortBy(busytimes, 'start');
       busytimes = _.sortBy(busytimes, 'end');
-      var currentTime = minTime;
-      var freetimes = [];
 
-      busytimes.forEach(function (busy) {
-        freetimes.push(busytimes[0].start - currentTime);
+      var startTimes = lodash.pluck(busytimes, 'start');
+      var endTimes = lodash.pluck(busytimes, 'end');
+
+      console.log('startTimes: ', startTimes);
+      console.log('endTimes: ', endTimes);
+
+      // var currentTime = minTime;
+      var freetimes  = [];
+      var startQueue = 0;
+      var startIndex = 0;
+      var endIndex   = 0;
+
+      freetimes.push({
+        start: minTime,
+        end:   startTimes[startIndex]
       });
+
+      while(startIndex < startTimes.length && endIndex < endTimes.length) {
+        if(startTimes[startIndex] < endTimes[endIndex]) {
+          startQueue++;
+          startIndex++;
+        } else {
+          startQueue--;
+          if(startQueue == 0) {
+            freetimes.push({
+              start: endTimes[endIndex],
+              end:   startTimes[startIndex + 1]
+            });
+          }
+          endIndex++;
+        }
+      }
+
+      freetimes = freetimes.map(function(ft) {
+        ft.timeRemaining = function() {
+          return this.end - this.start;
+        }
+        return ft;
+      });
+
+      console.log('freetimes: ', freetimes);
+      Meteor.user().update({ freetimes: freetimes });
+      todos = Meteor.user().todoList();
+
     });
   });
 };
