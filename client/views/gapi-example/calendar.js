@@ -151,6 +151,7 @@ function getFreetimes() {
         });
       });
       console.log('busytimes: ', busytimes);
+
     });
   });
 };
