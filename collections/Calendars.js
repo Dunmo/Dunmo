@@ -30,6 +30,7 @@ Calendars.before.insert(function(uid, doc) {
   return doc;
 });
 
+
 Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
   console.log('doc: ', doc);
 

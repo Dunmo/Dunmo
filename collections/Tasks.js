@@ -36,7 +36,7 @@ Tasks.create = function(str, obj) {
 
   console.log('str: ', str);
 
-  obj.ownerId         = obj.ownerId         || Meteor.userId();
+  obj.ownerId         = obj.ownerId;         //|| Meteor.userId();
   obj.appleReminderId = obj.appleReminderId || null;
   obj.calendarId      = obj.calendarId      || null;
   obj.title           = obj.title           || "";
