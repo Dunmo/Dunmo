@@ -95,19 +95,26 @@ Meteor.users.helpers({
     return idObjects;
   },
 
-  todoList: function(date) {
-    if (date)     date = new Date(date);
-    var user      = this;
-    var freetimes = user.freetimes();
-    var todos     = user.sortedTodos();
+  todoList: function(todoCursor, freetimeCursor) {
+    todos = todoCursor.fetch();
+    todos = todos.map(function(doc) {
+      doc = fieldsToDuration(doc);
+      return doc;
+    });
+    todos = basicSort(todos);
+
+    freetimes = freetimeCursor.fetch();
+    freetimes = freetimes.map(function(doc) {
+      doc = fieldsToDuration(doc);
+      return doc;
+    });
+    freetimes = this._padDays(freetimes);
+
+    console.log('freetimes: ', freetimes);
+
+    var user = this;
 
     todoList = user._generateTodoList(freetimes, todos, 'greedy');
-
-    if(date) {
-      todoList = _.select(todoList, function(dayList) {
-        return dayList.date >= date
-      });
-    }
 
     return todoList;
   },
