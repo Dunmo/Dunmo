@@ -194,16 +194,16 @@ function getFreetimes() {
       }
 
       freetimes = freetimes.map(function(ft) {
-        ft.timeRemaining = function() {
-          return this.end - this.start;
-        }
+        ft.ownerId = Meteor.userId();
         return ft;
       });
 
       console.log('freetimes: ', freetimes);
-      Meteor.user().update({ freetimes: freetimes });
-      todos = Meteor.user().todoList();
-
+      // console.log("Meteor.user(): ", Meteor.user());
+      Freetimes.create(freetimes);
+      // Meteor.user().update({ 'freetimes': freetimes });
+      var todos = Meteor.user().todoList();
+      console.log("todos: ", todos);
     });
   });
 };

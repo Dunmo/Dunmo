@@ -8,28 +8,27 @@
 Freetimes = new Mongo.Collection('freetimes');
 
 Freetimes.helpers({
-  'update': function (data) {
+  update: function (data) {
     Freetimes.update(this._id, { $set: data });
   },
 
   duration: function() {
     return this.end - this.start;
+  },
+
+  timeRemaining: function() {
+    return this.duration();
   }
 });
 
-Freetimes.updateOrCreate = function(obj) {
+Freetimes.create = function(obj) {
   if(Array.isArray(obj)) {
     var ary = obj;
-    ary.forEach(function(cal) {
-      Freetimes.updateOrCreate(cal);
+    ary.forEach(function(ft) {
+      Freetimes.create(ft);
     });
   } else if(typeof(obj) === 'object') {
-    var ft = Freetimes.findOne({ googleCalendarId: obj.id });
-    if(ft) {
-      Freetimes.update(ft._id, obj);
-    } else {
-      Freetimes.insert(obj);
-    }
+    Freetimes.insert(obj);
   } else {
     console.log('type error, updateOrCreate does not expect: ', typeof(obj));
   }

@@ -68,13 +68,17 @@ Meteor.users.helpers({
   },
 
   'sortedTasks': function () {
-    var tasks = this.tasks();
+    var tasks = this.tasks().fetch();
 
     tasks = _.sortBy(tasks, 'timeRemaining');
     tasks = _.sortBy(tasks, 'importance');
     tasks = _.sortBy(tasks, 'dueAt');
 
     return tasks;
+  },
+
+  'freetimes': function () {
+    return Freetimes.find({ ownerId: this._id });
   },
 
   'calendars': function () {
