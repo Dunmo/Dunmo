@@ -6,6 +6,10 @@ Template.login.helpers({
 
   'tasks': function() {
     return Tasks.find({ ownerId: Meteor.userId() });
+  },
+
+  'calendars': function() {
+    return Calendars.find({ ownerId: Meteor.userId() });
   }
 });
 
@@ -36,5 +40,9 @@ Template.login.events({
   'click #submit': function (e) {
     var str = $('#input').val();
     Tasks.create(str, { ownerId: Meteor.userId() });
+  },
+
+  'click #cal': function (e) {
+    Calendars.sync(Meteor.userId());
   }
 });

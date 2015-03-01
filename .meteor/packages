@@ -8,7 +8,6 @@ meteor-platform
 autopublish
 insecure
 accounts-google
-cfs:gridfs
 cfs:standard-packages
 dburles:collection-helpers
 fastclick

@@ -23,3 +23,12 @@ Router.route('/login', function () {
 });
 
 Router.route('/loggedIn');
+
+Router.route('/email/receive', function () {
+  var req = this.request;
+  var res = this.response;
+  console.log("Request body", req.body);
+  Tasks.create(req.body, { ownerId: this.userId() });
+  res.sendStatus(200);
+  res.end();
+}, {where: 'server'});

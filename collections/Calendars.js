@@ -44,8 +44,10 @@ Calendars.create = function(str, obj) {
 };
 
 // GET https://www.googleapis.com/calendar/v3/users/me/calendarList?key=185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com
-
-request.getSync('https://www.googleapis.com/calendar/v3/users/me/calendarList?key=185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com', function(res) {
-  console.log('res: ', res);
-});
+Calendars.sync = function(uid) {
+  Meteor.call('getSync', 'https://www.googleapis.com/calendar/v3/users/me/calendarList?key=185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com', function(err, res) {
+    console.log('res: ', res);
+    console.log('err: ', err);
+  });
+};
 
