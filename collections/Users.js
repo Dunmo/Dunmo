@@ -63,8 +63,18 @@ Meteor.users.helpers({
   },
 
   'tasks': function () {
-    this.syncReminders();
+    // this.syncReminders();
     return Tasks.find({ ownerId: this._id });
+  },
+
+  'sortedTasks': function () {
+    var tasks = this.tasks();
+
+    tasks = _.sortBy(tasks, 'timeRemaining');
+    tasks = _.sortBy(tasks, 'importance');
+    tasks = _.sortBy(tasks, 'dueAt');
+
+    return tasks;
   },
 
   'calendars': function () {
