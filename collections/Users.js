@@ -93,7 +93,106 @@ Meteor.users.helpers({
       return { id: calendar.googleCalendarId };
     });
     return idObjects;
+  },
+
+  todoList: function(date) {
+    if (date)     date = new Date(date);
+    var user      = this;
+    var freetimes = user.freetimes();
+    var todos     = user.sortedTodos();
+
+    todoList = user._generateTodoList(freetimes, todos, 'greedy');
+
+    if(date) {
+      todoList = _.select(todoList, function(dayList) {
+        return dayList.date >= date
+      });
+    }
+
+    return todoList;
+  },
+
+  // a private helper function for todoList
+  _generateTodoList: function(freetimes, todos, algorithm) {
+    if(algorithm !== 'greedy') {
+      return [];
+    }
+
+    var user = this;
+
+    var todoList  = lodash.map(freetimes, function(freetime) {
+      if(todos.length > 0) {
+        var ret     = user._generateDayList(freetime, todos);
+        var freetime = ret[0];
+        todos       = ret[1];
+        return freetime;
+      } else {
+        return null;
+      }
+    });
+
+    return lodash.compact(todoList);
+  },
+
+  // a private helper function for todoList
+  _generateDayList: function(freetime, todos) {
+    var user      = this;
+    var dayList   = R.cloneDeep(freetime);
+    var remaining = R.cloneDeep(freetime.duration);
+    dayList.todos = [];
+
+    while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
+      var ret   = R.cloneDeep(user._appendTodo(dayList, todos, remaining));
+      dayList   = R.cloneDeep(ret[0]);
+      todos     = R.cloneDeep(ret[1]);
+      remaining = R.cloneDeep(ret[2]);
+    }
+
+    if(todos.length > 0) {
+      var ret = this._appendOverdue(dayList, todos);
+      dayList = ret[0];
+      todos   = ret[1];
+    }
+
+    return [ dayList, todos ];
+  },
+
+  // a private helper function for todoList
+  _appendTodo: function(dayList, todos, remaining) {
+    var todo = R.cloneDeep(todos[0]);
+
+    // TODO: what about overdue items on the first day?
+    // TODO: todo.timeRemaining.toTaskInterval() > remaining.toTaskInterval() ?
+    if((todo.timeRemaining > remaining) && (todo.dueAt >= (new Date()))) {
+      var ret   = R.cloneDeep(todo.split(remaining));
+      todo      = R.cloneDeep(ret[0]);
+      todos[0]  = R.cloneDeep(ret[1]);
+      remaining = 0;
+    } else {
+      todos.shift();
+      remaining = remaining - todo.timeRemaining;
+    }
+
+    if(todo.dueAt < Date.now()) todo.isOverdue = true;
+
+    dayList.todos.push(todo);
+
+    return [ dayList, todos, remaining ];
+  },
+
+  _appendOverdue: function(freetime, todos) {
+    var todo = R.cloneDeep(todos[0]);
+
+    while(todo && (todo.dueAt <= freetime.end())) {
+      todo.isOverdue = true;
+      freetime.todos.push(todo);
+      todos.shift();
+      todo = todos[0];
+    }
+
+    return [ freetime, todos ]
   }
+
 });
 
 

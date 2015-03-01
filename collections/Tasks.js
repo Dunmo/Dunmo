@@ -22,8 +22,29 @@ Tasks.before.insert(function(uid, doc) {
 });
 
 Tasks.helpers({
-  'update': function (data) {
+  update: function (data) {
     Tasks.update(this._id, { $set: data });
+  },
+
+  split: function(milliseconds) {
+    if(milliseconds > this.timeRemaining) {
+      return [ null, R.cloneDeep(this) ];
+    }
+
+    var firstTask = R.cloneDeep(this);
+    firstTask.timeRemaining = new Duration(milliseconds);
+    // firstTask.id = this._id;
+    // firstTask._id = new Mongo.ObjectID();
+
+    var secondTask = R.cloneDeep(this);
+    var remaining  = this.timeRemaining - milliseconds;
+    secondTask.timeRemaining =  remaining;
+    // secondTask.id = this._id;
+    // secondTask._id = new Mongo.ObjectID();
+
+    // TODO: set timeSpent also
+
+    return [ firstTask, secondTask ];
   }
 });
 
