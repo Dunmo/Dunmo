@@ -207,13 +207,12 @@ function getFreetimes() {
       }
 
       freetimes = freetimes.map(function(ft) {
-        ft.timeRemaining = function() {
-          return this.end - this.start;
-        }
+        ft.ownerId = Meteor.userId();
         return ft;
       });
 
       console.log('freetimes: ', freetimes);
+<<<<<<< HEAD
       // Meteor.user().update({ freetimes: freetimes });
       todos = Meteor.user().todoList(freetimes);
       console.log('todos: ', todos);
@@ -223,6 +222,13 @@ function getFreetimes() {
         addEventToCalendar('Dunmo Tasks')(todo);
       });
 
+=======
+      // console.log("Meteor.user(): ", Meteor.user());
+      Freetimes.create(freetimes);
+      // Meteor.user().update({ 'freetimes': freetimes });
+      var todos = Meteor.user().todoList();
+      console.log("todos: ", todos);
+>>>>>>> cfcbaf904cbceb2006e308f50a8eca7fa6be1395
     });
   });
 };
