@@ -27,18 +27,18 @@ Tasks.helpers({
   },
 
   split: function(milliseconds) {
-    if(milliseconds > this.timeRemaining) {
+    if(milliseconds > this.remaining) {
       return [ null, R.cloneDeep(this) ];
     }
 
     var firstTask = R.cloneDeep(this);
-    firstTask.timeRemaining = new Duration(milliseconds);
+    firstTask.remaining = milliseconds;
     // firstTask.id = this._id;
     // firstTask._id = new Mongo.ObjectID();
 
     var secondTask = R.cloneDeep(this);
-    var remaining  = this.timeRemaining - milliseconds;
-    secondTask.timeRemaining =  remaining;
+    var remaining  = this.remaining - milliseconds;
+    secondTask.remaining =  remaining;
     // secondTask.id = this._id;
     // secondTask._id = new Mongo.ObjectID();
 

@@ -68,9 +68,10 @@ Meteor.users.helpers({
   },
 
   'sortedTasks': function () {
-    var tasks = this.tasks();
+    var tasks = this.tasks().fetch();
+    console.log('tasks: ', tasks);
 
-    tasks = _.sortBy(tasks, 'timeRemaining');
+    tasks = _.sortBy(tasks, 'remaining');
     tasks = _.sortBy(tasks, 'importance');
     tasks = _.sortBy(tasks, 'dueAt');
 
@@ -95,7 +96,7 @@ Meteor.users.helpers({
     return idObjects;
   },
 
-  todoList: function(todoCursor, freetimeCursor) {
+  todoList: function(freetimes) {
     todos = this.sortedTasks(); // todoCursor.fetch();
     // todos = todos.map(function(doc) {
     //   doc = fieldsToDuration(doc);
@@ -103,7 +104,7 @@ Meteor.users.helpers({
     // });
     // todos = basicSort(todos);
 
-    freetimes = this.freetimes; // freetimeCursor.fetch();
+    freetimes = freetimes || this.freetimes || this.freetimes(); // freetimeCursor.fetch();
     // freetimes = freetimes.map(function(doc) {
     //   doc = fieldsToDuration(doc);
     //   return doc;
@@ -113,6 +114,7 @@ Meteor.users.helpers({
     // console.log('freetimes: ', freetimes);
 
     todoList = this._generateTodoList(freetimes, todos, 'greedy');
+
     return todoList;
   },
 
@@ -129,25 +131,27 @@ Meteor.users.helpers({
         var ret     = user._generateDayList(freetime, todos);
         var freetime = ret[0];
         todos       = ret[1];
-        return freetime;
+        return freetime.todos;
       } else {
         return null;
       }
     });
 
-    return lodash.compact(todoList);
+    return lodash.flatten(lodash.compact(todoList));
   },
 
   // a private helper function for todoList
   _generateDayList: function(freetime, todos) {
     var user      = this;
     var dayList   = R.cloneDeep(freetime);
-    var remaining = R.cloneDeep(freetime.duration);
+    var remaining = freetime.timeRemaining();
     dayList.todos = [];
 
     while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
-      var ret   = R.cloneDeep(user._appendTodo(dayList, todos, remaining));
+      var ret   = user._appendTodo(dayList, todos, remaining);
+      console.log('ret[0]: ', ret[0]);
       dayList   = R.cloneDeep(ret[0]);
+      console.log('dayList.todos: ', dayList.todos);
       todos     = R.cloneDeep(ret[1]);
       remaining = R.cloneDeep(ret[2]);
     }
@@ -165,21 +169,37 @@ Meteor.users.helpers({
   _appendTodo: function(dayList, todos, remaining) {
     var todo = R.cloneDeep(todos[0]);
 
+    console.log('dayList.start: ', dayList.start);
+    console.log('dayList.end: ', dayList.end);
+    console.log('remaining: ', remaining);
+    var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
+
     // TODO: what about overdue items on the first day?
     // TODO: todo.timeRemaining.toTaskInterval() > remaining.toTaskInterval() ?
-    if((todo.timeRemaining > remaining) && (todo.dueAt >= (new Date()))) {
+    if((todo.remaining > remaining) && (todo.dueAt >= (new Date()))) {
       var ret   = R.cloneDeep(todo.split(remaining));
       todo      = R.cloneDeep(ret[0]);
       todos[0]  = R.cloneDeep(ret[1]);
       remaining = 0;
     } else {
       todos.shift();
-      remaining = remaining - todo.timeRemaining;
+      remaining = remaining - todo.remaining;
     }
 
     if(todo.dueAt < Date.now()) todo.isOverdue = true;
 
+    console.log('todoStart: ', todoStart);
+    console.log('todo.remaining: ', todo.remaining);
+
+    todo.start = new Date(todoStart);
+    todo.end = new Date(todoStart + todo.remaining);
+
+    console.log('todo.start: ', todo.start);
+    console.log('todo.end: ', todo.end);
+
     dayList.todos.push(todo);
+
+    console.log('dayList: ', dayList);
 
     return [ dayList, todos, remaining ];
   },
@@ -187,7 +207,7 @@ Meteor.users.helpers({
   _appendOverdue: function(freetime, todos) {
     var todo = R.cloneDeep(todos[0]);
 
-    while(todo && (todo.dueAt <= freetime.end())) {
+    while( todo && (todo.dueAt <= freetime.end) ) {
       todo.isOverdue = true;
       freetime.todos.push(todo);
       todos.shift();

@@ -2,6 +2,8 @@ var clientId = '185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercon
 var apiKey = 'AtwQ5-FSiXOk72t0L0QCzQux';
 var scopes = 'https://www.googleapis.com/auth/calendar';
 
+var TODOS = [];
+
 function handleClientLoad() {
   gapi.client.setApiKey(apiKey);
   window.setTimeout(checkAuth,1);
@@ -13,12 +15,12 @@ function checkAuth() {
       handleAuthResult);
 }
 
-function handleAuthResult(callback) {
+function handleAuthResult(callback, doc) {
   return function(authResult) {
     // var authorizeButton = document.getElementById('authorize-button');
     if (authResult) {
       // authorizeButton.style.visibility = 'hidden';
-      callback();
+      callback(doc);
     } else {
       console.log('auth failed');
       // authorizeButton.style.visibility = '';
@@ -26,13 +28,13 @@ function handleAuthResult(callback) {
   };
 }
 
-function handleAuthClick(callback) {
+function handleAuthClick(callback, doc) {
   return function(event) {
     gapi.auth.authorize({
       client_id: clientId,
       scope: scopes,
       immediate: false
-    }, handleAuthResult(callback));
+    }, handleAuthResult(callback, doc));
 
     return false;
   }
@@ -95,16 +97,27 @@ function deleteCalendar(name) {
   };
 };
 
+function formatGoog(d) {
+  console.log('d: ', d);
+  d.setFullYear(2015);
+  console.log('d: ', d);
+  return d.toISOString();
+};
+
 function addEventToCalendar(name) {
-  return function() {
+  return function(doc) {
     var cal = Calendars.findOne({ summary: name });
     if( !cal ) return;
 
-    var doc = {
-      start:   '2015-03-01T05:00:00.000-05:00',
-      end:     '2015-03-01T06:30:00.000-05:00',
-      summary: 'task no. 5'
-    };
+    if(!doc.summary) doc.summary = doc.title;
+    doc.start = formatGoog(doc.start);
+    doc.end = formatGoog(doc.end);
+
+    // var doc = {
+    //   start:   '2015-03-01T05:00:00.000-05:00',
+    //   end:     '2015-03-01T06:30:00.000-05:00',
+    //   summary: 'task no. 5'
+    // };
 
     gapi.client.load('calendar', 'v3', function() {
       var request = gapi.client.calendar.events.insert({
@@ -150,8 +163,8 @@ function getFreetimes() {
         var calendar = calendars[k];
         console.log('calendar: ', calendar);
         calendar.busy.forEach(function(busy) {
-          busy.start = moment(busy.start);
-          busy.end   = moment(busy.end);
+          busy.start = moment(busy.start)._d;
+          busy.end   = moment(busy.end)._d;
           busytimes.push(busy);
         });
       });
@@ -201,8 +214,14 @@ function getFreetimes() {
       });
 
       console.log('freetimes: ', freetimes);
-      Meteor.user().update({ freetimes: freetimes });
-      todos = Meteor.user().todoList();
+      // Meteor.user().update({ freetimes: freetimes });
+      todos = Meteor.user().todoList(freetimes);
+      console.log('todos: ', todos);
+
+      todos.forEach(function(todo) {
+        console.log('todo: ', todo);
+        addEventToCalendar('Dunmo Tasks')(todo);
+      });
 
     });
   });
