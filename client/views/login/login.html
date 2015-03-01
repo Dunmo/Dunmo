@@ -5,6 +5,12 @@
     Add a task
     <input id="input" type="text">
     <button id="submit">add</button>
+    <button id="cal">sync calendars</button>
+    <h1>Calendars</h1>
+    {{#each calendars}}
+      {{> calendar}}
+    {{/each}}
+    <h1>Tasks</h1>
     {{#each tasks}}
       {{> task}}
     {{/each}}

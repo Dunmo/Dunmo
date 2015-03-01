@@ -27,3 +27,17 @@ Router.route('/gapi-calendar', function () {
 });
 
 Router.route('/loggedIn');
+
+Router.route('/email/receive', function () {
+  var req = this.request;
+  var res = this.response;
+  var user_addr = req.body.Sender;
+  var text = req.body['Text-part'];
+  var user = Meteor.users.findOne({ 'services.google.email': user_addr });
+
+  console.log("user_addr: ", user_addr);
+
+  Tasks.create(text, { 'ownerId': user._id });
+  res.end();
+}, {where: 'server'});
+
