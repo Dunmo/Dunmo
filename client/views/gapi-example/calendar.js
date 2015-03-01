@@ -157,6 +157,14 @@ function getFreetimes() {
       });
       console.log('busytimes: ', busytimes);
 
+      busytimes = _.sortBy(busytimes, 'start');
+      busytimes = _.sortBy(busytimes, 'end');
+      var currentTime = minTime;
+      var freetimes = [];
+
+      busytimes.forEach(function (busy) {
+        freetimes.push(busytimes[0].start - currentTime);
+      });
     });
   });
 };
