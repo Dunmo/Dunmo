@@ -189,89 +189,88 @@ gapi.syncTasksWithCalendar = function () {
   gapi.client.load('calendar', 'v3', function() {
     var items = Meteor.user().calendarIdObjects();
 
-    gapi.getLatestTaskTime('Dunmo Tasks', function(minTime) {
-      var latestTask = lodash.max(Meteor.user().tasks().fetch(), 'dueAt');
-      console.log('latestTask: ', latestTask);
-      var maxTime = latestTask.dueAt;
-      console.log('maxTime: ', maxTime);
-      if(maxTime < minTime) return;
+    var minTime = Date.now();
+    var latestTask = lodash.max(Meteor.user().tasks().fetch(), 'dueAt');
+    console.log('latestTask: ', latestTask);
+    var maxTime = latestTask.dueAt;
+    console.log('maxTime: ', maxTime);
+    if(maxTime < minTime) return;
 
-      gapi.deleteAllFromCalendarAfter('Dunmo Tasks', minTime);
+    gapi.deleteAllFromCalendarAfter('Dunmo Tasks', minTime);
 
-      var request = gapi.client.calendar.freebusy.query({
-        'timeMin': Date.formatGoog(new Date(minTime)),
-        'timeMax': Date.formatGoog(new Date(maxTime)),
-        'items': items
+    var request = gapi.client.calendar.freebusy.query({
+      'timeMin': Date.formatGoog(new Date(minTime)),
+      'timeMax': Date.formatGoog(new Date(maxTime)),
+      'items': items
+    });
+
+    request.execute(function(res) {
+      var calendars = res.result.calendars;
+      // console.log('calendars: ', calendars);
+      var busytimes = [];
+      lodash.keys(calendars).forEach(function(k) {
+        var calendar = calendars[k];
+        console.log('calendar: ', calendar);
+        calendar.busy.forEach(function(busy) {
+          busy.start = moment(busy.start)._d;
+          busy.end   = moment(busy.end)._d;
+          busytimes.push(busy);
+        });
+      });
+      console.log('busytimes: ', busytimes);
+
+      busytimes = _.sortBy(busytimes, 'start');
+      busytimes = _.sortBy(busytimes, 'end');
+
+      var startTimes = lodash.pluck(busytimes, 'start');
+      var endTimes = lodash.pluck(busytimes, 'end');
+
+      console.log('startTimes: ', startTimes);
+      console.log('endTimes: ', endTimes);
+
+      // var currentTime = minTime;
+      var freetimes  = [];
+      var startQueue = 0;
+      var startIndex = 0;
+      var endIndex   = 0;
+
+      freetimes.push({
+        start: minTime,
+        end:   startTimes[startIndex]
       });
 
-      request.execute(function(res) {
-        var calendars = res.result.calendars;
-        // console.log('calendars: ', calendars);
-        var busytimes = [];
-        lodash.keys(calendars).forEach(function(k) {
-          var calendar = calendars[k];
-          console.log('calendar: ', calendar);
-          calendar.busy.forEach(function(busy) {
-            busy.start = moment(busy.start)._d;
-            busy.end   = moment(busy.end)._d;
-            busytimes.push(busy);
-          });
-        });
-        console.log('busytimes: ', busytimes);
-
-        busytimes = _.sortBy(busytimes, 'start');
-        busytimes = _.sortBy(busytimes, 'end');
-
-        var startTimes = lodash.pluck(busytimes, 'start');
-        var endTimes = lodash.pluck(busytimes, 'end');
-
-        console.log('startTimes: ', startTimes);
-        console.log('endTimes: ', endTimes);
-
-        // var currentTime = minTime;
-        var freetimes  = [];
-        var startQueue = 0;
-        var startIndex = 0;
-        var endIndex   = 0;
-
-        freetimes.push({
-          start: minTime,
-          end:   startTimes[startIndex]
-        });
-
-        while(startIndex < startTimes.length && endIndex < endTimes.length) {
-          if(startTimes[startIndex] < endTimes[endIndex]) {
-            startQueue++;
-            startIndex++;
-          } else {
-            startQueue--;
-            if(startQueue == 0) {
-              freetimes.push({
-                start: endTimes[endIndex],
-                end:   startTimes[startIndex + 1]
-              });
-            }
-            endIndex++;
+      while(startIndex < startTimes.length && endIndex < endTimes.length) {
+        if(startTimes[startIndex] < endTimes[endIndex]) {
+          startQueue++;
+          startIndex++;
+        } else {
+          startQueue--;
+          if(startQueue == 0) {
+            freetimes.push({
+              start: endTimes[endIndex],
+              end:   startTimes[startIndex + 1]
+            });
           }
+          endIndex++;
         }
+      }
 
-        freetimes = freetimes.map(function(ft) {
-          ft.ownerId = Meteor.userId();
-          ft.timeRemaining = function () {
-            return this.end - this.start;
-          };
-          return ft;
-        });
+      freetimes = freetimes.map(function(ft) {
+        ft.ownerId = Meteor.userId();
+        ft.timeRemaining = function () {
+          return this.end - this.start;
+        };
+        return ft;
+      });
 
-        console.log('freetimes: ', freetimes);
-        // Meteor.user().update({ freetimes: freetimes });
-        todos = Meteor.user().todoList(freetimes);
-        console.log('todos: ', todos);
+      console.log('freetimes: ', freetimes);
+      // Meteor.user().update({ freetimes: freetimes });
+      todos = Meteor.user().todoList(freetimes);
+      console.log('todos: ', todos);
 
-        todos.forEach(function(todo) {
-          console.log('todo: ', todo);
-          gapi.addEventToCalendar('Dunmo Tasks')(todo);
-        });
+      todos.forEach(function(todo) {
+        console.log('todo: ', todo);
+        gapi.addEventToCalendar('Dunmo Tasks')(todo);
       });
     });
   });
