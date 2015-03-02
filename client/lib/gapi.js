@@ -128,7 +128,7 @@ gapi.addEventToCalendar = function (name) {
   };
 };
 
-gapi.getFreetimes = function () {
+gapi.syncTasksWithCalendar = function () {
   gapi.client.load('calendar', 'v3', function() {
     var items = Meteor.user().calendarIdObjects();
 
@@ -140,8 +140,8 @@ gapi.getFreetimes = function () {
     if(maxTime < minTime) return;
 
     var request = gapi.client.calendar.freebusy.query({
-      'timeMin': '2015-03-02T00:00:00.000Z',
-      'timeMax': '2015-03-06T00:00:00.000Z',
+      'timeMin': Date.formatGoog(new Date(minTime)),
+      'timeMax': Date.formatGoog(new Date(maxTime)),
       'items': items
     });
 

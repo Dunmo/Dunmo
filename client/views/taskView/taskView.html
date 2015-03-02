@@ -1,8 +1,17 @@
 <template name="taskView">
-  <h1>Tasks</h1>
+  <p><a href="/calendarSettings">Calendar Settings</a></p>
+  <p>
+    <span class="label"> Add a task </span>
+    <input id="input" type="text">
+    <button id="submit">add</button>
+  </p>
+  <h1>Tasks <button id="syncWithCalendar">Sync with Calendar</button></h1>
   <ul class="tasks">
   {{#each tasks}}
-    <li id="{{_id}}" class="task">{{title}}</li>
+    <li id="{{_id}}" class="task">
+      <button class="remove">X</button>
+      {{title}}
+    </li>
   {{/each}}
   </ul>
 </template>

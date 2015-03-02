@@ -11,7 +11,7 @@ Template.gapiExample.helpers({
 
 Template.gapiExample.events({
   'click #getCalendars' : gapi.getCalendars,
-  'click #addTasksToCalendar' : gapi.handleAuthClick(gapi.getFreetimes),
+  'click #syncTasksWithCalendar' : gapi.handleAuthClick(gapi.syncTasksWithCalendar),
   'click #insertCalendar' : gapi.handleAuthClick(gapi.createCalendar('Dunmo Tasks')),
   'click #deleteCalendar' : gapi.handleAuthClick(gapi.deleteCalendar('Dunmo Tasks')),
   'click #addTask' : function(e) {
