@@ -6,3 +6,220 @@ e)&&h(c[e],a,b)}},va=function(a,b){ua(function(){var c;c=b===K()?G(I,"_",H()):H(
 c,d.hint)}else wa(d||[],c,e)},wa=function(a,b,c){a=ea(a)||[];var d=b.callback,e=b.config,h=b.timeout,l=b.ontimeout,m=null,v=!1;if(h&&!l||!h&&l)throw"Timeout requires both the timeout parameter and ontimeout parameter to be set";var t=G(L(c),"r",[]).sort(),z=G(L(c),"L",[]).sort(),A=[].concat(t),F=function(a,b){if(v)return 0;D.clearTimeout(m);z[u].apply(z,r);var d=((I||{}).config||{}).update;d?d(e):e&&G(J,"cu",[])[u](e);if(b){Q("me0",a,A);try{va(b,c)}finally{Q("me1",a,A)}}return 1};0<h&&(m=D.setTimeout(function(){v=
 !0;l()},h));var r=Y(a,z);if(r[B]){var r=Y(a,t),w=G(J,"CP",[]),x=w[B];w[x]=function(a){if(!a)return 0;Q("ml1",r,A);var b=function(b){w[x]=null;F(r,a)&&fa(function(){d&&d();b()})},c=function(){var a=w[x+1];a&&a()};0<x&&w[x-1]?w[x]=function(){b(c)}:b(c)};if(r[B]){var R="loaded_"+J.I++;I[R]=function(a){w[x](a);I[R]=null};a=oa(c,r,"gapi."+R,t);t[u].apply(t,r);Q("ml0",r,A);b.sync||D.___gapisync?sa(a):Z(a)}else w[x](ba)}else F(r)&&d&&d()};var ua=function(a){if(J.hee&&0<J.hel)try{return a()}catch(b){J.hel--,xa("debug_error",function(){try{g.___jsl.hefn(b)}catch(a){throw b;}})}else return a()};I.load=function(a,b){return ua(function(){return xa(a,b)})};N.bs0=g.gapi._bs||(new Date).getTime();O("bs0");N.bs1=(new Date).getTime();O("bs1");delete g.gapi._bs;})();
 gapi.load("client",{callback:window["handleClientLoad"],_c:{"jsl":{"ci":{"llang":"en","client":{"headers":{"response":["Cache-Control","Content-Disposition","Content-Encoding","Content-Language","Content-Length","Content-MD5","Content-Range","Content-Type","Date","ETag","Expires","Last-Modified","Location","Pragma","Range","Server","Transfer-Encoding","WWW-Authenticate","Vary","X-Goog-Safety-Content-Type","X-Goog-Safety-Encoding","X-Goog-Upload-Chunk-Granularity","X-Goog-Upload-Control-URL","X-Goog-Upload-Size-Received","X-Goog-Upload-Status","X-Goog-Upload-URL","X-Goog-Diff-Download-Range","X-Goog-Hash","X-Goog-Updated-Authorization","X-Server-Object-Version","X-Guploader-Customer","X-Guploader-Upload-Result","X-Guploader-Uploadid"],"request":["Accept","Accept-Language","Authorization","Cache-Control","Content-Disposition","Content-Encoding","Content-Language","Content-Length","Content-MD5","Content-Range","Content-Type","Date","GData-Version","Host","If-Match","If-Modified-Since","If-None-Match","If-Unmodified-Since","Origin","OriginToken","Pragma","Range","Slug","Transfer-Encoding","X-ClientDetails","X-GData-Client","X-GData-Key","X-Goog-AuthUser","X-Goog-PageId","X-Goog-Encode-Response-If-Executable","X-Goog-Correlation-Id","X-Goog-Request-Info","X-Goog-Experiments","x-goog-iam-role","x-goog-iam-authorization-token","X-Goog-Spatula","X-Goog-Upload-Command","X-Goog-Upload-Content-Disposition","X-Goog-Upload-Content-Length","X-Goog-Upload-Content-Type","X-Goog-Upload-File-Name","X-Goog-Upload-Offset","X-Goog-Upload-Protocol","X-Goog-Visitor-Id","X-HTTP-Method-Override","X-JavaScript-User-Agent","X-Pan-Versionid","X-Origin","X-Referer","X-Upload-Content-Length","X-Upload-Content-Type","X-Use-HTTP-Status-Code-Override","X-YouTube-VVT","X-YouTube-Page-CL","X-YouTube-Page-Timestamp"]},"rms":"migrated","cors":false},"plus_layer":{"isEnabled":false},"enableMultilogin":true,"drive_share":{"useStandaloneSharingService":true},"disableRealtimeCallback":false,"isLoggedIn":true,"iframes":{"additnow":{"methods":["launchurl"],"url":"https://apis.google.com/additnow/additnow.html?usegapi\u003d1"},"person":{"url":":socialhost:/:session_prefix:_/widget/render/person?usegapi\u003d1"},"visibility":{"params":{"url":""},"url":":socialhost:/:session_prefix:_/widget/render/visibility?usegapi\u003d1"},"photocomments":{"url":":socialhost:/:session_prefix:_/widget/render/photocomments?usegapi\u003d1"},"plus_followers":{"params":{"url":""},"url":":socialhost:/_/im/_/widget/render/plus/followers?usegapi\u003d1"},"playreview":{"url":"https://play.google.com/store/ereview?usegapi\u003d1"},"signin":{"methods":["onauth"],"params":{"url":""},"url":":socialhost:/:session_prefix:_/widget/render/signin?usegapi\u003d1"},"share":{"url":":socialhost:/:session_prefix::im_prefix:_/widget/render/share?usegapi\u003d1"},"commentcount":{"url":":socialhost:/:session_prefix:_/widget/render/commentcount?usegapi\u003d1"},"page":{"url":":socialhost:/:session_prefix:_/widget/render/page?usegapi\u003d1"},"hangout":{"url":"https://talkgadget.google.com/:session_prefix:talkgadget/_/widget"},"plus_circle":{"params":{"url":""},"url":":socialhost:/:session_prefix::se:_/widget/plus/circle?usegapi\u003d1"},"youtube":{"methods":["scroll","openwindow"],"params":{"location":["search","hash"]},"url":":socialhost:/:session_prefix:_/widget/render/youtube?usegapi\u003d1"},"zoomableimage":{"url":"https://ssl.gstatic.com/microscope/embed/"},"card":{"url":":socialhost:/:session_prefix:_/hovercard/card"},"evwidget":{"params":{"url":""},"url":":socialhost:/:session_prefix:_/events/widget?usegapi\u003d1"},"reportabuse":{"params":{"url":""},"url":":socialhost:/:session_prefix:_/widget/render/reportabuse?usegapi\u003d1"},"follow":{"url":":socialhost:/:session_prefix:_/widget/render/follow?usegapi\u003d1"},"shortlists":{"url":""},"plus":{"url":":socialhost:/:session_prefix:_/widget/render/badge?usegapi\u003d1"},"configurator":{"url":":socialhost:/:session_prefix:_/plusbuttonconfigurator?usegapi\u003d1"},":socialhost:":"https://apis.google.com","post":{"params":{"url":""},"url":":socialhost:/:session_prefix::im_prefix:_/widget/render/post?usegapi\u003d1"},"community":{"url":":ctx_socialhost:/:session_prefix::im_prefix:_/widget/render/community?usegapi\u003d1"},":gplus_url:":"https://plus.google.com","rbr_s":{"params":{"url":""},"url":":socialhost:/:session_prefix::se:_/widget/render/recobarsimplescroller"},"autocomplete":{"params":{"url":""},"url":":socialhost:/:session_prefix:_/widget/render/autocomplete"},"plus_share":{"params":{"url":""},"url":":socialhost:/:session_prefix::se:_/+1/sharebutton?plusShare\u003dtrue\u0026usegapi\u003d1"},":source:":"3p","blogger":{"methods":["scroll","openwindow"],"params":{"location":["search","hash"]},"url":":socialhost:/:session_prefix:_/widget/render/blogger?usegapi\u003d1"},"savetowallet":{"url":"https://clients5.google.com/s2w/o/savetowallet"},"rbr_i":{"params":{"url":""},"url":":socialhost:/:session_prefix::se:_/widget/render/recobarinvitation"},"appcirclepicker":{"url":":socialhost:/:session_prefix:_/widget/render/appcirclepicker"},"udc_webconsentflow":{"params":{"url":""},"url":"https://www.google.com/settings/webconsent?usegapi\u003d1"},"savetodrive":{"methods":["save"],"url":"https://drive.google.com/savetodrivebutton?usegapi\u003d1"},":im_socialhost:":"https://plus.googleapis.com","ytshare":{"params":{"url":""},"url":":socialhost:/:session_prefix:_/widget/render/ytshare?usegapi\u003d1"},":signuphost:":"https://plus.google.com","plusone":{"params":{"count":"","size":"","url":""},"url":":socialhost:/:session_prefix::se:_/+1/fastbutton?usegapi\u003d1"},"comments":{"methods":["scroll","openwindow"],"params":{"location":["search","hash"]},"url":":socialhost:/:session_prefix:_/widget/render/comments?usegapi\u003d1"},"ytsubscribe":{"url":"https://www.youtube.com/subscribe_embed?usegapi\u003d1"}},"isPlusUser":true,"debug":{"host":"https://apis.google.com","forceIm":false,"reportExceptionRate":0.05,"rethrowException":false},"deviceType":"desktop","inline":{"css":1},"lexps":[99,97,79,109,45,17,117,115,81,127,123,122,61,30],"include_granted_scopes":true,"oauth-flow":{"usegapi":false,"disableOpt":true,"authUrl":"https://accounts.google.com/o/oauth2/auth","proxyUrl":"https://accounts.google.com/o/oauth2/postmessageRelay","idpIframeUrl":"https://accounts.google.com/o/oauth2/iframe"},"report":{"apiRate":{"gapi\\.signin\\..*":0.05},"host":"https://apis.google.com","rate":0.001,"apis":["iframes\\..*","gadgets\\..*","gapi\\.appcirclepicker\\..*","gapi\\.auth\\..*","gapi\\.client\\..*"]},"csi":{"rate":0.01},"googleapis.config":{"auth":{"useFirstPartyAuthV2":true}}},"h":"m;/_/scs/apps-static/_/js/k\u003doz.gapi.en.Kggtwurbcjk.O/m\u003d__features__/am\u003dAQ/rt\u003dj/d\u003d1/t\u003dzcms/rs\u003dAGLTcCPHimz1jrtFgdtgqb7fR9qAm0rtYw","u":"https://apis.google.com/js/client.js?onload\u003dhandleClientLoad","hee":true,"fp":"9d5421981b8d1c181b9c28c6f3da897432f274a8","dpo":false},"fp":"9d5421981b8d1c181b9c28c6f3da897432f274a8","annotation":["interactivepost","recobar","autocomplete","profile"],"bimodal":["signin","share"]}});
+
+var clientId = '185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com';
+var apiKey = 'AtwQ5-FSiXOk72t0L0QCzQux';
+var scopes = 'https://www.googleapis.com/auth/calendar';
+
+gapi.handleClientLoad = function (){
+  gapi.client.setApiKey(apiKey);
+  window.setTimeout(checkAuth,1);
+  gapi.checkAuth();
+}
+
+gapi.checkAuth = function () {
+  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true},
+      handleAuthResult);
+}
+
+gapi.handleAuthResult = function (callback, doc) {
+  return function(authResult) {
+    // var authorizeButton = document.getElementById('authorize-button');
+    if (authResult) {
+      // authorizeButton.style.visibility = 'hidden';
+      callback(doc);
+    } else {
+      console.log('auth failed');
+      // authorizeButton.style.visibility = '';
+    }
+  };
+}
+
+gapi.handleAuthClick = function (callback, doc) {
+  return function(event) {
+    gapi.auth.authorize({
+      client_id: clientId,
+      scope: scopes,
+      immediate: false
+    }, gapi.handleAuthResult(callback, doc));
+
+    return false;
+  }
+}
+
+gapi.getCalendars = function () {
+  gapi.client.load('calendar', 'v3', function() {
+    var request = gapi.client.calendar.calendarList.list({
+      'calendarId': 'primary'
+    });
+
+    request.execute(function(resp) {
+      console.log('resp: ', resp);
+      Calendars.updateOrCreate(resp.items);
+    });
+  });
+};
+
+gapi.createCalendar = function (name) {
+  return function() {
+    if( Calendars.findOne({ summary: name }) ) return;
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.calendars.insert({
+        'summary': name
+      });
+
+      request.execute(function(res) {
+        console.log('res: ', res);
+        var data              = {};
+        data.summary          = res.summary;
+        data.googleCalendarId = res.id;
+        data.ownerId          = Meteor.userId();
+
+        Calendars.updateOrCreate(data);
+      });
+    });
+  };
+};
+
+gapi.deleteCalendar = function (name) {
+  return function() {
+    var cal = Calendars.findOne({ summary: name });
+    if( !cal ) return;
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.calendars.delete({
+        'calendarId': cal.googleCalendarId
+      });
+
+      request.execute(function(res) {
+        console.log('res: ', res);
+        Calendars.remove(cal._id);
+      });
+    });
+  };
+};
+
+gapi.addEventToCalendar = function (name) {
+  return function(doc) {
+    var cal = Calendars.findOne({ summary: name });
+    if( !cal ) return;
+
+    if(!doc.summary) doc.summary = doc.title;
+    doc.start = Date.formatGoog(doc.start);
+    doc.end = Date.formatGoog(doc.end);
+
+    // var doc = {
+    //   start:   '2015-03-01T05:00:00.000-05:00',
+    //   end:     '2015-03-01T06:30:00.000-05:00',
+    //   summary: 'task no. 5'
+    // };
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.insert({
+        'calendarId': cal.googleCalendarId,
+        'start': {
+          'dateTime': doc.start
+        },
+        'end': {
+          'dateTime': doc.end
+        },
+        'summary': doc.summary,
+        'transparency': 'transparent'
+      });
+
+      request.execute(function(res) {
+        console.log('res: ', res);
+      });
+    });
+  };
+};
+
+gapi.getFreetimes = function () {
+  gapi.client.load('calendar', 'v3', function() {
+    var items = Meteor.user().calendarIdObjects();
+
+    var minTime = Date.now();
+    var latestTask = lodash.max(Meteor.user().tasks().fetch(), 'dueAt');
+    console.log('latestTask: ', latestTask);
+    var maxTime = latestTask.dueAt;
+    console.log('maxTime: ', maxTime);
+    if(maxTime < minTime) return;
+
+    var request = gapi.client.calendar.freebusy.query({
+      'timeMin': '2015-03-02T00:00:00.000Z',
+      'timeMax': '2015-03-06T00:00:00.000Z',
+      'items': items
+    });
+
+    request.execute(function(res) {
+      var calendars = res.result.calendars;
+      // console.log('calendars: ', calendars);
+      var busytimes = [];
+      lodash.keys(calendars).forEach(function(k) {
+        var calendar = calendars[k];
+        console.log('calendar: ', calendar);
+        calendar.busy.forEach(function(busy) {
+          busy.start = moment(busy.start)._d;
+          busy.end   = moment(busy.end)._d;
+          busytimes.push(busy);
+        });
+      });
+      console.log('busytimes: ', busytimes);
+
+      busytimes = _.sortBy(busytimes, 'start');
+      busytimes = _.sortBy(busytimes, 'end');
+
+      var startTimes = lodash.pluck(busytimes, 'start');
+      var endTimes = lodash.pluck(busytimes, 'end');
+
+      console.log('startTimes: ', startTimes);
+      console.log('endTimes: ', endTimes);
+
+      // var currentTime = minTime;
+      var freetimes  = [];
+      var startQueue = 0;
+      var startIndex = 0;
+      var endIndex   = 0;
+
+      freetimes.push({
+        start: minTime,
+        end:   startTimes[startIndex]
+      });
+
+      while(startIndex < startTimes.length && endIndex < endTimes.length) {
+        if(startTimes[startIndex] < endTimes[endIndex]) {
+          startQueue++;
+          startIndex++;
+        } else {
+          startQueue--;
+          if(startQueue == 0) {
+            freetimes.push({
+              start: endTimes[endIndex],
+              end:   startTimes[startIndex + 1]
+            });
+          }
+          endIndex++;
+        }
+      }
+
+      freetimes = freetimes.map(function(ft) {
+        ft.ownerId = Meteor.userId();
+        ft.timeRemaining = function () {
+          return this.end - this.start;
+        };
+        return ft;
+      });
+
+      console.log('freetimes: ', freetimes);
+      // Meteor.user().update({ freetimes: freetimes });
+      todos = Meteor.user().todoList(freetimes);
+      console.log('todos: ', todos);
+
+      todos.forEach(function(todo) {
+        console.log('todo: ', todo);
+        gapi.addEventToCalendar('Dunmo Tasks')(todo);
+      });
+    });
+  });
+};
