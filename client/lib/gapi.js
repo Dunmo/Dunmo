@@ -24,13 +24,10 @@ gapi.checkAuth = function () {
 
 gapi.handleAuthResult = function (callback, doc) {
   return function(authResult) {
-    // var authorizeButton = document.getElementById('authorize-button');
     if (authResult) {
-      // authorizeButton.style.visibility = 'hidden';
       callback(doc);
     } else {
       console.log('auth failed');
-      // authorizeButton.style.visibility = '';
     }
   };
 }
@@ -48,16 +45,18 @@ gapi.handleAuthClick = function (callback, doc) {
 }
 
 gapi.getCalendars = function () {
-  gapi.client.load('calendar', 'v3', function() {
-    var request = gapi.client.calendar.calendarList.list({
-      'calendarId': 'primary'
-    });
+  gapi.handleAuthClick(function () {
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.calendarList.list({
+        'calendarId': 'primary'
+      });
 
-    request.execute(function(resp) {
-      console.log('resp: ', resp);
-      Calendars.updateOrCreate(resp.items);
+      request.execute(function(resp) {
+        console.log('resp: ', resp);
+        Calendars.updateOrCreate(resp.items);
+      });
     });
-  });
+  })();
 };
 
 gapi.createCalendar = function (name) {
@@ -108,12 +107,6 @@ gapi.addEventToCalendar = function (name) {
     if(!doc.summary) doc.summary = doc.title;
     doc.start = Date.formatGoog(doc.start);
     doc.end = Date.formatGoog(doc.end);
-
-    // var doc = {
-    //   start:   '2015-03-01T05:00:00.000-05:00',
-    //   end:     '2015-03-01T06:30:00.000-05:00',
-    //   summary: 'task no. 5'
-    // };
 
     gapi.client.load('calendar', 'v3', function() {
       var request = gapi.client.calendar.events.insert({

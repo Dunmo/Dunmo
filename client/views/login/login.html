@@ -1,18 +1,3 @@
 <template name="login">
   <button class="btn btn-lg btn-goog">Login with Google</button>
-  <button class="btn btn-lg btn-appl">Login with iCloud</button>
-  {{#if loggedIn}}
-    Add a task
-    <input id="input" type="text">
-    <button id="submit">add</button>
-    <button id="cal">sync calendars</button>
-    <h1>Calendars</h1>
-    {{#each calendars}}
-      {{> calendar}}
-    {{/each}}
-    <h1>Tasks</h1>
-    {{#each tasks}}
-      {{> task}}
-    {{/each}}
-  {{/if}}
 </template>

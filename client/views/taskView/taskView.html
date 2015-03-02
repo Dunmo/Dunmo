@@ -1,0 +1,8 @@
+<template name="taskView">
+  <h1>Tasks</h1>
+  <ul class="tasks">
+  {{#each tasks}}
+    <li id="{{_id}}" class="task">{{title}}</li>
+  {{/each}}
+  </ul>
+</template>

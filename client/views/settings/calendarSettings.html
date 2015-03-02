@@ -1,0 +1,10 @@
+<template name="calendarSettings">
+  <p>Add a task</p>
+  <input id="input" type="text">
+  <button id="submit">add</button>
+  <button id="cal">sync calendars</button>
+  <h1>Calendars</h1>
+  {{#each calendars}}
+    {{> calendar}}
+  {{/each}}
+</template>
