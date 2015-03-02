@@ -128,6 +128,24 @@ gapi.addEventToCalendar = function (name) {
   };
 };
 
+gapi.removeEventFromCalendar = function(name) {
+  return function(eventId) {
+    var cal = Calendars.findOne({ summary: name });
+    if(!cal) return;
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.delete({
+        'calendarId': cal.googleCalendarId,
+        'eventId': eventId
+      });
+
+      request.execute(function(res) {
+        console.log('remove event res: ', res);
+      });
+    });
+  };
+};
+
 gapi.syncTasksWithCalendar = function () {
   gapi.client.load('calendar', 'v3', function() {
     var items = Meteor.user().calendarIdObjects();
