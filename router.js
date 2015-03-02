@@ -22,8 +22,8 @@ Router.route('/login', function () {
   this.render('login');
 });
 
-Router.route('/gapi-calendar', function () {
-  this.render('gapiCalendar');
+Router.route('/gapi-example', function () {
+  this.render('gapiExample');
 });
 
 Router.route('/loggedIn');

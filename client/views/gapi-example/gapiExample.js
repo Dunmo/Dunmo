@@ -225,7 +225,7 @@ function getFreetimes() {
   });
 };
 
-Template.gapiCalendar.helpers({
+Template.gapiExample.helpers({
   'calendars' : function() {
     return Calendars.find({ ownerId: Meteor.userId() });
   },
@@ -235,7 +235,7 @@ Template.gapiCalendar.helpers({
   }
 });
 
-Template.gapiCalendar.events({
+Template.gapiExample.events({
   'click #getCalendars' : handleAuthClick(getCalendars),
   'click #getFreetimes' : handleAuthClick(getFreetimes),
   'click #insertCalendar' : handleAuthClick(createCalendar('Dunmo Tasks')),
