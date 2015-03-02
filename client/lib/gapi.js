@@ -11,6 +11,8 @@ var clientId = '185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercon
 var apiKey = 'AtwQ5-FSiXOk72t0L0QCzQux';
 var scopes = 'https://www.googleapis.com/auth/calendar';
 
+var GLOBAL_MIN_TIME = 0;
+
 gapi.handleClientLoad = function (){
   gapi.client.setApiKey(apiKey);
   window.setTimeout(checkAuth,1);
@@ -99,6 +101,39 @@ gapi.deleteCalendar = function (name) {
   };
 };
 
+gapi.getAllFromCalendarAfter = function (name, minTime, callback) {
+  var cal = Calendars.findOne({ summary: name });
+  if(!cal) return;
+
+  gapi.client.load('calendar', 'v3', function() {
+    var request = gapi.client.calendar.events.list({
+      'calendarId': cal.googleCalendarId
+    });
+
+    request.execute(function(res) {
+      var items = res.items;
+      var now = Date.now();
+      items = lodash.filter(items, function(ev) {
+        var startTime = Number(new Date(ev.start.dateTime));
+        var endTime = Number(new Date(ev.end.dateTime));
+
+        return Number(new Date(ev.start.dateTime)) > now;
+      });
+      callback(items);
+    });
+  });
+};
+
+// minTime is a Number of Milliseconds
+gapi.deleteAllFromCalendarAfter = function (name, minTime) {
+  gapi.handleAuthClick(gapi.getAllFromCalendarAfter(name, minTime, function(events) {
+    console.log('events: ', events);
+    events.forEach(function (e) {
+      gapi.removeEventFromCalendar('Dunmo Tasks')(e.id);
+    });
+  }))();
+};
+
 gapi.addEventToCalendar = function (name) {
   return function(doc) {
     var cal = Calendars.findOne({ summary: name });
@@ -146,90 +181,97 @@ gapi.removeEventFromCalendar = function(name) {
   };
 };
 
+gapi.getLatestTaskTime = function (calendar_name) {
+
+}
+
 gapi.syncTasksWithCalendar = function () {
   gapi.client.load('calendar', 'v3', function() {
     var items = Meteor.user().calendarIdObjects();
 
-    var minTime = Date.now();
-    var latestTask = lodash.max(Meteor.user().tasks().fetch(), 'dueAt');
-    console.log('latestTask: ', latestTask);
-    var maxTime = latestTask.dueAt;
-    console.log('maxTime: ', maxTime);
-    if(maxTime < minTime) return;
+    gapi.getLatestTaskTime('Dunmo Tasks', function(minTime) {
+      var latestTask = lodash.max(Meteor.user().tasks().fetch(), 'dueAt');
+      console.log('latestTask: ', latestTask);
+      var maxTime = latestTask.dueAt;
+      console.log('maxTime: ', maxTime);
+      if(maxTime < minTime) return;
 
-    var request = gapi.client.calendar.freebusy.query({
-      'timeMin': Date.formatGoog(new Date(minTime)),
-      'timeMax': Date.formatGoog(new Date(maxTime)),
-      'items': items
-    });
+      gapi.deleteAllFromCalendarAfter('Dunmo Tasks', minTime);
 
-    request.execute(function(res) {
-      var calendars = res.result.calendars;
-      // console.log('calendars: ', calendars);
-      var busytimes = [];
-      lodash.keys(calendars).forEach(function(k) {
-        var calendar = calendars[k];
-        console.log('calendar: ', calendar);
-        calendar.busy.forEach(function(busy) {
-          busy.start = moment(busy.start)._d;
-          busy.end   = moment(busy.end)._d;
-          busytimes.push(busy);
+      var request = gapi.client.calendar.freebusy.query({
+        'timeMin': Date.formatGoog(new Date(minTime)),
+        'timeMax': Date.formatGoog(new Date(maxTime)),
+        'items': items
+      });
+
+      request.execute(function(res) {
+        var calendars = res.result.calendars;
+        // console.log('calendars: ', calendars);
+        var busytimes = [];
+        lodash.keys(calendars).forEach(function(k) {
+          var calendar = calendars[k];
+          console.log('calendar: ', calendar);
+          calendar.busy.forEach(function(busy) {
+            busy.start = moment(busy.start)._d;
+            busy.end   = moment(busy.end)._d;
+            busytimes.push(busy);
+          });
         });
-      });
-      console.log('busytimes: ', busytimes);
+        console.log('busytimes: ', busytimes);
 
-      busytimes = _.sortBy(busytimes, 'start');
-      busytimes = _.sortBy(busytimes, 'end');
+        busytimes = _.sortBy(busytimes, 'start');
+        busytimes = _.sortBy(busytimes, 'end');
 
-      var startTimes = lodash.pluck(busytimes, 'start');
-      var endTimes = lodash.pluck(busytimes, 'end');
+        var startTimes = lodash.pluck(busytimes, 'start');
+        var endTimes = lodash.pluck(busytimes, 'end');
 
-      console.log('startTimes: ', startTimes);
-      console.log('endTimes: ', endTimes);
+        console.log('startTimes: ', startTimes);
+        console.log('endTimes: ', endTimes);
 
-      // var currentTime = minTime;
-      var freetimes  = [];
-      var startQueue = 0;
-      var startIndex = 0;
-      var endIndex   = 0;
+        // var currentTime = minTime;
+        var freetimes  = [];
+        var startQueue = 0;
+        var startIndex = 0;
+        var endIndex   = 0;
 
-      freetimes.push({
-        start: minTime,
-        end:   startTimes[startIndex]
-      });
+        freetimes.push({
+          start: minTime,
+          end:   startTimes[startIndex]
+        });
 
-      while(startIndex < startTimes.length && endIndex < endTimes.length) {
-        if(startTimes[startIndex] < endTimes[endIndex]) {
-          startQueue++;
-          startIndex++;
-        } else {
-          startQueue--;
-          if(startQueue == 0) {
-            freetimes.push({
-              start: endTimes[endIndex],
-              end:   startTimes[startIndex + 1]
-            });
+        while(startIndex < startTimes.length && endIndex < endTimes.length) {
+          if(startTimes[startIndex] < endTimes[endIndex]) {
+            startQueue++;
+            startIndex++;
+          } else {
+            startQueue--;
+            if(startQueue == 0) {
+              freetimes.push({
+                start: endTimes[endIndex],
+                end:   startTimes[startIndex + 1]
+              });
+            }
+            endIndex++;
           }
-          endIndex++;
         }
-      }
 
-      freetimes = freetimes.map(function(ft) {
-        ft.ownerId = Meteor.userId();
-        ft.timeRemaining = function () {
-          return this.end - this.start;
-        };
-        return ft;
-      });
+        freetimes = freetimes.map(function(ft) {
+          ft.ownerId = Meteor.userId();
+          ft.timeRemaining = function () {
+            return this.end - this.start;
+          };
+          return ft;
+        });
 
-      console.log('freetimes: ', freetimes);
-      // Meteor.user().update({ freetimes: freetimes });
-      todos = Meteor.user().todoList(freetimes);
-      console.log('todos: ', todos);
+        console.log('freetimes: ', freetimes);
+        // Meteor.user().update({ freetimes: freetimes });
+        todos = Meteor.user().todoList(freetimes);
+        console.log('todos: ', todos);
 
-      todos.forEach(function(todo) {
-        console.log('todo: ', todo);
-        gapi.addEventToCalendar('Dunmo Tasks')(todo);
+        todos.forEach(function(todo) {
+          console.log('todo: ', todo);
+          gapi.addEventToCalendar('Dunmo Tasks')(todo);
+        });
       });
     });
   });
