@@ -143,15 +143,16 @@ function getFreetimes() {
   gapi.client.load('calendar', 'v3', function() {
     var items = Meteor.user().calendarIdObjects();
 
-    var minTime = new Date('2015-03-02');
-    var maxTime = new Date('2015-03-06');
+    var minTime = Date.now();
+    var latestTask = lodash.max(Meteor.user().tasks().fetch(), 'dueAt');
+    console.log('latestTask: ', latestTask);
+    var maxTime = latestTask.dueAt;
+    console.log('maxTime: ', maxTime);
+    if(maxTime < minTime) return;
 
     var request = gapi.client.calendar.freebusy.query({
       'timeMin': '2015-03-02T00:00:00.000Z',
       'timeMax': '2015-03-06T00:00:00.000Z',
-      // 'timeZone': string,
-      // 'groupExpansionMax': integer,
-      // 'calendarExpansionMax': integer,
       'items': items
     });
 
@@ -212,7 +213,6 @@ function getFreetimes() {
       });
 
       console.log('freetimes: ', freetimes);
-<<<<<<< HEAD
       // Meteor.user().update({ freetimes: freetimes });
       todos = Meteor.user().todoList(freetimes);
       console.log('todos: ', todos);
@@ -221,14 +221,6 @@ function getFreetimes() {
         console.log('todo: ', todo);
         addEventToCalendar('Dunmo Tasks')(todo);
       });
-
-=======
-      // console.log("Meteor.user(): ", Meteor.user());
-      Freetimes.create(freetimes);
-      // Meteor.user().update({ 'freetimes': freetimes });
-      var todos = Meteor.user().todoList();
-      console.log("todos: ", todos);
->>>>>>> cfcbaf904cbceb2006e308f50a8eca7fa6be1395
     });
   });
 };
@@ -236,6 +228,10 @@ function getFreetimes() {
 Template.gapiCalendar.helpers({
   'calendars' : function() {
     return Calendars.find({ ownerId: Meteor.userId() });
+  },
+
+  'tasks' : function() {
+    return Tasks.find({ ownerId: Meteor.userId() })
   }
 });
 
@@ -244,5 +240,11 @@ Template.gapiCalendar.events({
   'click #getFreetimes' : handleAuthClick(getFreetimes),
   'click #insertCalendar' : handleAuthClick(createCalendar('Dunmo Tasks')),
   'click #deleteCalendar' : handleAuthClick(deleteCalendar('Dunmo Tasks')),
-  'click #addEvent' : handleAuthClick(addEventToCalendar('Dunmo Tasks'))
+  'click #addEvent' : handleAuthClick(addEventToCalendar('Dunmo Tasks')),
+  'click #addTask' : function(e) {
+    e.preventDefault();
+    var str = $('#taskInput').val();
+    console.log('str: ', str);
+    Tasks.create(str, { ownerId: Meteor.userId() });
+  }
 });
