@@ -94,8 +94,14 @@ gapi.deleteCalendar = function (name) {
 };
 
 gapi.getAllFutureFromCalendar = function (name, callback) {
+  if(typeof name !== 'string') {
+    console.log('getAllFutureFromCalendar: name should be a string, received ', name);
+  }
   var cal = Calendars.findOne({ summary: name });
-  if(!cal) return;
+  if(!cal) {
+    console.log('getAllFutureFromCalendar: ', cal, ' not found.');
+    return;
+  }
 
   console.log('cal: ', cal);
 
@@ -303,9 +309,41 @@ gapi.syncTasksWithCalendar = function () {
 
 };
 
-gapi.testAll = function () {
-  gapi.onAuth(function () {
-    gapi.deleteAllFutureFromCalendar('Dunmo Tasks');
-  });
+gapi.splitEvent = function (e, splitTime) {
+  console.log('e: ', e);
+  console.log('e.start: ', e.start);
+  console.log('e.start.dateTime: ', e.start.dateTime);
+  console.log('new Date(e.start.dateTime): ', new Date(e.start.dateTime));
 
+  var startTime = new Date(e.start.dateTime);
+  var event1 = R.cloneDeep(e);
+  var event2 = R.cloneDeep(e);
+  console.log('event1: ', event1);
+  console.log('event2: ', event2);
+
+  event1.end.dateTime   = Date.formatGoog(new Date(splitTime));
+  event2.start.dateTime = Date.formatGoog(new Date(splitTime));
+  console.log('event1: ', event1);
+  console.log('event2: ', event2);
+
+  return [event1, event2];
+};
+
+gapi.testAll = function () {
+  console.log('testall');
+  gapi.onAuth(function () {
+    console.log('onauth');
+    gapi.getAllFutureFromCalendar('Dunmo Tasks', function (events) {
+      console.log('getAllFutureFromCalendar');
+      var evt = events[0];
+      var time = Date.now();
+      console.log('evt: ', evt);
+      console.log('time: ', time);
+      var ret = gapi.splitEvent(evt, time);
+      first   = ret[0];
+      second  = ret[1];
+      console.log('first: ', first);
+      console.log('second: ', second);
+    });
+  });
 };
