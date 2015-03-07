@@ -1,7 +1,11 @@
 
 Template.gettingStarted.events({
-  'click .next': function (e) {
+  'click .btn-next': function (e) {
+    var t = $('#step-3').hasClass('active');
     e.preventDefault();
-    location.href = '/calendarSettings';
+    console.log('t: ', t);
+    if( t ) {
+      location.href = '/calendarSettings';
+    }
   }
 });
