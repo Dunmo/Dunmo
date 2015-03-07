@@ -100,7 +100,7 @@ Meteor.users.helpers({
     return idObjects;
   },
 
-  'maxTaskTime': function () {
+  'latestTaskTime': function () {
     var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
     console.log('latestTask: ', latestTask);
     var maxTime = latestTask.dueAt;
