@@ -13,7 +13,7 @@ var scopes = 'https://www.googleapis.com/auth/calendar';
 
 var GLOBAL_MIN_TIME = 0;
 
-gapi.handleClientLoad = function (){
+gapi.handleClientLoad = function () {
   gapi.client.setApiKey(apiKey);
   window.setTimeout(checkAuth,1);
   gapi.checkAuth();
@@ -247,40 +247,59 @@ function toFreetimes(busytimes, minTime, maxTime) {
   return freetimes;
 };
 
+gapi.onAuth = function (callback) {
+  gapi.auth.authorize({
+    client_id: clientId,
+    scope: scopes,
+    immediate: false
+  }, function(authResult) {
+    if (!authResult) {
+      console.log('auth failed');
+      return;
+    }
+
+    callback();
+  });
+}
+
 gapi.syncTasksWithCalendar = function () {
-  gapi.client.load('calendar', 'v3', function() {
-    var items = Meteor.user().calendarIdObjects();
 
-    var minTime = Date.now();
-    var maxTime = Meteor.user().latestTaskTime();
-    console.log('maxTime: ', maxTime);
-    if(maxTime < minTime) return;
+  gapi.onAuth(function() {
+    gapi.client.load('calendar', 'v3', function() {
+      var items = Meteor.user().calendarIdObjects();
 
-    gapi.deleteAllFromCalendarAfter('Dunmo Tasks', minTime);
+      var minTime = Date.now();
+      var maxTime = Meteor.user().latestTaskTime();
+      console.log('maxTime: ', maxTime);
+      if(maxTime < minTime) return;
 
-    var request = gapi.client.calendar.freebusy.query({
-      'timeMin': Date.formatGoog(new Date(minTime)),
-      'timeMax': Date.formatGoog(new Date(maxTime)),
-      'items': items
-    });
+      gapi.deleteAllFromCalendarAfter('Dunmo Tasks', minTime);
 
-    request.execute(function(res) {
-      var calendars = res.result.calendars;
-      // console.log('calendars: ', calendars);
+      var request = gapi.client.calendar.freebusy.query({
+        'timeMin': Date.formatGoog(new Date(minTime)),
+        'timeMax': Date.formatGoog(new Date(maxTime)),
+        'items': items
+      });
 
-      var busytimes = getBusytimes(calendars);
-      busytimes = _.sortBy(busytimes, 'start');
-      busytimes = _.sortBy(busytimes, 'end');
+      request.execute(function(res) {
+        var calendars = res.result.calendars;
+        // console.log('calendars: ', calendars);
 
-      var freetimes = toFreetimes(busytimes, minTime, maxTime);
+        var busytimes = getBusytimes(calendars);
+        busytimes = _.sortBy(busytimes, 'start');
+        busytimes = _.sortBy(busytimes, 'end');
 
-      todos = Meteor.user().todoList(freetimes);
-      console.log('todos: ', todos);
+        var freetimes = toFreetimes(busytimes, minTime, maxTime);
 
-      todos.forEach(function(todo) {
-        console.log('todo: ', todo);
-        gapi.addEventToCalendar('Dunmo Tasks')(todo);
+        todos = Meteor.user().todoList(freetimes);
+        console.log('todos: ', todos);
+
+        todos.forEach(function(todo) {
+          console.log('todo: ', todo);
+          gapi.addEventToCalendar('Dunmo Tasks')(todo);
+        });
       });
     });
   });
+
 };

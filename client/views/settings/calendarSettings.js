@@ -6,5 +6,7 @@ Template.calendarSettings.helpers({
 });
 
 Template.calendarSettings.events({
-  'click #cal': gapi.handleAuthClick(gapi.syncTasksWithCalendar)
+  'click #cal': function(e) {
+    gapi.syncTasksWithCalendar();
+  }
 });
