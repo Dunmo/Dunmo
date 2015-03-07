@@ -6,7 +6,5 @@ Template.calendarSettings.helpers({
 });
 
 Template.calendarSettings.events({
-  'click #cal': function (e) {
-    Calendars.sync(Meteor.userId());
-  }
+  'click #cal': gapi.handleAuthClick(gapi.syncTasksWithCalendar)
 });

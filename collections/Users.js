@@ -100,6 +100,12 @@ Meteor.users.helpers({
     return idObjects;
   },
 
+  'maxTaskTime': function () {
+    var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
+    console.log('latestTask: ', latestTask);
+    var maxTime = latestTask.dueAt;
+  },
+
   todoList: function(freetimes) {
     todos = this.sortedTasks(); // todoCursor.fetch();
     // todos = todos.map(function(doc) {
