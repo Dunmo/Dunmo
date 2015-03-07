@@ -6,7 +6,7 @@ Template.login.helpers({
 });
 
 Template.login.events({
-  'click .btn-goog': function (e) {
+  'click .btn-gplus': function (e) {
     Meteor.loginWithGoogle({
       requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
       requestOfflineToken: true,

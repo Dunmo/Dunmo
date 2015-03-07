@@ -2,4 +2,81 @@
   <p>Hi, I'm help text!</p>
   <!-- help steps widget goes here -->
   <button class="next"> Next </button>
+  <!-- header -->
+  <header id="header" class="navbar">
+    <ul class="nav navbar-nav navbar-avatar pull-right">
+
+    </ul>
+    <a class="navbar-brand" href="#">Dunmo</a>
+    <button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body">
+      <i class="fa fa-bars fa-lg text-default"></i>
+    </button>
+
+
+  </header>
+  <!-- / header -->
+  <!-- nav -->
+  <nav id="nav" class="nav-primary hidden-xs nav-vertical">
+    <ul class="nav" data-spy="affix" data-offset-top="50">
+     <li class ="active"><a href="index.html"><i class="fa fa-sitemap fa-lg"></i><span>Onboarding</span></a></li>
+       <li class><a href="index.html"><i class="fa fa-cogs fa-lg"></i><span>Settings</span></a></li>
+      <li class><a href="index.html"><i class="fa fa-calendar fa-lg"></i><span>Calendar</span></a></li>
+      <li class><a href="index.html"><i class="fa fa-plus-square fa-lg"></i><span>Add Service</span></a></li>
+       <li class><a href="index.html"><i class="fa fa-power-off fa-lg"></i><span>Logout</span></a></li>
+
+
+
+
+    </ul>
+  </nav>
+  <!-- / nav -->
+  <section id="content">
+    <section class="main padder">
+
+      <div class="row">
+
+
+        <div class="col-lg-12">
+
+
+
+
+
+          <section class="panel">
+            <div class="wizard clearfix">
+              <ul class="steps">
+                <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Step 1!</li>
+                <li data-target="#step2"><span class="badge">2</span>Step 2!</li>
+                <li data-target="#step3"><span class="badge">3</span>Step 3!</li>
+              </ul>
+              <div class="actions">
+                <button type="button" class="btn btn-white btn-xs btn-prev" disabled="disabled"> <i class="fa fa-chevron-left"></i>Prev</button>
+                <button type="button" class="btn btn-white btn-xs btn-next" data-last="Finish">Next<i class="fa fa-chevron-right"></i></button>
+              </div>
+            </div>
+            <div class="step-content">
+              <div class="step-pane active" id="step1">
+                <h4><b>!!</b> [Today] Homework </h4> </br> <h3>This is how you specify importance</h3>
+              </div>
+              <div class="step-pane" id="step2"><h4><b>!! [Today] </b>Homework [Today @ 5pm] </h4> </br> <h3>This is where you put the due date and time (Needs to be in Brackets) </br></br>[Next Tuesday @ 3am]</br> </br>[2/2/15]</h3></div>
+              <div class="step-pane" id="step3"><h4>Homework for <b>3 hours</b> (Format: # Unit)</h4></div>
+            </div>
+          </section>
+
+        </div>
+
+
+      </div>
+    </section>
+  </section>
+    <!-- footer -->
+  <footer id="footer">
+    <div class="text-center padder clearfix">
+      <p>
+        <small>&copy; Dunmo 2015</small><br><br>
+
+      </p>
+    </div>
+  </footer>
+  <!-- / footer -->
 </template>
