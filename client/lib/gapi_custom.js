@@ -356,7 +356,9 @@ gapi.getFreetimes = function (callback) {
   });
 };
 
-gapi.syncTasksWithCalendar = function () {
+gapi.syncTasksWithCalendar = function (startingFrom) {
+  startingFrom = startingFrom || Date.now();
+
   gapi.onAuth(function() {
     // gapi.fixDoneTasks();
 
@@ -374,7 +376,7 @@ gapi.syncTasksWithCalendar = function () {
           }
           else {
             console.log('split currEvent');
-            var ret    = gapi.splitEvent(currEvent, Date.now());
+            var ret    = gapi.splitEvent(currEvent, startingFrom);
             var first  = ret[0];
             // var second = ret[1];
 
