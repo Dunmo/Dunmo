@@ -6,9 +6,9 @@ Template.calendarSettings.helpers({
 });
 
 Template.calendarSettings.events({
-  'click #cal': function (e) {
-    gapi.syncTasksWithCalendar();
-  },
+  // 'click #cal': function (e) {
+  //   gapi.syncTasksWithCalendar();
+  // },
 
   'click .add-task': function (e) {
     var $input = $(e.target).parents('.input-group').find('.form-control');

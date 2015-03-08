@@ -1,28 +1,5 @@
 <template name="gettingStarted">
-
-  <!-- header -->
-  <header id="header" class="navbar">
-    <ul class="nav navbar-nav navbar-avatar pull-right">
-    </ul>
-    <a class="navbar-brand" href="#">Dunmo</a>
-    <button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body">
-      <i class="fa fa-bars fa-lg text-default"></i>
-    </button>
-  </header>
-  <!-- / header -->
-
-  <!-- nav -->
-  <nav id="nav" class="nav-primary hidden-xs nav-vertical">
-    <ul class="nav" data-spy="affix" data-offset-top="50">
-      <li class ="active"><a href="index.html"><i class="fa fa-sitemap fa-lg"></i><span>Onboarding</span></a></li>
-      <li class><a href="index.html"><i class="fa fa-cogs fa-lg"></i><span>Settings</span></a></li>
-      <li class><a href="index.html"><i class="fa fa-calendar fa-lg"></i><span>Calendar</span></a></li>
-      <li class><a href="index.html"><i class="fa fa-plus-square fa-lg"></i><span>Add Service</span></a></li>
-      <li class><a href="index.html"><i class="fa fa-power-off fa-lg"></i><span>Logout</span></a></li>
-    </ul>
-  </nav>
-  <!-- / nav -->
-
+  {{> nav}}
   <section id="content">
     <section class="main padder">
       <div class="row">
