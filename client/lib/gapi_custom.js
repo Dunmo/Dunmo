@@ -422,6 +422,30 @@ gapi.splitEvent = function (e, splitTime) {
   return [event1, event2];
 };
 
+// 'Dunmo Tasks' events channel
+gapi.createChannel = function () {
+  gapi.onAuth(function() {
+    var name = 'Dunmo Tasks';
+
+    var cal = Calendars.findOne({ summary: name });
+    if(!cal) return;
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.watch({
+        'calendarId'  : cal.googleCalendarId,
+        'showDeleted' : true,
+        'id'          : 'googlesucks-58947528974',
+        'type'        : 'web_hook',
+        'address'     : 'https://3cce1d41.ngrok.com/calendar/watch'
+      });
+
+      request.execute(function(res) {
+        console.log('res: ', res);
+      });
+    });
+  });
+};
+
 gapi.test = function () {
   console.log('testall');
   gapi.onAuth(function () {
