@@ -1,3 +1,4 @@
+
 Router.configure({
   layoutTemplate: 'layout'
 });
@@ -9,24 +10,16 @@ var checkForUser = function() {
   this.next();
 };
 
-// Router.onBeforeAction(checkForUser);
+Router.onBeforeAction(checkForUser);
 
 Router.route('/', function () {
-  this.redirect('/login');
+  this.redirect('/calendarSettings');
 });
 
-Router.route('/login', function () {
-  // if (Meteor.user()) {
-  //   this.redirect('/');
-  // }
-  this.render('login');
+var views = ['login', 'gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
+views.forEach(function (view) {
+  Router.route('/' + view);
 });
-
-Router.route('/gapi-calendar', function () {
-  this.render('gapiCalendar');
-});
-
-Router.route('/loggedIn');
 
 Router.route('/email/receive', function () {
   var req = this.request;
@@ -40,4 +33,3 @@ Router.route('/email/receive', function () {
   Tasks.create(text, { 'ownerId': user._id });
   res.end();
 }, {where: 'server'});
-

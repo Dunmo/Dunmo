@@ -1,0 +1,68 @@
+
+<template name="calendarSettings">
+  {{> nav}}
+  <section id="content">
+    <section class="main padder">
+      <div class="row">
+        <div class="col-lg-12">
+
+          {{> addTaskInput}}
+
+          <section class="comment-list block">
+            <article class="comment-item media" id="comment-form">
+              <section class="media-body">
+                <form action="" class="m-b-none">
+                  <div class="input-group">
+                    <input type="text" placeholder="Start Task Time" class="form-control start-time">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary start-time" type="button">START</button>
+                    </span>
+                  </div>
+                </form>
+              </section>
+            </article>
+          </section>
+
+          <section class="comment-list block">
+            <article class="comment-item media" id="comment-form">
+              <section class="media-body">
+                <form action="" class="m-b-none">
+                  <div class="input-group">
+                    <input type="text" placeholder="End Task Time" class="form-control end-time">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary end-time" type="button">END</button>
+                    </span>
+                  </div>
+                </form>
+              </section>
+            </article>
+          </section>
+          <!-- / .comment-list -->
+
+          <section class="panel">
+            <header class="panel-heading bg bg-primary">
+              <a class="btn btn-link pull-right nav"></a>
+              Calendar Settings
+            </header>
+            <ul class="list-group">
+            {{#each calendars}}
+              {{> calendarListItem}}
+            {{/each}}
+            </ul>
+          </section>
+
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- footer -->
+  <footer id="footer">
+    <div class="text-center padder clearfix">
+      <p>
+        <small>&copy; Dunmo 2015</small><br><br>
+      </p>
+    </div>
+  </footer>
+  <!-- / footer -->
+</template>

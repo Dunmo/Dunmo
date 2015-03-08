@@ -1,0 +1,15 @@
+<template name="taskListItem">
+  <li id={{_id}} class="list-group-item {{activeClass}}" data-target="#todo-{{listIndex}}">
+    <div class="media">
+      <span class="pull-left thumb-small m-t-mini">
+        <i class="fa fa-check-square-o fa-lg text-default"></i>
+      </span>
+      <div id="todo-{{listIndex}}" class="remove pull-right text-primary m-t-small">
+        <i class="fa fa-times fa-lg text text-secondary text-red"></i>
+      </div>
+      <div class="media-body">
+        <div><a href="#" class="h5">{{title}}</a></div>
+      </div>
+    </div>
+  </li>
+</template>

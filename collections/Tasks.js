@@ -23,7 +23,14 @@ Tasks.before.insert(function(uid, doc) {
 
 Tasks.helpers({
   update: function (data) {
-    Tasks.update(this._id, { $set: data });
+    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
+      data = { $set: data };
+
+    Tasks.update(this._id, data);
+  },
+
+  remove: function () {
+    this.update({ isRemoved: true });
   },
 
   split: function(milliseconds) {
@@ -67,6 +74,15 @@ Tasks.create = function(str, obj) {
   obj.spent           = obj.spent           || 0;
   obj.snoozedUntil    = obj.snoozedUntil    || null;
   obj.description     = obj.description     || "";
+  obj.isDone          = obj.isDone          || false;
+  obj.isRemoved       = obj.isRemoved       || false;
 
   return Tasks.insert(obj);
+};
+
+Tasks.basicSort = function(tasks) {
+  tasks = _.sortBy(tasks, 'remaining');
+  tasks = _.sortBy(tasks, 'importance');
+  tasks = _.sortBy(tasks, 'dueAt');
+  return tasks;
 };
