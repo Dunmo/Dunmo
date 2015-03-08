@@ -29,6 +29,10 @@ Tasks.helpers({
     Tasks.update(this._id, data);
   },
 
+  remove: function () {
+    this.update({ isRemoved: true });
+  },
+
   split: function(milliseconds) {
     if(milliseconds > this.remaining) {
       return [ null, R.cloneDeep(this) ];
@@ -71,6 +75,7 @@ Tasks.create = function(str, obj) {
   obj.snoozedUntil    = obj.snoozedUntil    || null;
   obj.description     = obj.description     || "";
   obj.isDone          = obj.isDone          || false;
+  obj.isRemoved       = obj.isRemoved       || false;
 
   return Tasks.insert(obj);
 };

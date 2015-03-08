@@ -64,7 +64,7 @@ Meteor.users.helpers({
 
   'tasks': function () {
     // this.syncReminders();
-    return Tasks.find({ ownerId: this._id });
+    return Tasks.find({ ownerId: this._id, isRemoved: { $not: true } });
   },
 
   'sortedTasks': function () {
@@ -74,7 +74,7 @@ Meteor.users.helpers({
   },
 
   'todos': function () {
-    return Tasks.find({ ownerId: this._id, isDone: { $not: true } });
+    return Tasks.find({ ownerId: this._id, isRemoved: { $not: true }, isDone: { $not: true } });
   },
 
   'sortedTodos': function () {
