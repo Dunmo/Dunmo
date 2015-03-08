@@ -326,10 +326,17 @@ gapi.onAuth = function (callback) {
 
 // callback is given the list of freetimes as an array
 // callback(freetimes)
-gapi.getFreetimes = function (callback) {
+gapi.getFreetimes = function (startingFrom, callback) {
   var items = Meteor.user().calendarIdObjects();
 
-  var minTime = Date.now();
+  var minTime;
+  if (typeof(startingFrom) === 'function') {
+    minTime = Date.now();
+    callback = startingFrom;
+  } else {
+    minTime = startingFrom;
+  }
+
   var maxTime = Meteor.user().latestTaskTime();
   if( !maxTime || maxTime < minTime) {
     callback([]);
@@ -364,11 +371,11 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
 
     gapi.deleteAllFutureFromCalendar();
 
-    gapi.getFreetimes(function(freetimes) {
+    gapi.getFreetimes(startingFrom, function(freetimes) {
       gapi.getCurrentTaskEvent(function(currEvent) {
         if(currEvent) {
           var firstTask = Meteor.user().sortedTodos()[0];
-          if( _.contains(firstTask.gcalEventIds, currEvent.id) ){
+          if( firstTask && _.contains(firstTask.gcalEventIds, currEvent.id) ){
             console.log('current currEvent is fine');
             // adjust first freetime
             var currEventEnd = Number(new Date(currEvent.end.dateTime));
