@@ -194,9 +194,12 @@ gapi.addEventToCalendar = function () {
     var cal = Calendars.findOne({ summary: name });
     if( !cal ) return;
 
+    console.log('doc.start: ', doc.start);
+    console.log('doc.end: ', doc.end);
+
     if(!doc.summary) doc.summary = doc.title;
-    doc.start = Date.formatGoog(doc.start);
-    doc.end = Date.formatGoog(doc.end);
+    doc.start = Date.formatGoog(new Date(doc.start));
+    doc.end = Date.formatGoog(new Date(doc.end));
 
     gapi.client.load('calendar', 'v3', function() {
       var request = gapi.client.calendar.events.insert({
@@ -361,20 +364,30 @@ gapi.syncTasksWithCalendar = function () {
 
     gapi.getFreetimes(function(freetimes) {
       gapi.getCurrentTaskEvent(function(currEvent) {
-        var firstTask = Meteor.user().sortedTodos()[0];
-        if( _.contains(firstTask.gcalEventIds, currEvent.id) ){
-          console.log('current currEvent is fine');
-          // adjust first freetime
-          var currEventEnd = Number(new Date(currEvent.end.dateTime));
-          freetimes[0].start = currEventEnd;
-        }
-        else {
-          console.log('split currEvent');
+        if(currEvent) {
+          var firstTask = Meteor.user().sortedTodos()[0];
+          if( _.contains(firstTask.gcalEventIds, currEvent.id) ){
+            console.log('current currEvent is fine');
+            // adjust first freetime
+            var currEventEnd = Number(new Date(currEvent.end.dateTime));
+            freetimes[0].start = currEventEnd;
+          }
+          else {
+            console.log('split currEvent');
+            var ret    = gapi.splitEvent(currEvent, Date.now());
+            var first  = ret[0];
+            // var second = ret[1];
+
+            first.start = Number(new Date(first.start.dateTime));
+            first.end   = Number(new Date(first.end.dateTime));
+
+            console.log('first: ', first);
+
+            gapi.removeEventFromCalendar()(currEvent.id);
+            gapi.addEventToCalendar()(first);
+          }
         }
 
-        // does a different task show up first in task list?
-        // if so, split the current task event and edit that task before
-        // recalculating.
         todos = Meteor.user().todoList(freetimes);
         console.log('todos: ', todos);
         todos.forEach(function(todo) {
