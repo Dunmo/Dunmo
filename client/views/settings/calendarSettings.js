@@ -17,5 +17,6 @@ Template.calendarSettings.events({
     console.log('val: ', val);
     Tasks.create(val, { ownerId: Meteor.userId() });
     $input.val('');
+    gapi.syncTasksWithCalendar();
   }
 });

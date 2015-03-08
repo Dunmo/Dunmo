@@ -69,13 +69,18 @@ Meteor.users.helpers({
 
   'sortedTasks': function () {
     var tasks = this.tasks().fetch();
-    console.log('tasks: ', tasks);
-
-    tasks = _.sortBy(tasks, 'remaining');
-    tasks = _.sortBy(tasks, 'importance');
-    tasks = _.sortBy(tasks, 'dueAt');
-
+    tasks = Tasks.basicSort(tasks);
     return tasks;
+  },
+
+  'todos': function () {
+    return Tasks.find({ ownerId: this._id, isDone: { $not: true } });
+  },
+
+  'sortedTodos': function () {
+    var todos = this.todos().fetch();
+    todos = Tasks.basicSort(todos);
+    return todos;
   },
 
   'freetimes': function () {
@@ -108,24 +113,10 @@ Meteor.users.helpers({
   },
 
   todoList: function(freetimes) {
-    todos = this.sortedTasks(); // todoCursor.fetch();
-    // todos = todos.map(function(doc) {
-    //   doc = fieldsToDuration(doc);
-    //   return doc;
-    // });
-    // todos = basicSort(todos);
-
-    freetimes = freetimes || this.freetimes || this.freetimes(); // freetimeCursor.fetch();
-    // freetimes = freetimes.map(function(doc) {
-    //   doc = fieldsToDuration(doc);
-    //   return doc;
-    // });
-    // freetimes = this._padDays(freetimes);
-
-    // console.log('freetimes: ', freetimes);
-
+    todos = this.sortedTodos();
+    console.log('todos: ', todos);
+    freetimes = freetimes || this.freetimes || this.freetimes();
     todoList = this._generateTodoList(freetimes, todos, 'greedy');
-
     return todoList;
   },
 
@@ -185,8 +176,7 @@ Meteor.users.helpers({
     console.log('remaining: ', remaining);
     var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
 
-    // TODO: what about overdue items on the first day?
-    // TODO: todo.timeRemaining.toTaskInterval() > remaining.toTaskInterval() ?
+    // TODO: what about overdue items?
     if((todo.remaining > remaining) && (todo.dueAt >= (new Date()))) {
       var ret   = R.cloneDeep(todo.split(remaining));
       todo      = R.cloneDeep(ret[0]);
