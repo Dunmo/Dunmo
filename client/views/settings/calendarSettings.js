@@ -6,20 +6,6 @@ Template.calendarSettings.helpers({
 });
 
 Template.calendarSettings.events({
-  // 'click #cal': function (e) {
-  //   gapi.syncTasksWithCalendar();
-  // },
-
-  'click .add-task': function (e) {
-    var $input = $(e.target).parents('.input-group').find('.form-control');
-    console.log('$input: ', $input);
-    var val = $input.val();
-    console.log('val: ', val);
-    Tasks.create(val, { ownerId: Meteor.userId() });
-    $input.val('');
-    gapi.syncTasksWithCalendar();
-  },
-
   'submit .start-time.form-control, click button.start-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
