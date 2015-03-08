@@ -104,6 +104,7 @@ Meteor.users.helpers({
     var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
     console.log('latestTask: ', latestTask);
     var maxTime = latestTask.dueAt;
+    return maxTime;
   },
 
   todoList: function(freetimes) {
