@@ -375,7 +375,7 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
       gapi.getCurrentTaskEvent(function(currEvent) {
         if(currEvent) {
           var firstTask = Meteor.user().sortedTodos()[0];
-          if( _.contains(firstTask.gcalEventIds, currEvent.id) ){
+          if( firstTask && _.contains(firstTask.gcalEventIds, currEvent.id) ){
             console.log('current currEvent is fine');
             // adjust first freetime
             var currEventEnd = Number(new Date(currEvent.end.dateTime));
