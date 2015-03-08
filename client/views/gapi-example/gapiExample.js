@@ -14,8 +14,7 @@ Template.gapiExample.events({
   'click #syncTasksWithCalendar' : function (e) {
     gapi.syncTasksWithCalendar();
   },
-  'click #insertCalendar' : gapi.handleAuthClick(gapi.createCalendar('Dunmo Tasks')),
-  'click #deleteCalendar' : gapi.handleAuthClick(gapi.deleteCalendar('Dunmo Tasks')),
+  'click #insertCalendar' : gapi.handleAuthClick(gapi.createDunmoCalendar()),
   'click #addTask' : function(e) {
     e.preventDefault();
     var str = $('#taskInput').val();
