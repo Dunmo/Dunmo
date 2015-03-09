@@ -1,7 +1,7 @@
 
 Template.taskView.helpers({
   tasks: function() {
-    return Tasks.find({ ownerId: Meteor.userId() });
+    return Meteor.user().tasks();
   }
 });
 

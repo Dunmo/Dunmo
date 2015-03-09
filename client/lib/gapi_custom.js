@@ -56,7 +56,7 @@ gapi.createDunmoCalendar = function () {
   var name = 'Dunmo Tasks';
 
   return function() {
-    if( Calendars.findOne({ summary: name }) ) return;
+    if( Calendars.findOne({ ownerId: Meteor.userId(), summary: name }) ) return;
 
     gapi.client.load('calendar', 'v3', function() {
       var request = gapi.client.calendar.calendars.insert({
@@ -64,12 +64,10 @@ gapi.createDunmoCalendar = function () {
       });
 
       request.execute(function(res) {
-        var data              = {};
-        data.summary          = res.summary;
-        data.googleCalendarId = res.id;
-        data.ownerId          = Meteor.userId();
+        res.googleCalendarId = res.id;
+        res.ownerId          = Meteor.userId();
 
-        Calendars.updateOrCreate(data);
+        Calendars.updateOrCreate(res);
       });
     });
   };
@@ -99,7 +97,7 @@ gapi.getAllFutureFromCalendar = function (callback) {
     console.log('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
     return;
   }
-  var cal = Calendars.findOne({ summary: name });
+  var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
   if(!cal) {
     console.log('getAllFutureFromCalendar: ', cal, ' not found.');
     return;
@@ -130,7 +128,7 @@ gapi.getCurrentTaskEvent = function (callback) {
     console.log('getCurrentTaskEvent: no callback supplied. must be called asynchronously');
     return;
   }
-  var cal = Calendars.findOne({ summary: name });
+  var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
   if(!cal) {
     console.log('getCurrentTaskEvent: ', cal, ' not found.');
     return;
@@ -191,7 +189,7 @@ gapi.addEventToCalendar = function () {
   var name = 'Dunmo Tasks';
 
   return function(doc) {
-    var cal = Calendars.findOne({ summary: name });
+    var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
     if( !cal ) return;
 
     console.log('doc.start: ', doc.start);
@@ -226,7 +224,7 @@ gapi.removeEventFromCalendar = function() {
   var name = 'Dunmo Tasks';
 
   return function(eventId) {
-    var cal = Calendars.findOne({ summary: name });
+    var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
     if(!cal) return;
 
     gapi.client.load('calendar', 'v3', function() {
@@ -245,10 +243,6 @@ gapi.removeEventFromCalendar = function() {
   };
 };
 
-gapi.getLatestTaskTime = function (calendar_name) {
-
-}
-
 function getBusytimes(calendars) {
   var busytimes = [];
   lodash.keys(calendars).forEach(function(k) {
@@ -265,6 +259,18 @@ function getBusytimes(calendars) {
 };
 
 function toFreetimes(busytimes, minTime, maxTime) {
+  if(busytimes.length === 0) {
+    return [
+      {
+        start: minTime,
+        end:   maxTime,
+        timeRemaining: function () {
+          return this.end - this.start;
+        }
+      }
+    ];
+  }
+
   var startTimes = lodash.pluck(busytimes, 'start');
   var endTimes = lodash.pluck(busytimes, 'end');
 
@@ -326,10 +332,17 @@ gapi.onAuth = function (callback) {
 
 // callback is given the list of freetimes as an array
 // callback(freetimes)
-gapi.getFreetimes = function (callback) {
+gapi.getFreetimes = function (startingFrom, callback) {
   var items = Meteor.user().calendarIdObjects();
 
-  var minTime = Date.now();
+  var minTime;
+  if (typeof(startingFrom) === 'function') {
+    minTime = Date.now();
+    callback = startingFrom;
+  } else {
+    minTime = startingFrom;
+  }
+
   var maxTime = Meteor.user().latestTaskTime();
   if( !maxTime || maxTime < minTime) {
     callback([]);
@@ -364,11 +377,11 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
 
     gapi.deleteAllFutureFromCalendar();
 
-    gapi.getFreetimes(function(freetimes) {
+    gapi.getFreetimes(startingFrom, function(freetimes) {
       gapi.getCurrentTaskEvent(function(currEvent) {
         if(currEvent) {
           var firstTask = Meteor.user().sortedTodos()[0];
-          if( _.contains(firstTask.gcalEventIds, currEvent.id) ){
+          if( firstTask && _.contains(firstTask.gcalEventIds, currEvent.id) ){
             console.log('current currEvent is fine');
             // adjust first freetime
             var currEventEnd = Number(new Date(currEvent.end.dateTime));
@@ -390,6 +403,7 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
           }
         }
 
+        console.log("freetimes: ", freetimes);
         todos = Meteor.user().todoList(freetimes);
         console.log('todos: ', todos);
         todos.forEach(function(todo) {
