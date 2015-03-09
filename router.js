@@ -13,7 +13,7 @@ var checkForUser = function() {
 Router.onBeforeAction(checkForUser);
 
 Router.route('/', function () {
-  this.redirect('/calendarSettings');
+  this.redirect('/index.html');
 });
 
 var views = ['login', 'gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
