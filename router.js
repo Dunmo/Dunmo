@@ -41,12 +41,6 @@ Router.route('/calendar/watch', function () {
   console.log('res: ', res);
 
   console.log('req.body: ', req.body);
-  // var user_addr = req.body.Sender;
-  // var text = req.body['Text-part'];
-  // var user = Meteor.users.findOne({ 'services.google.email': user_addr });
 
-  // console.log("user_addr: ", user_addr);
-
-  // Tasks.create(text, { 'ownerId': user._id });
   res.end();
 }, {where: 'server'});
