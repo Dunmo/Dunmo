@@ -448,13 +448,15 @@ gapi.createChannel = function () {
       var request = gapi.client.calendar.events.watch({
         'calendarId'  : cal.googleCalendarId,
         'showDeleted' : true,
-        'id'          : 'googlesucks-58947528974',
+        'id'          : 'googlesucks-' + String(Math.random()).substring(2),
         'type'        : 'web_hook',
         'address'     : CONFIG.urls.calendarWatchUrl
       });
 
       request.execute(function(res) {
         console.log('res: ', res);
+        
+        Meteor.user().update({ watchObj: res.request });
       });
     });
   });

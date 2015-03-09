@@ -34,15 +34,20 @@ Router.route('/email/receive', function () {
   res.end();
 }, {where: 'server'});
 
-Router.route(CONFIG.urls.calendarWatchPath, function () {
+Router.route(CONFIG.urls.calendarWatchPath, {where: 'server'})
+.post(function () {
   var req = this.request;
   var res = this.response;
   console.log('req: ', req);
   console.log('res: ', res);
 
   console.log('req.body: ', req.body);
+  // req = JSON.stringify(req);
+  // res = JSON.stringify(res);
 
-  res.end();
+  // CalendarWatchMessages.insert({ req: req, res: res });
+
+  res.end('200');
 });
 
 Router.route('/calendarWatchMessages', function () {
