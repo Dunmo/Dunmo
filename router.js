@@ -48,6 +48,6 @@ Router.route(CONFIG.urls.calendarWatchPath, function () {
 Router.route('/calendarWatchMessages', function () {
   var res = this.response;
   var ret = CalendarWatchMessages.find().fetch();
-  res.send(ret);
+  res.end(ret);
 });
 
