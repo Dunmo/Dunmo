@@ -62,6 +62,12 @@ Meteor.users.helpers({
     cred.syncReminders();
   },
 
+  'taskCalendar': function () {
+    var name = 'Dunmo Tasks';
+    var cal = Calendars.findOne({ ownerId: this._id, summary: name });
+    return cal;
+  },
+
   'tasks': function () {
     // this.syncReminders();
     return Tasks.find({ ownerId: this._id, isRemoved: { $not: true } });

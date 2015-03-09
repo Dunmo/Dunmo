@@ -43,4 +43,4 @@ Router.route(CONFIG.urls.calendarWatchPath, function () {
   console.log('req.body: ', req.body);
 
   res.end();
-}, {where: 'server'});
+});
