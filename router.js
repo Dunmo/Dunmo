@@ -34,7 +34,7 @@ Router.route('/email/receive', function () {
   res.end();
 }, {where: 'server'});
 
-Router.route('/calendar/watch', function () {
+Router.route(CONFIG.urls.calendarWatchPath, function () {
   var req = this.request;
   var res = this.response;
   console.log('req: ', req);

@@ -450,7 +450,7 @@ gapi.createChannel = function () {
         'showDeleted' : true,
         'id'          : 'googlesucks-58947528974',
         'type'        : 'web_hook',
-        'address'     : 'https://3cce1d41.ngrok.com/calendar/watch'
+        'address'     : CONFIG.urls.calendarWatchDevUrl
       });
 
       request.execute(function(res) {
