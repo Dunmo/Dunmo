@@ -243,10 +243,6 @@ gapi.removeEventFromCalendar = function() {
   };
 };
 
-gapi.getLatestTaskTime = function (calendar_name) {
-
-}
-
 function getBusytimes(calendars) {
   var busytimes = [];
   lodash.keys(calendars).forEach(function(k) {
