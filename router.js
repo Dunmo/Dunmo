@@ -42,5 +42,36 @@ Router.route(CONFIG.urls.calendarWatchPath, function () {
 
   console.log('req.body: ', req.body);
 
+  // switch case for type of change
+  var c = 0;
+  switch(c) {
+    case 0: // deleted
+      // if task event, snooze
+      // if future other event, re-sync
+      break;
+    case 1: // resize
+      // if future task event, re-sync after old endtime
+      // if past task event && new endtime is after now, re-sync after old endtime
+      // if future other event, re-sync
+      break;
+    case 2: // moved
+      // if task event moved from the past to the past, nothing
+      // if task event moved from the past to the current time, re-sync after new starttime
+      // if task event moved from the past to the future, re-sync after new starttime
+
+      // if task event moved from the current time to the past, nothing
+      // if task event moved from the current time to the current time, shifted back, nothing
+      // if task event moved from the current time to the current time, shifted ahead, re-sync after now
+      // if task event moved from the current time to the future, re-sync after old endtime
+
+      // if task event moved from the future to the past, re-sync after old starttime
+      // if task event moved from the future to the current time, re-sync after new starttime
+      // if task event moved from the future to the future, shifted back, re-sync after new starttime
+      // if task event moved from the future to the future, shifted ahead, re-sync after old starttime
+
+      // if other event, re-sync
+      break;
+  }
+
   res.end();
 }, {where: 'server'});
