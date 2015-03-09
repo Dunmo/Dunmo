@@ -452,3 +452,9 @@ gapi.test = function () {
     });
   });
 };
+
+gapi.checkIsDone = function (taskEvent) {
+  var task = Tasks.findOne({ gcalEventIds: taskEvent.id });
+  (taskEvent.summary.trim().charAt(0) === '*') ? task.update({ isDone: true }) : task.update({ isDone: false });
+};
+
