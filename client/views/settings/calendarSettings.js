@@ -1,4 +1,8 @@
 
+Template.calendarSettings.rendered = function () {
+  gapi.getCalendars();
+};
+
 Template.calendarSettings.helpers({
   calendars: function() {
     return Calendars.find({ ownerId: Meteor.userId() });
