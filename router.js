@@ -4,7 +4,7 @@ Router.configure({
 });
 
 var checkForUser = function() {
-  if (!(Meteor.loggingIn() || Meteor.user())) {
+  if ( Meteor.isClient && !(Meteor.loggingIn() || Meteor.user()) ) {
     this.redirect('/login');
   }
   this.next();
@@ -13,7 +13,7 @@ var checkForUser = function() {
 Router.onBeforeAction(checkForUser);
 
 Router.route('/', function () {
-  this.redirect('/calendarSettings');
+  this.redirect('/index.html');
 });
 
 var views = ['login', 'gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
@@ -74,4 +74,12 @@ Router.route(CONFIG.urls.calendarWatchPath, function () {
   }
 
   res.end();
+});
+
+Router.route('/calendarWatchMessages', function () {
+  var res = this.response;
+  var ret = CalendarWatchMessages.find().fetch();
+  ret = JSON.stringify(ret);
+  res.end(ret);
 }, {where: 'server'});
+

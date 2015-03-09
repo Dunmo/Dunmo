@@ -441,7 +441,7 @@ gapi.createChannel = function () {
   gapi.onAuth(function() {
     var name = 'Dunmo Tasks';
 
-    var cal = Calendars.findOne({ summary: name });
+    var cal = Meteor.user().taskCalendar();
     if(!cal) return;
 
     gapi.client.load('calendar', 'v3', function() {
@@ -450,7 +450,7 @@ gapi.createChannel = function () {
         'showDeleted' : true,
         'id'          : 'googlesucks-58947528974',
         'type'        : 'web_hook',
-        'address'     : CONFIG.urls.calendarWatchDevUrl
+        'address'     : CONFIG.urls.calendarWatchUrl
       });
 
       request.execute(function(res) {
