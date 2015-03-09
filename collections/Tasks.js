@@ -63,14 +63,15 @@ Tasks.create = function(str, obj) {
   else                         obj.title = obj.title || str;
 
   console.log('str: ', str);
+  var res = Natural.parseTask(str);
 
   obj.ownerId         = obj.ownerId;         //|| Meteor.userId();
   obj.appleReminderId = obj.appleReminderId || null;
   obj.calendarId      = obj.calendarId      || null;
-  obj.title           = obj.title           || Natural.parseTitle(str);
-  obj.importance      = obj.importance      || Natural.parseImportance(str) || 1;
-  obj.dueAt           = obj.dueAt           || Natural.parseDueAt(str);
-  obj.remaining       = obj.remaining       || Natural.parseDuration(str).asMilliseconds();
+  obj.title           = obj.title           || res.title;
+  obj.importance      = obj.importance      || res.importance;
+  obj.dueAt           = obj.dueAt           || res.dueAt;
+  obj.remaining       = obj.remaining       || res.remaining.asMilliseconds();
   obj.spent           = obj.spent           || 0;
   obj.snoozedUntil    = obj.snoozedUntil    || null;
   obj.description     = obj.description     || "";
