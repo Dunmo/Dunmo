@@ -39,24 +39,22 @@ gapi.handleAuthClick = function (callback, doc) {
 }
 
 gapi.getCalendars = function () {
-  gapi.handleAuthClick(function () {
-    gapi.client.load('calendar', 'v3', function() {
-      var request = gapi.client.calendar.calendarList.list({
-        'calendarId': 'primary'
-      });
-
-      request.execute(function(resp) {
-        Calendars.updateOrCreate(resp.items);
-      });
+  gapi.onAuth(function () {
+    var request = gapi.client.calendar.calendarList.list({
+      'calendarId': 'primary'
     });
-  })();
+
+    request.execute(function(resp) {
+      Calendars.updateOrCreate(resp.items);
+    });
+  });
 };
 
 gapi.createDunmoCalendar = function () {
   var name = 'Dunmo Tasks';
-
-  return function() {
-    if( Calendars.findOne({ ownerId: Meteor.userId(), summary: name }) ) return;
+  if( Calendars.findOne({ ownerId: Meteor.userId(), summary: name }) ) {
+    console.log('createDunmoCalendar: calendar found: ', cal);
+    return;
 
     gapi.client.load('calendar', 'v3', function() {
       var request = gapi.client.calendar.calendars.insert({
