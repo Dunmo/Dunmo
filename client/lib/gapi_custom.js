@@ -90,7 +90,11 @@ gapi.deleteCalendar = function (name) {
   };
 };
 
-gapi.getAllFutureFromCalendar = function (callback) {
+gapi.getAllFromCalendarAfter = function (minTime, callback) {
+  if(typeof minTime === 'function') {
+    callback = minTime;
+    minTime = Date.now();
+  }
   var name = 'Dunmo Tasks';
 
   if( !callback ) {
@@ -107,18 +111,20 @@ gapi.getAllFutureFromCalendar = function (callback) {
 
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.events.list({
-      'calendarId': cal.googleCalendarId
+      'calendarId': cal.googleCalendarId,
+      timeMin: Date.formatGoog(new Date(minTime))
     });
 
     request.execute(function(res) {
       var items = res.items;
-      var now = Date.now();
-      items = lodash.filter(items, function(ev) {
-        return Number(new Date(ev.start.dateTime)) > now;
-      });
       callback(items);
     });
   });
+};
+
+gapi.getAllFutureFromCalendar = function (callback) {
+  var minTime = Date.now();
+  gapi.getAllFromCalendarAfter(minTime, callback);
 };
 
 gapi.getCurrentTaskEvent = function (callback) {
@@ -171,6 +177,7 @@ function isHappeningNow(event) {
 
 gapi.deleteAllFutureFromCalendar = function (callback) {
   gapi.getAllFutureFromCalendar(function(events) {
+    console.log('events: ', events);
     var first, second;
     first = events[0];
     if(isHappeningNow(first)) {
@@ -179,6 +186,7 @@ gapi.deleteAllFutureFromCalendar = function (callback) {
       second  = ret[1];
       events[0] = second;
     }
+    console.log('events: ', events);
     events.forEach(function (e) {
       gapi.removeEventFromCalendar()(e.id);
     });
@@ -224,6 +232,7 @@ gapi.removeEventFromCalendar = function() {
   var name = 'Dunmo Tasks';
 
   return function(eventId) {
+    console.log('removing');
     var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
     if(!cal) return;
 
@@ -234,6 +243,7 @@ gapi.removeEventFromCalendar = function() {
       });
 
       request.execute(function(res) {
+        console.log('res: ', res);
         var tasks = Meteor.user().tasks();
         tasks.forEach(function (task) {
           task.update({ $pull: { gcalEventIds: eventId } });
