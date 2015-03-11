@@ -176,6 +176,9 @@ Meteor.users.helpers({
     console.log('remaining: ', remaining);
     var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
 
+    // TODO: This is a hack. todo.remaining should be a number of milliseconds, not a duration object
+    if( typeof(todo.remaining) !== 'number' ) todo.remaining = todo.remaining._milliseconds;
+
     // TODO: what about overdue items?
     if((todo.remaining > remaining) && (todo.dueAt >= (new Date()))) {
       var ret   = R.cloneDeep(todo.split(remaining));

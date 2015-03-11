@@ -1,7 +1,7 @@
 
 Template.taskView.helpers({
   tasks: function() {
-    return Meteor.user().tasks();
+    return Meteor.user().sortedTodos();
   }
 });
 

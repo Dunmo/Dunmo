@@ -29,6 +29,18 @@ Tasks.helpers({
     Tasks.update(this._id, data);
   },
 
+  reParse: function (str) {
+    var res   = Natural.parseTask(str);
+    res.title = str;
+    this.update(res);
+  },
+
+  markDone: function () {
+    console.log('mark: ');
+    this.update({ isDone: true });
+    console.log('this._id: ', this._id);
+  },
+
   remove: function () {
     this.update({ isRemoved: true });
   },
@@ -68,7 +80,7 @@ Tasks.create = function(str, obj) {
   obj.ownerId         = obj.ownerId;         //|| Meteor.userId();
   obj.appleReminderId = obj.appleReminderId || null;
   obj.calendarId      = obj.calendarId      || null;
-  obj.title           = obj.title           || res.title;
+  obj.title           = obj.title           || str; // res.title;
   obj.importance      = obj.importance      || res.importance;
   obj.dueAt           = obj.dueAt           || res.dueAt;
   obj.remaining       = obj.remaining       || res.remaining.asMilliseconds();
@@ -77,6 +89,7 @@ Tasks.create = function(str, obj) {
   obj.description     = obj.description     || "";
   obj.isDone          = obj.isDone          || false;
   obj.isRemoved       = obj.isRemoved       || false;
+  obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
 
   return Tasks.insert(obj);
 };
