@@ -423,6 +423,32 @@ gapi.splitEvent = function (e, splitTime) {
   return [event1, event2];
 };
 
+// 'Dunmo Tasks' events channel
+gapi.createChannel = function () {
+  gapi.onAuth(function() {
+    var name = 'Dunmo Tasks';
+
+    var cal = Meteor.user().taskCalendar();
+    if(!cal) return;
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.watch({
+        'calendarId'  : cal.googleCalendarId,
+        'showDeleted' : true,
+        'id'          : 'googlesucks-' + String(Math.random()).substring(2),
+        'type'        : 'web_hook',
+        'address'     : CONFIG.urls.calendarWatchUrl
+      });
+
+      request.execute(function(res) {
+        console.log('res: ', res);
+        
+        Meteor.user().update({ watchObj: res.request });
+      });
+    });
+  });
+};
+
 gapi.test = function () {
   console.log('testall');
   gapi.onAuth(function () {
@@ -437,8 +463,9 @@ gapi.test = function () {
 };
 
 gapi.checkIsDone = function (taskEvent) {
-  var task = Tasks.findOne({ gcalEventIds: taskEvent.id });
-  (taskEvent.summary.trim().charAt(0) === '*') ? task.update({ isDone: true }) : task.update({ isDone: false });
+  var task   = Tasks.findOne({ gcalEventIds: taskEvent.id });
+  var isDone = taskEvent.summary.trim().charAt(0) === '*';
+  task.update({ isDone: isDone });
 };
 
 gapi.createDunmoCalendar = function () {
