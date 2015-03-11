@@ -613,3 +613,8 @@ input[type="text"], select, textarea{min-width: 40px;height: auto;}
   .toolbar a{width:25%;float: left;margin-bottom: 10px}
   .toolbar a:nth-child(4n+1){clear: left}
 }
+
+/* Custom stuff from Jeremy */
+.btn > .fa {color: white;}
+.btn.btn-default > .fa {color: #607385;}
+.full-width {width: 100%;}
