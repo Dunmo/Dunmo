@@ -38,7 +38,8 @@ Template.taskListItem.events({
 
   'click .save, keydown input.todo': function (e) {
     console.log('e.which: ', e.which);
-    if(e.which && e.which !== 13) return;
+    // if we press anything except enter or the save button, return
+    if(e.which && (e.which !== 13 && e.which !== 1) ) return;
     var str = $('input.todo').val();
     console.log('str: ', str);
     this.reParse(str);
