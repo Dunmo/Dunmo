@@ -1,14 +1,19 @@
 <template name="taskListItem">
   <li id={{_id}} class="list-group-item {{activeClass}}" data-target="#todo-{{listIndex}}">
-    <div class="media">
-      <span class="pull-left thumb-small m-t-mini">
-        <i class="fa fa-check-square-o fa-lg text-default"></i>
+    <div class="media task">
+      <span class="pull-left thumb-double-width m-t-mini">
+        <a href="#" class="done btn btn-success"><i class="fa fa-check-square-o text-default"></i></a>
+        <a href="#" class="{{editBtnClass}} btn"><i class="fa {{faEditClass}} text-default"></i></a>
       </span>
       <div id="todo-{{listIndex}}" class="remove pull-right text-primary m-t-small">
         <i class="fa fa-times fa-lg text text-secondary text-red"></i>
       </div>
       <div class="media-body">
-        <div><a href="#" class="h5">{{title}}</a></div>
+        {{#if editing}}
+          <div><input class="todo full-width" type="text" value="{{title}}"></div>
+        {{else}}
+          <h5>{{title}}</h5>
+        {{/if}}
       </div>
     </div>
   </li>
