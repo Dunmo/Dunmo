@@ -26,7 +26,7 @@ Tasks.helpers({
     if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
       data = { $set: data };
 
-    Tasks.update(this._id, data);
+    return Tasks.update(this._id, data);
   },
 
   reParse: function (str) {
