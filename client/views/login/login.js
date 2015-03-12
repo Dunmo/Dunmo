@@ -14,19 +14,9 @@ Template.login.events({
     }, function (err) {
       if (err) Session.set('errorMessage', err.reason || 'Unknown error');
 
+      gapi.loadDunmoCalendar();
+
       location.href = '/gettingStarted';
     });
-  },
-
-  // 'click .btn-appl': function (e) {
-  //   // update the user object with the username and password
-  //   Meteor.user().setAppleCredentials({
-  //     appleId:  'jjman505@gmail.com',
-  //     password: 'hesus to the rescue G 23'
-  //   });
-
-  //   var user = Meteor.user();
-  //   user.loginWithApple();
-  //   console.log('tasks: ', user.tasks());
-  // },
+  }
 });

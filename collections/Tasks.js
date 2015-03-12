@@ -36,9 +36,7 @@ Tasks.helpers({
   },
 
   markDone: function () {
-    console.log('mark: ');
     this.update({ isDone: true });
-    console.log('this._id: ', this._id);
   },
 
   remove: function () {
@@ -72,7 +70,6 @@ Tasks.create = function(str, obj) {
     str = '';
   }
 
-  console.log('str: ', str);
   var res = Natural.parseTask(str);
 
   obj.ownerId         = obj.ownerId         || null; // Meteor.userId();
