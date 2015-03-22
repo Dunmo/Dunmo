@@ -10,10 +10,10 @@
     var HOURS   = 60 * MINUTES;
 
     it('should be able to parse durations', function() {
-      var input = '30 minutes';
+      var input = 'for 30 minutes';
       var ret = Natural.parseDuration(input);
-      var dur = Moment.duration(30 * MINUTES);
-      expect(ret).toEqual( [ '',  ] );
+      var dur = moment.duration(30 * MINUTES);
+      expect(ret).toEqual( [ '', dur ] );
     });
   });
 
