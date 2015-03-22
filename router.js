@@ -3,17 +3,20 @@ Router.configure({
   layoutTemplate: 'layout'
 });
 
-var checkForUser = function() {
-  if ( Meteor.isClient && !(Meteor.loggingIn() || Meteor.user()) ) {
-    this.redirect('/login');
-  }
-  this.next();
-};
+if(Meteor.isClient) {
+  var checkForUser = function() {
+    if ( this.request.url != '/' && !(Meteor.loggingIn() || Meteor.user()) ) {
+      this.redirect('/login');
+    }
+    this.next();
+  };
 
-Router.onBeforeAction(checkForUser);
+  Router.onBeforeAction(checkForUser);
+}
 
 Router.route('/', function () {
-  this.redirect('/index.html');
+  if(Meteor.user()) this.redirect('/taskView');
+  else              this.redirect('/index.html');
 });
 
 var views = ['login', 'gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
@@ -46,7 +49,7 @@ Router.route(CONFIG.urls.calendarWatchPath, {where: 'server'})
   // res = JSON.stringify(res);
 
   // CalendarWatchMessages.insert({ req: req, res: res });
-  
+
   // switch case for type of change
   var c = 0;
   switch(c) {

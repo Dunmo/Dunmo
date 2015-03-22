@@ -9,12 +9,12 @@ gapi.handleClientLoad = function () {
   gapi.client.setApiKey(apiKey);
   window.setTimeout(checkAuth,1);
   gapi.checkAuth();
-}
+};
 
 gapi.checkAuth = function () {
   gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true},
       handleAuthResult);
-}
+};
 
 gapi.handleAuthResult = function (callback, doc) {
   return function(authResult) {
@@ -24,7 +24,7 @@ gapi.handleAuthResult = function (callback, doc) {
       console.log('auth failed');
     }
   };
-}
+};
 
 gapi.handleAuthClick = function (callback, doc) {
   return function(event) {
@@ -36,7 +36,45 @@ gapi.handleAuthClick = function (callback, doc) {
 
     return false;
   }
-}
+};
+
+gapi.createDunmoCalendar = function (callback) {
+  var name = 'Dunmo Tasks';
+  console.log('callback: ', callback);
+
+  gapi.onAuth(function () {
+    var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
+
+    if( cal ) {
+      console.log('createDunmoCalendar: calendar found: ', cal);
+      return;
+    }
+
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.calendars.insert({
+        'summary': name
+      });
+
+      request.execute(function(res) {
+        console.log('res: ', res);
+        res.googleCalendarId = res.id;
+        res.ownerId          = Meteor.userId();
+
+        var ret = Calendars.updateOrCreate(res);
+        console.log('ret: ', ret);
+        callback();
+      });
+    });
+  });
+};
+
+gapi.loadDunmoCalendar = function (callback) {
+  var name = 'Dunmo Tasks';
+  var cal  = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
+  console.log('cal: ', cal);
+  if(cal) callback();
+  else    gapi.createDunmoCalendar(callback);
+};
 
 gapi.getCalendars = function () {
   gapi.onAuth(function () {
@@ -442,7 +480,7 @@ gapi.createChannel = function () {
 
       request.execute(function(res) {
         console.log('res: ', res);
-        
+
         Meteor.user().update({ watchObj: res.request });
       });
     });
@@ -466,30 +504,4 @@ gapi.checkIsDone = function (taskEvent) {
   var task   = Tasks.findOne({ gcalEventIds: taskEvent.id });
   var isDone = taskEvent.summary.trim().charAt(0) === '*';
   task.update({ isDone: isDone });
-};
-
-gapi.createDunmoCalendar = function () {
-  var name = 'Dunmo Tasks';
-
-  gapi.onAuth(function () {
-    var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
-
-    if( cal ) {
-      console.log('createDunmoCalendar: calendar found: ', cal);
-      return;
-
-      gapi.client.load('calendar', 'v3', function() {
-        var request = gapi.client.calendar.calendars.insert({
-          'summary': name
-        });
-
-        request.execute(function(res) {
-          res.googleCalendarId = res.id;
-          res.ownerId          = Meteor.userId();
-
-          Calendars.updateOrCreate(res);
-        });
-      });
-    }
-  });
 };
