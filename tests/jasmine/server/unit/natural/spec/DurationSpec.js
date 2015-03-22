@@ -12,9 +12,9 @@
     it('should be able to parse durations', function() {
       var input = '30 minutes';
       var ret = Natural.parseDuration(input);
-      expect(ret).toEqual( [ input, 30 * MINUTES ] );
+      var dur = Moment.duration(30 * MINUTES);
+      expect(ret).toEqual( [ '',  ] );
     });
-
   });
 
 })();
