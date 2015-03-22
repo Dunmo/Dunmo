@@ -13,7 +13,8 @@ var checkForUser = function() {
 Router.onBeforeAction(checkForUser);
 
 Router.route('/', function () {
-  this.redirect('/index.html');
+  if(Meteor.user()) this.redirect('/taskView');
+  else              this.redirect('/index.html');
 });
 
 var views = ['login', 'gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
@@ -46,7 +47,7 @@ Router.route(CONFIG.urls.calendarWatchPath, {where: 'server'})
   // res = JSON.stringify(res);
 
   // CalendarWatchMessages.insert({ req: req, res: res });
-  
+
   // switch case for type of change
   var c = 0;
   switch(c) {
