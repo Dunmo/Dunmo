@@ -210,6 +210,7 @@ gapi.deleteAllFutureFromCalendar = function (callback) {
 };
 
 gapi.addEventToCalendar = function () {
+  console.log('add!');
   var name = 'Dunmo Tasks';
 
   return function(doc) {
@@ -237,7 +238,7 @@ gapi.addEventToCalendar = function () {
       });
 
       request.execute(function(res) {
-        // console.log('res: ', res);
+        console.log('res: ', res);
         Tasks.update(doc._id, { $addToSet: { gcalEventIds: res.id } });
       });
     });
@@ -273,14 +274,13 @@ function getBusytimes(calendars) {
   var busytimes = [];
   lodash.keys(calendars).forEach(function(k) {
     var calendar = calendars[k];
-    // console.log('calendar: ', calendar);
     calendar.busy.forEach(function(busy) {
-      busy.start = moment(busy.start)._d;
-      busy.end   = moment(busy.end)._d;
+      busy.start = Date.ISOToMilliseconds(busy.start);
+      busy.end   = Date.ISOToMilliseconds(busy.end);
+      console.log('busy: ', busy);
       busytimes.push(busy);
     });
   });
-  // console.log('busytimes: ', busytimes);
   return busytimes;
 };
 
@@ -300,10 +300,6 @@ function toFreetimes(busytimes, minTime, maxTime) {
   var startTimes = lodash.pluck(busytimes, 'start');
   var endTimes = lodash.pluck(busytimes, 'end');
 
-  // console.log('startTimes: ', startTimes);
-  // console.log('endTimes: ', endTimes);
-
-  // var currentTime = minTime;
   var freetimes  = [];
   var startQueue = 0;
   var startIndex = 0;
@@ -348,7 +344,6 @@ gapi.onAuth = function (callback) {
     immediate: false
   }, function(authResult) {
     if (!authResult) {
-      // console.log('auth failed');
       return;
     }
 
@@ -359,9 +354,11 @@ gapi.onAuth = function (callback) {
 // callback is given the list of freetimes as an array
 // callback(freetimes)
 gapi.getFreetimes = function (startingFrom, callback) {
-  var items = Meteor.user().calendarIdObjects();
+  var items, minTime, maxTime, request;
 
-  var minTime;
+  items = Meteor.user().calendarIdObjects();
+  console.log('items: ', items);
+
   if (typeof(startingFrom) === 'function') {
     minTime = Date.now();
     callback = startingFrom;
@@ -369,39 +366,46 @@ gapi.getFreetimes = function (startingFrom, callback) {
     minTime = startingFrom;
   }
 
-  var maxTime = Meteor.user().latestTaskTime();
+  maxTime = Meteor.user().latestTaskTime();
+  maxTime = Number(maxTime);
+  console.log('maxTime: ', maxTime);
   if( !maxTime || maxTime < minTime) {
     callback([]);
     return;
   }
 
-  var request = gapi.client.calendar.freebusy.query({
+  request = gapi.client.calendar.freebusy.query({
     'timeMin': Date.formatGoog(new Date(minTime)),
     'timeMax': Date.formatGoog(new Date(maxTime)),
     'items': items
   });
 
   request.execute(function(res) {
-    var calendars = res.result.calendars;
-    // // console.log('calendars: ', calendars);
+    var calendars, busytimes, freetimes;
 
-    var busytimes = getBusytimes(calendars);
+    calendars = res.result.calendars;
+    console.log('calendars: ', calendars);
+
+    busytimes = getBusytimes(calendars);
+    console.log('busytimes: ', busytimes);
     busytimes = _.sortBy(busytimes, 'start');
     busytimes = _.sortBy(busytimes, 'end');
+    console.log('busytimes: ', busytimes);
 
-    var freetimes = toFreetimes(busytimes, minTime, maxTime);
+    console.log('minTime, maxTime: ', minTime, maxTime);
+    freetimes = toFreetimes(busytimes, minTime, maxTime);
+    console.log('freetimes: ', freetimes);
 
     callback(freetimes);
   });
 };
 
 gapi.syncTasksWithCalendar = function (startingFrom) {
+  console.log('startingFrom: ', startingFrom);
   startingFrom = startingFrom || Date.now();
+  console.log('startingFrom: ', startingFrom);
 
   gapi.onAuth(function() {
-    // gapi.fixDoneTasks();
-
-    // gapi.deleteAllFutureFromCalendar();
 
     gapi.getCurrentTaskEvent(function(currEvent) {
       console.log("currEvent: ", currEvent);
@@ -412,27 +416,22 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
         if( firstTask && _.contains(firstTask.gcalEventIds, currEvent.id) ) {
           startingFrom = Date.ISOToMilliseconds(currEvent.start.dateTime);
           console.log("startingFrom: ", startingFrom);
-          // console.log('current currEvent is fine');
-          // adjust first freetime
-          // var currEventEnd = Number(new Date(currEvent.end.dateTime));
-          // freetimes[0].start = currEventEnd;
-          // gapi.getFreetimes(currEventEnd, addTodosToCal);
         }
         else {
           // console.log('split currEvent');
           gapi.setEndTime(currEvent, startingFrom);
         }
       }
+      console.log('startingFrom: ', startingFrom);
 
       // will not delete current task event
       gapi.deleteAllFromCalendarAfter(startingFrom);
 
       gapi.getFreetimes(startingFrom, function(freetimes) {
-        // console.log("freetimes: ", freetimes);
+        console.log('freetimes: ', freetimes);
         todos = Meteor.user().todoList(freetimes);
-        // console.log('todos: ', todos);
+        console.log('todos: ', todos);
         todos.forEach(function(todo) {
-          // console.log('todo: ', todo);
           gapi.addEventToCalendar()(todo);
         });
       });
@@ -465,7 +464,7 @@ gapi.splitEvent = function (e, splitTime) {
 gapi.setEndTime = function (e, newEndTime) {
   var newEv = R.cloneDeep(e);
   newEv.end.dateTime = Date.formatGoog(new Date(newEndTime));
-  
+
   gapi.removeEventFromCalendar()(e.id);
   gapi.addEventToCalendar()(newEv);
 };
