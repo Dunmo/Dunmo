@@ -30,7 +30,7 @@ Freetimes.create = function(obj) {
   } else if(typeof(obj) === 'object') {
     Freetimes.insert(obj);
   } else {
-    console.log('type error, updateOrCreate does not expect: ', typeof(obj));
+    // console.log('type error, updateOrCreate does not expect: ', typeof(obj));
   }
 }
 

@@ -28,7 +28,7 @@ iCloud.prototype = {
 
     var uri = 'https://p12-setup.icloud.com' + endpoint;
 
-    console.log('uri: ', uri);
+    // console.log('uri: ', uri);
 
     var data = JSON.stringify({
       apple_id: this.appleId,
@@ -84,7 +84,7 @@ iCloud.prototype = {
 
     for (var i = 0; i < reminders.length; i++ ) {
       var reminder = reminders[i];
-      console.log('reminder: ', reminder);
+      // console.log('reminder: ', reminder);
       var title = reminders[i].title.replace(/\ufffc/g, '');
       var dueDate = reminders[i].dueDate;
       if(dueDate)

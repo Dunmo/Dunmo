@@ -65,10 +65,10 @@ AppleCredentials.helpers({
     var cred = this;
     Meteor.call('postSync', uri, options, function(err, res) {
       res = JSON.parse(res);
-      console.log('res.body: ', res.body);
+      // console.log('res.body: ', res.body);
 
       if(res.statusCode != 200) {
-        console.log('Error: ', res.error);
+        // console.log('Error: ', res.error);
         return false;
       }
 
@@ -112,7 +112,7 @@ AppleCredentials.helpers({
       var obj = res.body;
       var reminders = obj.Reminders;
 
-      console.log('reminders[0]: ', reminders[0]);
+      // console.log('reminders[0]: ', reminders[0]);
 
       reminders.forEach(function(reminder) {
         AppleReminders.upsert({ appleReminderId: reminder.fdsa }, reminder);

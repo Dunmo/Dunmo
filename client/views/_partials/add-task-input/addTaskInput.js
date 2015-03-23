@@ -9,7 +9,7 @@ Template.addTaskInput.events({
     if( $input.length === 0 ) $input = $(e.target).find('input.add-task');
     var val = $input.val();
     var ret = Tasks.create(val, { ownerId: Meteor.userId() });
-    console.log('ret: ', ret);
+    // console.log('ret: ', ret);
     $input.val('');
     gapi.syncTasksWithCalendar();
   }

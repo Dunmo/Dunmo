@@ -21,7 +21,7 @@ Calendars.helpers({
 });
 
 Calendars.before.insert(function(uid, doc) {
-  console.log('doc: ', doc);
+  // console.log('doc: ', doc);
 
   doc.ownerId = doc.ownerId || Meteor.userId();
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
@@ -32,7 +32,7 @@ Calendars.before.insert(function(uid, doc) {
 
 
 Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
-  console.log('doc: ', doc);
+  // console.log('doc: ', doc);
 
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
   doc.id = undefined;
@@ -46,8 +46,8 @@ Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
 //   if(!user) user = Meteor.user();
 //   var token = user.services.google.accessToken;
 //   Meteor.call('getSync', 'https://www.googleapis.com/calendar/v3/users/me/calendarList?key=AIzaSyC08vzLejW5TM8sH00bGBNY4mJF__Abkyg', function(err, res) {
-//     console.log('res: ', res);
-//     console.log('err: ', err);
+//     // console.log('res: ', res);
+//     // console.log('err: ', err);
 //   });
 // };
 
@@ -64,7 +64,7 @@ Calendars.updateOrCreate = function(obj) {
       Calendars.insert(obj);
     }
   } else {
-    console.log('type error, updateOrCreate does not expect: ', typeof(obj));
+    // console.log('type error, updateOrCreate does not expect: ', typeof(obj));
   }
 }
 

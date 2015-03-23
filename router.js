@@ -31,7 +31,7 @@ Router.route('/email/receive', function () {
   var text = req.body['Text-part'];
   var user = Meteor.users.findOne({ 'services.google.email': user_addr });
 
-  console.log("user_addr: ", user_addr);
+  // console.log("user_addr: ", user_addr);
 
   Tasks.create(text, { 'ownerId': user._id });
   res.end();
@@ -41,10 +41,10 @@ Router.route(CONFIG.urls.calendarWatchPath, {where: 'server'})
 .post(function () {
   var req = this.request;
   var res = this.response;
-  console.log('req: ', req);
-  console.log('res: ', res);
+  // console.log('req: ', req);
+  // console.log('res: ', res);
 
-  console.log('req.body: ', req.body);
+  // console.log('req.body: ', req.body);
   // req = JSON.stringify(req);
   // res = JSON.stringify(res);
 
