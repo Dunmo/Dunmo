@@ -3,7 +3,7 @@
     
     options = $.extend({
       text: 'Done',
-      time: 15 * 1000,  // TODO: 15 * SECONDS
+      time: options.time || (15 * 1000),  // TODO: 15 * SECONDS
       how: 'before',
       class_name: ''
     }, options);
