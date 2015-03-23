@@ -5,7 +5,7 @@ Template.calendarSettings.rendered = function () {
 
 Template.calendarSettings.helpers({
   calendars: function() {
-    return Calendars.find({ ownerId: Meteor.userId() });
+    return Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' } });
   }
 });
 

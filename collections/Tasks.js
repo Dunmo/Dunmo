@@ -87,6 +87,16 @@ Tasks.create = function(str, obj) {
   obj.isRemoved       = obj.isRemoved       || false;
   obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
 
+  if (!obj.title) {
+    return { err: 'Title not found.' };
+  } else if (!obj.importance) {
+    return { err: 'Importance not found.' };
+  } else if (!obj.dueAt) {
+    return { err: 'Due date not found.' };
+  } else if (!obj.remaining) {
+    return { err: 'Duration not found.' };
+  };
+
   return Tasks.insert(obj);
 };
 
