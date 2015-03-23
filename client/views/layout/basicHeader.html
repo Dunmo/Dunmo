@@ -1,12 +1,16 @@
 <template name="basicHeader">
   <header id="header" class="navbar">
-    <ul class="nav navbar-nav navbar-avatar pull-right"></ul>
-    <a class="navbar-brand" href="#">DUNMO</a>
-    <button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body">
-      <i class="fa fa-bars fa-lg text-default"></i>
-    </button>
+    <div class="logo-wrapper">
+      <ul class="nav navbar-nav navbar-avatar pull-right"></ul>
+      <a class="navbar-brand" href="#">DUNMO</a>
+      <button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body">
+        <i class="fa fa-bars fa-lg text-default"></i>
+      </button>
+    </div>
 
-    {{> addTaskInput}}
+    <div class="input-wrapper">
+      {{> addTaskInput}}
+    </div>
 
   </header>
 </template>
