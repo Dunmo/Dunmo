@@ -23,7 +23,7 @@
       expect(ret).toEqual( [ '', dur ] );
     });
 
-    it('should be able to parse hours and mintues', function() {
+    it('should be able to parse hours and minutes', function() {
       var input   = 'for 2 hours and 30 minutes';
       var ret     = Natural.parseDuration(input);
       var hours   = Date.toMilliseconds(2, 'hours');
