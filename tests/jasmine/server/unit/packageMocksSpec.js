@@ -7090,7 +7090,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "313fd1c3885c639e50211ccf20e0598cd9ddd7bd"
+                  "value": "451e969b489050d56a64c6c47062674ed5eb8f46"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "undefined"
@@ -7862,7 +7862,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "CYBSDqmJvRR9EgMuh"
+          "value": "sfEnazdMAfwrLMzJz"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
@@ -11712,11 +11712,88 @@ var packageMetadata = {
                 },
                 "appPath": {
                   "type": "constant",
-                  "value": "/home/jeremy/Code/dunmo/dunmo"
+                  "value": "/Users/michael/Desktop/Dunmo/Dunmo"
                 },
                 "pid": {
                   "type": "constant",
-                  "value": 8683
+                  "value": 4487
+                },
+                "fout": {
+                  "type": "constant",
+                  "value": 38
+                },
+                "child": {
+                  "type": "object",
+                  "members": {
+                    "domain": {
+                      "type": "null",
+                      "value": null
+                    },
+                    "signalCode": {
+                      "type": "null",
+                      "value": null
+                    },
+                    "exitCode": {
+                      "type": "null",
+                      "value": null
+                    },
+                    "pid": {
+                      "type": "constant",
+                      "value": 4487
+                    },
+                    "stdin": {
+                      "type": "null",
+                      "value": null
+                    },
+                    "stdout": {
+                      "type": "null",
+                      "value": null
+                    },
+                    "stderr": {
+                      "type": "null",
+                      "value": null
+                    },
+                    "stdio": {
+                      "type": "array"
+                    },
+                    "spawn": {
+                      "type": "function"
+                    },
+                    "kill": {
+                      "type": "function"
+                    },
+                    "ref": {
+                      "type": "function"
+                    },
+                    "unref": {
+                      "type": "function"
+                    },
+                    "setMaxListeners": {
+                      "type": "function"
+                    },
+                    "emit": {
+                      "type": "function"
+                    },
+                    "addListener": {
+                      "type": "function",
+                      "refID": 17
+                    },
+                    "on": {
+                      "ref": 17
+                    },
+                    "once": {
+                      "type": "function"
+                    },
+                    "removeListener": {
+                      "type": "function"
+                    },
+                    "removeAllListeners": {
+                      "type": "function"
+                    },
+                    "listeners": {
+                      "type": "function"
+                    }
+                  }
                 },
                 "getTaskName": {
                   "type": "function"
@@ -11787,6 +11864,8 @@ var packageMetadata = {
     }
   },
   "velocity:html-reporter": {},
+  "clinical:nightwatch": {},
+  "velocity:nightwatch-framework": {},
   "session": {},
   "cfs:base-package": {
     "FS": {
