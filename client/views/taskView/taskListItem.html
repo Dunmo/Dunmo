@@ -6,13 +6,13 @@
         <a href="#" class="{{editBtnClass}} btn"><i class="fa {{faEditClass}} text-default"></i></a>
       </span>
       <div id="todo-{{listIndex}}" class="remove pull-right text-primary m-t-small">
-        <i class="fa fa-times fa-lg text text-secondary text-red"></i>
+        <i class="fa fa-times fa-lg text text-red"></i>
       </div>
       <div class="media-body">
         {{#if editing}}
           <div><input class="todo full-width" type="text" value="{{inputString}}"></div>
         {{else}}
-          <h5>{{inputString}}</h5>
+          <h5 class="task-text">{{inputString}}</h5>
         {{/if}}
       </div>
     </div>

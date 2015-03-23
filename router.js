@@ -19,9 +19,17 @@ Router.route('/', function () {
   else              this.redirect('/index.html');
 });
 
-var views = ['login', 'gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
-views.forEach(function (view) {
+var fullViews = ['login'];
+fullViews.forEach(function (view) {
   Router.route('/' + view);
+});
+
+var views = ['gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
+views.forEach(function (view) {
+  Router.route('/' + view, function () {
+    this.render(view);
+    this.render('basicHeader', { to: "header" });
+  });
 });
 
 Router.route('/email/receive', function () {
