@@ -7214,7 +7214,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 0
+              "value": 1
             },
             "timeout": {
               "type": "constant",
@@ -7862,7 +7862,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "CYBSDqmJvRR9EgMuh"
+          "value": "4nQ4hL6rpjfnCThzS"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
