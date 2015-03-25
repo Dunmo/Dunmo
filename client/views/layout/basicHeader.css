@@ -1,13 +1,10 @@
 
 .navbar .input-wrapper {
-  padding-top: 10px;
+  padding-top:   10px;
+  padding-left:  90px;
+  padding-right: 20px;
 }
 
 .navbar .input-wrapper .add-task.input-group {
-  margin-left:  50px;
-  margin-right: 50px;
-}
-
-.navbar .input-wrapper .add-task.input-group input {
-  width: 50%;
+  margin-left:  20px;
 }
