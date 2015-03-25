@@ -102,7 +102,7 @@ Tasks.create = function(str, obj) {
 
 Tasks.basicSort = function(tasks) {
   tasks = _.sortBy(tasks, 'remaining');
-  tasks = _.sortBy(tasks, 'importance');
+  tasks = _.sortBy(tasks, 'importance').reverse();
   tasks = _.sortBy(tasks, 'dueAt');
   return tasks;
 };
