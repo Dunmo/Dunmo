@@ -9,5 +9,5 @@
 }
 
 .navbar .input-wrapper .add-task.input-group input {
-  margin-left: 20px;
+  width: 50%;
 }

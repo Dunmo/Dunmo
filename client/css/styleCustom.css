@@ -6,3 +6,12 @@
 .btn > .fa {color: white;}
 .btn.btn-default > .fa {color: #607385;}
 .full-width {width: 100%;}
+
+.panel {
+  /*margin-top: 20px;*/
+  padding: 0;
+}
+
+.main.padder {
+  padding-top: 20px;
+}
