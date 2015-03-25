@@ -33,7 +33,7 @@ deps@1.0.7
 digilord:sugarjs@1.4.1
 ejson@1.0.6
 fastclick@1.0.3
-froatsnook:request@2.54.0
+froatsnook:request@2.53.3
 geojson-utils@1.0.3
 google@1.1.5
 html-tools@1.0.4
