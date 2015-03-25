@@ -87,7 +87,7 @@ service-configuration@1.0.4
 session@1.1.0
 spacebars@1.0.6
 spacebars-compiler@1.0.5
-stevezhu:lodash@3.5.0
+stevezhu:lodash@3.5.0_3
 templating@1.1.0
 tracker@1.0.6
 ui@1.0.6
