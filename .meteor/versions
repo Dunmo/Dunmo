@@ -9,25 +9,6 @@ blaze@2.1.0
 blaze-tools@1.0.3
 boilerplate-generator@1.0.3
 callback-hook@1.0.3
-<<<<<<< HEAD
-cfs:access-point@0.1.44
-cfs:base-package@0.0.28
-cfs:collection@0.5.4
-cfs:collection-filters@0.2.4
-cfs:data-man@0.0.6
-cfs:file@0.1.16
-cfs:http-methods@0.0.27
-cfs:http-publish@0.0.13
-cfs:power-queue@0.9.11
-cfs:reactive-list@0.0.9
-cfs:reactive-property@0.0.4
-cfs:standard-packages@0.5.4
-cfs:storage-adapter@0.2.1
-cfs:tempstore@0.1.4
-cfs:upload-http@0.0.20
-cfs:worker@0.1.4
-=======
->>>>>>> master
 check@1.0.5
 chuangbo:cookie@1.1.0
 dburles:collection-helpers@1.0.2
