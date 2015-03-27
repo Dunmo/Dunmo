@@ -17,6 +17,10 @@ Meteor.users.helpers({
     return Meteor.users.update(this._id, { $set: data });
   },
 
+  'primaryEmailAddress': function () {
+    return this.emails[0] && this.emails[0].address;
+  },
+
   'appleCredentials': function () {
     // console.log('this.appleCredentialsId: ', this.appleCredentialsId);
     return AppleCredentials.findOne(this.appleCredentialsId);
