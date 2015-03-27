@@ -19,11 +19,10 @@ Router.route('/', function () {
   else              this.redirect('/index.html');
 });
 
-var fullViews = ['login'];
+var fullViews = ['login', 'gettingStarted', 'taskView', 'calendarSettings'];
 fullViews.forEach(function (view) {
   Router.route('/' + view);
 });
-
 
 Router.route('/api/emails/:userId', {where: 'server'})
   .get(function () {
