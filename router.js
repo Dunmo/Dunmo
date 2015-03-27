@@ -24,17 +24,22 @@ views.forEach(function (view) {
   Router.route('/' + view);
 });
 
-Router.route('/api/emails/:id', {where: 'server'})
+Router.route('/api/emails/:userId', {where: 'server'})
   .get(function () {
     var req = this.request;
     var res = this.response;
 
     // get the email for the user id
-    var id    = req.params.id;
-    var user  = Meteor.users.findOne(id);
-    var email = user.primaryEmailAddress();
-    if(email) res.end({ email: email });
-    else      res.end({ email: null  });
+    var id    = this.params.userId;
+    // var user  = Meteor.users.findOne(id);
+    // var email = user.primaryEmailAddress();
+    var email = Emails.findOne({ userId: id });
+    var ret;
+    if(email) ret = { email: email };
+    else      ret = { email: null  };
+
+    ret = JSON.stringify(ret);
+    res.end(ret);
   });
 
 Router.route('/api/emails', {where: 'server'})
