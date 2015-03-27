@@ -17,7 +17,7 @@ deps@1.0.7
 digilord:sugarjs@1.4.1
 ejson@1.0.6
 fastclick@1.0.3
-froatsnook:request@2.53.3
+froatsnook:request@2.54.0
 geojson-utils@1.0.3
 google@1.1.5
 html-tools@1.0.4
@@ -69,7 +69,7 @@ service-configuration@1.0.4
 session@1.1.0
 spacebars@1.0.6
 spacebars-compiler@1.0.5
-stevezhu:lodash@3.5.0
+stevezhu:lodash@3.5.0_3
 templating@1.1.0
 tracker@1.0.6
 ui@1.0.6
