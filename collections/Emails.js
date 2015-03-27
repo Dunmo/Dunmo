@@ -26,5 +26,7 @@ Emails.create = function(obj) {
 
   if(obj.isActive === undefined || obj.isActive === null) obj.isActive = true;
 
-  return Emails.insert(obj);
+  var curr = Emails.findOne({ email: obj.email });
+  if(curr) return curr.update(obj);
+  else     return Emails.insert(obj);
 };
