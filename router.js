@@ -56,6 +56,7 @@ Router.route('/api/emails', {where: 'server'})
     var req  = this.request;
     var res  = this.response;
     var body = req.body;
+    console.log('body: ', body);
     if(!body) res.end();
 
     var userId = body._id || body.userId || null;
