@@ -24,15 +24,7 @@ fullViews.forEach(function (view) {
   Router.route('/' + view);
 });
 
-<<<<<<< HEAD
-var views = ['gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
-views.forEach(function (view) {
-  Router.route('/' + view, function () {
-    this.render(view);
-    this.render('basicHeader', { to: "header" });
-  });
-});
-=======
+
 Router.route('/api/emails/:userId', {where: 'server'})
   .get(function () {
     var req = this.request;
@@ -83,7 +75,6 @@ Router.route('/api/emails', {where: 'server'})
 
     res.end(ret);
   });
->>>>>>> master
 
 Router.route('/email/receive', function () {
   var req = this.request;
