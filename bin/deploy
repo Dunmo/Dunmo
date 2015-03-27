@@ -1,0 +1,6 @@
+#!/bin/bash
+
+meteor build .
+scp dunmo.tar.gz root@dunmoapp.com:/home/dunmo/
+ssh root@dunmoapp.com 'bash -s' < bin/remote/redeploy
+rm dunmo.tar.gz

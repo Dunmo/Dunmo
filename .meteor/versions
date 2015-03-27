@@ -9,6 +9,7 @@ blaze@2.1.0
 blaze-tools@1.0.3
 boilerplate-generator@1.0.3
 callback-hook@1.0.3
+<<<<<<< HEAD
 cfs:access-point@0.1.44
 cfs:base-package@0.0.28
 cfs:collection@0.5.4
@@ -25,6 +26,8 @@ cfs:storage-adapter@0.2.1
 cfs:tempstore@0.1.4
 cfs:upload-http@0.0.20
 cfs:worker@0.1.4
+=======
+>>>>>>> master
 check@1.0.5
 chuangbo:cookie@1.1.0
 dburles:collection-helpers@1.0.2
@@ -69,14 +72,12 @@ minimongo@1.0.7
 mobile-status-bar@1.0.3
 momentjs:moment@2.9.0
 mongo@1.1.0
-mongo-livedata@1.0.8
 nemo64:bootstrap@3.3.1_1
 nemo64:bootstrap-data@3.3.1_1
 oauth@1.1.4
 oauth2@1.1.3
 observe-sequence@1.0.5
 ordered-dict@1.0.3
-raix:eventemitter@0.1.1
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5

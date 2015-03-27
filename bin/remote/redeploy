@@ -1,0 +1,6 @@
+#!/bin/bash
+
+tar -zxf /home/dunmo/dunmo.tar.gz
+cd /home/dunmo/bundle/programs/server
+npm install
+restart dunmo
