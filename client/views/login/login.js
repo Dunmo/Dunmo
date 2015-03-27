@@ -15,7 +15,7 @@ Template.login.events({
       if (err) Session.set('errorMessage', err.reason || 'Unknown error');
 
       gapi.loadDunmoCalendar(function () {
-        location.href = '/gettingStarted';
+        location.href = '/taskView';
       });
     });
   }

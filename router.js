@@ -19,9 +19,17 @@ Router.route('/', function () {
   else              this.redirect('/index.html');
 });
 
-var fullViews = ['login', 'gettingStarted', 'taskView', 'calendarSettings'];
+var fullViews = ['login'];
 fullViews.forEach(function (view) {
   Router.route('/' + view);
+});
+
+var views = ['gettingStarted', 'taskView', 'calendarSettings'];
+views.forEach(function (view) {
+  Router.route('/' + view, function () {
+    this.render(view);
+    this.render('basicHeader', {to: 'header'});
+  });
 });
 
 Router.route('/api/emails/:userId', {where: 'server'})
