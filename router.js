@@ -38,6 +38,27 @@ Router.route('/api/emails/:id', {where: 'server'})
       if(email) res.end({ email: email });
       else      res.end({ email: null  });
     }
+  })
+  .post(function () {
+    var req  = this.request;
+    var res  = this.response;
+    var body = req.body;
+    if(!body) res.end();
+
+    var userId = body._id   || body.userId || null;
+    var email;
+    if     (body.email)                    email = body.email;
+    else if(body.primaryEmailAddress)      email = body.primaryEmailAddress();
+    else if(body.emails && body.emails[0]) email = body.emails[0].address;
+
+    var retId = Emails.create({
+      userId : userId,
+      email  : email
+    });
+
+    var ret = Emails.findOne(retId);
+
+    res.end(ret);
   });
 
 Router.route('/email/receive', function () {

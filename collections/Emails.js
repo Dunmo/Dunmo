@@ -26,5 +26,5 @@ Emails.create = function(obj) {
 
   if(obj.isActive === undefined || obj.isActive === null) obj.isActive = true;
 
-  Emails.insert(obj);
+  return Emails.insert(obj);
 };
