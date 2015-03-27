@@ -28,16 +28,24 @@ Router.route('/api/emails/:id', {where: 'server'})
   .get(function () {
     var req = this.request;
     var res = this.response;
-    if(!req.params.id) {
-      // get all emails
-    } else {
-      // get the email for the user id
-      var id    = req.params.id;
-      var user  = Meteor.users.findOne(id);
-      var email = user.primaryEmailAddress();
-      if(email) res.end({ email: email });
-      else      res.end({ email: null  });
-    }
+
+    // get the email for the user id
+    var id    = req.params.id;
+    var user  = Meteor.users.findOne(id);
+    var email = user.primaryEmailAddress();
+    if(email) res.end({ email: email });
+    else      res.end({ email: null  });
+  });
+
+Router.route('/api/emails', {where: 'server'})
+  .get(function () {
+    var req = this.request;
+    var res = this.response;
+
+    // get all emails
+    var emails = Emails.find({}).fetch();
+    emails = JSON.stringify(emails);
+    res.end(emails);
   })
   .post(function () {
     var req  = this.request;
@@ -45,7 +53,7 @@ Router.route('/api/emails/:id', {where: 'server'})
     var body = req.body;
     if(!body) res.end();
 
-    var userId = body._id   || body.userId || null;
+    var userId = body._id || body.userId || null;
     var email;
     if     (body.email)                    email = body.email;
     else if(body.primaryEmailAddress)      email = body.primaryEmailAddress();
@@ -57,6 +65,7 @@ Router.route('/api/emails/:id', {where: 'server'})
     });
 
     var ret = Emails.findOne(retId);
+    ret = JSON.stringify(ret);
 
     res.end(ret);
   });
