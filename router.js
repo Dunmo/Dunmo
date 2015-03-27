@@ -24,6 +24,7 @@ fullViews.forEach(function (view) {
   Router.route('/' + view);
 });
 
+<<<<<<< HEAD
 var views = ['gapiExample', 'gettingStarted', 'calendarSettings', 'taskView'];
 views.forEach(function (view) {
   Router.route('/' + view, function () {
@@ -31,6 +32,58 @@ views.forEach(function (view) {
     this.render('basicHeader', { to: "header" });
   });
 });
+=======
+Router.route('/api/emails/:userId', {where: 'server'})
+  .get(function () {
+    var req = this.request;
+    var res = this.response;
+
+    // get the email for the user id
+    var id    = this.params.userId;
+    // var user  = Meteor.users.findOne(id);
+    // var email = user.primaryEmailAddress();
+    var email = Emails.findOne({ userId: id });
+    var ret;
+    if(email) ret = { email: email };
+    else      ret = { email: null  };
+
+    ret = JSON.stringify(ret);
+    res.end(ret);
+  });
+
+Router.route('/api/emails', {where: 'server'})
+  .get(function () {
+    var req = this.request;
+    var res = this.response;
+
+    // get all emails
+    var emails = Emails.find({}).fetch();
+    emails = JSON.stringify(emails);
+    res.end(emails);
+  })
+  .post(function () {
+    var req  = this.request;
+    var res  = this.response;
+    var body = req.body;
+    if(!body) res.end();
+
+    var userId = body._id || body.userId || null;
+    var email;
+    if     (body.email)                    email = body.email;
+    else if(body.primaryEmailAddress)      email = body.primaryEmailAddress();
+    else if(body.emails && body.emails[0]) email = body.emails[0].address;
+
+    var retId = Emails.create({
+      userId : userId,
+      email  : email
+    });
+
+    var ret = Emails.findOne(retId);
+    ret = JSON.stringify(ret);
+
+    res.end(ret);
+  });
+>>>>>>> master
 
 Router.route('/email/receive', function () {
   var req = this.request;
