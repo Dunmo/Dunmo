@@ -343,7 +343,7 @@ input {
 /* HEADER SECTION */
 #h {
 	background: url(../img/header.jpg) no-repeat center top;
-	padding-top: 210px;
+	padding-top: 180px;
 	text-align:center;
 	background-attachment: relative;
 	background-position: center center;
@@ -375,6 +375,10 @@ input {
 
 #h h2 {
 	font-size: 35px;
+}
+
+#h img{
+	padding: none;
 }
 
 /* DIVIDED SECTION */
