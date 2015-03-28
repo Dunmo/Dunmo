@@ -382,7 +382,7 @@ input {
 }
 
 /* CALL TO ACTION */
-.header-text {
+h2.header-text {
 	font-weight: 800;
 	color: white;
 }
