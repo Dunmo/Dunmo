@@ -4,6 +4,7 @@
 rm -rf /home/dunmo/archive/bundle
 mv /home/dunmo/bundle /home/dunmo/archive/bundle
 tar -zxf /home/dunmo/dunmo.tar.gz
+sleep 1
 cd /home/dunmo/bundle/programs/server && npm install
 stop dunmo
 start dunmo
