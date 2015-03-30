@@ -7,23 +7,29 @@ Template.addTaskInput.events({
   'submit form.add-task, click button.add-task': function (e) {
     $('#input-validation-msg').html('');
 
-    var taskTitle = $('#taskTitle').val();
-    var taskHours = $('#taskHours').val();
-    var taskMinutes = $('#taskMinutes').val();
-    var taskDueAt = $('#taskDueAt').val();
-    var taskImportance = $('#taskImportance').val();
+    var $taskTitle = $('#taskTitle');
+    var $taskHours = $('#taskHours');
+    var $taskMinutes = $('#taskMinutes');
+    var $taskDueAt = $('#taskDueAt');
+    var $taskImportance = $('#taskImportance');
 
-    console.log("taskTitle: ", taskTitle);
-    console.log("taskHours: ", taskHours);
-    console.log("taskMinutes: ", taskMinutes);
-    console.log("taskDueAt: ", taskDueAt);
-    console.log("taskImportance: ", taskImportance);
+    $taskTitle.removeClass('text-red invalid');
+    $taskHours.removeClass('text-red invalid');
+    $taskMinutes.removeClass('text-red invalid');
+    $taskDueAt.removeClass('text-red invalid');
+    $taskImportance.removeClass('text-red invalid');
 
-    if (taskTitle === '') taskTitle = 'Task title';
-    if (taskHours === '') taskHours = '0';
-    if (taskMinutes === '') taskMinutes = '30';
-    if (taskDueAt === '') taskDueAt = 'tomorrow';
-    if (taskImportance === '') taskImportance = 'not very';
+    taskTitle = $taskTitle.val();
+    taskHours = $taskHours.val();
+    taskMinutes = $taskMinutes.val();
+    taskDueAt = $taskDueAt.val();
+    taskImportance = $taskImportance.val();
+
+    if (taskTitle === '')      {  $taskTitle.addClass('text-red invalid');      return;  }
+    if (taskHours === '')      {  $taskHours.addClass('text-red invalid');      return;  }
+    if (taskMinutes === '')    {  $taskMinutes.addClass('text-red invalid');    return;  }
+    if (taskDueAt === '')      {  $taskDueAt.addClass('text-red invalid');      return;  }
+    if (taskImportance === '') {  $taskImportance.addClass('text-red invalid'); return;  }
 
     var val = '';
     val += taskTitle;
