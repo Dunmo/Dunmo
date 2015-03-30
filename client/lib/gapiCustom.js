@@ -31,7 +31,7 @@ gapi.handleAuthClick = function (callback, doc) {
     gapi.auth.authorize({
       client_id: clientId,
       scope: scopes,
-      immediate: false
+      immediate: true
     }, gapi.handleAuthResult(callback, doc));
 
     return false;
@@ -289,6 +289,50 @@ function getBusytimes(calendars) {
   return busytimes;
 };
 
+function addStartEndTimes(busytimes) {
+  var starttimes = _.pluck(busytimes, 'start');
+  var endtimes   = _.pluck(busytimes, 'end');
+  var start      = _.min(starttimes);
+  var end        = _.max(endtimes);
+
+  var day        = Number(Date.startOfDay(start));
+  var lastDay    = Number(Date.startOfDay(end));
+
+  var user             = Meteor.user();
+  var startOfDayOffset = user.startOfDay;
+  var endOfDayOffset   = user.endOfDay;
+
+  startOfDay     = day + startOfDay;
+  endOfDay       = day + endOfDay;
+
+  if(start < startOfDay) {
+    busytimes.push({
+      start: start,
+      end:   startOfDay
+    });
+  }
+
+  while(day < lastDay) {
+    busytimes.push({
+      start: endOfDay,
+      end:   startOfDay + 1 * DAYS
+    });
+
+    startOfDay += 1 * DAYS;
+    endOfDay   += 1 * DAYS;
+    day        += 1 * DAYS;
+  }
+
+  if(end > endOfDay) {
+    busytimes.push({
+      start: endOfDay,
+      end:   end
+    });
+  }
+
+  return busytimes;
+};
+
 function coalesceBusytimes(busytimes) {
   busytimes    = _.sortBy(busytimes, 'end');
   busytimes    = _.sortBy(busytimes, 'start');
@@ -329,8 +373,8 @@ function toFreetimes(busytimes, minTime, maxTime) {
     ];
   }
 
+  busytimes = addStartEndTimes(busytimes);
   busytimes = coalesceBusytimes(busytimes);
-  console.log('busytimes: ', busytimes);
 
   var freetimes  = [];
 
@@ -425,14 +469,8 @@ gapi.getFreetimes = function (startingFrom, callback) {
     var calendars, busytimes, freetimes;
 
     calendars = res.result.calendars;
-    console.log('calendars: ', calendars);
-
     busytimes = getBusytimes(calendars);
-    console.log('busytimes: ', busytimes);
-
-    console.log('minTime, maxTime: ', minTime, maxTime);
     freetimes = toFreetimes(busytimes, minTime, maxTime);
-    console.log('freetimes: ', freetimes);
 
     callback(freetimes);
   });

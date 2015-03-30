@@ -7,6 +7,8 @@
  * profile.name                : String
  * services.google.id          : String
  * services.google.accessToken : String
+ * startOfDay                  : Number (Duration)
+ * endOfDay                    : Number (Duration)
  *
  * Meteor.logoutOtherClients
  *
@@ -22,21 +24,16 @@ Meteor.users.helpers({
   },
 
   'appleCredentials': function () {
-    // console.log('this.appleCredentialsId: ', this.appleCredentialsId);
     return AppleCredentials.findOne(this.appleCredentialsId);
   },
 
   'setAppleCredentials': function (data) {
     var cred = this.appleCredentials();
 
-    // console.log('cred: ', cred);
-
     if(!cred) {
-      // console.log('creating new apple credentials');
       var id = AppleCredentials.insert(data);
       this.update({ appleCredentialsId: id });
     } else {
-      // console.log('updating apple credentials');
       cred.update(data);
     }
   },
@@ -44,7 +41,6 @@ Meteor.users.helpers({
   'loginWithApple': function (user, pass) {
     var cred = this.appleCredentials();
     if( !cred && !(user && pass) ) {
-      // console.log('Error: no Apple credentials provided.');
       return;
     } else if( !cred ) {
       AppleCredentials.insert({
@@ -117,14 +113,12 @@ Meteor.users.helpers({
 
   'latestTaskTime': function () {
     var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
-    // console.log('latestTask: ', latestTask);
     var maxTime = latestTask.dueAt;
     return maxTime;
   },
 
   todoList: function(freetimes) {
     todos = this.sortedTodos();
-    // console.log('todos: ', todos);
     freetimes = freetimes || this.freetimes || this.freetimes();
     todoList = this._generateTodoList(freetimes, todos, 'greedy');
     return todoList;
@@ -161,9 +155,7 @@ Meteor.users.helpers({
 
     while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
       var ret   = user._appendTodo(dayList, todos, remaining);
-      // console.log('ret[0]: ', ret[0]);
       dayList   = R.cloneDeep(ret[0]);
-      // console.log('dayList.todos: ', dayList.todos);
       todos     = R.cloneDeep(ret[1]);
       remaining = R.cloneDeep(ret[2]);
     }
@@ -181,13 +173,7 @@ Meteor.users.helpers({
   _appendTodo: function(dayList, todos, remaining) {
     var todo = R.cloneDeep(todos[0]);
 
-    // console.log('dayList.start: ', dayList.start);
-    // console.log('dayList.end: ', dayList.end);
-    // console.log('remaining: ', remaining);
     var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
-
-    // TODO: This is a hack. todo.remaining should be a number of milliseconds, not a duration object
-    // if( typeof(todo.remaining) !== 'number' ) todo.remaining = todo.remaining.toMilliseconds();
 
     // TODO: what about overdue items?
     if((todo.remaining > remaining) && (todo.dueAt >= (new Date()))) {
@@ -202,18 +188,10 @@ Meteor.users.helpers({
 
     if(todo.dueAt < Date.now()) todo.isOverdue = true;
 
-    // console.log('todoStart: ', todoStart);
-    // console.log('todo.remaining: ', todo.remaining);
-
     todo.start = new Date(todoStart);
     todo.end = new Date(todoStart + todo.remaining);
 
-    // console.log('todo.start: ', todo.start);
-    // console.log('todo.end: ', todo.end);
-
     dayList.todos.push(todo);
-
-    // console.log('dayList: ', dayList);
 
     return [ dayList, todos, remaining ];
   },
