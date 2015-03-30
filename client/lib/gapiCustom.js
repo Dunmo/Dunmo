@@ -289,6 +289,33 @@ function getBusytimes(calendars) {
   return busytimes;
 };
 
+function coalesceBusytimes(busytimes) {
+  busytimes    = _.sortBy(busytimes, 'end');
+  busytimes    = _.sortBy(busytimes, 'start');
+  newBusytimes = [];
+
+  busytimes.forEach(function (obj) {
+    if(newBusytimes.length === 0) {
+      newBusytimes.push(obj);
+      return;
+    }
+    var last = newBusytimes.pop();
+    var next = obj;
+    if(last.end < next.start) {
+      newBusytimes.push(last);
+      newBusytimes.push(next);
+    }
+    else {
+      var newObj = {};
+      newObj.start = _.min([last.start, next.start]);
+      newObj.end   = _.max([last.end,   next.end]);
+      newBusytimes.push(newObj);
+    }
+  });
+
+  return newBusytimes;
+};
+
 function toFreetimes(busytimes, minTime, maxTime) {
   if(busytimes.length === 0) {
     return [
@@ -302,34 +329,35 @@ function toFreetimes(busytimes, minTime, maxTime) {
     ];
   }
 
-  var startTimes = lodash.pluck(busytimes, 'start');
-  var endTimes = lodash.pluck(busytimes, 'end');
+  busytimes = coalesceBusytimes(busytimes);
+  console.log('busytimes: ', busytimes);
 
   var freetimes  = [];
-  var startQueue = 0;
-  var startIndex = 0;
-  var endIndex   = 0;
 
-  freetimes.push({
-    start: minTime,
-    end:   startTimes[startIndex]
-  });
-
-  while(startIndex < startTimes.length && endIndex < endTimes.length) {
-    if(startTimes[startIndex] < endTimes[endIndex]) {
-      startQueue++;
-      startIndex++;
-    } else {
-      startQueue--;
-      if(startQueue == 0) {
-        freetimes.push({
-          start: endTimes[endIndex],
-          end:   startTimes[startIndex + 1]
-        });
+  busytimes.forEach(function (obj, index, busytimes) {
+    var start, end;
+    console.log('index: ', index);
+    if(index === 0) {
+      if(minTime < busytimes[0].start) {
+        start = minTime;
+        end   = obj.start;
       }
-      endIndex++;
     }
-  }
+    else if(index === busytimes.length-1) {
+      if(maxTime > obj.end) {
+        start = obj.end;
+        end   = maxTime;
+      }
+    }
+    else {
+      start = busytimes[index-1].end;
+      end   = obj.start;
+    }
+    freetimes.push({
+      start: start,
+      end:   end
+    });
+  });
 
   freetimes = freetimes.map(function(ft) {
     ft.ownerId = Meteor.userId();
@@ -338,9 +366,6 @@ function toFreetimes(busytimes, minTime, maxTime) {
     };
     return ft;
   });
-
-  // TODO: this is a hack
-  if(! _.last(freetimes).end) freetimes[freetimes.length-1].end = maxTime;
 
   return freetimes;
 };
@@ -403,9 +428,6 @@ gapi.getFreetimes = function (startingFrom, callback) {
     console.log('calendars: ', calendars);
 
     busytimes = getBusytimes(calendars);
-    console.log('busytimes: ', busytimes);
-    busytimes = _.sortBy(busytimes, 'start');
-    busytimes = _.sortBy(busytimes, 'end');
     console.log('busytimes: ', busytimes);
 
     console.log('minTime, maxTime: ', minTime, maxTime);
