@@ -17,3 +17,7 @@ form input.invalid::-moz-placeholder {  /* Firefox 19+ */
 form input.invalid:-ms-input-placeholder {  
    color: red;  
 }
+
+form input.task-input-sm {
+	max-width: 50px;
+}
