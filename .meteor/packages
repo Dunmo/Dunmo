@@ -10,7 +10,6 @@ insecure
 accounts-google
 dburles:collection-helpers
 fastclick
-iron:router
 less
 matb33:collection-hooks
 meteorhacks:fast-render
@@ -22,3 +21,6 @@ froatsnook:request
 digilord:sugarjs
 momentjs:moment
 jjman505:ramda
+meteorhacks:flow-router
+meteorhacks:flow-layout
+meteorhacks:picker

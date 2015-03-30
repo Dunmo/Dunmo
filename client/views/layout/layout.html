@@ -1,6 +1,6 @@
 <template name="layout">
-  {{> yield "header"}}
+  {{> Template.dynamic template=header}}
   <div class="main-wrapper">
-    {{> yield}}
+    {{> Template.dynamic template=main}}
   </div>
 </template>

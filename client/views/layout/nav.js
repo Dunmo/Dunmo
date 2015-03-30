@@ -1,6 +1,11 @@
 
 Template.nav.events({
-  'click .sync': function() {
+  'click .sync': function () {
     gapi.syncTasksWithCalendar();
+  },
+
+  'click .logout': function (e) {
+    Meteor.logout();
+    Router.go('/');
   }
 });
