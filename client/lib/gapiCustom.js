@@ -40,13 +40,12 @@ gapi.handleAuthClick = function (callback, doc) {
 
 gapi.createDunmoCalendar = function (callback) {
   var name = 'Dunmo Tasks';
-  // console.log('callback: ', callback);
 
   gapi.onAuth(function () {
     var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
 
     if( cal ) {
-      // console.log('createDunmoCalendar: calendar found: ', cal);
+      console.log('createDunmoCalendar: calendar found: ', cal);
       return;
     }
 
@@ -114,16 +113,14 @@ gapi.getAllFromCalendarAfter = function (minTime, callback) {
   var name = 'Dunmo Tasks';
 
   if( !callback ) {
-    // console.log('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
+    console.log('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
     return;
   }
   var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
   if(!cal) {
-    // console.log('getAllFutureFromCalendar: ', cal, ' not found.');
+    console.log('getAllFutureFromCalendar: ', cal, ' not found.');
     return;
   }
-
-  // console.log('cal: ', cal);
 
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.events.list({
@@ -155,8 +152,6 @@ gapi.getCurrentTaskEvent = function (callback) {
     console.log('getCurrentTaskEvent: ', cal, ' not found.');
     return;
   }
-
-  // console.log('cal: ', cal);
 
   gapi.client.load('calendar', 'v3', function() {
     var min = Date.now() - (2 * MINUTES);
@@ -299,8 +294,8 @@ function addStartEndTimes(busytimes) {
   var lastDay    = Number(Date.startOfDay(end));
 
   var user       = Meteor.user();
-  var startOfDay = user.startOfDay || 0;
-  var endOfDay   = user.endOfDay   || 1 * DAYS;
+  var startOfDay = user.startOfDay() || 0;
+  var endOfDay   = user.endOfDay()   || 1 * DAYS;
 
   startOfDay     = day + startOfDay;
   endOfDay       = day + endOfDay;
