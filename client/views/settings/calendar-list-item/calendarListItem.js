@@ -10,5 +10,6 @@ Template.calendarListItem.events({
     var active = !this.active;
     // console.log('active: ', active);
     this.update({ active: active });
+    gapi.syncTasksWithCalendar();
   }
 });

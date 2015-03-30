@@ -1,0 +1,19 @@
+form input.invalid, form input.invalid:focus {
+	border: 2px solid #F81832;
+}
+
+form input.invalid::-webkit-input-placeholder {
+   color: red;
+}
+
+form input.invalid:-moz-placeholder { /* Firefox 18- */
+   color: red;  
+}
+
+form input.invalid::-moz-placeholder {  /* Firefox 19+ */
+   color: red;  
+}
+
+form input.invalid:-ms-input-placeholder {  
+   color: red;  
+}

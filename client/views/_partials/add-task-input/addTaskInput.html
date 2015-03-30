@@ -1,9 +1,33 @@
 
 <template name="addTaskInput">
-  <div class="add-task input-group text-small">
-    <input type="text" class="input-sm form-control" placeholder="Task Name for 1 hour and 30 minutes due Monday at 11:59pm very important">
-    <div class="input-group-btn">
-      <button type="button" class="btn btn-sm add-task btn-white dropdown-toggle" data-toggle="dropdown">Add </button>
-    </div>
-  </div>
+  <form class="form-inline">
+	  <div class="form-group">
+	    <label for="taskTitle">Task: &nbsp;&nbsp;</label>
+	    <input type="text" class="form-control input-sm" id="taskTitle" placeholder="Task title">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskHours">&nbsp;&nbsp; for &nbsp;&nbsp;</label>
+	    <input type="number" class="form-control input-sm" id="taskHours" placeholder="2">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskMinutes">&nbsp;&nbsp; hours and &nbsp;&nbsp;</label>
+	    <input type="number" class="form-control input-sm" id="taskMinutes" placeholder="30">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskDueAt">&nbsp;&nbsp; minutes due at &nbsp;&nbsp;</label>
+	    <input type="text" class="form-control input-sm" id="taskDueAt" placeholder="tomorrow at 7pm">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskImportance">, &nbsp;&nbsp;</label>
+	    <select name="importanceSelect" id="taskImportance">
+	    	<option value="very">very</option>
+	    	<option value="somewhat">somewhat</option>
+	    	<option value="not very">not very</option>
+	    </select>
+	    <label for="">&nbsp;&nbsp; important &nbsp;&nbsp;</label>
+	  </div>
+	  <button type="button" class="btn btn-sm add-task btn-white dropdown-toggle" data-toggle="dropdown">Add </button>
+	</form>
 </template>
+
+	
