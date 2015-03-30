@@ -2,3 +2,12 @@
 .task .task-text {
   color: #333;
 }
+
+.task input {
+  color: black;
+  padding: 5px;
+}
+
+.task .media-body {
+  padding-top: 5px;
+}

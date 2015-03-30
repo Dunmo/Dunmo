@@ -301,6 +301,7 @@ input {
 }
 
 .subscribe-input {
+	color: black;
 	float: left;
 	width: 65%;
 	text-align: left;
