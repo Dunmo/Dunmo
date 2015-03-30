@@ -1,4 +1,9 @@
 
+Template.calendarSettings.rendered = function () {
+  heap.identify({ name: Meteor.user().profile.name,
+                  email: Meteor.user().services.google.email });
+};
+
 Template.taskView.helpers({
   tasks: function() {
     return Meteor.user().sortedTodos();

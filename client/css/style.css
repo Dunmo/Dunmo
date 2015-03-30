@@ -29,6 +29,18 @@ a:hover, a:focus{text-decoration:none;}
 }
 img{max-width: 100%}
 
+.time-header{
+  border: none;
+  text-decoration: none;
+  text-align: center;
+  padding: 20px
+  
+}
+
+.time-header h4{
+  color: #2F3234;
+}
+
 
 /*primary nav*/
 .nav-primary:before, .nav-primary:after {display: table;content: " ";}

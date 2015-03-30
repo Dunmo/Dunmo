@@ -79,7 +79,7 @@ gapi.loadDunmoCalendar = function (callback) {
 gapi.getCalendars = function () {
   gapi.onAuth(function () {
     var request = gapi.client.calendar.calendarList.list({
-      'calendarId': 'primary'
+      'showHidden': true
     });
 
     request.execute(function(resp) {
