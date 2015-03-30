@@ -24,6 +24,8 @@ Emails.create = function(obj) {
     });
   }
 
+  if(typeof obj === 'string') obj = { email: obj };
+
   if(obj.isActive === undefined || obj.isActive === null) obj.isActive = true;
 
   var curr = Emails.findOne({ email: obj.email });
