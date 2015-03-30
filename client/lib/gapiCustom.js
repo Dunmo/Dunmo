@@ -83,6 +83,7 @@ gapi.getCalendars = function () {
     });
 
     request.execute(function(resp) {
+      console.log('resp: ', resp);
       Calendars.updateOrCreate(resp.items);
     });
   });
@@ -345,17 +346,25 @@ function toFreetimes(busytimes, minTime, maxTime) {
 };
 
 gapi.onAuth = function (callback) {
-  gapi.auth.authorize({
-    client_id: clientId,
-    scope: scopes,
-    immediate: false
-  }, function(authResult) {
-    if (!authResult) {
-      return;
+  _onauth = function () {
+    if(!gapi.auth) {
+      window.setTimeout(_onauth, 1);
     }
+    else {
+      gapi.auth.authorize({
+        client_id: clientId,
+        scope: scopes,
+        immediate: true
+      }, function(authResult) {
+        if (!authResult) {
+          return;
+        }
 
-    gapi.client.load('calendar', 'v3', callback);
-  });
+        gapi.client.load('calendar', 'v3', callback);
+      });
+    }
+  };
+  _onauth();
 };
 
 // callback is given the list of freetimes as an array
