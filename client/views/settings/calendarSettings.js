@@ -1,6 +1,8 @@
 
 Template.calendarSettings.rendered = function () {
   gapi.getCalendars();
+  heap.identify({ name: Meteor.user().profile.name,
+                  email: Meteor.user().services.google.email });
 };
 
 Template.calendarSettings.helpers({
