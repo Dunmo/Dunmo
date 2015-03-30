@@ -7,20 +7,48 @@
  * profile.name                : String
  * services.google.id          : String
  * services.google.accessToken : String
- * startOfDay                  : Number (Duration)
- * endOfDay                    : Number (Duration)
  *
  * Meteor.logoutOtherClients
  *
  */
 
 Meteor.users.helpers({
-  'update': function (data) {
-    return Meteor.users.update(this._id, { $set: data });
+  update: function (data) {
+    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
+      data = { $set: data };
+
+    return Meteor.users.update(this._id, data);
   },
 
   'primaryEmailAddress': function () {
     return this.emails[0] && this.emails[0].address;
+  },
+
+  'settings': function () {
+    var settings = UserSettings.findOne({ userId: this._id });
+    if(!settings) {
+      settings = UserSettings.create({ userId: this._id });
+      settings = UserSettings.findOne(settings);
+    }
+    return settings;
+  },
+
+  'startOfDay': function (str) {
+    var settings = this.settings();
+    if(str) {
+      var time = Date.parseTime(str);
+      return settings.update({ startOfDay: time });
+    }
+    return settings.startOfDay;
+  },
+
+  'endOfDay': function (str) {
+    var settings = this.settings();
+    if(str) {
+      var time = Date.parseTime(str);
+      return settings.update({ endOfDay: time });
+    }
+    return settings.endOfDay;
   },
 
   'appleCredentials': function () {

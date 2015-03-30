@@ -298,9 +298,9 @@ function addStartEndTimes(busytimes) {
   var day        = Number(Date.startOfDay(start));
   var lastDay    = Number(Date.startOfDay(end));
 
-  var user             = Meteor.user();
-  var startOfDayOffset = user.startOfDay;
-  var endOfDayOffset   = user.endOfDay;
+  var user       = Meteor.user();
+  var startOfDay = user.startOfDay || 0;
+  var endOfDay   = user.endOfDay   || 1 * DAYS;
 
   startOfDay     = day + startOfDay;
   endOfDay       = day + endOfDay;
