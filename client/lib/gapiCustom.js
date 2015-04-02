@@ -284,11 +284,11 @@ function getBusytimes(calendars) {
   return busytimes;
 };
 
-function addStartEndTimes(busytimes) {
+function addStartEndTimes(busytimes, min, max) {
   var starttimes = _.pluck(busytimes, 'start');
   var endtimes   = _.pluck(busytimes, 'end');
-  var start      = _.min(starttimes);
-  var end        = _.max(endtimes);
+  var start      = min;
+  var end        = max;
 
   var day        = Number(Date.startOfDay(start));
   var lastDay    = Number(Date.startOfDay(end));
@@ -368,7 +368,7 @@ function toFreetimes(busytimes, minTime, maxTime) {
     ];
   }
 
-  busytimes = addStartEndTimes(busytimes);
+  busytimes = addStartEndTimes(busytimes, minTime, maxTime);
   busytimes = coalesceBusytimes(busytimes);
 
   var freetimes  = [];
