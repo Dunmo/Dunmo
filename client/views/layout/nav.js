@@ -6,6 +6,6 @@ Template.nav.events({
 
   'click .logout': function (e) {
     Meteor.logout();
-    Router.go('/');
+    FlowRouter.go('/');
   }
 });

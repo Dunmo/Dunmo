@@ -103,13 +103,13 @@ Template.addTaskInput.events({
           how: 'append'
       });
       return;
-    };
+    }
 
-    taskTitle = '';
-    taskHours = '';
-    taskMinutes = '';
-    taskDueAt = '';
-    taskImportance = '';
+    $taskTitle.val('');
+    $taskHours.val('');
+    $taskMinutes.val('');
+    $taskDueAt.val('');
+    $taskImportance.val('');
 
     gapi.syncTasksWithCalendar();
   }
