@@ -61,7 +61,7 @@ gapi.createDunmoCalendar = function (callback) {
 
         var ret = Calendars.updateOrCreate(res);
         // console.log('ret: ', ret);
-        callback();
+        callback(cal);
       });
     });
   });
@@ -70,8 +70,9 @@ gapi.createDunmoCalendar = function (callback) {
 gapi.loadDunmoCalendar = function (callback) {
   var name = 'Dunmo Tasks';
   var cal  = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
-  // console.log('cal: ', cal);
-  if(cal) callback();
+  console.log('loading cal: ', cal);
+
+  if(cal) callback(cal);
   else    gapi.createDunmoCalendar(callback);
 };
 
@@ -147,29 +148,27 @@ gapi.getCurrentTaskEvent = function (callback) {
     console.log('getCurrentTaskEvent: no callback supplied. must be called asynchronously');
     return;
   }
-  var cal = Calendars.findOne({ ownerId: Meteor.userId(), summary: name });
-  if(!cal) {
-    console.log('getCurrentTaskEvent: ', cal, ' not found.');
-    return;
-  }
 
-  gapi.client.load('calendar', 'v3', function() {
-    var min = Date.now() - (2 * MINUTES);
-    var max = Date.now() + (2 * MINUTES);
-    min = Date.formatGoog(min);
-    max = Date.formatGoog(max);
-    var request = gapi.client.calendar.events.list({
-      'calendarId': cal.googleCalendarId,
-      'timeMin': min,
-      'timeMax': max
-    });
+  gapi.loadDunmoCalendar(function(cal) {
 
-    request.execute(function(res) {
-      var items = res.items;
+    gapi.client.load('calendar', 'v3', function() {
+      var min = Date.now() - (2 * MINUTES);
+      var max = Date.now() + (2 * MINUTES);
+      min = Date.formatGoog(min);
+      max = Date.formatGoog(max);
+      var request = gapi.client.calendar.events.list({
+        'calendarId': cal.googleCalendarId,
+        'timeMin': min,
+        'timeMax': max
+      });
 
-      items = lodash.filter(items, isHappeningNow);
-      var item = items[0]; // TODO: Is the first one the first chronologically?
-      callback(item);
+      request.execute(function(res) {
+        var items = res.items;
+
+        items = lodash.filter(items, isHappeningNow);
+        var item = items[0]; // TODO: Is the first one the first chronologically?
+        callback(item);
+      });
     });
   });
 };
