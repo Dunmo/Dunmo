@@ -16,19 +16,19 @@ Template.addTaskInput.helpers({
 Template.addTaskInput.events({
   'keydown input[type="number"]': function (event) {
     if (!(!event.shiftKey //Disallow: any Shift+digit combination
-            && !(event.keyCode < 48 || event.keyCode > 57) //Disallow: everything but digits
-            || !(event.keyCode < 96 || event.keyCode > 105) //Allow: numeric pad digits
-            || event.keyCode == 46 // Allow: delete
-            || event.keyCode == 8  // Allow: backspace
-            || event.keyCode == 9  // Allow: tab
-            || event.keyCode == 27 // Allow: escape
-            || (event.keyCode == 65 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+A
-            || (event.keyCode == 67 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+C
-            //Uncommenting the next line allows Ctrl+V usage, but requires additional code from you to disallow pasting non-numeric symbols
-            //|| (event.keyCode == 86 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+Vpasting
-            || (event.keyCode >= 35 && event.keyCode <= 40) // Allow: Home, End, arrow keys
-            )) {
-        event.preventDefault();
+        && !(event.keyCode < 48 || event.keyCode > 57) //Disallow: everything but digits
+        || !(event.keyCode < 96 || event.keyCode > 105) //Allow: numeric pad digits
+        || event.keyCode == 46 // Allow: delete
+        || event.keyCode == 8  // Allow: backspace
+        || event.keyCode == 9  // Allow: tab
+        || event.keyCode == 27 // Allow: escape
+        || (event.keyCode == 65 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+A
+        || (event.keyCode == 67 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+C
+        //Uncommenting the next line allows Ctrl+V usage, but requires additional code from you to disallow pasting non-numeric symbols
+        //|| (event.keyCode == 86 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+Vpasting
+        || (event.keyCode >= 35 && event.keyCode <= 40) // Allow: Home, End, arrow keys
+    )) {
+      event.preventDefault();
     }
   },
 
@@ -109,7 +109,6 @@ Template.addTaskInput.events({
     $taskHours.val('');
     $taskMinutes.val('');
     $taskDueAt.val('');
-    $taskImportance.val('');
 
     gapi.syncTasksWithCalendar();
   }
