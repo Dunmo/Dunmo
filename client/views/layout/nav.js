@@ -5,7 +5,7 @@ Template.nav.events({
   },
 
   'click .logout': function (e) {
-    Meteor.logout();
-    FlowRouter.go('/');
+    var _ = Meteor.logout();
+    FlowRouter.go('/index.html');
   }
 });
