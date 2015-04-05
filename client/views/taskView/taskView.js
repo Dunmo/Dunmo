@@ -2,6 +2,13 @@
 Template.calendarSettings.rendered = function () {
   heap.identify({ name: Meteor.user().profile.name,
                   email: Meteor.user().services.google.email });
+  jQuery( function () {
+    $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
+      $(".overlay").addClass("hidden")
+    });
+  });
+
+
 };
 
 Template.taskView.helpers({
