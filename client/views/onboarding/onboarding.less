@@ -1,6 +1,56 @@
 
-.ob-panel {
-  max-width: 320px;
-  max-height: 240px;
-  color: #2F3234;
+.overlay,
+.project {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+}
+.overlay {
+    background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,0.4)),color-stop(100%,rgba(0,0,0,0.75)));
+    background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.75) 100%);
+    background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.75) 100%);
+    background: -o-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.75) 100%);
+    background: -ms-radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.75) 100%);
+    background: radial-gradient(center,ellipse cover,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.75) 100%);
+    z-index: 1;
+}
+.project {
+    text-align: center;
+    z-index: 2;
+}
+.flow h1,
+.flow p {
+    margin: 30px auto;
+    color: #888;
+}
+.step,
+.complete {
+    position: relative;
+    top: 90px;
+    width: 40%;
+    margin: 0px auto;
+    padding: 60px 96px;
+    background: rgb(255,255,255);
+    border-radius: 3px;
+}
+.flow button {
+    padding: 15px 30px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFF;
+    border: 0px;
+    background: #444;
+    border-radius: 3px;
+}
+.flow button:hover {
+    cursor: pointer;
+    background: #333;
+}
+.lit-up {
+    position: relative;
+    z-index: 2;
+}
+.hidden {
+    display: none;
 }
