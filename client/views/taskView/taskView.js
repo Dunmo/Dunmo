@@ -11,6 +11,10 @@ Template.taskView.helpers({
 });
 
 Template.taskView.events({
+  'click .sync': function () {
+    gapi.syncTasksWithCalendar();
+  },
+
   'click #submit': function (e) {
     var str = $('#input').val();
     Tasks.create(str, { ownerId: Meteor.userId() });
