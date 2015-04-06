@@ -1,6 +1,8 @@
 $(function () {
   var submitEmail = function () {
     var email = $('.mailing-list input.email').val();
+    $('.mailing-list input.email').val('');
+    $('.mailing-list input.email').attr('placeholder', 'Success!');
     console.log('email: ', email);
     var data = { email: email };
     // data = JSON.stringify(data);
