@@ -462,12 +462,18 @@ gapi.getFreetimes = function (startingFrom, callback) {
   request.execute(function(res) {
     var calendars, busytimes, freetimes;
 
-    calendars = res.result.calendars;
-    busytimes = getBusytimes(calendars);
-    freetimes = toFreetimes(busytimes, minTime, maxTime);
+    var result = res.result;
 
-    callback(freetimes);
-  });
+    if(!result) {
+      console.log('res: ', res);
+    }
+    else {
+      calendars = result.calendars;
+      busytimes = getBusytimes(calendars);
+      freetimes = toFreetimes(busytimes, minTime, maxTime);
+
+      callback(freetimes);
+    }
 };
 
 gapi.syncTasksWithCalendar = function (startingFrom) {
