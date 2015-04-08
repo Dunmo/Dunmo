@@ -453,6 +453,9 @@ gapi.getFreetimes = function (startingFrom, callback) {
     return;
   }
 
+  console.log('timeMin: ', timeMin);
+  console.log('timeMax: ', timeMax);
+
   request = gapi.client.calendar.freebusy.query({
     'timeMin': Date.formatGoog(new Date(minTime)),
     'timeMax': Date.formatGoog(new Date(maxTime)),
@@ -474,6 +477,7 @@ gapi.getFreetimes = function (startingFrom, callback) {
 
       callback(freetimes);
     }
+  });
 };
 
 gapi.syncTasksWithCalendar = function (startingFrom) {
