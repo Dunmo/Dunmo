@@ -296,6 +296,9 @@ if(CONFIG.testing) {
     console.log(obj);
   });
 
+  if(taskEvents.any(function(t){return t.duration()>2*HOURS}))
+    console.log('failed, task lasts longer than 2 hours');
+
   // TEARDOWN
   freetimes.forEach(function (freetime) {
     Freetimes.remove(freetime._id);
