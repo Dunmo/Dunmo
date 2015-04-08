@@ -128,20 +128,18 @@ gapi.getAllFromCalendarAfter = function (minTime, callback) {
     return;
   }
 
-  var user           = Meteor.user();
-  var taskCalendar   = user.taskCalendar();
-  var taskCalendarId = taskCalendar.id;
+  gapi.getTaskCalendar(function (cal) {
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.list({
+        'calendarId': cal.id,
+        timeMin: Date.formatGoog(new Date(minTime))
+      });
 
-  gapi.client.load('calendar', 'v3', function() {
-    var request = gapi.client.calendar.events.list({
-      'calendarId': taskCalendarId,
-      timeMin: Date.formatGoog(new Date(minTime))
-    });
+      request.execute(function(res) {
 
-    request.execute(function(res) {
-
-      var items = res.items;
-      callback(items);
+        var items = res.items;
+        callback(items);
+      });
     });
   });
 };
@@ -165,21 +163,20 @@ gapi.getCurrentTaskEvent = function (callback) {
     min = Date.formatGoog(min);
     max = Date.formatGoog(max);
 
-    var user           = Meteor.user();
-    var taskCalendarId = user.taskCalendarId;
+    gapi.getTaskCalendar(function (cal) {
+      var request = gapi.client.calendar.events.list({
+        'calendarId' : cal.id,
+        'timeMin'    : min,
+        'timeMax'    : max
+      });
 
-    var request = gapi.client.calendar.events.list({
-      'calendarId' : taskCalendarId,
-      'timeMin'    : min,
-      'timeMax'    : max
-    });
+      request.execute(function(res) {
+        var items = res.items;
 
-    request.execute(function(res) {
-      var items = res.items;
-
-      items    = lodash.filter(items, isHappeningNow);
-      var item = items[0]; // TODO: Is the first one the first chronologically?
-      callback(item);
+        items    = lodash.filter(items, isHappeningNow);
+        var item = items[0]; // TODO: Is the first one the first chronologically?
+        callback(item);
+      });
     });
   });
 
@@ -231,43 +228,41 @@ gapi.addEventToCalendar = function (doc) {
   end = Date.formatGoog(new Date(end));
   console.log('doc: ', doc);
 
-  var user           = Meteor.user();
-  var taskCalendarId = user.taskCalendarId;
+  gapi.getTaskCalendar(function (cal) {
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.insert({
+        'calendarId': cal.id,
+        'start': {
+          'dateTime': start
+        },
+        'end': {
+          'dateTime': end
+        },
+        'summary': doc.summary,
+        'transparency': 'transparent'
+      });
 
-  gapi.client.load('calendar', 'v3', function() {
-    var request = gapi.client.calendar.events.insert({
-      'calendarId': taskCalendarId,
-      'start': {
-        'dateTime': start
-      },
-      'end': {
-        'dateTime': end
-      },
-      'summary': doc.summary,
-      'transparency': 'transparent'
-    });
-
-    request.execute(function(res) {
-      console.log('res: ', res);
-      Tasks.update(doc._id, { $addToSet: { gcalEventIds: res.id } });
+      request.execute(function(res) {
+        console.log('res: ', res);
+        Tasks.update(doc._id, { $addToSet: { gcalEventIds: res.id } });
+      });
     });
   });
 };
 
 gapi.removeEventFromCalendar = function(eventId) {
-  var user           = Meteor.user();
-  var taskCalendarId = user.taskCalendarId;
+  gapi.getTaskCalendar(function (cal) {
+    gapi.client.load('calendar', 'v3', function() {
+      var request = gapi.client.calendar.events.delete({
+        'calendarId' : cal.id,
+        'eventId'    : eventId
+      });
 
-  gapi.client.load('calendar', 'v3', function() {
-    var request = gapi.client.calendar.events.delete({
-      'calendarId' : taskCalendarId,
-      'eventId'    : eventId
-    });
-
-    request.execute(function(res) {
-      var tasks = Meteor.user().tasks();
-      tasks.forEach(function (task) {
-        task.update({ $pull: { gcalEventIds: eventId } });
+      request.execute(function(res) {
+        var tasks = Meteor.user().tasks();
+        tasks.forEach(function (task) {
+          task.update({ $pull: { gcalEventIds: eventId } });
+        });
       });
     });
   });
@@ -518,31 +513,20 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
 };
 
 gapi.splitEvent = function (e, splitTime) {
-  // console.log('e: ', e);
-  // console.log('e.start: ', e.start);
-  // console.log('e.start.dateTime: ', e.start.dateTime);
-  // console.log('new Date(e.start.dateTime): ', new Date(e.start.dateTime));
 
   var startTime = new Date(e.start.dateTime);
   var event1 = R.cloneDeep(e);
   var event2 = R.cloneDeep(e);
-  // console.log('event1: ', event1);
-  // console.log('event2: ', event2);
 
   event1.end.dateTime   = Date.formatGoog(new Date(splitTime));
   event2.start.dateTime = Date.formatGoog(new Date(splitTime));
-  // console.log('event1: ', event1);
-  // console.log('event2: ', event2);
 
   return [event1, event2];
 };
 
 // takes in an event and a new end time
 gapi.setEndTime = function (e, newEndTime) {
-  console.log('e, newEndTime: ', e, newEndTime);
-  console.log('e: ', e);
   e.end.dateTime = Date.formatGoog(new Date(newEndTime));
-  console.log('e: ', e);
 
   gapi.removeEventFromCalendar(e.id);
   gapi.addEventToCalendar(e);
@@ -551,23 +535,19 @@ gapi.setEndTime = function (e, newEndTime) {
 // 'Dunmo Tasks' events channel
 gapi.createChannel = function () {
   gapi.onAuth(function() {
+    gapi.getTaskCalendar(function (cal) {
+      gapi.client.load('calendar', 'v3', function() {
+        var request = gapi.client.calendar.events.watch({
+          'calendarId'  : cal.id,
+          'showDeleted' : true,
+          'id'          : 'googlesucks-' + String(Math.random()).substring(2),
+          'type'        : 'web_hook',
+          'address'     : CONFIG.urls.calendarWatchUrl
+        });
 
-    var user           = Meteor.user();
-    var taskCalendarId = user.taskCalendarId;
-
-    gapi.client.load('calendar', 'v3', function() {
-      var request = gapi.client.calendar.events.watch({
-        'calendarId'  : taskCalendarId,
-        'showDeleted' : true,
-        'id'          : 'googlesucks-' + String(Math.random()).substring(2),
-        'type'        : 'web_hook',
-        'address'     : CONFIG.urls.calendarWatchUrl
-      });
-
-      request.execute(function(res) {
-        // console.log('res: ', res);
-
-        Meteor.user().update({ watchObj: res.request });
+        request.execute(function(res) {
+          Meteor.user().update({ watchObj: res.request });
+        });
       });
     });
   });
