@@ -1,16 +1,6 @@
 
 Template.calendarSettings.rendered = function () {
   gapi.getCalendars();
-  heap.identify({ name: Meteor.user().profile.name,
-                  email: Meteor.user().services.google.email });
-  $(function () { $("[data-toggle='tooltip']").tooltip(); });
-  
-  $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
-    $(".overlay").addClass("hidden");
-  });
-
-  tvFlow = Onboarded.load();
-  tvFlow.startFlow();
 };
 
 var view = Template.calendarSettings;
