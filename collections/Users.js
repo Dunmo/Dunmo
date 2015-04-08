@@ -116,7 +116,8 @@ var helpers = {
 
   'tasks': function () {
     // this.syncReminders();
-    return Tasks.find({ ownerId: this._id, isRemoved: { $not: true } });
+    var r = new RegExp('true');
+    return Tasks.find({ ownerId: this._id, isRemoved: { $not: r } });
   },
 
   'sortedTasks': function () {
@@ -126,7 +127,8 @@ var helpers = {
   },
 
   'todos': function () {
-    return Tasks.find({ ownerId: this._id, isRemoved: { $not: true }, isDone: { $not: true } });
+    var r = new RegExp('true');
+    return Tasks.find({ ownerId: this._id, isRemoved: { $not: r }, isDone: { $not: r } });
   },
 
   'sortedTodos': function () {
@@ -196,7 +198,7 @@ var helpers = {
   _generateDayList: function(freetime, todos) {
     var user      = this;
     var dayList   = R.cloneDeep(freetime);
-    var remaining = freetime.timeRemaining();
+    var remaining = freetime.remaining();
     dayList.todos = [];
 
     while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
@@ -220,8 +222,7 @@ var helpers = {
     var todo = R.cloneDeep(todos[0]);
     var now  = Date.now();
 
-    console.log('should be number -> dayList.start: ', dayList.start);
-    var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
+    var todoStart = dayList.start + ( dayList.remaining() - remaining );
 
     // TODO: what about overdue items?
     if( (todo.remaining > remaining) && (todo.dueAt >= now) ) {
@@ -268,16 +269,16 @@ if(CONFIG.testing) {
   user.maxTaskInterval      = function () { return 2 * HOURS; };
   user.maxTimePerTaskPerDay = function () { return 4 * HOURS; };
 
-  Tasks.create('task 1 due by tomorrow at midnight for 4 hours very important', { ownerId: '1337' });
-  Tasks.create('task 2 due by tomorrow at midnight for 4 hours very important', { ownerId: '1337' });
+  Tasks.create('task 1 due by thursday at midnight for 8 hours very important', { ownerId: '1337' });
+  Tasks.create('task 2 due by friday at midnight for 8 hours very important', { ownerId: '1337' });
 
   var now = Date.now()
 
   var freetimes = [
-    { start: now,             end: now + 2  * HOURS },
-    { start: now + 3 * HOURS, end: now + 4  * HOURS },
-    { start: now + 5 * HOURS, end: now + 8  * HOURS },
-    { start: now + 9 * HOURS, end: now + 13 * HOURS }
+    { start: now,              end: now + 5  * HOURS },
+    { start: now + 6  * HOURS, end: now + 7  * HOURS },
+    { start: now + 15 * HOURS, end: now + 20 * HOURS },
+    { start: now + 30 * HOURS, end: now + 38 * HOURS }
   ];
 
   freetimes = freetimes.map(Freetimes.create);
@@ -286,7 +287,14 @@ if(CONFIG.testing) {
   var taskEvents = user.todoList(freetimes);
 
   // EVALUATION
-  console.log('taskEvents: ', taskEvents);
+  taskEvents.forEach(function (ev) {
+    var obj = {
+      title: ev.title,
+      start: ev.start,
+      end:   ev.end
+    }
+    console.log(obj);
+  });
 
   // TEARDOWN
   freetimes.forEach(function (freetime) {
