@@ -29,6 +29,8 @@ UserSettings.create = function(obj) {
 
   obj.startOfDay = obj.startOfDay || Date.parseTime('08:00');
   obj.endOfDay   = obj.endOfDay   || Date.parseTime('22:00');
+  // obj.maxTaskInterval      = obj.maxTaskInterval      || Date.parseDuration('2 hours');
+  // obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || Date.parseDuration('4 hours');
 
   var curr = UserSettings.findOne({ userId: obj.userId });
   if(curr) return curr.update(obj);

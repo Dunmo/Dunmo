@@ -6,7 +6,7 @@
  * calendarId      : String
  * title           : String
  * importance      : <1,2,3>
- * dueAt           : String
+ * dueAt           : Number<milliseconds>
  * remaining       : Number<milliseconds>
  * spent           : Number<milliseconds>
  * snoozedUntil    : DateTime
@@ -106,3 +106,4 @@ Tasks.basicSort = function(tasks) {
   tasks = _.sortBy(tasks, 'dueAt');
   return tasks;
 };
+

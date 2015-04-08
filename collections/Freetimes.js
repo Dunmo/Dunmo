@@ -28,7 +28,13 @@ Freetimes.create = function(obj) {
       Freetimes.create(ft);
     });
   } else if(typeof(obj) === 'object') {
-    Freetimes.insert(obj);
+    obj.start = Number(obj.start);
+    obj.end   = Number(obj.end);
+    obj.remaining = function () {
+      return this.end - this.start;
+    };
+    var id = Freetimes.insert(obj);
+    return Freetimes.findOne(id);
   } else {
     // console.log('type error, updateOrCreate does not expect: ', typeof(obj));
   }

@@ -12,7 +12,7 @@
  *
  */
 
-Meteor.users.helpers({
+var helpers = {
   update: function (data) {
     if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
       data = { $set: data };
@@ -50,6 +50,24 @@ Meteor.users.helpers({
     }
     return settings.endOfDay;
   },
+
+  // 'maxTaskInterval': function (str) {
+  //   var settings = this.settings();
+  //   if(str) {
+  //     var time = Date.parseDuration(str);
+  //     return settings.update({ maxTaskInterval: time });
+  //   }
+  //   return settings.maxTaskInterval;
+  // },
+
+  // 'maxTimePerTaskPerDay': function (str) {
+  //   var settings = this.settings();
+  //   if(str) {
+  //     var time = Date.parseDuration(str);
+  //     return settings.update({ maxTimePerTaskPerDay: time });
+  //   }
+  //   return settings.maxTimePerTaskPerDay;
+  // },
 
   'appleCredentials': function () {
     return AppleCredentials.findOne(this.appleCredentialsId);
@@ -200,11 +218,13 @@ Meteor.users.helpers({
   // a private helper function for todoList
   _appendTodo: function(dayList, todos, remaining) {
     var todo = R.cloneDeep(todos[0]);
+    var now  = Date.now();
 
+    console.log('should be number -> dayList.start: ', dayList.start);
     var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
 
     // TODO: what about overdue items?
-    if((todo.remaining > remaining) && (todo.dueAt >= (new Date()))) {
+    if( (todo.remaining > remaining) && (todo.dueAt >= now) ) {
       var ret   = R.cloneDeep(todo.split(remaining));
       todo      = R.cloneDeep(ret[0]);
       todos[0]  = R.cloneDeep(ret[1]);
@@ -214,7 +234,7 @@ Meteor.users.helpers({
       remaining = remaining - todo.remaining;
     }
 
-    if(todo.dueAt < Date.now()) todo.isOverdue = true;
+    if(todo.dueAt < now) todo.isOverdue = true;
 
     todo.start = new Date(todoStart);
     todo.end = new Date(todoStart + todo.remaining);
@@ -237,6 +257,45 @@ Meteor.users.helpers({
     return [ freetime, todos ]
   }
 
-});
+};
+
+Meteor.users.helpers(helpers);
+
+if(CONFIG.testing) {
+  // SETUP
+  var user = helpers;
+  user._id = '1337';
+  user.maxTaskInterval      = function () { return 2 * HOURS; };
+  user.maxTimePerTaskPerDay = function () { return 4 * HOURS; };
+
+  Tasks.create('task 1 due by tomorrow at midnight for 4 hours very important', { ownerId: '1337' });
+  Tasks.create('task 2 due by tomorrow at midnight for 4 hours very important', { ownerId: '1337' });
+
+  var now = Date.now()
+
+  var freetimes = [
+    { start: now,             end: now + 2  * HOURS },
+    { start: now + 3 * HOURS, end: now + 4  * HOURS },
+    { start: now + 5 * HOURS, end: now + 8  * HOURS },
+    { start: now + 9 * HOURS, end: now + 13 * HOURS }
+  ];
+
+  freetimes = freetimes.map(Freetimes.create);
+
+  // COMPUTATION
+  var taskEvents = user.todoList(freetimes);
+
+  // EVALUATION
+  console.log('taskEvents: ', taskEvents);
+
+  // TEARDOWN
+  freetimes.forEach(function (freetime) {
+    Freetimes.remove(freetime._id);
+  });
+
+  user.tasks().forEach(function (task) {
+    Tasks.remove(task._id);
+  });
+}
 
 
