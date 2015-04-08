@@ -1,5 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Orbitron:400,900,700,500);
-@import url(http://fonts.googleapis.com/css?family=Rajdhani:400,500,600,700);
+@import url(//fonts.googleapis.com/css?family=Orbitron:400,900,700,500);
+@import url(//fonts.googleapis.com/css?family=Rajdhani:400,500,600,700);
 html{background-color: #f8f8f8 ;position: relative;min-height: 100%;overflow-x:hidden;}
 body{background-color: transparent;color:#DAE1E1;font-size:13px;overflow-x: hidden;}
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -34,7 +34,7 @@ img{max-width: 100%}
   text-decoration: none;
   text-align: center;
   padding: 20px
-  
+
 }
 
 .time-header h4{

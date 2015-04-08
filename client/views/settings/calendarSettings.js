@@ -13,7 +13,11 @@ Template.calendarSettings.rendered = function () {
   tvFlow.startFlow();
 };
 
-Template.calendarSettings.helpers({
+var view = Template.calendarSettings;
+
+// gapi.getCalendars() is called in router.js
+
+view.helpers({
   calendars: function() {
     return Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' } });
   },
@@ -31,7 +35,7 @@ Template.calendarSettings.helpers({
   }
 });
 
-Template.calendarSettings.events({
+view.events({
   'submit .start-time.form-control, click button.start-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
