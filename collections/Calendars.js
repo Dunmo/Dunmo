@@ -59,7 +59,7 @@ Calendars.updateOrCreate = function(obj) {
     });
   } else if(typeof(obj) === 'object') {
     if(Calendars.findOne({ googleCalendarId: obj.id })) {
-      // Calendars.update(obj);
+      Calendars.update(obj);
     } else {
       Calendars.insert(obj);
     }
