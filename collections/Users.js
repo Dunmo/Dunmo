@@ -176,6 +176,7 @@ var helpers = {
   // a private helper function for todoList
   _splitTasksByMaxTaskInterval: function (tasks) {
     var maxTaskInterval = this.maxTaskInterval();
+    if(!maxTaskInterval) return tasks;
     var tasks           = R.cloneDeep(tasks);
     var splitTasks      = [];
 
@@ -241,8 +242,6 @@ var helpers = {
     var freetimeStart = freetime.start;
     var lastTodo      = lodash.last(freetime.todos);
     var todo;
-    // console.log('lastTodo: ', lastTodo);
-    // console.log('todos: ', todos);
     if(lastTodo) {
       var differentId = function (todo) {
         return todo._id != lastTodo._id;
