@@ -51,23 +51,29 @@ var helpers = {
     return settings.endOfDay;
   },
 
-  // 'maxTaskInterval': function (str) {
-  //   var settings = this.settings();
-  //   if(str) {
-  //     var time = Date.parseDuration(str);
-  //     return settings.update({ maxTaskInterval: time });
-  //   }
-  //   return settings.maxTaskInterval;
-  // },
+  'maxTaskInterval': function (str) {
+    var settings = this.settings();
+    if(str) {
+      var time = Date.parseDuration(str);
+      return settings.update({ maxTaskInterval: time });
+    }
+    return settings.maxTaskInterval;
+  },
 
-  // 'maxTimePerTaskPerDay': function (str) {
-  //   var settings = this.settings();
-  //   if(str) {
-  //     var time = Date.parseDuration(str);
-  //     return settings.update({ maxTimePerTaskPerDay: time });
-  //   }
-  //   return settings.maxTimePerTaskPerDay;
-  // },
+  'maxTimePerTaskPerDay': function (str) {
+    var settings = this.settings();
+    if(str) {
+      var time = Date.parseDuration(str);
+      return settings.update({ maxTimePerTaskPerDay: time });
+    }
+    return settings.maxTimePerTaskPerDay;
+  },
+
+  'taskCalendarId': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ taskCalendarId: str });
+    else    return settings.taskCalendarId;
+  },
 
   'appleCredentials': function () {
     return AppleCredentials.findOne(this.appleCredentialsId);
@@ -108,12 +114,6 @@ var helpers = {
     cred.syncReminders();
   },
 
-  'taskCalendar': function () {
-    var name = 'Dunmo Tasks';
-    var cal = Calendars.findOne({ ownerId: this._id, summary: name });
-    return cal;
-  },
-
   'tasks': function () {
     // this.syncReminders();
     var r = new RegExp('true');
@@ -122,7 +122,7 @@ var helpers = {
 
   'sortedTasks': function () {
     var tasks = this.tasks().fetch();
-    tasks = Tasks.basicSort(tasks);
+    tasks     = Tasks.basicSort(tasks);
     return tasks;
   },
 
@@ -133,7 +133,7 @@ var helpers = {
 
   'sortedTodos': function () {
     var todos = this.todos().fetch();
-    todos = Tasks.basicSort(todos);
+    todos     = Tasks.basicSort(todos);
     return todos;
   },
 
@@ -159,17 +159,36 @@ var helpers = {
     return idObjects;
   },
 
-  'latestTaskTime': function () {
-    var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
-    var maxTime = latestTask.dueAt;
+  'latestTodoTime': function () {
+    var latestTodo = lodash.max(this.todos().fetch(), 'dueAt');
+    var maxTime    = latestTodo.dueAt;
     return maxTime;
   },
 
   todoList: function(freetimes) {
     todos = this.sortedTodos();
+    todos = this._splitTasksByMaxTaskInterval(todos);
     freetimes = freetimes || this.freetimes || this.freetimes();
     todoList = this._generateTodoList(freetimes, todos, 'greedy');
     return todoList;
+  },
+
+  // a private helper function for todoList
+  _splitTasksByMaxTaskInterval: function (tasks) {
+    var maxTaskInterval = this.maxTaskInterval();
+    var tasks           = R.cloneDeep(tasks);
+    var splitTasks      = [];
+
+    tasks.forEach(function (task) {
+      while(task.remaining > maxTaskInterval) {
+        var ret = task.split(maxTaskInterval);
+        splitTasks.push(ret[0])
+        task    = ret[1];
+      }
+      splitTasks.push(task);
+    });
+
+    return splitTasks;
   },
 
   // a private helper function for todoList
@@ -180,11 +199,11 @@ var helpers = {
 
     var user = this;
 
-    var todoList  = lodash.map(freetimes, function(freetime) {
+    var todoList = freetimes.map(function(freetime) {
       if(todos.length > 0) {
-        var ret     = user._generateDayList(freetime, todos);
+        var ret      = user._fillFreetime(freetime, todos);
         var freetime = ret[0];
-        todos       = ret[1];
+        todos        = ret[1];
         return freetime.todos;
       } else {
         return null;
@@ -195,54 +214,64 @@ var helpers = {
   },
 
   // a private helper function for todoList
-  _generateDayList: function(freetime, todos) {
-    var user      = this;
-    var dayList   = R.cloneDeep(freetime);
-    var remaining = freetime.remaining();
-    dayList.todos = [];
+  _fillFreetime: function(freetime, todos) {
+    var user       = this;
+    var freetime   = R.cloneDeep(freetime);
+    var remaining  = freetime.remaining();
+    freetime.todos = [];
 
     while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
-      var ret   = user._appendTodo(dayList, todos, remaining);
-      dayList   = R.cloneDeep(ret[0]);
-      todos     = R.cloneDeep(ret[1]);
-      remaining = R.cloneDeep(ret[2]);
+      var ret   = user._appendTodo(freetime, todos, remaining);
+      freetime  = ret[0];
+      todos     = ret[1];
+      remaining = ret[2];
     }
 
     if(todos.length > 0) {
-      var ret = this._appendOverdue(dayList, todos);
-      dayList = ret[0];
-      todos   = ret[1];
+      var ret  = this._appendOverdue(freetime, todos);
+      freetime = ret[0];
+      todos    = ret[1];
     }
 
-    return [ dayList, todos ];
+    return R.cloneDeep([ freetime, todos ]);
   },
 
   // a private helper function for todoList
-  _appendTodo: function(dayList, todos, remaining) {
-    var todo = R.cloneDeep(todos[0]);
-    var now  = Date.now();
+  _appendTodo: function(freetime, todos, remaining) {
+    var freetimeStart = freetime.start;
+    var lastTodo      = lodash.last(freetime.todos);
+    var todo;
+    // console.log('lastTodo: ', lastTodo);
+    // console.log('todos: ', todos);
+    if(lastTodo) {
+      var differentId = function (todo) {
+        return todo._id != lastTodo._id;
+      };
+      todo = lodash.find(todos, differentId) || todos[0];
+    }
+    todo = todo || todos[0]
+    todo = R.cloneDeep(todo);
 
-    var todoStart = dayList.start + ( dayList.remaining() - remaining );
+    var todoStart = freetime.start + ( freetime.remaining() - remaining );
 
-    // TODO: what about overdue items?
-    if( (todo.remaining > remaining) && (todo.dueAt >= now) ) {
-      var ret   = R.cloneDeep(todo.split(remaining));
-      todo      = R.cloneDeep(ret[0]);
-      todos[0]  = R.cloneDeep(ret[1]);
+    if( (todo.remaining > remaining) && (todo.dueAt >= freetimeStart) ) {
+      var ret   = todo.split(remaining);
+      todo      = ret[0];
+      todos[0]  = ret[1];
       remaining = 0;
     } else {
       todos.shift();
       remaining = remaining - todo.remaining;
     }
 
-    if(todo.dueAt < now) todo.isOverdue = true;
+    if(todo.dueAt < freetimeStart) todo.isOverdue = true;
 
     todo.start = new Date(todoStart);
-    todo.end = new Date(todoStart + todo.remaining);
+    todo.end   = new Date(todoStart + todo.remaining);
 
-    dayList.todos.push(todo);
+    freetime.todos.push(todo);
 
-    return [ dayList, todos, remaining ];
+    return R.cloneDeep([ freetime, todos, remaining ]);
   },
 
   _appendOverdue: function(freetime, todos) {
@@ -255,7 +284,7 @@ var helpers = {
       todo = todos[0];
     }
 
-    return [ freetime, todos ]
+    return R.cloneDeep([ freetime, todos ]);
   }
 
 };
@@ -296,7 +325,7 @@ if(CONFIG.testing) {
     console.log(obj);
   });
 
-  if(taskEvents.any(function(t){return t.duration()>2*HOURS}))
+  if(taskEvents.any(function(t){return (Number(t.end)-Number(t.start))>2*HOURS}))
     console.log('failed, task lasts longer than 2 hours');
 
   // TEARDOWN
@@ -308,5 +337,3 @@ if(CONFIG.testing) {
     Tasks.remove(task._id);
   });
 }
-
-

@@ -2,9 +2,10 @@
 /*
  * UserSettings
  * ==================
- * userId     : String
- * startOfDay : Number (Duration)
- * endOfDay   : Number (Duration)
+ * userId         : String
+ * startOfDay     : Number (Duration)
+ * endOfDay       : Number (Duration)
+ * taskCalendarId : String
  *
  */
 

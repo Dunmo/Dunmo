@@ -57,7 +57,7 @@ Tasks.helpers({
 
     // TODO: set timeSpent also
 
-    return [ firstTask, secondTask ];
+    return R.cloneDeep([ firstTask, secondTask ]);
   }
 });
 
