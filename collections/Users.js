@@ -7,7 +7,6 @@
  * profile.name                : String
  * services.google.id          : String
  * services.google.accessToken : String
- * taskCalendarId              : String
  *
  * Meteor.logoutOtherClients
  *
@@ -50,6 +49,12 @@ Meteor.users.helpers({
       return settings.update({ endOfDay: time });
     }
     return settings.endOfDay;
+  },
+
+  'taskCalendarId': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ taskCalendarId: str });
+    else    return settings.taskCalendarId;
   },
 
   'appleCredentials': function () {
