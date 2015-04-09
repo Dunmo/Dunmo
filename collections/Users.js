@@ -20,11 +20,11 @@ var helpers = {
     return Meteor.users.update(this._id, data);
   },
 
-  'primaryEmailAddress': function () {
+  primaryEmailAddress: function () {
     return this.emails[0] && this.emails[0].address;
   },
 
-  'settings': function () {
+  settings: function () {
     var settings = UserSettings.findOne({ userId: this._id });
     if(!settings) {
       settings = UserSettings.create({ userId: this._id });
@@ -33,7 +33,7 @@ var helpers = {
     return settings;
   },
 
-  'startOfDay': function (str) {
+  startOfDay: function (str) {
     var settings = this.settings();
     if(str) {
       var time = Date.parseTime(str);
@@ -42,7 +42,7 @@ var helpers = {
     return settings.startOfDay;
   },
 
-  'endOfDay': function (str) {
+  endOfDay: function (str) {
     var settings = this.settings();
     if(str) {
       var time = Date.parseTime(str);
@@ -51,7 +51,7 @@ var helpers = {
     return settings.endOfDay;
   },
 
-  'maxTaskInterval': function (str) {
+  maxTaskInterval: function (str) {
     var settings = this.settings();
     if(str) {
       var time = Date.parseDuration(str);
@@ -60,7 +60,7 @@ var helpers = {
     return settings.maxTaskInterval;
   },
 
-  'maxTimePerTaskPerDay': function (str) {
+  maxTimePerTaskPerDay: function (str) {
     var settings = this.settings();
     if(str) {
       var time = Date.parseDuration(str);
@@ -69,17 +69,17 @@ var helpers = {
     return settings.maxTimePerTaskPerDay;
   },
 
-  'taskCalendarId': function (str) {
+  taskCalendarId: function (str) {
     var settings = this.settings();
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
   },
 
-  'appleCredentials': function () {
+  appleCredentials: function () {
     return AppleCredentials.findOne(this.appleCredentialsId);
   },
 
-  'setAppleCredentials': function (data) {
+  setAppleCredentials: function (data) {
     var cred = this.appleCredentials();
 
     if(!cred) {
@@ -90,7 +90,7 @@ var helpers = {
     }
   },
 
-  'loginWithApple': function (user, pass) {
+  loginWithApple: function (user, pass) {
     var cred = this.appleCredentials();
     if( !cred && !(user && pass) ) {
       return;
@@ -109,49 +109,49 @@ var helpers = {
     }
   },
 
-  'syncReminders': function () {
+  syncReminders: function () {
     var cred = this.appleCredentials();
     cred.syncReminders();
   },
 
-  'tasks': function () {
+  tasks: function () {
     // this.syncReminders();
     var r = new RegExp('true');
     return Tasks.find({ ownerId: this._id, isRemoved: { $not: r } });
   },
 
-  'sortedTasks': function () {
+  sortedTasks: function () {
     var tasks = this.tasks().fetch();
     tasks     = Tasks.basicSort(tasks);
     return tasks;
   },
 
-  'todos': function () {
+  todos: function () {
     var r = new RegExp('true');
     return Tasks.find({ ownerId: this._id, isRemoved: { $not: r }, isDone: { $not: r } });
   },
 
-  'sortedTodos': function () {
+  sortedTodos: function () {
     var todos = this.todos().fetch();
     todos     = Tasks.basicSort(todos);
     return todos;
   },
 
-  'freetimes': function () {
+  freetimes: function () {
     return Freetimes.find({ ownerId: this._id });
   },
 
-  'calendars': function () {
+  calendars: function () {
     var uid = this._id;
     return Calendars.find({ ownerId: uid });
   },
 
-  'activeCalendars': function () {
+  activeCalendars: function () {
     var uid = this._id;
     return Calendars.find({ ownerId: uid, active: true });
   },
 
-  'calendarIdObjects': function () {
+  calendarIdObjects: function () {
     var calendars = this.activeCalendars();
     var idObjects = calendars.map(function(calendar) {
       return { id: calendar.googleCalendarId };
@@ -159,7 +159,7 @@ var helpers = {
     return idObjects;
   },
 
-  'latestTodoTime': function () {
+  latestTodoTime: function () {
     var latestTodo = lodash.max(this.todos().fetch(), 'dueAt');
     var maxTime    = latestTodo.dueAt;
     return maxTime;
@@ -198,13 +198,24 @@ var helpers = {
       return [];
     }
 
-    var user = this;
+    var user          = this;
+    var firstFreetime = freetimes[0];
+    var freetimeStart = firstFreetime.start;
+    var endOfDay      = user.endOfDay();
+    var firstDay      = Date.startOfDay(freetimeStart);
+    var newEnd        = firstDay + endOfDay;
+    var taskTimeAssignedToday = {};
 
     var todoList = freetimes.map(function(freetime) {
+      if(freetime.start > newEnd) {
+        newEnd += 1 * DAY;
+        taskTimeAssignedToday = {};
+      }
       if(todos.length > 0) {
-        var ret      = user._fillFreetime(freetime, todos);
+        var ret      = user._fillFreetime(freetime, todos, taskTimeAssignedToday);
         var freetime = ret[0];
         todos        = ret[1];
+        taskTimeAssignedToday = ret[2];
         return freetime.todos;
       } else {
         return null;
@@ -215,17 +226,18 @@ var helpers = {
   },
 
   // a private helper function for todoList
-  _fillFreetime: function(freetime, todos) {
+  _fillFreetime: function(freetime, todos, taskTimeAssignedToday) {
     var user       = this;
     var freetime   = R.cloneDeep(freetime);
     var remaining  = freetime.remaining();
     freetime.todos = [];
 
-    while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
-      var ret   = user._appendTodo(freetime, todos, remaining);
+    while(remaining > 0 && todos.length > 0) {
+      var ret   = user._appendTodo(freetime, todos, remaining, taskTimeAssignedToday);
       freetime  = ret[0];
       todos     = ret[1];
       remaining = ret[2];
+      taskTimeAssignedToday = ret[3];
     }
 
     if(todos.length > 0) {
@@ -234,33 +246,41 @@ var helpers = {
       todos    = ret[1];
     }
 
-    return R.cloneDeep([ freetime, todos ]);
+    return R.cloneDeep([ freetime, todos, taskTimeAssignedToday ]);
   },
 
   // a private helper function for todoList
-  _appendTodo: function(freetime, todos, remaining) {
+  _appendTodo: function(freetime, todos, remaining, taskTimeAssignedToday) {
     var freetimeStart = freetime.start;
+    var maxTime       = user.maxTimePerTaskPerDay();
     var lastTodo      = lodash.last(freetime.todos);
     var todo;
     if(lastTodo) {
-      var differentId = function (todo) {
-        return todo._id != lastTodo._id;
+      var valid = function (todo) {
+        if(!taskTimeAssignedToday[todo._id]) taskTimeAssignedToday[todo._id] = 0;
+        return (
+          todo._id != lastTodo._id &&
+          taskTimeAssignedToday[todo._id] < maxTime
+        );
       };
-      todo = lodash.find(todos, differentId) || todos[0];
+      todo = lodash.find(todos, valid) || todos[0];
     }
-    todo = todo || todos[0]
+    todo = todo || todos[0];
     todo = R.cloneDeep(todo);
 
     var todoStart = freetime.start + ( freetime.remaining() - remaining );
+    if(!taskTimeAssignedToday[todo._id]) taskTimeAssignedToday[todo._id] = 0;
+    var taskTimeLeftToday = maxTime - taskTimeAssignedToday[todo._id];
+    var rem = taskTimeLeftToday < remaining ? taskTimeLeftToday : remaining;
 
-    if( (todo.remaining > remaining) && (todo.dueAt >= freetimeStart) ) {
-      var ret   = todo.split(remaining);
-      todo      = ret[0];
-      todos[0]  = ret[1];
-      remaining = 0;
+    if( (todo.remaining > rem) && (todo.dueAt >= freetimeStart) ) {
+      var ret    = todo.split(rem);
+      todo       = ret[0];
+      todos[0]   = ret[1];
+      remaining -= rem;
     } else {
       todos.shift();
-      remaining = remaining - todo.remaining;
+      remaining = rem - todo.remaining;
     }
 
     if(todo.dueAt < freetimeStart) todo.isOverdue = true;
@@ -268,9 +288,11 @@ var helpers = {
     todo.start = new Date(todoStart);
     todo.end   = new Date(todoStart + todo.remaining);
 
+    taskTimeAssignedToday[todo._id] += todo.remaining;
+
     freetime.todos.push(todo);
 
-    return R.cloneDeep([ freetime, todos, remaining ]);
+    return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
   },
 
   _appendOverdue: function(freetime, todos) {
@@ -297,22 +319,26 @@ if(CONFIG.testing) {
   user.maxTaskInterval      = function () { return 2 * HOURS; };
   user.maxTimePerTaskPerDay = function () { return 4 * HOURS; };
 
-  Tasks.create('task 1 due by thursday at midnight for 8 hours very important', { ownerId: '1337' });
-  Tasks.create('task 2 due by friday at midnight for 8 hours very important', { ownerId: '1337' });
-
-  var now = Date.now()
+  Tasks.create('task 1 due by saturday at midnight for 8 hours very important', { ownerId: '1337' });
+  Tasks.create('task 2 due by sunday at midnight for 8 hours very important', { ownerId: '1337' });
 
   var freetimes = [
-    { start: now,              end: now + 5  * HOURS },
-    { start: now + 6  * HOURS, end: now + 7  * HOURS },
-    { start: now + 15 * HOURS, end: now + 20 * HOURS },
-    { start: now + 30 * HOURS, end: now + 38 * HOURS }
+    { start: 'thursday at 8am ', end: 'thursday at 1pm ' },
+    { start: 'thursday at 2pm ', end: 'thursday at 3pm ' },
+    { start: 'thursday at 8pm ', end: 'thursday at 10pm' },
+    { start: 'friday   at 8am ', end: 'friday   at 11am' },
+    { start: 'friday   at 2pm ', end: 'friday   at 10pm' }
   ];
 
-  freetimes = freetimes.map(Freetimes.create);
+  freetimes = freetimes.map(function (obj) {
+    obj.start = Number(Date.create(obj.start));
+    obj.end   = Number(Date.create(obj.end));
+    return Freetimes.create(obj);
+  });
 
   // COMPUTATION
   var taskEvents = user.todoList(freetimes);
+  // console.log('taskEvents: ', taskEvents);
 
   // EVALUATION
   taskEvents.forEach(function (ev) {
