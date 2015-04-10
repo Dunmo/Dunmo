@@ -2,18 +2,23 @@
   <div class="overlay"></div>
   <div data-onboarded-token="WHaDSsh3DjX66cDZ8LNIpw" style="display: none;" class="project">
     <div data-onboarded-flow="Calendar Settings Flow" class="flow">
-      <div data-step="calendarSettings-step-1" class="step">
+      <div data-step="calendarSettings-step-1" class="step settings-step-1">
         <h2>Give Dunmo Your Tasks</h2>
         <p>This is where you add tasks for Dunmo to keep track of. Since tasks take time, every task should have a duration. Just give it your best guess.</p>
         <button data-name="Go To Second Step" data-action-next="calendarSettings-step-2">Next</button>
       </div>
-      <div data-step="calendarSettings-step-2" class="step">
+      <div data-step="calendarSettings-step-2" class="step settings-step-2">
         <h2>See Your Tasks in Order</h2>
         <p>Every task you enter will be immediately added to the list and sorted by Dunmo so that the item on top is what you should be working on first.</p>
         <button data-name="Go To Third Step" data-action-next="calendarSettings-step-3">Next</button>
       </div>
-      <div data-step="calendarSettings-step-3" class="step">
+      <div data-step="calendarSettings-step-3" class="step settings-step-3">
         <h2>Your Tasks Are On Your Calendar!</h2>
+        <p>All of your tasks have been added to your calendar. Every time you add a task, the tasks on your calendar are adjusted according to the newly prioritized list. Your tasks have been put into a "Dunmo Tasks" calendar on your account so that you can easily hide your tasks if you need a less cluttered view sometimes.</p>
+        <button data-name="End Flow" data-action-next="calendarSettings-step-4">Finish</button>
+      </div>
+      <div data-step="calendarSettings-step-4" class="step settings-step-4">
+        <h2>Your Tasks Are On Your Calendar AGAIN!</h2>
         <p>All of your tasks have been added to your calendar. Every time you add a task, the tasks on your calendar are adjusted according to the newly prioritized list. Your tasks have been put into a "Dunmo Tasks" calendar on your account so that you can easily hide your tasks if you need a less cluttered view sometimes.</p>
         <button data-name="End Flow" data-action-complete>Finish</button>
       </div>

@@ -4,6 +4,6 @@ Template.calendarSettingsFlow.rendered = function () {
     $(".overlay").addClass("hidden");
   });
 
-  tvFlow = Onboarded.load();
-  tvFlow.startFlow();
+  csFlow = Onboarded.load();
+  csFlow.startFlow();
 };
