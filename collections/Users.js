@@ -51,6 +51,12 @@ Meteor.users.helpers({
     return settings.endOfDay;
   },
 
+  'taskCalendarId': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ taskCalendarId: str });
+    else    return settings.taskCalendarId;
+  },
+
   'appleCredentials': function () {
     return AppleCredentials.findOne(this.appleCredentialsId);
   },
@@ -90,11 +96,14 @@ Meteor.users.helpers({
     cred.syncReminders();
   },
 
-  'taskCalendar': function () {
-    var name = 'Dunmo Tasks';
-    var cal = Calendars.findOne({ ownerId: this._id, summary: name });
-    return cal;
-  },
+  // 'taskCalendar': function () {
+  //   var calId = this.taskCalendarId;
+  //   gapi.getTaskCalendar(calId, function () {
+
+  //   });
+  //   var cal = Calendars.findOne({ ownerId: this._id, summary: name });
+  //   return cal;
+  // },
 
   'tasks': function () {
     // this.syncReminders();
@@ -139,9 +148,9 @@ Meteor.users.helpers({
     return idObjects;
   },
 
-  'latestTaskTime': function () {
-    var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
-    var maxTime = latestTask.dueAt;
+  'latestTodoTime': function () {
+    var latestTodo = lodash.max(this.todos().fetch(), 'dueAt');
+    var maxTime = latestTodo.dueAt;
     return maxTime;
   },
 

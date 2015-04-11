@@ -1,12 +1,7 @@
 
-Template.calendarSettings.rendered = function () {
-  gapi.getCalendars();
-  heap.identify({ name: Meteor.user().profile.name,
-                  email: Meteor.user().services.google.email });
-  $(function () { $("[data-toggle='tooltip']").tooltip(); });
-};
+var view = Template.calendarSettings;
 
-Template.calendarSettings.helpers({
+view.helpers({
   calendars: function() {
     return Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' } });
   },
@@ -24,7 +19,7 @@ Template.calendarSettings.helpers({
   }
 });
 
-Template.calendarSettings.events({
+view.events({
   'submit .start-time.form-control, click button.start-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
