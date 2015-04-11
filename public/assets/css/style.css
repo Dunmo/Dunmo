@@ -569,8 +569,8 @@ h2.header-text {
 
 /* COPYRIGHT */
 #copyright {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 	background: #010101;
 	color: #f2f2f2;
 }
