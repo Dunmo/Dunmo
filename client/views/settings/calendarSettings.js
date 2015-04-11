@@ -1,4 +1,8 @@
 
+Template.calendarSettings.rendered = function () {
+  gapi.getCalendars();
+};
+
 var view = Template.calendarSettings;
 
 view.helpers({
