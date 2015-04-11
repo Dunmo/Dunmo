@@ -5,8 +5,6 @@ Template.calendarSettings.rendered = function () {
 
 var view = Template.calendarSettings;
 
-// gapi.getCalendars() is called in router.js
-
 view.helpers({
   calendars: function() {
     return Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' } });

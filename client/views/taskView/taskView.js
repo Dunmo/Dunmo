@@ -20,5 +20,7 @@ Template.taskView.events({
     Tasks.create(str, { ownerId: Meteor.userId() });
   },
 
-  'click #syncWithCalendar': gapi.handleAuthClick(gapi.syncTasksWithCalendar)
+  'click #syncWithCalendar': function () {
+    gapi.syncTasksWithCalendar();
+  }
 });
