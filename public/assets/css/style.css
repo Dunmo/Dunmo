@@ -92,7 +92,7 @@ a {
 	-o-transition: background-color .4s linear, color .4s linear;
 	-ms-transition: background-color .4s linear, color .4s linear;
 	transition: background-color .4s linear, color .4s linear;
-	color: #1abc9c;
+	color: #fff;
 }
 a:hover,
 a:focus {
@@ -141,7 +141,7 @@ a:focus {
 }
 
 .menu h1.logo a:hover {
-	color: #03C9A9;
+	color: #53ba62;
 }
 
 .menu img.logo {
@@ -269,7 +269,7 @@ tg {
 }
 /*Text Green*/
 tgr {
-	color: #03C9A9;
+	color: #53ba62;
 }
 
 hr {
@@ -296,8 +296,13 @@ input {
 	border: 1px solid #b9b9af;
 	margin-bottom: 10px;
 	background-color: #fff;
+
 	-webkit-transition: background-color 0.2s;
 	transition: background-color 0.2s;
+}
+
+input:focus{
+	outline: none;
 }
 
 .subscribe-input {
@@ -327,7 +332,7 @@ input {
 	}
 
 .btn-green {
-	background: #03C9A9;
+	background: #53ba62;
 	color: white
 }
 
@@ -343,7 +348,7 @@ input {
 
 /* HEADER SECTION */
 #h {
-	background: url(../img/sunset.jpg) no-repeat center top;
+	background: url(../img/13.jpg) no-repeat center top;
 	padding-top: 180px;
 	text-align:center;
 	background-attachment: relative;
@@ -400,7 +405,7 @@ h2.header-text {
 }
 
 .section-bg-color {
-	background-color: #03C9A9;
+	background-color: #5a5a5a;
 	height: 100%;
 	padding-top: 40px;
 	padding-bottom: 80px;
@@ -446,7 +451,7 @@ h2.header-text {
 }
 
 .circle-icon .icon {
-	color: #03C9A9;
+	color: #53ba62;
 	line-height: 120px;
 	text-align: center;
 }
@@ -507,7 +512,7 @@ h2.header-text {
 }
 
 .price-tag-green {
-	background: #03C9A9;
+	background: #53ba62;
 	padding-left: 25px;
 	padding-right: 25px;
 	padding-top: 50px;
@@ -545,8 +550,8 @@ h2.header-text {
 
 /* FOOTER */
 #f {
-	padding-top: 80px;
-	padding-bottom: 80px;
+	padding-top: 20px;
+	padding-bottom: 40px;
 	background: #2f2f2f;
 	color: #f2f2f2;
 }
@@ -564,8 +569,8 @@ h2.header-text {
 
 /* COPYRIGHT */
 #copyright {
-	padding-top: 25px;
-	padding-bottom: 25px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	background: #010101;
 	color: #f2f2f2;
 }
