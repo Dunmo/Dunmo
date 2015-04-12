@@ -1,5 +1,5 @@
 
-Template.calendarSettings.rendered = function () {
+Template.taskView.rendered = function () {
   heap.identify({ name: Meteor.user().profile.name,
                   email: Meteor.user().services.google.email });
 };
