@@ -1,7 +1,9 @@
 
-var view = Template.calendarSettings;
+Template.calendarSettings.rendered = function () {
+  gapi.syncCalendars();
+};
 
-view.helpers({
+Template.calendarSettings.helpers({
   calendars: function() {
     return Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' } });
   },
@@ -19,7 +21,7 @@ view.helpers({
   }
 });
 
-view.events({
+Template.calendarSettings.events({
   'submit .start-time.form-control, click button.start-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
