@@ -54,7 +54,17 @@ body {
 .mb {margin-bottom: 50px;}
 .mtb {margin-top: 50px; margin-bottom: 50px;}
 .mtb2 { margin-top: 100px; margin-bottom: 100px;}
-.ptb {padding-top: 60px; padding-bottom: 60px;}
+.ptb {
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #c5c9cb 0%, #e9ebed 45%, #ffffff 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c5c9cb), color-stop(45%,#e9ebed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #c5c9cb 0%,#e9ebed 45%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #c5c9cb 0%,#e9ebed 45%,#ffffff 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #c5c9cb 0%,#e9ebed 45%,#ffffff 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #c5c9cb 0%,#e9ebed 45%,#ffffff 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5c9cb', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	padding-top: 60px; padding-bottom: 60px;
+}
 
 .clear {
 	clear: both;
@@ -405,7 +415,15 @@ h2.header-text {
 }
 
 .section-bg-color {
-	background-color: #5a5a5a;
+	background: #495151; /* Old browsers */
+	background: -moz-linear-gradient(top,  #5E4940 0%, #989d9e 45%, #c5c9cb 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5E4940), color-stop(45%,#989d9e), color-stop(100%,#c5c9cb)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #5E4940 0%,#989d9e 45%,#c5c9cb 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #5E4940 0%,#989d9e 45%,#c5c9cb 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #5E4940 0%,#989d9e 45%,#c5c9cb 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #5E4940 0%,#989d9e 45%,#c5c9cb 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5E4940', endColorstr='#c5c9cb',GradientType=0 ); /* IE6-9 */
+
 	height: 100%;
 	padding-top: 40px;
 	padding-bottom: 80px;
