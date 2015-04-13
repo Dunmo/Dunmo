@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="assets/img/favicon.ico">
+    <link rel="icon" href="img/favicon.ico">
 
-    <title>Dunmo</title>
+    <title>Dunmo | Personal Productivity Assistant</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="assets/css/ionicons.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="css/ionicons.min.css" rel="stylesheet">
+    <link href="css/helpers.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -44,39 +45,47 @@
 
   <body data-spy="scroll" data-offset="0" data-target="#theMenu">
 
-  <img src="assets/img/social.png" alt="" class="hidden">
+  <img src="img/social.png" alt="" class="hidden">
 
   <!-- Menu -->
-  <nav class="menu" id="theMenu">
+  <!-- <nav class="menu" id="theMenu">
     <div class="menu-wrap">
       <h1 class="logo"><a href="index.html#home">DUNMO</a></h1>
       <i class="ion-android-close menu-close"></i>
       <a href="#home" class="smoothScroll">Home</a>
       <a href="#speakers" class="smoothScroll">Our Team</a>
       <a href="#contact" class="smoothScroll">Subscribe</a>
-    </div>
+    </div> -->
 
     <!-- Menu button -->
-    <div id="menuToggle"><i class="ion-navicon-round"></i></div>
-  </nav>
+    <!-- <div id="menuToggle"><i class="ion-navicon-round"></i></div>
+  </nav> -->
 
    <!-- ********** HEADER ********** -->
    <section id="home"></section>
    <div id="h">
     <div class="container">
       <div class="row">
-        <img src="assets/img/dunmo.png" alt="Dunmo Logo" class="img-logo">
+        <img src="img/dunmo.png" alt="Dunmo Logo" class="img-logo">
         <h3>Your Personal Productivity Assistant</h3>
         <br/>
-        <h2>Stop managing your time. &nbsp;Let Dunmo do that for you.</h2>
+        <h2>Get More Done with Dunmo</h2>
         <p class="mt"><a href='/taskView' class="btn btn-conf btn-green">Get the Dunmo Beta Now!</a></p>
-        <!--<button class="btn btn-conf btn-clear">Learn More</button>--></p>
+
+        <!--<button class="btn btn-conf btn-clear">Learn More</button>--></p><br/>
+        <div class="promo">
+          <h2>
+            <a href="/promotion.html" style="text-decoration: underline;"> Get 10 friends to sign up, Win a free T-shirt! </a>
+          </h2>
+        </div>
+        <br>
+        <h3><a href="#about">Learn More</a></h3>
       </div><!--/row -->
     </div><!--/container -->
    </div><!--/H -->
 
     <!-- ********** STAND OUT / CALL TO ACTION ********** -->
-    <section class="news">
+    <section class="news" id="about">
       <div class="container">
         <div class="row">
           <div class="col-sm-6 section-bg-color">
@@ -87,9 +96,22 @@
                 </div>
               </div> --><!--/col-sm-3-->
               <div class="col-sm-12">
-                <h2 class="header-text"> Tasks take time. </h2>
-                <img src="assets/img/tasks-take-time.png" alt="">
-                <p>Dunmo prioritizes your task list and schedules each task into your calendar. You'll always know what you should be working on to get everything done on time and you'll have more time to do the things you love.</p>
+                <h2 class="header-text"> Hi! I'm Dunmo! </h2>
+                <img src="img/dunmo1.png" alt="">
+                <p> I'm here to save you time and make your life easier by managing your time for you. Until now, it was your job to find time in your day to do tasks. Now you can relax and let me do the work for you. </p>
+
+              </div>
+            </div><!--/row-->
+              <div class="row">
+              <!-- <div class="col-sm-3 mt">
+                <div class="circle-icon">
+                  <div class="icon ion-ios-clock-outline"></div>
+                </div>
+              </div> --><!--/col-sm-3-->
+              <div class="col-sm-12">
+                <h2 class="header-text"> How can I make your life easier? </h2>
+                <img src="img/tasks-take-time.png" alt="">
+                <p> I prioritize your task list and schedule each task into your calendar<br>so you always know what you should be working on. This way you can see clearly what you need to do, when you need to do it, and how long you'll need to spend on it. With me doing the work for you, you'll have more time to spend doing the things you love. </p>
 
               </div>
             </div><!--/row-->
@@ -118,58 +140,33 @@
 
     <!-- ********** SPEAKERS ********** -->
     <section id="speakers"></section>
-    <div class="container ptb">
-      <div class="row">
-        <h2 class="centered">TEAM</h2>
-        <hr class="aligncenter mb">
-        <!-- Speakers First Row -->
-        <div class="col-md-2 centered">
-          <img src="assets/img/circle-michael.png" height="120" class="img-circle" alt="">
-        </div>
-        <div class="col-md-4">
-          <h4>Michael Goldman</h4>
-          <h6><tg>CEO</tg></h6>
-          <p>Michael is focused on building an amazing product that will make life easier and he is driving the team toward that goal. "Power and simplicity, That's what we want to achieve" </p>
-        </div>
-        <div class="col-md-2 centered">
-          <img src="assets/img/circle-jeremy.png" height="120" class="img-circle" alt="">
-        </div>
-        <div class="col-md-4">
-          <h4>Jeremy Meyer</h4>
-          <h6><tg>CTO</tg></h6>
-          <p>Jeremy puts the quality of the user experience above all else, but his primary concern is creating an extremely robust and powerful technology stack to drive Dunmo</p>
-        </div>
-        <div class="col-md-2 centered">
-          <img src="assets/img/circle-adeyo.png" height="120" class="img-circle" alt="">
-        </div>
-        <div class="col-md-4">
-          <h4>Laolu Adeyo</h4>
-          <h6><tg>CCO</tg></h6>
-          <p>Adeyo drives the creative direction here at Dunmo. He's the visionary designer responsible for the beautiful and intuitive Dunmo personal productivity assistant.</p>
-        </div>
-        <!--/End Row of Speakers-->
-      <!--</div><!--/row-->
-      <!--<div class="row mt">
-        <!-- Speakers Second Row -->
-        <!--<div class="col-md-2 centered">
-          <img src="assets/img/ui-03.jpg" height="120" class="img-circle" alt="">
-        </div>
-        <div class="col-md-4">
-          <h4>Laolu Adeyo</h4>
-          <h6><tg>CCO</tg></h6>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        </div>
-        <div class="col-md-2 centered">
-          <img src="assets/img/ui-04.jpg" height="120" class="img-circle" alt="">
-        </div>
-        <div class="col-md-4">
-          <h4>LAURA STERN</h4>
-          <h6><tg>CEO </tg></h6>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        </div>
-      <!--/End Row of Speakers-->
-      </div><!--/row-->
-    </div><!--/container-->
+    <div class="ptb">
+      <div class="container">
+        <div class="row">
+          <h2 class="centered">TEAM</h2>
+          <hr class="aligncenter mb">
+          <!-- Speakers First Row -->
+          <div class="col-md-4 text-center">
+            <img src="img/circle-michael.png" class="img-circle img-120 centered" alt="">
+            <h4>Michael Goldman</h4>
+            <h6><tg>CEO</tg></h6>
+            <p>Michael is focused on building an amazing product that will make life easier and he is driving the team toward that goal. "Power and simplicity. That's what we aim to achieve." </p>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="img/circle-jeremy.png" class="img-circle img-120" alt="">
+            <h4>Jeremy Meyer</h4>
+            <h6><tg>CTO</tg></h6>
+            <p>Jeremy puts the quality of the user experience above all else, but his primary concern is creating an extremely robust and powerful technology stack to drive Dunmo.</p>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="img/circle-adeyo.png" class="img-circle img-120" alt="">
+            <h4>Laolu Adeyo</h4>
+            <h6><tg>CCO</tg></h6>
+            <p>Adeyo drives the creative direction here at Dunmo. He's the visionary designer responsible for the beautiful and intuitive Dunmo personal productivity assistant.</p>
+          </div>
+        </div><!--/row-->
+      </div><!--/container-->
+    </div>
 
 
 
@@ -265,10 +262,59 @@
     </div><!--/container-->
 
 
+     <!-- ********** FOOTER ********** -->
+    <section id="contact"></section>
+    <div id="f">
+      <div class="container">
+
+        <!-- <div class="row">
+          <div class="col-md-6 col-md-offset-3 mt">
+            <div class="mailing-list">
+              <div class="flash"></div>
+            </div>
+          </div>
+        </div> -->
+      </div><!--/container-->
+        <div class="container">
+        <div class="row centered">
+
+          <h2>Think we're missing something?</h2>
+
+          <div class="col-md-6 col-md-offset-3 mt">
+            <div class="mailing-list">
+
+              <p><a href='http://goo.gl/forms/0pkDxhyXAU' target="_blank" class="btn btn-conf btn-green">Request A Feature</a></p>
+            </div>
+          </div><!--/col-md-6-->
+        </div><!--/row-->
+        <!-- <div class="row">
+          <div class="col-md-6 col-md-offset-3 mt">
+            <div class="mailing-list">
+              <div class="flash"></div>
+            </div>
+          </div>
+        </div> -->
+      </div><!--/container-->
+    </div><!--/F-->
+
+
+
+
+
     <!-- ********** FOOTER ********** -->
     <section id="contact"></section>
     <div id="f">
       <div class="container">
+
+        <!-- <div class="row">
+          <div class="col-md-6 col-md-offset-3 mt">
+            <div class="mailing-list">
+              <div class="flash"></div>
+            </div>
+          </div>
+        </div> -->
+      </div><!--/container-->
+        <div class="container">
         <div class="row centered">
           <h2>Don't miss any news. &nbsp;Subscribe below to be updated.</h2>
           <div class="col-md-6 col-md-offset-3 mt">
@@ -290,23 +336,28 @@
 
 
 
+
+
     <!-- ********** COPYRIGHT ********** -->
     <div id="copyright">
       <div class="container">
         <div class="row">
           <div class="col-md-8">
-            <h4>DUNMO</h4><p>Copyright &copy; 2015</p>
+          <img src="img/dunmo3.png" height="35px" width="145px">
+
+
           </div>
-          <!--
+
           <div class="col-md-4">
             <p class="alignright">
-              <a href="#"><i class="ion-social-twitter"></i></a>
-              <a href="#"><i class="ion-social-instagram"></i></a>
-              <a href="#"><i class="ion-social-facebook"></i></a>
-              <a href="#"><i class="ion-social-dribbble"></i></a>
-              <a href="#"><i class="ion-social-github"></i></a>
+
+              <a href="http://facebook.com/DunmoApp"><i class="ion-social-facebook"></i></a>
+              <a href="http://twitter.com/DunmoApp"><i class="ion-social-twitter"></i></a>
+
+
+
             </p>
-          </div>-->
+          </div>
         </div><!--/row-->
       </div><!--/container-->
     </div><!--/copyright-->
@@ -314,13 +365,13 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/classie.js"></script>
-    <script src="assets/js/smoothscroll.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/retina-1.1.0.js"></script>
-    <script src="assets/js/mailingList.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/retina-1.1.0.js"></script>
+    <script src="js/mailingList.js"></script>
   </body>
 </html>
 
