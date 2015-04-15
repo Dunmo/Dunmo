@@ -23,8 +23,10 @@ function createReferral(data) {
 
   console.log('referrer: ', referrer);
 
+  if(!referrer) return;
+
   var ret = referrer.addReferral(userEmail);
-  if(ret == 1) user.referred(true);
+  if (ret == 1) user.referred(true);
 };
 
 Meteor.methods({
