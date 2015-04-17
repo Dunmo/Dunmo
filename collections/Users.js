@@ -21,7 +21,7 @@ Meteor.users.helpers({
   },
 
   'primaryEmailAddress': function () {
-    return this.emails[0] && this.emails[0].address;
+    return this.services && this.services.google && this.services.google.email;
   },
 
   'settings': function () {
@@ -49,6 +49,31 @@ Meteor.users.helpers({
       return settings.update({ endOfDay: time });
     }
     return settings.endOfDay;
+  },
+
+  'referred': function (bool) {
+    var settings = this.settings();
+    if(bool !== undefined && bool !== null) {
+      return settings.update({ isReferred: bool });
+    }
+    return settings.isReferred;
+  },
+
+  'addReferral': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $addToSet: { referrals: str } });
+    else    return null;
+  },
+
+  'referrals': function () {
+    var settings = this.settings();
+    return settings.referrals;
+  },
+
+  'removeReferral': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $pull: { referrals: str } });
+    else    return null;
   },
 
   'taskCalendarId': function (str) {

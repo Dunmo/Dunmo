@@ -10,15 +10,26 @@
    id="svg2"
    xml:space="preserve"
    enable-background="new 0 0 2000 1200"
+<<<<<<< HEAD
    viewBox="0 0 1300 650"
    height="650"
    width="1300"
+=======
+   viewBox="0 0 397.00143 511.27594"
+   height="511.27594"
+   width="397.00143"
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
    y="0px"
    x="0px"
    version="1.1"
    inkscape:version="0.91 r13725"
+<<<<<<< HEAD
    sodipodi:docname="DunmoOnWhite.svg"
    inkscape:export-filename="/Users/michael/Desktop/DunmoOnWhite.png"
+=======
+   sodipodi:docname="dunmo_outline.svg"
+   inkscape:export-filename="/Users/michael/Desktop/assets/dunmo_outline.png"
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"><sodipodi:namedview
      pagecolor="#ffffff"
@@ -34,17 +45,34 @@
      id="namedview3536"
      showgrid="false"
      inkscape:zoom="0.5363133"
+<<<<<<< HEAD
      inkscape:cx="981.98555"
      inkscape:cy="324.7666"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" /><metadata
+=======
+     inkscape:cx="530.48626"
+     inkscape:cy="255.40457"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" /><metadata
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
      id="metadata95"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
      id="defs93" /><g
+<<<<<<< HEAD
      transform="translate(0,-550)"
+=======
+     transform="translate(-451.49929,-619.36203)"
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
      style="display:none"
      display="none"
      id="Layer_3"><rect
@@ -55,7 +83,11 @@
        height="1200"
        width="2000"
        display="inline" /></g><g
+<<<<<<< HEAD
      transform="translate(797.63736,-527.30956)"
+=======
+     transform="translate(346.13807,-596.67159)"
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
      display="none"
      id="Layer_3-4"
      style="display:none"><rect
@@ -67,7 +99,11 @@
        y="0"
        style="display:inline;fill:#54ba62" /></g><g
      id="g3526"
+<<<<<<< HEAD
      transform="translate(-1.0399218e-6,-1.0637086e-7)"><g
+=======
+     transform="translate(-451.49929,-69.362028)"><g
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
        transform="matrix(0.9985724,0,0,0.9985724,-277.08687,-19.505438)"
        id="g4641"><g
          id="g4673"

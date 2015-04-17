@@ -10,49 +10,31 @@
    id="svg2"
    xml:space="preserve"
    enable-background="new 0 0 2000 1200"
-<<<<<<< HEAD
-   viewBox="0 0 1300 650"
-   height="650"
-   width="1300"
-=======
-   viewBox="0 0 407.00156 510.33502"
-   height="510.33502"
-   width="407.00156"
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
+   viewBox="0 0 580.00001 580"
+   height="580"
+   width="580"
    y="0px"
    x="0px"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="dunmo.svg"
-<<<<<<< HEAD
-   inkscape:export-filename="/Users/michael/Desktop/dunmo.png"
-=======
-   inkscape:export-filename="/Users/michael/Desktop/assets/dunmo.png"
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
+   sodipodi:docname="dunmo_greenSquare.svg"
+   inkscape:export-filename="/Users/michael/Google Drive/Dunmo/Branding Guide/assets/bot/dunmo_greenSquare.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"><sodipodi:namedview
-     pagecolor="#969696"
+     pagecolor="#237a29"
      bordercolor="#666666"
      borderopacity="1"
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-width="1366"
      inkscape:window-height="667"
      id="namedview3536"
      showgrid="false"
      inkscape:zoom="0.5363133"
-<<<<<<< HEAD
-     inkscape:cx="555.92862"
-     inkscape:cy="322.90202"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg2" /><metadata
-=======
-     inkscape:cx="109.4294"
+     inkscape:cx="330.38233"
      inkscape:cy="253.06953"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -62,16 +44,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0" /><metadata
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
      id="metadata95"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
      id="defs93" /><g
-<<<<<<< HEAD
-     transform="translate(0,-550)"
-=======
-     transform="translate(-446.49922,-619.83249)"
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
+     transform="translate(-446.49922,-550.16752)"
      style="display:none"
      display="none"
      id="Layer_3"><rect
@@ -82,11 +59,7 @@
        height="1200"
        width="2000"
        display="inline" /></g><g
-<<<<<<< HEAD
-     transform="translate(797.63736,-527.30956)"
-=======
-     transform="translate(351.13814,-597.14205)"
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
+     transform="translate(351.13814,-527.47708)"
      display="none"
      id="Layer_3-4"
      style="display:none"><rect
@@ -97,12 +70,8 @@
        x="0"
        y="0"
        style="display:inline;fill:#54ba62" /></g><g
-<<<<<<< HEAD
-     id="g3676"><g
-=======
      id="g3676"
-     transform="translate(-446.49922,-69.83249)"><g
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
+     transform="translate(-360,-35)"><g
        id="g4367"
        transform="matrix(0.9985724,0,0,0.9985724,-277.08681,-19.034976)"><g
          transform="translate(8.0610227,-10.461627)"

@@ -12,9 +12,15 @@
    version="1.1"
    x="0px"
    y="0px"
+<<<<<<< HEAD
    width="2000px"
    height="1200px"
    viewBox="0 0 2000 1200"
+=======
+   width="1633.933"
+   height="510.33502"
+   viewBox="0 0 1633.933 510.33502"
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
    enable-background="new 0 0 2000 1200"
    xml:space="preserve"
    id="svg2"
@@ -39,6 +45,7 @@
      inkscape:window-height="659"
      id="namedview91"
      showgrid="false"
+<<<<<<< HEAD
      inkscape:zoom="0.77498903"
      inkscape:cx="836.22749"
      inkscape:cy="583.592"
@@ -55,6 +62,32 @@
        id="rect5" /></g><g
      id="g3603"
      transform="translate(14.916124,2.0249104e-7)"><g
+=======
+     inkscape:zoom="0.548"
+     inkscape:cx="862.91828"
+     inkscape:cy="175.64059"
+     inkscape:window-x="-2"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" /><g
+     id="Layer_3"
+     display="none"
+     style="display:none"
+     transform="translate(-183.0335,-344.83249)"><rect
+       display="inline"
+       width="2000"
+       height="1200"
+       id="rect5"
+       x="0"
+       y="0"
+       style="display:inline;fill:#54ba62" /></g><g
+     id="g3603"
+     transform="translate(-168.11738,-344.83249)"><g
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
        transform="matrix(2.0094515,0,0,1.9176275,355.43785,-25.520972)"
        id="g3460"><g
          id="g3462"
