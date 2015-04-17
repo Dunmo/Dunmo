@@ -6,6 +6,8 @@
  * startOfDay     : Number (Duration)
  * endOfDay       : Number (Duration)
  * taskCalendarId : String
+ * referrals      : String[]
+ * isReferred     : Boolean
  *
  */
 
@@ -32,6 +34,7 @@ UserSettings.create = function(obj) {
   obj.endOfDay   = obj.endOfDay   || Date.parseTime('22:00');
   // obj.maxTaskInterval      = obj.maxTaskInterval      || Date.parseDuration('2 hours');
   // obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || Date.parseDuration('4 hours');
+  obj.referrals  = obj.referrals  || []
 
   var curr = UserSettings.findOne({ userId: obj.userId });
   if(curr) return curr.update(obj);

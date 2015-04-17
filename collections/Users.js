@@ -20,8 +20,8 @@ var helpers = {
     return Meteor.users.update(this._id, data);
   },
 
-  primaryEmailAddress: function () {
-    return this.emails[0] && this.emails[0].address;
+  'primaryEmailAddress': function () {
+    return this.services && this.services.google && this.services.google.email;
   },
 
   settings: function () {
@@ -51,6 +51,7 @@ var helpers = {
     return settings.endOfDay;
   },
 
+<<<<<<< HEAD
   maxTaskInterval: function (str) {
     var settings = this.settings();
     if(str) {
@@ -70,6 +71,34 @@ var helpers = {
   },
 
   taskCalendarId: function (str) {
+=======
+  'referred': function (bool) {
+    var settings = this.settings();
+    if(bool !== undefined && bool !== null) {
+      return settings.update({ isReferred: bool });
+    }
+    return settings.isReferred;
+  },
+
+  'addReferral': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $addToSet: { referrals: str } });
+    else    return null;
+  },
+
+  'referrals': function () {
+    var settings = this.settings();
+    return settings.referrals;
+  },
+
+  'removeReferral': function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $pull: { referrals: str } });
+    else    return null;
+  },
+
+  'taskCalendarId': function (str) {
+>>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
     var settings = this.settings();
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
