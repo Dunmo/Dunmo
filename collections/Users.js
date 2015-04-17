@@ -20,7 +20,7 @@ var helpers = {
     return Meteor.users.update(this._id, data);
   },
 
-  'primaryEmailAddress': function () {
+  primaryEmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
   },
 
@@ -69,7 +69,7 @@ var helpers = {
     return settings.maxTimePerTaskPerDay;
   },
 
-  'referred': function (bool) {
+  referred: function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
       return settings.update({ isReferred: bool });
@@ -77,24 +77,24 @@ var helpers = {
     return settings.isReferred;
   },
 
-  'addReferral': function (str) {
+  addReferral: function (str) {
     var settings = this.settings();
     if(str) return settings.update({ $addToSet: { referrals: str } });
     else    return null;
   },
 
-  'referrals': function () {
+  referrals: function () {
     var settings = this.settings();
     return settings.referrals;
   },
 
-  'removeReferral': function (str) {
+  removeReferral: function (str) {
     var settings = this.settings();
     if(str) return settings.update({ $pull: { referrals: str } });
     else    return null;
   },
 
-  'taskCalendarId': function (str) {
+  taskCalendarId: function (str) {
     var settings = this.settings();
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
@@ -209,12 +209,20 @@ var helpers = {
   },
 
   todoList: function(freetimes) {
+    var todos, maxTimePerTaskPerDay, isByDay, todoList;
+
     todos = this.sortedTodos();
     todos = this._splitTasksByMaxTaskInterval(todos);
 
     freetimes = freetimes || this.freetimes();
+    console.log('freetimes: ', freetimes);
 
-    todoList = this._generateTodoList(freetimes, todos, 'greedy');
+    maxTimePerTaskPerDay = this.maxTimePerTaskPerDay();
+    if(this.maxTimePerTaskPerDay() != 0) isByDay = true;
+
+    if(isByDay) freetimes = this.freetimesByDay(freetimes);
+
+    todoList = this._generateTodoList(freetimes, todos, 'greedy', isByDay);
 
     return todoList;
   },
@@ -224,18 +232,15 @@ var helpers = {
     var grouped = lodash.groupBy(freetimes, function (freetime) {
       return Number(Date.startOfDay(freetime.start)) + end;
     });
-    lodash.keys(grouped).map(function (freetimes) {
-      return lodash.sum(freetimes, function (freetime) {
-        return freetime.remaining();
-      });
-    });
+    console.log('grouped: ', grouped);
+    return grouped;
   },
 
   // a private helper function for todoList
-  _generateTodoList: function(freetimes, todos, algorithm) {
-    if(algorithm !== 'greedy') {
-      return [];
-    }
+  _generateTodoList: function(freetimes, todos, algorithm, isByDay) {
+    // if(algorithm !== 'greedy') {
+    //   return [];
+    // }
 
     var user          = this;
     var firstFreetime = freetimes[0];
@@ -250,6 +255,8 @@ var helpers = {
     });
 
     console.log('initial taskTimeAssignedToday: ', taskTimeAssignedToday);
+
+    console.log('freetimes: ', freetimes);
 
     var freetimesByDay = user.freetimesByDay(freetimes);
 
@@ -397,6 +404,8 @@ if(CONFIG.testing) {
     obj.end   = Number(Date.create(obj.end));
     return Freetimes.create(obj);
   });
+
+  console.log('freetimes: ', freetimes);
 
   // COMPUTATION
   var taskEvents = user.todoList(freetimes);
