@@ -238,50 +238,63 @@ var helpers = {
 
   // a private helper function for todoList
   _generateTodoList: function(freetimes, todos, algorithm, isByDay) {
-    // if(algorithm !== 'greedy') {
-    //   return [];
-    // }
 
-    var user          = this;
-    var firstFreetime = freetimes[0];
-    var freetimeStart = firstFreetime.start;
-    var endOfDay      = user.endOfDay();
-    var firstDay      = Date.startOfDay(freetimeStart);
-    var newEnd        = firstDay + endOfDay;
-    var taskTimeAssignedToday = {};
+    var user = this;
 
-    todos.forEach(function (todo) {
-      taskTimeAssignedToday[todo._id] = 0;
-    });
+    if(!isByDay) {
+      var todoList  = lodash.map(freetimes, function(freetime) {
+        if(todos.length > 0) {
+          var ret      = user._generateDayList(freetime, todos);
+          var freetime = ret[0];
+          todos        = ret[1];
+          return freetime.todos;
+        } else {
+          return null;
+        }
+      });
 
-    console.log('initial taskTimeAssignedToday: ', taskTimeAssignedToday);
+      return lodash.flatten(lodash.compact(todoList));
+    }
+    else {
+      var freetimesByDay = freetimes;
+      var endsOfDays     = lodash.keys(freetimesByDay);
+      var endOfFirstDay  = Number(endsOfDays[0]);
+      console.log('endOfFirstDay: ', endOfFirstDay);
+      var endOfDay       = user.endOfDay();
+      console.log('endOfDay: ', endOfDay);
+      var newEnd         = endOfFirstDay + endOfDay;
+      console.log('newEnd: ', newEnd);
+      var taskTimeAssignedToday = {};
 
-    console.log('freetimes: ', freetimes);
+      todos.forEach(function (todo) {
+        taskTimeAssignedToday[todo._id] = 0;
+      });
 
-    var freetimesByDay = user.freetimesByDay(freetimes);
+      console.log('initial taskTimeAssignedToday: ', taskTimeAssignedToday);
 
-    var todosByDay = user.todosByDay(todos, freetimesByDay);
+      // var todosByDay = user.todosByDay(todos, freetimesByDay);
 
-    var todoList = freetimes.map(function(freetime) {
-      if(freetime.start > newEnd) {
-        newEnd += 1 * DAY;
-        todos.forEach(function (todo) {
-          taskTimeAssignedToday[todo._id] = 0;
-        });
-        console.log('reset taskTimeAssignedToday: ', taskTimeAssignedToday);
-      }
-      if(todos.length > 0) {
-        var ret  = user._fillFreetime(freetime, todos, taskTimeAssignedToday);
-        freetime = ret[0];
-        todos    = ret[1];
-        taskTimeAssignedToday = ret[2];
-        return freetime.todos;
-      } else {
-        return null;
-      }
-    });
+      var todoList = freetimes.map(function(freetime) {
+        if(freetime.start > newEnd) {
+          newEnd += 1 * DAY;
+          todos.forEach(function (todo) {
+            taskTimeAssignedToday[todo._id] = 0;
+          });
+          console.log('reset taskTimeAssignedToday: ', taskTimeAssignedToday);
+        }
+        if(todos.length > 0) {
+          var ret  = user._fillFreetime(freetime, todos, taskTimeAssignedToday);
+          freetime = ret[0];
+          todos    = ret[1];
+          taskTimeAssignedToday = ret[2];
+          return freetime.todos;
+        } else {
+          return null;
+        }
+      });
 
-    return lodash.flatten(lodash.compact(todoList));
+      return lodash.flatten(lodash.compact(todoList));
+    }
   },
 
   // a private helper function for todoList
