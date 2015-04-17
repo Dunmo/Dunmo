@@ -51,7 +51,6 @@ var helpers = {
     return settings.endOfDay;
   },
 
-<<<<<<< HEAD
   maxTaskInterval: function (str) {
     var settings = this.settings();
     if(str) {
@@ -70,8 +69,6 @@ var helpers = {
     return settings.maxTimePerTaskPerDay;
   },
 
-  taskCalendarId: function (str) {
-=======
   'referred': function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
@@ -98,7 +95,6 @@ var helpers = {
   },
 
   'taskCalendarId': function (str) {
->>>>>>> 59840358a9a0aef6e56246e0dd4db268f8d294af
     var settings = this.settings();
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
