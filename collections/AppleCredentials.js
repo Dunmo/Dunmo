@@ -116,12 +116,10 @@ AppleCredentials.helpers({
 
       reminders.forEach(function(reminder) {
         AppleReminders.upsert({ appleReminderId: reminder.fdsa }, reminder);
-        var title = reminders[i].title.replace(/\ufffc/g, '');
+        var title   = reminders[i].title.replace(/\ufffc/g, '');
         var dueDate = reminders[i].dueDate;
-        if(dueDate)
-
-        else
-
+        if(dueDate) console.log('title, dueDate: ', title, dueDate);
+        else        console.log('title: ', title);
       });
     });
   }
