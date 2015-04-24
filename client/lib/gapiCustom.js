@@ -48,8 +48,8 @@ gapi.createTaskCalendar = function (callback) {
 
     request.execute(function(res) {
       console.log('res: ', res);
-      if(!res)             console.log('Error: no result on insert task calendar');
-      else if(!res.result) console.log('Error on insert task calendar: ', res.error);
+      if(!res)             console.error('Error: no result on insert task calendar');
+      else if(!res.result) console.error('Error on insert task calendar: ', res.error);
       else {
         res      = res.result;
         var id   = res.id;
@@ -73,7 +73,7 @@ gapi.findOrCreateTaskCalendar = function (callback) {
   gapi.findCalendar({ summary: 'Dunmo Tasks' }, function (cal) {
     if(cal) callback(cal);
     else {
-      console.log('No task calendar found. Creating new task calendar...');
+      console.error('No task calendar found. Creating new task calendar...');
       gapi.createTaskCalendar(callback);
     }
   });
@@ -153,7 +153,7 @@ gapi.getAllFromCalendarAfter = function (minTime, callback) {
   }
 
   if( !callback ) {
-    console.log('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
+    console.error('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
     return;
   }
 
@@ -181,7 +181,7 @@ gapi.getAllFutureFromCalendar = function (callback) {
 gapi.getCurrentTaskEvent = function (callback) {
 
   if( !callback ) {
-    console.log('getCurrentTaskEvent: no callback supplied. must be called asynchronously');
+    console.error('getCurrentTaskEvent: no callback supplied. must be called asynchronously');
     return;
   }
 

@@ -68,7 +68,7 @@ AppleCredentials.helpers({
       // console.log('res.body: ', res.body);
 
       if(res.statusCode != 200) {
-        // console.log('Error: ', res.error);
+        console.error('Error: ', res.error);
         return false;
       }
 
