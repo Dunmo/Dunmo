@@ -88,9 +88,9 @@ iCloud.prototype = {
       var title = reminders[i].title.replace(/\ufffc/g, '');
       var dueDate = reminders[i].dueDate;
       if(dueDate)
-        console.log('{0}-{1}'.replace('{0}', dueDate[2]).replace('{1}', dueDate[3]), title);
+
       else
-        console.log('----', title);
+
     }
   }
 };
