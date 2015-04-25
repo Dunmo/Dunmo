@@ -199,32 +199,30 @@ var helpers = {
   },
 
   // a private helper function for todoList
-  _splitTasksByMaxTaskInterval: function (tasks) {
-    var maxTaskInterval = this.maxTaskInterval();
-    if(!maxTaskInterval) return tasks;
-    var tasks           = R.cloneDeep(tasks);
-    var splitTasks      = [];
+  // _splitTasksByMaxTaskInterval: function (tasks) {
+  //   var maxTaskInterval = this.maxTaskInterval();
+  //   if(!maxTaskInterval) return tasks;
+  //   var tasks           = R.cloneDeep(tasks);
+  //   var splitTasks      = [];
 
-    tasks.forEach(function (task) {
-      while(task.remaining > maxTaskInterval) {
-        var ret = task.split(maxTaskInterval);
-        splitTasks.push(ret[0])
-        task    = ret[1];
-      }
-      splitTasks.push(task);
-    });
+  //   tasks.forEach(function (task) {
+  //     while(task.remaining > maxTaskInterval) {
+  //       var ret = task.split(maxTaskInterval);
+  //       splitTasks.push(ret[0])
+  //       task    = ret[1];
+  //     }
+  //     splitTasks.push(task);
+  //   });
 
-    return splitTasks;
-  },
+  //   return splitTasks;
+  // },
 
   todoList: function(freetimes) {
     var todos, maxTimePerTaskPerDay, isByDay, todoList;
 
     todos = this.sortedTodos();
-    // todos = this._splitTasksByMaxTaskInterval(todos);
 
     freetimes = freetimes || this.freetimes();
-    // console.log('freetimes: ', freetimes);
 
     maxTimePerTaskPerDay = this.maxTimePerTaskPerDay();
     if(this.maxTimePerTaskPerDay() != 0) isByDay = true;
@@ -232,8 +230,6 @@ var helpers = {
     if(isByDay) freetimes = this.freetimesByDay(freetimes);
 
     todoList = this._generateTodoList(freetimes, todos, 'greedy', isByDay);
-
-    // console.log('todoList: ', todoList);
 
     return todoList;
   },
@@ -243,7 +239,6 @@ var helpers = {
     var grouped = lodash.groupBy(freetimes, function (freetime) {
       return Number(Date.startOfDay(freetime.start)) + end;
     });
-    // console.log('grouped: ', grouped);
     return grouped;
   },
 
@@ -271,30 +266,21 @@ var helpers = {
       var freetimesByDay = freetimes;
       var endsOfDays     = lodash.keys(freetimesByDay);
       var endOfFirstDay  = Number(endsOfDays[0]);
-      // console.log('endOfFirstDay: ', endOfFirstDay);
       var endOfDay       = user.endOfDay();
-      // console.log('endOfDay: ', endOfDay);
       var newEnd         = endOfFirstDay + endOfDay;
-      // console.log('newEnd: ', newEnd);
       var taskTimeAssignedToday = {};
-
-      // var todosByDay = user.todosByDay(todos, freetimesByDay);
 
       lodash.forOwn(freetimesByDay, function(freetimes, day) {
         todos.forEach(function (todo) {
           taskTimeAssignedToday[todo._id] = 0;
         });
-        console.log('day: ', new Date(Number(day)));
-        console.log('freetimes: ', propsToDates(freetimes));
-        // console.log('initial taskTimeAssignedToday: ', taskTimeAssignedToday);
+
         freetimes.forEach(function(freetime) {
           if(todos.length > 0) {
             var ret  = user._fillFreetime(freetime, todos, taskTimeAssignedToday);
             freetime = ret[0];
             todos    = ret[1];
             taskTimeAssignedToday = ret[2];
-            // console.log('IN TL - freetime: ', freetime);
-            // console.log('IN TL - freetime.todos: ', freetime.todos);
             todoList = todoList.concat(freetime.todos);
           } else {
             return null;
@@ -313,9 +299,6 @@ var helpers = {
     var remaining  = freetime.remaining();
     freetime.todos = [];
 
-    // console.log('freetime: ', freetime);
-    // console.log('todos: ',    todos);
-
     while(remaining > 0 && todos.length > 0) {
       var ret   = user._appendTodo(freetime, todos, remaining, taskTimeAssignedToday);
       freetime  = ret[0];
@@ -329,17 +312,12 @@ var helpers = {
       freetime = ret[0];
       todos    = ret[1];
     }
-    // console.log('AFTER FILL FREETIME');
-    // console.log('freetime: ', freetime);
+
     return R.cloneDeep([ freetime, todos, taskTimeAssignedToday ]);
   },
 
   // a private helper function for todoList
   _appendTodo: function(freetime, todos, remaining, taskTimeAssignedToday) {
-    // console.log('freetime: ', freetime);
-    // console.log('todos: ', todos);
-    // console.log('remaining: ', remaining);
-    // console.log('taskTimeAssignedToday: ', taskTimeAssignedToday);
     var user                 = this;
     var freetimeStart        = freetime.start;
     var maxTaskInterval      = user.maxTaskInterval();
@@ -404,27 +382,9 @@ var helpers = {
 
     todo = R.cloneDeep(todo);
 
-    console.log('START');
-    // console.log('todos: ', todos);
-    console.log('todo.title: ', todo.title);
-    console.log('todoIndex: ', todoIndex);
-
     var todoStart = freetimeStart + ( freetime.remaining() - remaining );
-    // console.log('freetimeStart: ', new Date(freetimeStart));
-    // console.log('freetime.remaining(): ', freetime.remaining());
-    // console.log('remaining: ', remaining);
-    // console.log('todoStart: ', new Date(todoStart));
     var taskTimeLeftToday = maxTimePerTaskPerDay - taskTimeAssignedToday[todo._id];
-    console.log('maxTimePerTaskPerDay: ', maxTimePerTaskPerDay);
-    console.log('taskTimeAssignedToday[todo._id]: ', taskTimeAssignedToday[todo._id]);
-    console.log('taskTimeLeftToday: ', taskTimeLeftToday);
     var rem = lodash.min([taskTimeLeftToday, remaining, maxTaskInterval]);
-    console.log('remaining: ', remaining);
-    console.log('rem: ', rem);
-
-    console.log('todo.remaining: ', todo.remaining);
-    console.log('todo.dueAt: ', todo.dueAt);
-    console.log('freetimeStart: ', freetimeStart);
 
     if( (todo.remaining > rem) && (todo.dueAt >= freetimeStart) ) {
       var ret          = todo.split(rem);
@@ -444,12 +404,6 @@ var helpers = {
 
     freetime.todos.push(todo);
 
-    // console.log('AFTER');
-
-    // console.log('freetime: ', freetime);
-    // console.log('todos: ', todos);
-    // console.log('remaining: ', remaining);
-    // console.log('taskTimeAssignedToday: ', taskTimeAssignedToday);
     return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
   },
 
