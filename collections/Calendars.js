@@ -65,7 +65,7 @@ Calendars.updateOrCreate = function(obj) {
       Calendars.insert(obj);
     }
   } else {
-    // console.log('type error, updateOrCreate does not expect: ', typeof(obj));
+    console.error('type error, updateOrCreate does not expect: ', typeof(obj));
   }
 }
 
