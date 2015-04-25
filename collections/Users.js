@@ -69,6 +69,15 @@ var helpers = {
     return settings.maxTimePerTaskPerDay;
   },
 
+  taskBreakInterval: function (str) {
+    var settings = this.settings();
+    if(str) {
+      var time = Date.parseDuration(str);
+      return settings.update({ taskBreakInterval: time });
+    }
+    return settings.taskBreakInterval;
+  },
+
   referred: function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
@@ -212,7 +221,7 @@ var helpers = {
     var todos, maxTimePerTaskPerDay, isByDay, todoList;
 
     todos = this.sortedTodos();
-    todos = this._splitTasksByMaxTaskInterval(todos);
+    // todos = this._splitTasksByMaxTaskInterval(todos);
 
     freetimes = freetimes || this.freetimes();
     // console.log('freetimes: ', freetimes);
@@ -331,18 +340,20 @@ var helpers = {
     // console.log('todos: ', todos);
     // console.log('remaining: ', remaining);
     // console.log('taskTimeAssignedToday: ', taskTimeAssignedToday);
-    var freetimeStart = freetime.start;
-    var maxTime       = user.maxTimePerTaskPerDay();
-    var lastTodo      = lodash.last(freetime.todos);
+    var user                 = this;
+    var freetimeStart        = freetime.start;
+    var maxTaskInterval      = user.maxTaskInterval();
+    var maxTimePerTaskPerDay = user.maxTimePerTaskPerDay();
+    var lastTodo             = lodash.last(freetime.todos);
     var todo, todoIndex;
 
     // find a todo that's different from the most recent one on this freetime
-    // and that we aren't already spending "maxTime" on today
+    // and that we aren't already spending "maxTimePerTaskPerDay" on today
     if(lastTodo && taskTimeAssignedToday) {
       todo = lodash.find(todos, function (todo, index) {
         todoIndex     = index;
         var different = lastTodo ? todo._id != lastTodo._id : true;
-        var timeLeft  = taskTimeAssignedToday[todo._id] < maxTime;
+        var timeLeft  = taskTimeAssignedToday[todo._id] < maxTimePerTaskPerDay;
         return different && timeLeft;
       });
     }
@@ -356,7 +367,7 @@ var helpers = {
     else if(taskTimeAssignedToday) {
       todo = lodash.find(todos, function (todo, index) {
         todoIndex    = index;
-        var timeLeft = taskTimeAssignedToday[todo._id] < maxTime;
+        var timeLeft = taskTimeAssignedToday[todo._id] < maxTimePerTaskPerDay;
         return timeLeft;
       });
     }
@@ -365,7 +376,28 @@ var helpers = {
       todo      = todos[0];
     }
 
-    if(!todo) {
+    if(!todo && todos.length > 0) {
+      var taskBreakInterval = user.taskBreakInterval();
+      if(remaining > taskBreakInterval) {
+        remaining -= taskBreakInterval;
+      } else {
+        remaining = 0;
+        return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
+      }
+
+      if(taskTimeAssignedToday) {
+        todo = lodash.find(todos, function (todo, index) {
+          todoIndex    = index;
+          var timeLeft = taskTimeAssignedToday[todo._id] < maxTimePerTaskPerDay;
+          return timeLeft;
+        });
+      }
+      else {
+        todoIndex = 0;
+        todo      = todos[0];
+      }
+    }
+    else if(!todo) {
       remaining = 0;
       return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
     }
@@ -373,7 +405,7 @@ var helpers = {
     todo = R.cloneDeep(todo);
 
     console.log('START');
-    console.log('todos: ', todos);
+    // console.log('todos: ', todos);
     console.log('todo.title: ', todo.title);
     console.log('todoIndex: ', todoIndex);
 
@@ -382,17 +414,17 @@ var helpers = {
     // console.log('freetime.remaining(): ', freetime.remaining());
     // console.log('remaining: ', remaining);
     // console.log('todoStart: ', new Date(todoStart));
-    var taskTimeLeftToday = maxTime - taskTimeAssignedToday[todo._id];
-    // console.log('maxTime: ', maxTime);
-    // console.log('taskTimeAssignedToday[todo._id]: ', taskTimeAssignedToday[todo._id]);
-    // console.log('taskTimeLeftToday: ', taskTimeLeftToday);
-    var rem = lodash.min([taskTimeLeftToday, remaining]);
-    // console.log('remaining: ', remaining);
-    // console.log('rem: ', rem);
+    var taskTimeLeftToday = maxTimePerTaskPerDay - taskTimeAssignedToday[todo._id];
+    console.log('maxTimePerTaskPerDay: ', maxTimePerTaskPerDay);
+    console.log('taskTimeAssignedToday[todo._id]: ', taskTimeAssignedToday[todo._id]);
+    console.log('taskTimeLeftToday: ', taskTimeLeftToday);
+    var rem = lodash.min([taskTimeLeftToday, remaining, maxTaskInterval]);
+    console.log('remaining: ', remaining);
+    console.log('rem: ', rem);
 
-    // console.log('todo.remaining: ', todo.remaining);
-    // console.log('todo.dueAt: ', todo.dueAt);
-    // console.log('freetimeStart: ', freetimeStart);
+    console.log('todo.remaining: ', todo.remaining);
+    console.log('todo.dueAt: ', todo.dueAt);
+    console.log('freetimeStart: ', freetimeStart);
 
     if( (todo.remaining > rem) && (todo.dueAt >= freetimeStart) ) {
       var ret          = todo.split(rem);
@@ -448,27 +480,34 @@ function propsToDates(obj) {
   return obj;
 };
 
+function tasksAreEqual(task1, task2) {
+  return ['title', 'start', 'end', 'overdue'].all(function (prop) {
+    return ( lodash.isEqual(task1[prop], task2[prop]) );
+  });
+};
+
 if(CONFIG.testing) {
   // SETUP
   var user = helpers;
   user._id = '1337';
   user.maxTaskInterval      = function () { return 2 * HOURS; };
   user.maxTimePerTaskPerDay = function () { return 4 * HOURS; };
+  user.taskBreakInterval    = function () { return 1 * HOURS; };
   var tasks = user.tasks().fetch();
   tasks.forEach(function (task) {
     Tasks.remove(task._id);
   });
   var tasks = user.tasks().fetch();
 
-  Tasks.create('task 1 due by sunday at midnight for 8 hours very important', { ownerId: '1337' });
-  Tasks.create('task 2 due by monday at midnight for 8 hours very important', { ownerId: '1337' });
+  Tasks.create('task 1 due by tuesday at midnight for 4 hours very important', { ownerId: '1337' });
+  Tasks.create('task 2 due by wednesday at midnight for 4 hours very important', { ownerId: '1337' });
 
   var freetimes = [
-    { start: 'friday   at 8am ', end: 'friday   at 12pm ' },
-    { start: 'friday   at 2pm ', end: 'friday   at 6pm ' },
-    // { start: 'friday   at 8pm ', end: 'friday   at 10pm' },
-    { start: 'saturday at 8am ', end: 'saturday at 11am' },
-    { start: 'saturday at 2pm ', end: 'saturday at 10pm' }
+    // { start: 'sunday   at 8am ', end: 'sunday   at 12pm ' },
+    // { start: 'sunday   at 2pm ', end: 'sunday   at 6pm ' },
+    // { start: 'sunday   at 8pm ', end: 'sunday   at 10pm' },
+    { start: 'monday at 8am ', end: 'monday at 11am' },
+    { start: 'monday at 2pm ', end: 'monday at 10pm' }
   ];
 
   freetimes = freetimes.map(function (obj) {
@@ -495,6 +534,43 @@ if(CONFIG.testing) {
 
   if(taskEvents.any(function(t){return (Number(t.end)-Number(t.start))>2*HOURS})) {
     console.log('failed, task lasts longer than 2 hours');
+  }
+
+  var expected = [
+    {
+      title: 'task 1',
+      start: Date.create('monday at 8am'),
+      end:   Date.create('monday at 10am')
+    },
+    {
+      title: 'task 2',
+      start: Date.create('monday at 10am'),
+      end:   Date.create('monday at 11am')
+    },
+    {
+      title: 'task 1',
+      start: Date.create('monday at 2pm'),
+      end:   Date.create('monday at 4pm')
+    },
+    {
+      title: 'task 2',
+      start: Date.create('monday at 4pm'),
+      end:   Date.create('monday at 6pm')
+    },
+    {
+      title: 'task 2',
+      start: Date.create('monday at 7pm'),
+      end:   Date.create('monday at 8pm')
+    }
+  ];
+
+  var currTask, currIndex;
+  if(expected.any(function(et, i) {
+    currTask  = taskEvents[i];
+    currIndex = i;
+    return !currTask || ( ! tasksAreEqual(et, currTask) );
+  })) {
+    console.log('FAILED. Expected\n', currTask, '\nto be\n', expected[currIndex]);
   }
 
   // TEARDOWN
