@@ -35,8 +35,10 @@ Meteor.users.helpers({
 
   'startOfDay': function (str) {
     var settings = this.settings();
+    if(str === '') str = '08:00';
     if(str) {
       var time = Date.parseTime(str);
+      if(time == settings.startOfDay) return false;
       return settings.update({ startOfDay: time });
     }
     return settings.startOfDay;
@@ -44,8 +46,10 @@ Meteor.users.helpers({
 
   'endOfDay': function (str) {
     var settings = this.settings();
+    if(str === '') str = '22:00';
     if(str) {
       var time = Date.parseTime(str);
+      if(time == settings.endOfDay) return false;
       return settings.update({ endOfDay: time });
     }
     return settings.endOfDay;
@@ -54,6 +58,7 @@ Meteor.users.helpers({
   'referred': function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
+      if(bool === settings.bool) return false;
       return settings.update({ isReferred: bool });
     }
     return settings.isReferred;
@@ -78,6 +83,7 @@ Meteor.users.helpers({
 
   'taskCalendarId': function (str) {
     var settings = this.settings();
+    if(str && str === settings.taskCalendarId) return false;
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
   },

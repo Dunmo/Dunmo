@@ -26,19 +26,15 @@ Template.calendarSettings.events({
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
     var val = $input.val();
-    if(val == '') val = '08:00';
-    Meteor.user().startOfDay(val);
-    $input.val('');
-    gapi.syncTasksWithCalendar();
+    var ret = Meteor.user().startOfDay(val);
+    if(ret) gapi.syncTasksWithCalendar();
   },
 
   'submit .end-time.form-control, click button.end-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.end-time');
     var val = $input.val();
-    if(val == '') val = '22:00';
-    Meteor.user().endOfDay(val);
-    $input.val('');
-    gapi.syncTasksWithCalendar();
+    var ret = Meteor.user().endOfDay(val);
+    if(ret) gapi.syncTasksWithCalendar();
   }
 });
