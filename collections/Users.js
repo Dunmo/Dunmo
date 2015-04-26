@@ -34,23 +34,33 @@ Meteor.users.helpers({
   },
 
   'startOfDay': function (str) {
+    var defaultStartOfDay = '08:00';
     var settings = this.settings();
-    if(str === '') str = '08:00';
+    if(str === '') str = defaultStartOfDay;
     if(str) {
       var time = Date.parseTime(str);
       if(time == settings.startOfDay) return false;
       return settings.update({ startOfDay: time });
     }
+    if(!settings.startOfDay) {
+      this.startOfDay(defaultStartOfDay);
+      return Date.parseTime(defaultStartOfDay);
+    }
     return settings.startOfDay;
   },
 
   'endOfDay': function (str) {
+    var defaultEndOfDay = '22:00';
     var settings = this.settings();
-    if(str === '') str = '22:00';
+    if(str === '') str = defaultEndOfDay;
     if(str) {
       var time = Date.parseTime(str);
       if(time == settings.endOfDay) return false;
       return settings.update({ endOfDay: time });
+    }
+    if(!settings.endOfDay) {
+      this.endOfDay(defaultEndOfDay);
+      return Date.parseTime(defaultEndOfDay);
     }
     return settings.endOfDay;
   },
