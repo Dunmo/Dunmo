@@ -34,7 +34,7 @@ UserSettings.create = function(obj) {
   obj.endOfDay   = obj.endOfDay   || Date.parseTime('22:00');
   // obj.maxTaskInterval      = obj.maxTaskInterval      || Date.parseDuration('2 hours');
   // obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || Date.parseDuration('4 hours');
-  // obj.taskBreakInterval    = obj.taskBreakInterval    || Date.parseDuration('1 hour ');
+  // obj.taskBreakInterval    = obj.taskBreakInterval    || Date.parseDuration('30 minutes');
   obj.referrals  = obj.referrals  || []
 
   var curr = UserSettings.findOne({ userId: obj.userId });
