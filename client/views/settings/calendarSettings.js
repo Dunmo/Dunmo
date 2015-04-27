@@ -5,7 +5,14 @@ Template.calendarSettings.rendered = function () {
 
 Template.calendarSettings.helpers({
   calendars: function() {
-    return Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' } });
+    var calendars = Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' }, isRemoved: { $not: true } }).fetch();
+    calendars = lodash.sortBy(calendars, function(cal) {
+      return cal.summary.toLowerCase();
+    });
+    calendars = lodash.sortBy(calendars, function(cal) {
+      return !cal.active;
+    });
+    return calendars;
   },
 
   startTime: function () {

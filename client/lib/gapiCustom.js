@@ -95,7 +95,18 @@ gapi.getCalendarList = function (callback) {
 gapi.syncCalendars = function () {
   gapi.getCalendarList(function (calendarList) {
     var calendars = calendarList.items;
+    var calendarIds = lodash.pluck(calendars, 'id');
+    console.log('calendarIds: ', calendarIds);
+    // only creates if new
     Calendars.create(calendars);
+
+    var userId = Meteor.userId();
+    var allCalendars = Calendars.find({ ownerId: userId }).fetch();
+    var removedCalendars = lodash.reject(allCalendars, function(cal) {
+      return lodash.contains(calendarIds, cal.googleCalendarId);
+    });
+    console.log('removedCalendars: ', removedCalendars);
+    removedCalendars.forEach(function (cal) { cal.remove(); });
   });
 };
 

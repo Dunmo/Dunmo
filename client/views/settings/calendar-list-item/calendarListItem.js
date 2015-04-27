@@ -9,6 +9,6 @@ Template.calendarListItem.events({
   'click .list-group-item' : function (e) {
     var active = !this.active;
     this.update({ active: active });
-    gapi.syncTasksWithCalendar();
+    // gapi.syncTasksWithCalendar();
   }
 });
