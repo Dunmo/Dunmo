@@ -65,9 +65,23 @@ Calendars.updateOrCreate = function(obj) {
       Calendars.insert(obj);
     }
   } else {
-    console.error('type error, updateOrCreate does not expect: ', typeof(obj));
+    console.error('type error, Calendar.updateOrCreate does not expect: ', typeof(obj));
   }
-}
+};
+
+Calendars.create = function(obj) {
+  if(Array.isArray(obj)) {
+    var ary = obj;
+    ary.forEach(function(cal) {
+      Calendars.create(cal);
+    });
+  } else if(typeof(obj) === 'object') {
+    var calendar = Calendars.findOne({ googleCalendarId: obj.id });
+    if(!calendar) return Calendars.insert(obj);
+  } else {
+    console.error('type error, Calendar.create does not expect: ', typeof(obj));
+  }
+};
 
 // "ya29.KAHNrGk9bVgQmNZNEgBZJnYhNxdGjeQkCwxQHu2KCDHNFgwUSF3fVZXVY9K3EScLHqMEXX1iA2YiUQ"
 // "ya29.KAED79aO5aTZ7Vn3lS7BDAL-R_LrG-HoPFw12YKFi39m35hbr6MsP9HptzOeCVu6r5Zf3vhdE3NF6g"
