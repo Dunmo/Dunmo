@@ -96,7 +96,7 @@ gapi.syncCalendars = function () {
   gapi.getCalendarList(function (calendarList) {
     var calendars = calendarList.items;
     var calendarIds = lodash.pluck(calendars, 'id');
-    console.log('calendarIds: ', calendarIds);
+
     // only creates if new
     Calendars.create(calendars);
 
@@ -105,7 +105,7 @@ gapi.syncCalendars = function () {
     var removedCalendars = lodash.reject(allCalendars, function(cal) {
       return lodash.contains(calendarIds, cal.googleCalendarId);
     });
-    console.log('removedCalendars: ', removedCalendars);
+
     removedCalendars.forEach(function (cal) { cal.remove(); });
   });
 };
@@ -302,8 +302,6 @@ function addStartEndTimes(busytimes, min, max) {
   var user       = Meteor.user();
   var startOfDay = user.startOfDay() || 0;
   var endOfDay   = user.endOfDay()   || 1 * DAYS;
-  console.log('startOfDay: ', startOfDay);
-  console.log('endOfDay: ', endOfDay);
 
   startOfDay     = day + startOfDay;
   endOfDay       = day + endOfDay;
@@ -332,8 +330,6 @@ function addStartEndTimes(busytimes, min, max) {
       end:   end
     });
   }
-
-  console.log('busytimes: ', busytimes);
 
   return busytimes;
 };
@@ -435,7 +431,6 @@ gapi.getFreetimes = function (startingFrom, callback) {
   var items, minTime, maxTime;
 
   items = Meteor.user().calendarIdObjects();
-  console.log('items: ', items);
 
   if (typeof(startingFrom) === 'function') {
     minTime = Date.now();
@@ -463,18 +458,14 @@ gapi.getFreetimes = function (startingFrom, callback) {
       var calendars, busytimes, freetimes;
 
       var result = res.result;
-      console.log('result: ', result);
 
       if(!result) {
         console.warn('Warning: No result from freebusy query');
       }
       else {
         calendars = result.calendars;
-        console.log('calendars: ', calendars);
         busytimes = getBusytimes(calendars);
-        console.log('busytimes: ', busytimes);
         freetimes = toFreetimes(busytimes, minTime, maxTime);
-        console.log('freetimes: ', freetimes);
 
         callback(freetimes);
       }
@@ -501,7 +492,6 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
     gapi.deleteAllFromCalendarAfter(startingFrom);
 
     gapi.getFreetimes(startingFrom, function(freetimes) {
-      console.log('freetimes: ', freetimes);
       todos = Meteor.user().todoList(freetimes);
       todos.forEach(function(todo) {
         gapi.addEventToCalendar(todo);
