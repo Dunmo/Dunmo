@@ -453,15 +453,15 @@ if(CONFIG.testing) {
   });
   var tasks = user.tasks().fetch();
 
-  Tasks.create('task 1 due by tuesday at midnight for 4 hours very important', { ownerId: '1337' });
-  Tasks.create('task 2 due by wednesday at midnight for 4 hours very important', { ownerId: '1337' });
+  Tasks.create('task 1 due by tomorrow at midnight for 4 hours very important', { ownerId: '1337' });
+  Tasks.create('task 2 due by next monday at midnight for 4 hours very important', { ownerId: '1337' });
 
   var freetimes = [
     // { start: 'sunday   at 8am ', end: 'sunday   at 12pm ' },
     // { start: 'sunday   at 2pm ', end: 'sunday   at 6pm ' },
     // { start: 'sunday   at 8pm ', end: 'sunday   at 10pm' },
-    { start: 'monday at 8am ', end: 'monday at 11am' },
-    { start: 'monday at 2pm ', end: 'monday at 10pm' }
+    { start: 'tuesday at 8am ', end: 'tuesday at 11am' },
+    { start: 'tuesday at 2pm ', end: 'tuesday at 10pm' }
   ];
 
   freetimes = freetimes.map(function (obj) {
@@ -493,28 +493,28 @@ if(CONFIG.testing) {
   var expected = [
     {
       title: 'task 1',
-      start: Date.create('monday at 8am'),
-      end:   Date.create('monday at 10am')
+      start: Date.create('tuesday at 8am'),
+      end:   Date.create('tuesday at 10am')
     },
     {
       title: 'task 2',
-      start: Date.create('monday at 10am'),
-      end:   Date.create('monday at 11am')
+      start: Date.create('tuesday at 10am'),
+      end:   Date.create('tuesday at 11am')
     },
     {
       title: 'task 1',
-      start: Date.create('monday at 2pm'),
-      end:   Date.create('monday at 4pm')
+      start: Date.create('tuesday at 2pm'),
+      end:   Date.create('tuesday at 4pm')
     },
     {
       title: 'task 2',
-      start: Date.create('monday at 4pm'),
-      end:   Date.create('monday at 6pm')
+      start: Date.create('tuesday at 4pm'),
+      end:   Date.create('tuesday at 6pm')
     },
     {
       title: 'task 2',
-      start: Date.create('monday at 7pm'),
-      end:   Date.create('monday at 8pm')
+      start: Date.create('tuesday at 7pm'),
+      end:   Date.create('tuesday at 8pm')
     }
   ];
 
