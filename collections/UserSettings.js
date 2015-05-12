@@ -30,8 +30,6 @@ UserSettings.create = function(obj) {
     });
   }
 
-  obj.startOfDay = obj.startOfDay || Date.parseTime('08:00');
-  obj.endOfDay   = obj.endOfDay   || Date.parseTime('22:00');
   obj.referrals  = obj.referrals  || []
 
   var curr = UserSettings.findOne({ userId: obj.userId });

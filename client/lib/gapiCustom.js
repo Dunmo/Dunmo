@@ -31,6 +31,7 @@ gapi.onAuth = function (callback) {
 ///////////////
 // Calendars //
 ///////////////
+
 gapi.createTaskCalendar = function (callback) {
   var calendarName = 'Dunmo Tasks';
 
@@ -40,8 +41,8 @@ gapi.createTaskCalendar = function (callback) {
     });
 
     request.execute(function(res) {
-      if(!res)             console.log('Error: no result on insert task calendar');
-      else if(!res.result) console.log('Error on insert task calendar: ', res.error);
+      if(!res)             console.error('Error: no result on insert task calendar');
+      else if(!res.result) console.error('Error on insert task calendar: ', res.error);
       else {
         var cal  = res.result;
         var id   = res.id;
@@ -72,7 +73,7 @@ gapi.findOrCreateTaskCalendar = function (callback) {
       callback(cal);
     }
     else {
-      console.log('No task calendar found. Creating new task calendar...');
+      console.error('No task calendar found. Creating new task calendar...');
       gapi.createTaskCalendar(callback);
     }
   });
@@ -86,7 +87,6 @@ gapi.getTaskCalendar = function (callback) {
 
   var user           = Meteor.user();
   var taskCalendarId = user.taskCalendarId();
-  console.log('taskCalendarId: ', taskCalendarId);
 
   if(!taskCalendarId) {
     gapi.findOrCreateTaskCalendar(callback);
@@ -99,13 +99,8 @@ gapi.getTaskCalendar = function (callback) {
     });
 
     request.execute(function(res) {
-      console.log('res: ', res);
-      if(res && res.result) {
-        gapi.taskCalendar = res.result;
-        callback(res.result);
-      } else {
-        gapi.findOrCreateTaskCalendar(callback);
-      }
+      if(res && res.result) callback(res.result);
+      else                  gapi.findOrCreateTaskCalendar(callback);
     });
   });
 };
@@ -127,7 +122,6 @@ gapi.getCalendarList = function (callback) {
     });
 
     request.execute(function(res) {
-      console.log('res: ', res);
       callback(res);
     });
   });
@@ -136,7 +130,18 @@ gapi.getCalendarList = function (callback) {
 gapi.syncCalendars = function () {
   gapi.getCalendarList(function (calendarList) {
     var calendars = calendarList.items;
-    Calendars.updateOrCreate(calendars);
+    var calendarIds = lodash.pluck(calendars, 'id');
+
+    // only creates if new
+    Calendars.create(calendars);
+
+    var userId = Meteor.userId();
+    var allCalendars = Calendars.find({ ownerId: userId }).fetch();
+    var removedCalendars = lodash.reject(allCalendars, function(cal) {
+      return lodash.contains(calendarIds, cal.googleCalendarId);
+    });
+
+    removedCalendars.forEach(function (cal) { cal.remove(); });
   });
 };
 
@@ -157,6 +162,7 @@ gapi.deleteCalendar = function (id) {
 ////////////
 // Events //
 ////////////
+
 gapi.getAllFromCalendarAfter = function (minTime, callback) {
   if(typeof minTime === 'function') {
     callback = minTime;
@@ -164,7 +170,7 @@ gapi.getAllFromCalendarAfter = function (minTime, callback) {
   }
 
   if( !callback ) {
-    console.log('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
+    console.error('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
     return;
   }
 
@@ -190,9 +196,8 @@ gapi.getAllFutureFromCalendar = function (callback) {
 };
 
 gapi.getCurrentTaskEvent = function (callback) {
-
   if( !callback ) {
-    console.log('getCurrentTaskEvent: no callback supplied. must be called asynchronously');
+    console.error('getCurrentTaskEvent: no callback supplied. must be called asynchronously');
     return;
   }
 
@@ -214,14 +219,13 @@ gapi.getCurrentTaskEvent = function (callback) {
         var items = res.items;
         items     = lodash.filter(items, isHappeningNow);
         // TODO: sort by date
-        console.log('items: ', items);
-        console.log('whats the timestamp to sort by chronologically?');
+
+
         var item  = items[0];
         callback(item);
       });
     });
   });
-
 };
 
 // minTime is a Number of Milliseconds
@@ -234,21 +238,20 @@ gapi.deleteAllFromCalendarAfter = function (minTime) {
 };
 
 function isHappeningNow(event) {
-  console.log("event: ", event);
   if( !event ) return false;
   var start = Date.ISOToMilliseconds(event.start.dateTime);
   var end = Date.ISOToMilliseconds(event.end.dateTime);
   var now = Date.now();
-  console.log("start, end: ", start, end);
+
   var ret = start < now && now < end;
-  console.log("ret: ", ret);
+
   return ret;
 };
 
 // will not delete the current task event
 gapi.deleteAllFutureFromCalendar = function (callback) {
   gapi.getAllFutureFromCalendar(function(events) {
-    console.log('events: ', events);
+
     events.forEach(function (e) {
       gapi.removeEventFromCalendar(e.id);
     });
@@ -257,18 +260,13 @@ gapi.deleteAllFutureFromCalendar = function (callback) {
 
 gapi.addEventToCalendar = function (doc) {
   var start, end;
-  console.log('add!');
 
   start = (doc.start && doc.start.dateTime) || doc.start;
   end   = (doc.end   && doc.end.dateTime)   || doc.end;
 
-  console.log('start: ', start);
-  console.log('end: ', end);
-
   if(!doc.summary) doc.summary = doc.title;
   start = Date.formatGoog(new Date(start));
   end = Date.formatGoog(new Date(end));
-  console.log('doc: ', doc);
 
   gapi.getTaskCalendar(function (cal) {
     gapi.onAuth(function () {
@@ -285,7 +283,6 @@ gapi.addEventToCalendar = function (doc) {
       });
 
       request.execute(function(res) {
-        console.log('res: ', res);
         Tasks.update(doc._id, { $addToSet: { gcalEventIds: res.id } });
       });
     });
@@ -311,7 +308,6 @@ gapi.removeEventFromCalendar = function(eventId) {
 };
 
 gapi.splitEvent = function (e, splitTime) {
-
   var startTime = new Date(e.start.dateTime);
   var event1 = R.cloneDeep(e);
   var event2 = R.cloneDeep(e);
@@ -333,6 +329,7 @@ gapi.setEndTime = function (e, newEndTime) {
 ///////////////
 // Free/Busy //
 ///////////////
+
 function getBusytimes(calendars) {
   var busytimes = [];
   lodash.keys(calendars).forEach(function(k) {
@@ -340,7 +337,7 @@ function getBusytimes(calendars) {
     calendar.busy.forEach(function(busy) {
       busy.start = Date.ISOToMilliseconds(busy.start);
       busy.end   = Date.ISOToMilliseconds(busy.end);
-      console.log('busy: ', busy);
+
       busytimes.push(busy);
     });
   });
@@ -419,26 +416,14 @@ function coalesceBusytimes(busytimes) {
 };
 
 function toFreetimes(busytimes, minTime, maxTime) {
-  if(busytimes.length === 0) {
-    return [
-      {
-        start: minTime,
-        end:   maxTime,
-        timeRemaining: function () {
-          return this.end - this.start;
-        }
-      }
-    ];
-  }
-
   busytimes = addStartEndTimes(busytimes, minTime, maxTime);
   busytimes = coalesceBusytimes(busytimes);
 
-  var freetimes  = [];
+  var freetimes = [];
 
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
-    console.log('index: ', index);
+
     if(index === 0) {
       if(minTime < busytimes[0].start) {
         start = minTime;
@@ -478,7 +463,6 @@ gapi.getFreetimes = function (startingFrom, callback) {
   var items, minTime, maxTime;
 
   items = Meteor.user().calendarIdObjects();
-  console.log('items: ', items);
 
   if (typeof(startingFrom) === 'function') {
     minTime = Date.now();
@@ -489,14 +473,11 @@ gapi.getFreetimes = function (startingFrom, callback) {
 
   maxTime = Meteor.user().latestTodoTime();
   maxTime = Number(maxTime);
-  console.log('maxTime: ', maxTime);
+
   if( !maxTime || maxTime < minTime) {
     callback([]);
     return;
   }
-
-  console.log('minTime: ', minTime);
-  console.log('maxTime: ', maxTime);
 
   gapi.onAuth(function () {
     var request = gapi.client.calendar.freebusy.query({
@@ -511,7 +492,7 @@ gapi.getFreetimes = function (startingFrom, callback) {
       var result = res.result;
 
       if(!result) {
-        console.log('res: ', res);
+        console.warn('Warning: No result from freebusy query');
       }
       else {
         calendars = result.calendars;
@@ -527,33 +508,29 @@ gapi.getFreetimes = function (startingFrom, callback) {
 ////////////////
 // Sync Tasks //
 ////////////////
+
 gapi.syncTasksWithCalendar = function (startingFrom) {
   startingFrom = startingFrom || Date.now();
 
-  // Load the task calendar so we only need one api request
-  gapi.getTaskCalendar(function() {
-    gapi.getCurrentTaskEvent(function(currEvent) {
-      if(currEvent) {
-        var firstTask = Meteor.user().sortedTodos()[0];
-        // if current task is first task
-        if( firstTask && lodash.contains(firstTask.gcalEventIds, currEvent.id) ) {
-          startingFrom = Date.ISOToMilliseconds(currEvent.start.dateTime);
-        }
-        else {
-          console.log('split currEvent');
-          gapi.setEndTime(currEvent, startingFrom);
-        }
+  gapi.getCurrentTaskEvent(function(currEvent) {
+    if(currEvent) {
+      // if current task is first task
+      var firstTask = Meteor.user().sortedTodos()[0];
+      if( firstTask && lodash.contains(firstTask.gcalEventIds, currEvent.id) ) {
+        startingFrom = Date.ISOToMilliseconds(currEvent.start.dateTime);
       }
-      console.log('startingFrom: ', startingFrom);
+      else {
+        gapi.setEndTime(currEvent, startingFrom);
+      }
+    }
 
-      // will not delete current task event
-      gapi.deleteAllFromCalendarAfter(startingFrom);
+    // will not delete current task event
+    gapi.deleteAllFromCalendarAfter(startingFrom);
 
-      gapi.getFreetimes(startingFrom, function(freetimes) {
-        todos = Meteor.user().todoList(freetimes);
-        todos.forEach(function(todo) {
-          gapi.addEventToCalendar(todo);
-        });
+    gapi.getFreetimes(startingFrom, function(freetimes) {
+      todos = Meteor.user().todoList(freetimes);
+      todos.forEach(function(todo) {
+        gapi.addEventToCalendar(todo);
       });
     });
   });
@@ -562,6 +539,7 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
 //////////////
 // Channels //
 //////////////
+
 gapi.createChannel = function () {
   gapi.getTaskCalendar(function (cal) {
     gapi.onAuth(function () {
@@ -583,6 +561,7 @@ gapi.createChannel = function () {
 ///////////////////
 // Miscellaneous //
 ///////////////////
+
 gapi.test = function () {
   // console.log('testall');
   // gapi.deleteAllFutureFromCalendar();

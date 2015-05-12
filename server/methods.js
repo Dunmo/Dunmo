@@ -9,7 +9,7 @@ function callSync(verb) {
 };
 
 function createReferral(data) {
-  console.log('createReferral - data: ', data);
+
   var referrerEmail = data.referrerEmail;
   var userEmail     = data.userEmail;
 
@@ -21,7 +21,6 @@ function createReferral(data) {
     return user.primaryEmailAddress() === userEmail;
   });
 
-  console.log('referrer: ', referrer);
 
   if(!referrer) return;
 

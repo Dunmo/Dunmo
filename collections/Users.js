@@ -34,19 +34,33 @@ Meteor.users.helpers({
   },
 
   'startOfDay': function (str) {
+    var defaultStartOfDay = '08:00';
     var settings = this.settings();
+    if(str === '') str = defaultStartOfDay;
     if(str) {
       var time = Date.parseTime(str);
+      if(time == settings.startOfDay) return false;
       return settings.update({ startOfDay: time });
+    }
+    if(!settings.startOfDay) {
+      this.startOfDay(defaultStartOfDay);
+      return Date.parseTime(defaultStartOfDay);
     }
     return settings.startOfDay;
   },
 
   'endOfDay': function (str) {
+    var defaultEndOfDay = '22:00';
     var settings = this.settings();
+    if(str === '') str = defaultEndOfDay;
     if(str) {
       var time = Date.parseTime(str);
+      if(time == settings.endOfDay) return false;
       return settings.update({ endOfDay: time });
+    }
+    if(!settings.endOfDay) {
+      this.endOfDay(defaultEndOfDay);
+      return Date.parseTime(defaultEndOfDay);
     }
     return settings.endOfDay;
   },
@@ -54,6 +68,7 @@ Meteor.users.helpers({
   'referred': function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
+      if(bool === settings.bool) return false;
       return settings.update({ isReferred: bool });
     }
     return settings.isReferred;
@@ -78,6 +93,7 @@ Meteor.users.helpers({
 
   'taskCalendarId': function (str) {
     var settings = this.settings();
+    if(str && str === settings.taskCalendarId) return false;
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
   },
@@ -181,7 +197,7 @@ Meteor.users.helpers({
 
   todoList: function(freetimes) {
     todos = this.sortedTodos();
-    freetimes = freetimes || this.freetimes || this.freetimes();
+    freetimes = freetimes || this.freetimes();
     todoList = this._generateTodoList(freetimes, todos, 'greedy');
     return todoList;
   },
@@ -196,9 +212,9 @@ Meteor.users.helpers({
 
     var todoList  = lodash.map(freetimes, function(freetime) {
       if(todos.length > 0) {
-        var ret     = user._generateDayList(freetime, todos);
+        var ret      = user._generateDayList(freetime, todos);
         var freetime = ret[0];
-        todos       = ret[1];
+        todos        = ret[1];
         return freetime.todos;
       } else {
         return null;
