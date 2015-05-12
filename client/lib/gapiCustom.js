@@ -2,26 +2,20 @@
 var clientId = '185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com';
 var scopes   = 'https://www.googleapis.com/auth/calendar';
 var apiKey   = 'AtwQ5-FSiXOk72t0L0QCzQux';
-gapi.taskCalendar = null;
 
-var GLOBAL_MIN_TIME = 0;
+gapi.TASK_CALENDAR_NAME = 'Dunmo Tasks';
+gapi.AUTH_PARAMS = {
+  client_id: clientId,
+  scope:     scopes,
+  immediate: true
+};
 
 gapi.onAuth = function (callback) {
   _onauth = function () {
-    if(!gapi.auth) {
-      window.setTimeout(_onauth, 1);
-    }
+    if(!gapi.auth) window.setTimeout(_onauth, 1);
     else {
-      gapi.auth.authorize({
-        client_id: clientId,
-        scope: scopes,
-        immediate: true
-      }, function(authResult) {
-        if (!authResult) {
-          return;
-        }
-
-        gapi.client.load('calendar', 'v3', callback);
+      gapi.auth.authorize(gapi.AUTH_PARAMS, function(authResult) {
+        if(authResult) gapi.client.load('calendar', 'v3', callback);
       });
     }
   };
@@ -32,12 +26,18 @@ gapi.onAuth = function (callback) {
 // Calendars //
 ///////////////
 
-gapi.createTaskCalendar = function (callback) {
-  var calendarName = 'Dunmo Tasks';
+gapi.findCalendar = function (selector, callback) {
+  gapi.getCalendarList(function (calendarList) {
+    var calendars = calendarList.items;
+    var calendar  = lodash.find(calendars, selector);
+    callback(calendar);
+  });
+};
 
+gapi.createTaskCalendar = function (callback) {
   gapi.onAuth(function () {
     var request = gapi.client.calendar.calendars.insert({
-      'summary': calendarName
+      'summary': gapi.TASK_CALENDAR_NAME
     });
 
     request.execute(function(res) {
@@ -52,14 +52,6 @@ gapi.createTaskCalendar = function (callback) {
         callback(cal);
       }
     });
-  });
-};
-
-gapi.findCalendar = function (selector, callback) {
-  gapi.getCalendarList(function (calendarList) {
-    var calendars = calendarList.items;
-    var calendar  = lodash.find(calendars, selector);
-    callback(calendar);
   });
 };
 
@@ -79,7 +71,7 @@ gapi.findOrCreateTaskCalendar = function (callback) {
   });
 };
 
-gapi.getTaskCalendar = function (callback) {
+gapi.loadTaskCalendar = function (callback) {
   if(gapi.taskCalendar) {
     callback(gapi.taskCalendar);
     return;
