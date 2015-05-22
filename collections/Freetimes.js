@@ -80,19 +80,13 @@ function coalesceBusytimes(busytimes) {
 };
 
 function toFreetimes(busytimes, options) {
-  console.log('converting to freetimes');
   // inputs are in milliseconds, but task time is only per minute granularity
   minTime = Date.nearestMinute(options.minTime) + 1*MINUTES;
   maxTime = Date.nearestMinute(options.maxTime);
 
   if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
-  console.log('busytimes: ', busytimes);
-  console.log('adding start and end times');
   busytimes = addStartEndTimes(busytimes, options);
-  console.log('busytimes: ', busytimes);
-  console.log('coalescing busytimes');
   busytimes = coalesceBusytimes(busytimes);
-  console.log('busytimes: ', busytimes);
 
   var freetimes = [];
 
@@ -100,8 +94,6 @@ function toFreetimes(busytimes, options) {
     var start, end;
 
     if(index === 0) { // if first busytime
-      console.log('minTime: ', minTime);
-      console.log('obj.start: ', obj.start);
       if(minTime < obj.start) {
         start = minTime;
         end   = obj.start;
@@ -176,7 +168,6 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   defaultProperties = options.defaultProperties;
 
   var freetimes = toFreetimes(busytimes, options);
-  console.log('freetimes: ', freetimes);
   freetimes = freetimes.map(function(freetime) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
