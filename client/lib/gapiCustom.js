@@ -284,7 +284,7 @@ gapi.addEventToCalendar = function (doc) {
       });
 
       request.execute(function(res) {
-        // console.log('added event: ', res);
+        console.log('added event: ', res);
         Tasks.update(doc._id, { $addToSet: { gcalEventIds: res.id } });
       });
     });
