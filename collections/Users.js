@@ -138,7 +138,7 @@ Meteor.users.helpers({
   },
 
   // 'taskCalendar': function () {
-  //   var calId = this.taskCalendarId;
+  //   var calId = this.taskCalendarId();
   //   gapi.getTaskCalendar(calId, function () {
 
   //   });
@@ -147,7 +147,6 @@ Meteor.users.helpers({
   // },
 
   'tasks': function () {
-    // this.syncReminders();
     return Tasks.find({ ownerId: this._id, isRemoved: { $not: true } });
   },
 
@@ -226,11 +225,13 @@ Meteor.users.helpers({
 
   // a private helper function for todoList
   _generateDayList: function(freetime, todos) {
+    console.log('generating dayList');
     var user      = this;
     var dayList   = R.cloneDeep(freetime);
     var remaining = freetime.timeRemaining();
     dayList.todos = [];
-
+    console.log('remaining: ', remaining);
+    console.log('todos: ', todos);
     while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
       var ret   = user._appendTodo(dayList, todos, remaining);
       dayList   = R.cloneDeep(ret[0]);
@@ -243,7 +244,7 @@ Meteor.users.helpers({
       dayList = ret[0];
       todos   = ret[1];
     }
-
+    console.log('[ dayList, todos ]: ', [ dayList, todos ]);
     return [ dayList, todos ];
   },
 

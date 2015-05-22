@@ -80,31 +80,47 @@ function coalesceBusytimes(busytimes) {
 };
 
 function toFreetimes(busytimes, options) {
-  minTime = options.minTime;
-  maxTime = options.maxTime;
+  console.log('converting to freetimes');
+  // inputs are in milliseconds, but task time is only per minute granularity
+  minTime = Date.nearestMinute(options.minTime) + 1*MINUTES;
+  maxTime = Date.nearestMinute(options.maxTime);
+
+  if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
+  console.log('busytimes: ', busytimes);
+  console.log('adding start and end times');
   busytimes = addStartEndTimes(busytimes, options);
+  console.log('busytimes: ', busytimes);
+  console.log('coalescing busytimes');
   busytimes = coalesceBusytimes(busytimes);
+  console.log('busytimes: ', busytimes);
 
   var freetimes = [];
 
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
 
-    if(index === 0) {
-      if(minTime < busytimes[0].start) {
+    if(index === 0) { // if first busytime
+      console.log('minTime: ', minTime);
+      console.log('obj.start: ', obj.start);
+      if(minTime < obj.start) {
         start = minTime;
         end   = obj.start;
-      }
-    }
-    else if(index === busytimes.length-1) {
-      if(maxTime > obj.end) {
-        start = obj.end;
-        end   = maxTime;
       }
     }
     else {
       start = busytimes[index-1].end;
       end   = obj.start;
+    }
+    freetimes.push({
+      start: start,
+      end:   end
+    });
+
+    if(index === busytimes.length-1) {
+      if(maxTime > obj.end) {
+        start = obj.end;
+        end   = maxTime;
+      }
     }
     freetimes.push({
       start: start,
@@ -160,6 +176,7 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   defaultProperties = options.defaultProperties;
 
   var freetimes = toFreetimes(busytimes, options);
+  console.log('freetimes: ', freetimes);
   freetimes = freetimes.map(function(freetime) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
