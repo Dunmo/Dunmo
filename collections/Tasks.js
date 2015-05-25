@@ -6,13 +6,15 @@
  * calendarId      : String
  * title           : String
  * importance      : <1,2,3>
- * dueAt           : String
+ * dueAt           : DateTime
  * remaining       : Number<milliseconds>
  * spent           : Number<milliseconds>
  * snoozedUntil    : DateTime
+ * isDone          : Boolean
+ * isRemoved       : Boolean
+ * timeMarkedDone  : DateTime
  * description     : String
  *
- * TODO: hash apple passwords
  */
 
 Tasks = new Mongo.Collection('tasks');
@@ -87,12 +89,22 @@ Tasks.create = function(str, obj) {
   obj.isRemoved       = obj.isRemoved       || false;
   obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
 
+  if (!obj.title) {
+    return { err: 'Title not found.' };
+  } else if (!obj.importance) {
+    return { err: 'Importance not found.' };
+  } else if (!obj.dueAt) {
+    return { err: 'Due date not found.' };
+  } else if (!obj.remaining) {
+    return { err: 'Duration not found.' };
+  };
+
   return Tasks.insert(obj);
 };
 
 Tasks.basicSort = function(tasks) {
   tasks = _.sortBy(tasks, 'remaining');
-  tasks = _.sortBy(tasks, 'importance');
+  tasks = _.sortBy(tasks, 'importance').reverse();
   tasks = _.sortBy(tasks, 'dueAt');
   return tasks;
 };

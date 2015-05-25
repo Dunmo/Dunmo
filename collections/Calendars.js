@@ -4,6 +4,8 @@
  * ownerId          : String
  * googleCalendarId : String
  * title            : String
+ * active           : Boolean
+ * isRemoved        : Boolean
  *
  * TODO: hash apple passwords
  */
@@ -15,8 +17,16 @@ Calendars.before.insert(function(uid, doc) {
 });
 
 Calendars.helpers({
-  'update': function (data) {
-    Calendars.update(this._id, { $set: data });
+  update: function (data) {
+    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
+      data = { $set: data };
+
+    return Calendars.update(this._id, data);
+  },
+
+  remove: function (bool) {
+    if(bool === undefined || bool === null) bool = true
+    this.update({ isRemoved: bool });
   }
 });
 
@@ -25,7 +35,8 @@ Calendars.before.insert(function(uid, doc) {
 
   doc.ownerId = doc.ownerId || Meteor.userId();
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
-  doc.id = undefined;
+  doc.id      = undefined;
+  doc.active  = true;
 
   return doc;
 });
@@ -58,15 +69,30 @@ Calendars.updateOrCreate = function(obj) {
       Calendars.updateOrCreate(cal);
     });
   } else if(typeof(obj) === 'object') {
-    if(Calendars.findOne({ googleCalendarId: obj.id })) {
-      // Calendars.update(obj);
+    var calendar = Calendars.findOne({ googleCalendarId: obj.id });
+    if(calendar) {
+      Calendars.update(calendar._id, obj);
     } else {
       Calendars.insert(obj);
     }
   } else {
-    // console.log('type error, updateOrCreate does not expect: ', typeof(obj));
+    console.error('type error, Calendar.updateOrCreate does not expect: ', typeof(obj));
   }
-}
+};
+
+Calendars.create = function(obj) {
+  if(Array.isArray(obj)) {
+    var ary = obj;
+    ary.forEach(function(cal) {
+      Calendars.create(cal);
+    });
+  } else if(typeof(obj) === 'object') {
+    var calendar = Calendars.findOne({ googleCalendarId: obj.id });
+    if(!calendar) return Calendars.insert(obj);
+  } else {
+    console.error('type error, Calendar.create does not expect: ', typeof(obj));
+  }
+};
 
 // "ya29.KAHNrGk9bVgQmNZNEgBZJnYhNxdGjeQkCwxQHu2KCDHNFgwUSF3fVZXVY9K3EScLHqMEXX1iA2YiUQ"
 // "ya29.KAED79aO5aTZ7Vn3lS7BDAL-R_LrG-HoPFw12YKFi39m35hbr6MsP9HptzOeCVu6r5Zf3vhdE3NF6g"

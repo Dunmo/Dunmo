@@ -68,7 +68,7 @@ AppleCredentials.helpers({
       // console.log('res.body: ', res.body);
 
       if(res.statusCode != 200) {
-        // console.log('Error: ', res.error);
+        console.error('Error: ', res.error);
         return false;
       }
 
@@ -116,12 +116,10 @@ AppleCredentials.helpers({
 
       reminders.forEach(function(reminder) {
         AppleReminders.upsert({ appleReminderId: reminder.fdsa }, reminder);
-        var title = reminders[i].title.replace(/\ufffc/g, '');
+        var title   = reminders[i].title.replace(/\ufffc/g, '');
         var dueDate = reminders[i].dueDate;
-        if(dueDate)
-          console.log('{0}-{1}'.replace('{0}', dueDate[2]).replace('{1}', dueDate[3]), title);
-        else
-          console.log('----', title);
+        if(dueDate) console.log('title, dueDate: ', title, dueDate);
+        else        console.log('title: ', title);
       });
     });
   }

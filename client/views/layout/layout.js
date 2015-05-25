@@ -1,6 +1,6 @@
 
-Template.layout.events({
-  "click .logout":function(e){
-    Meteor.logout()
-  }
-});
+var view = Template.layout;
+
+view.rendered = function () {
+
+};

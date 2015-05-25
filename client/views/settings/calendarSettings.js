@@ -1,11 +1,30 @@
 
 Template.calendarSettings.rendered = function () {
-  gapi.getCalendars();
+  gapi.syncCalendars();
 };
 
 Template.calendarSettings.helpers({
   calendars: function() {
-    return Calendars.find({ ownerId: Meteor.userId() });
+    var calendars = Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' }, isRemoved: { $not: true } }).fetch();
+    calendars = lodash.sortBy(calendars, function(cal) {
+      return cal.summary.toLowerCase();
+    });
+    calendars = lodash.sortBy(calendars, function(cal) {
+      return !cal.active;
+    });
+    return calendars;
+  },
+
+  startTime: function () {
+    var start = Meteor.user().startOfDay();
+    var str   = Date.timeString(start);
+    return str;
+  },
+
+  endTime: function () {
+    var end = Meteor.user().endOfDay();
+    var str = Date.timeString(end);
+    return str;
   }
 });
 
@@ -13,24 +32,16 @@ Template.calendarSettings.events({
   'submit .start-time.form-control, click button.start-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
-    // console.log('$input: ', $input);
     var val = $input.val();
-    // console.log('val: ', val);
-    Meteor.user().update({ 'day_start_time': val });
-    $input.val('');
-    // CALL FUNCTION TO MAKE IMAGINARY NIGHT EVENT
-    gapi.syncTasksWithCalendar();
+    var ret = Meteor.user().startOfDay(val);
+    if(ret) gapi.syncTasksWithCalendar();
   },
 
   'submit .end-time.form-control, click button.end-time': function (e) {
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.end-time');
-    // console.log('$input: ', $input);
     var val = $input.val();
-    // console.log('val: ', val);
-    Meteor.user().update({ 'day_end_time': val});
-    $input.val('');
-    // CALL FUNCTION TO MAKE IMAGINARY NIGHT EVENT
-    gapi.syncTasksWithCalendar();
+    var ret = Meteor.user().endOfDay(val);
+    if(ret) gapi.syncTasksWithCalendar();
   }
 });

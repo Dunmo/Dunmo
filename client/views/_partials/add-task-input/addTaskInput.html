@@ -1,15 +1,33 @@
 
 <template name="addTaskInput">
-   <section class="panel">
-    <header class="panel-heading">
-      <form action="" class="add-task">
-        <div class="input-group text-small">
-          <input type="text" class="add-task input-sm form-control" placeholder="Add Task">
-          <div class="input-group-btn">
-            <button type="button" class="add-task btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown">Add</button>
-          </div>
-        </div>
-      </form>
-    </header>
-  </section>
+  <form class="form-inline add-task">
+	  <div class="form-group">
+	    <label for="taskTitle">Task: &nbsp;&nbsp;</label>
+	    <input type="text" class="form-control input-sm" id="taskTitle" placeholder="Task title">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskHours">&nbsp;&nbsp; for &nbsp;&nbsp;</label>
+	    <input type="number" class="form-control input-sm task-input-sm" id="taskHours" placeholder="-" min="0">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskMinutes">&nbsp;&nbsp; hours and &nbsp;&nbsp;</label>
+	    <input type="number" class="form-control input-sm task-input-sm" id="taskMinutes" placeholder="-" min="0" max="60">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskDueAt">&nbsp;&nbsp; minutes due &nbsp;&nbsp;</label>
+	    <input type="text" class="form-control input-sm" id="taskDueAt" placeholder="tomorrow at {{endOfDayString}}">
+	  </div>
+	  <div class="form-group">
+	    <label for="taskImportance">, &nbsp;&nbsp;</label>
+	    <select name="importanceSelect" id="taskImportance">
+	    	<option value="very">very</option>
+	    	<option value="somewhat">somewhat</option>
+	    	<option value="not very" selected="selected">not very</option>
+	    </select>
+	    <label for="">&nbsp;&nbsp; important &nbsp;&nbsp;</label>
+	  </div>
+	  <button type="button" class="btn btn-sm add-task btn-white">Add </button>
+	</form>
 </template>
+
+

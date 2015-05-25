@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+rm -rf /home/dunmo/archive/dev-bundle
+mv /home/dunmo/dev/bundle /home/dunmo/archive/dev-bundle
+cd /home/dunmo/dev/ && tar -zxf /home/dunmo/dev/dunmo.tar.gz
+cd /home/dunmo/dev/bundle/programs/server && npm install
+stop dev-dunmo
+start dev-dunmo

@@ -13,10 +13,7 @@ Template.login.events({
       loginStyle: "popup"
     }, function (err) {
       if (err) Session.set('errorMessage', err.reason || 'Unknown error');
-
-      gapi.loadDunmoCalendar(function () {
-        location.href = '/gettingStarted';
-      });
+      else     location.href = '/taskView';
     });
   }
 });

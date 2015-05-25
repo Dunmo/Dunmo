@@ -1,1 +1,7 @@
+
 secrets.js
+tests/jasmine/server/unit/package-stubs.js
+tests/jasmine/server/unit/packageMocksSpec.js
+dunmo.tar.gz
+.floo
+.flooignore

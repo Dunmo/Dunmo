@@ -1,18 +1,38 @@
 
 <template name="calendarSettings">
-  {{> nav}}
   <section id="content">
     <section class="main padder">
+
+      <div class="row">
+        <div class="time-header col-lg-12">
+          <section class="col-lg-6">
+            <h4><a href="#" data-toggle="tooltip"
+                            data-placement="bottom"
+                            data-original-title="A large tooltip.">
+              Start of Work Day
+            </a></h4>
+          </section>
+          <section class="col-lg-6">
+            <h4><a href="#" data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="A large tooltip.">
+              End of Work Day
+            </a></h4>
+          </section>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-lg-12">
-          <section class="comment-list block">
+
+          <section class="comment-list block col-lg-6">
             <article class="comment-item media" id="comment-form">
               <section class="media-body">
-                <form action="" class="m-b-none">
+                <form action="" class="m-b-none form-inline">
                   <div class="input-group">
-                    <input type="text" placeholder="Start Task Time" class="form-control start-time">
+                    <input type="time" value="{{startTime}}" class="form-control start-time">
                     <span class="input-group-btn">
-                      <button class="btn btn-primary start-time" type="button">START</button>
+                      <button class="btn btn-primary start-time" type="button">SAVE</button>
                     </span>
                   </div>
                 </form>
@@ -20,21 +40,26 @@
             </article>
           </section>
 
-          <section class="comment-list block">
+          <section class="comment-list block col-lg-6">
             <article class="comment-item media" id="comment-form">
               <section class="media-body">
-                <form action="" class="m-b-none">
-                  <div class="input-group">
-                    <input type="text" placeholder="End Task Time" class="form-control end-time">
+                <form action="" class="m-b-none form-inline">
+                  <div class="input-group ">
+                    <input type="time" value="{{endTime}}" class="form-control end-time">
                     <span class="input-group-btn">
-                      <button class="btn btn-primary end-time" type="button">END</button>
+                      <button class="btn btn-primary end-time" type="button">SAVE</button>
                     </span>
                   </div>
                 </form>
               </section>
             </article>
           </section>
-          <!-- / .comment-list -->
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
 
           <section class="panel">
             <header class="panel-heading bg bg-primary">
@@ -50,16 +75,8 @@
 
         </div>
       </div>
+
     </section>
   </section>
 
-  <!-- footer -->
-  <footer id="footer">
-    <div class="text-center padder clearfix">
-      <p>
-        <small>&copy; Dunmo 2015</small><br><br>
-      </p>
-    </div>
-  </footer>
-  <!-- / footer -->
 </template>
