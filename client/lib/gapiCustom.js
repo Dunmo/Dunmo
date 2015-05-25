@@ -349,36 +349,43 @@ function getBusytimesFromCalendars(calendars) {
 // callback is given the list of busytimes as an array
 // callback(busytimes)
 gapi.getBusytimes = function (startingFrom, callback) {
-  var calendarIdObjects, minTime, maxTime;
+  var calendarIdObjects, timeMin, timeMax;
 
   if (typeof(startingFrom) === 'function') {
-    minTime = Date.now();
+    timeMin = Date.now();
     callback = startingFrom;
   } else {
-    minTime = startingFrom;
+    timeMin = startingFrom;
   }
 
-  maxTime = Meteor.user().latestTodoTime();
-  maxTime = Number(maxTime);
+  timeMax = Meteor.user().latestTodoTime();
+  timeMax = Number(timeMax);
 
-  if( !maxTime || maxTime < minTime) {
-    console.warn('Warning: No tasks or all tasks are before start time');
+  if( !timeMax || timeMax < timeMin) {
+    console.warn('Warning: No tasks or all tasks are due before start time');
     callback([]);
     return;
+  }
+  if( timeMax && (timeMax - timeMin > 30*DAYS) ) {
+    console.warn('Warning: query range exceeds 30 days, limiting to 30 days');
+    timeMax = timeMin + 30*DAYS;
   }
 
   calendarIdObjects = Meteor.user().calendarIdObjects();
 
+  timeMin = Date.formatGoog(new Date(timeMin));
+  timeMax = Date.formatGoog(new Date(timeMax));
+
   gapi.onAuth(function () {
     var request = gapi.client.calendar.freebusy.query({
-      'timeMin' : Date.formatGoog(new Date(minTime)),
-      'timeMax' : Date.formatGoog(new Date(maxTime)),
+      'timeMin' : timeMin,
+      'timeMax' : timeMax,
       'items'   : calendarIdObjects
     });
     request.execute(function(res) {
       var busytimes, calendars, freetimes, result;
       result = res.result;
-      if(!result) console.warn('Warning: No result from freebusy query');
+      if(!result) console.warn('Warning: No result from freebusy query, res: ', res);
       else {
         calendars = result.calendars;
         busytimes = getBusytimesFromCalendars(calendars);
@@ -395,13 +402,13 @@ gapi.getFreetimes = function (startingFrom, callback) {
     var userId      = Meteor.userId();
     var maxTime     = Meteor.user().latestTodoTime();
     maxTime         = Number(maxTime);
-    var freetimeIds = Freetimes.createFromBusytimes(busytimes, {
+    var freetimes = Freetimes.createFromBusytimes(busytimes, {
       userId            : userId,
       minTime           : startingFrom,
       maxTime           : maxTime,
       defaultProperties : { ownerId: userId }
     });
-    var freetimes   = Freetimes.fetch({ _id: { $in: freetimeIds } });
+    // var freetimes   = Freetimes.fetch({ _id: { $in: freetimeIds } });
     callback(freetimes);
   });
 };
