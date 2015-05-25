@@ -30,7 +30,7 @@ GET.route('/api/emails', function (params, req, res, next) {
 
 POST.route('/api/emails', function (params, req, res, next) {
   var body = req.body;
-  console.log('body: ', body);
+
   if(!body) res.end();
 
   var userId = body._id || body.userId || null;

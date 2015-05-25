@@ -6,13 +6,15 @@
  * calendarId      : String
  * title           : String
  * importance      : <1,2,3>
- * dueAt           : String
+ * dueAt           : DateTime
  * remaining       : Number<milliseconds>
  * spent           : Number<milliseconds>
  * snoozedUntil    : DateTime
+ * isDone          : Boolean
+ * isRemoved       : Boolean
+ * timeMarkedDone  : DateTime
  * description     : String
  *
- * TODO: hash apple passwords
  */
 
 Tasks = new Mongo.Collection('tasks');
