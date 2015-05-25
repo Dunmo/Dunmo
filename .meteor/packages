@@ -24,3 +24,6 @@ jjman505:ramda
 meteorhacks:flow-router
 meteorhacks:flow-layout
 meteorhacks:picker
+velocity:console-reporter
+sanjo:jasmine
+xolvio:cucumber
