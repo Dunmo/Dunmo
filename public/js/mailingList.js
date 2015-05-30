@@ -4,7 +4,7 @@ $(function () {
     $('.mailing-list input.email').val('');
     $('.mailing-list input.email').attr('placeholder', 'Success!');
     var url = '/api/emails/' + email;
-    $.post(url); //.success(function(res, msg, xhr) { console.log('res: ', res); });
+    $.post(url);
   };
 
   $('input.email').keypress(function(event) {
