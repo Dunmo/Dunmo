@@ -1,30 +1,31 @@
 
 describe('subscriber', function () {
-
-  var _subscriber;
-
-  beforeEach(function () {
-    var subscriberId = Subscribers.create('test@example.com');
-    _subscriber      = Subscribers.findOne(subscriberId);
-  });
-
-  describe('primaryEmailAddress', function () {
-
-    it('should return the gmail address', function () {
-      // var email = _user.primaryEmailAddress();
-      // expect(email).toEqual(_userEmail);
-      pending();
-    });
-
-    it('should return null when there is no gmail address', function () {
-      // TODO
-      pending();
-    });
-
-  });
-
+  // No Instance Methods
 });
 
-describe('users', function () {
-  // TODO
+describe('Subscribers', function () {
+
+  // var _subscriber;
+
+  // beforeEach(function () {
+  //   var subscriberId = Subscribers.create('test@example.com');
+  //   _subscriber      = Subscribers.findOne(subscriberId);
+  // });
+
+  describe('create', function () {
+
+    it('should be able to create from an email address', function () {
+      pending();
+    });
+
+    it('should be able to create from an object', function () {
+      pending();
+    });
+
+    it('should link to a user account if it exists', function () {
+      pending();
+    });
+
+  });
+
 });
