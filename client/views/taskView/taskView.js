@@ -1,7 +1,7 @@
 
 Template.taskView.rendered = function () {
   heap.identify({ name: Meteor.user().profile.name,
-                  email: Meteor.user().services.google.email });
+                  email: Meteor.user().primaryEmailAddress() });
 };
 
 Template.taskView.helpers({
