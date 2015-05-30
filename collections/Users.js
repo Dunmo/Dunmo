@@ -98,39 +98,39 @@ Meteor.users.helpers({
     else    return settings.taskCalendarId;
   },
 
-  appleCredentials: function () {
-    return AppleCredentials.findOne(this.appleCredentialsId);
-  },
+  // appleCredentials: function () {
+  //   return AppleCredentials.findOne(this.appleCredentialsId);
+  // },
 
-  setAppleCredentials: function (data) {
-    var cred = this.appleCredentials();
+  // setAppleCredentials: function (data) {
+  //   var cred = this.appleCredentials();
 
-    if(!cred) {
-      var id = AppleCredentials.insert(data);
-      this.update({ appleCredentialsId: id });
-    } else {
-      cred.update(data);
-    }
-  },
+  //   if(!cred) {
+  //     var id = AppleCredentials.insert(data);
+  //     this.update({ appleCredentialsId: id });
+  //   } else {
+  //     cred.update(data);
+  //   }
+  // },
 
-  loginWithApple: function (user, pass) {
-    var cred = this.appleCredentials();
-    if( !cred && !(user && pass) ) {
-      return;
-    } else if( !cred ) {
-      AppleCredentials.insert({
-        appleId:  user,
-        password: pass
-      });
-    } else if( user && pass ) {
-      cred.update({
-        appleId:  user,
-        password: pass
-      });
-    } else {
-      cred.validate();
-    }
-  },
+  // loginWithApple: function (user, pass) {
+  //   var cred = this.appleCredentials();
+  //   if( !cred && !(user && pass) ) {
+  //     return;
+  //   } else if( !cred ) {
+  //     AppleCredentials.insert({
+  //       appleId:  user,
+  //       password: pass
+  //     });
+  //   } else if( user && pass ) {
+  //     cred.update({
+  //       appleId:  user,
+  //       password: pass
+  //     });
+  //   } else {
+  //     cred.validate();
+  //   }
+  // },
 
   syncReminders: function () {
     var cred = this.appleCredentials();
