@@ -14,9 +14,9 @@ Calendars = new Mongo.Collection('calendars');
 
 Calendars.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Calendars)
+  setRemoved: collectionsDefault.setRemoved(Calendars),
 
-  update: collectionsDefault.update(Calendars),
+  update: collectionsDefault.update(Calendars)
 
 });
 

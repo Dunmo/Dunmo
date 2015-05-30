@@ -9,8 +9,8 @@ Events = new Mongo.Collection('events');
 
 Events.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Events)
+  setRemoved: collectionsDefault.setRemoved(Events),
 
-  update: collectionsDefault.update(Events),
+  update: collectionsDefault.update(Events)
 
 });
