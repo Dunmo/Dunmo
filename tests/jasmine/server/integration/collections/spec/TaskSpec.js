@@ -8,38 +8,6 @@ describe('task', function () {
     _task      = Tasks.findOne(taskId);
   });
 
-  describe('setDone', function () {
-
-    it('should default to setting .isDone = true', function () {
-      _task.setDone();
-
-      var expectedDefault = true;
-      expect(_task.isDone).toEqual(expectedDefault);
-
-      var updatedTask = Tasks.findOne(_task._id);
-      expect(updatedTask.isDone).toEqual(expectedDefault);
-    });
-
-    it('should set .isDone to the given value', function () {
-      var updatedTask, expectedDefault;
-
-      expectedDefault = true;
-      _task.setDone(expectedDefault);
-      expect(_task.isDone).toEqual(expectedDefault);
-
-      updatedTask = Tasks.findOne(_task._id);
-      expect(updatedTask.isDone).toEqual(expectedDefault);
-
-      expectedDefault = false;
-      _task.setDone(expectedDefault);
-      expect(_task.isDone).toEqual(expectedDefault);
-
-      updatedTask = Tasks.findOne(_task._id);
-      expect(updatedTask.isDone).toEqual(expectedDefault);
-    });
-
-  });
-
   describe('reParse', function () {
     var expected, updatedTask;
 
@@ -68,6 +36,38 @@ describe('task', function () {
     it('should set importance', function () {
       expect(_task.importance).toEqual(expected.importance);
       expect(updatedTask.importance).toEqual(expected.importance);
+    });
+
+  });
+
+  describe('setDone', function () {
+
+    it('should default to setting .isDone = true', function () {
+      _task.setDone();
+
+      var expectedDefault = true;
+      expect(_task.isDone).toEqual(expectedDefault);
+
+      var updatedTask = Tasks.findOne(_task._id);
+      expect(updatedTask.isDone).toEqual(expectedDefault);
+    });
+
+    it('should set .isDone to the given value', function () {
+      var updatedTask, expectedDefault;
+
+      expectedDefault = true;
+      _task.setDone(expectedDefault);
+      expect(_task.isDone).toEqual(expectedDefault);
+
+      updatedTask = Tasks.findOne(_task._id);
+      expect(updatedTask.isDone).toEqual(expectedDefault);
+
+      expectedDefault = false;
+      _task.setDone(expectedDefault);
+      expect(_task.isDone).toEqual(expectedDefault);
+
+      updatedTask = Tasks.findOne(_task._id);
+      expect(updatedTask.isDone).toEqual(expectedDefault);
     });
 
   });
