@@ -7,7 +7,23 @@
 
 Freetimes = new Mongo.Collection('freetimes');
 
-function addStartEndTimes (busytimes, options) {
+Freetimes.helpers({
+
+  update: collectionsDefault.update(Freetimes),
+
+  setRemoved: collectionsDefault.setRemoved(Freetimes),
+
+  duration: function () {
+    return this.end - this.start;
+  },
+
+  remaining: function () {
+    return this.duration();
+  }
+
+});
+
+Freetimes._addStartEndTimes = function (busytimes, options) {
   var starttimes = lodash.pluck(busytimes, 'start');
   var endtimes   = lodash.pluck(busytimes, 'end');
   var start      = options.minTime;
@@ -52,7 +68,7 @@ function addStartEndTimes (busytimes, options) {
   return busytimes;
 };
 
-function coalesceBusytimes (busytimes) {
+Freetimes._coalesceBusytimes = function (busytimes) {
   busytimes    = lodash.sortBy(busytimes, 'end');
   busytimes    = lodash.sortBy(busytimes, 'start');
   newBusytimes = [];
@@ -79,7 +95,7 @@ function coalesceBusytimes (busytimes) {
   return newBusytimes;
 };
 
-function toFreetimes (busytimes, options) {
+Freetimes._toFreetimes = function (busytimes, options) {
   // inputs are in milliseconds, but task time is only per minute granularity
   options.minTime = Date.nearestMinute(options.minTime) + 1*MINUTES;
   options.maxTime = Date.nearestMinute(options.maxTime);
@@ -125,24 +141,6 @@ function toFreetimes (busytimes, options) {
   return freetimes;
 };
 
-Freetimes.helpers({
-  update: collectionsDefault.update(Freetimes),
-
-  duration: function () {
-    return this.end - this.start;
-  },
-
-  timeRemaining: function () {
-    return this.duration();
-  }
-});
-
-Freetimes.fetch = function (selector, options) {
-  var result = Freetimes.find(selector, options);
-  result     = result.fetch();
-  return result;
-};
-
 Freetimes.create = function (obj) {
   if(Array.isArray(obj)) {
     var ary = obj;
@@ -164,7 +162,7 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
     });
-    freetime.timeRemaining = function () {
+    freetime.remaining = function () {
       return this.end - this.start;
     }
     return freetime;
@@ -172,3 +170,5 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
 
   return freetimes; // Freetimes.create(freetimes);
 };
+
+Freetimes.fetch = collectionsDefault.fetch(Freetimes);
