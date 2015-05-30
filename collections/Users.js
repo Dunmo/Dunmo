@@ -13,6 +13,11 @@
  */
 
 Meteor.users.helpers({
+
+  setRemoved: collectionsDefault.setRemoved(Meteor.users, function (bool) {
+    this.settings()._setRemoved(bool);
+  }),
+
   update: collectionsDefault.update(Meteor.users),
 
   primaryEmailAddress: function () {
@@ -22,26 +27,10 @@ Meteor.users.helpers({
   settings: function () {
     var settings = UserSettings.findOne({ userId: this._id });
     if(!settings) {
-      settings = UserSettings.create({ userId: this._id });
-      settings = UserSettings.findOne(settings);
+      var settingsId = UserSettings.create({ userId: this._id });
+      settings       = UserSettings.findOne(settingsId);
     }
     return settings;
-  },
-
-  startOfDay: function (str) {
-    var defaultStartOfDay = '08:00';
-    var settings = this.settings();
-    if(str === '') str = defaultStartOfDay;
-    if(str) {
-      var time = Date.parseTime(str);
-      if(time == settings.startOfDay) return false;
-      return settings.update({ startOfDay: time });
-    }
-    if(!settings.startOfDay) {
-      this.startOfDay(defaultStartOfDay);
-      return Date.parseTime(defaultStartOfDay);
-    }
-    return settings.startOfDay;
   },
 
   endOfDay: function (str) {
@@ -58,6 +47,22 @@ Meteor.users.helpers({
       return Date.parseTime(defaultEndOfDay);
     }
     return settings.endOfDay;
+  },
+
+  startOfDay: function (str) {
+    var defaultStartOfDay = '08:00';
+    var settings = this.settings();
+    if(str === '') str = defaultStartOfDay;
+    if(str) {
+      var time = Date.parseTime(str);
+      if(time == settings.startOfDay) return false;
+      return settings.update({ startOfDay: time });
+    }
+    if(!settings.startOfDay) {
+      this.startOfDay(defaultStartOfDay);
+      return Date.parseTime(defaultStartOfDay);
+    }
+    return settings.startOfDay;
   },
 
   referred: function (bool) {
