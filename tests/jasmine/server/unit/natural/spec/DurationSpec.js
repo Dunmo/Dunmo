@@ -4,6 +4,7 @@
   jasmine.DEFAULT_TIMEOUT_INTERVAL = jasmine.getEnv().defaultTimeoutInterval = 20000;
 
   describe('Natural', function() {
+
     // everything is measured in milliseconds
     var SECONDS = 1000;
     var MINUTES = 60 * SECONDS;
@@ -40,6 +41,7 @@
       var dur     = hours + minutes;
       expect(ret).toEqual( [ 'do the thing before tonight at 7pm', dur ] );
     });
+
   });
 
 })();
