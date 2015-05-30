@@ -192,15 +192,6 @@ Meteor.users.helpers({
   //   cred.syncReminders();
   // },
 
-  // taskCalendar: function () {
-  //   var calId = this.taskCalendarId();
-  //   gapi.getTaskCalendar(calId, function () {
-
-  //   });
-  //   var cal = Calendars.findOne({ ownerId: this._id, summary: name });
-  //   return cal;
-  // },
-
 });
 
 Meteor.users.findBy = collectionsDefault.findBy(Meteor.users);
