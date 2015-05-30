@@ -100,7 +100,3 @@ Tasks.create = function(str, obj) {
 
   return Tasks.insert(obj);
 };
-
-Tasks.before.insert(function(uid, doc) {
-  return doc;
-});
