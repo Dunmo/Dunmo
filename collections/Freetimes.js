@@ -9,9 +9,9 @@ Freetimes = new Mongo.Collection('freetimes');
 
 Freetimes.helpers({
 
-  update: collectionsDefault.update(Freetimes),
-
   setRemoved: collectionsDefault.setRemoved(Freetimes),
+
+  update: collectionsDefault.update(Freetimes),
 
   duration: function () {
     return this.end - this.start;
