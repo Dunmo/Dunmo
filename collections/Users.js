@@ -98,54 +98,6 @@ Meteor.users.helpers({
     else    return settings.taskCalendarId;
   },
 
-  // appleCredentials: function () {
-  //   return AppleCredentials.findOne(this.appleCredentialsId);
-  // },
-
-  // setAppleCredentials: function (data) {
-  //   var cred = this.appleCredentials();
-
-  //   if(!cred) {
-  //     var id = AppleCredentials.insert(data);
-  //     this.update({ appleCredentialsId: id });
-  //   } else {
-  //     cred.update(data);
-  //   }
-  // },
-
-  // loginWithApple: function (user, pass) {
-  //   var cred = this.appleCredentials();
-  //   if( !cred && !(user && pass) ) {
-  //     return;
-  //   } else if( !cred ) {
-  //     AppleCredentials.insert({
-  //       appleId:  user,
-  //       password: pass
-  //     });
-  //   } else if( user && pass ) {
-  //     cred.update({
-  //       appleId:  user,
-  //       password: pass
-  //     });
-  //   } else {
-  //     cred.validate();
-  //   }
-  // },
-
-  syncReminders: function () {
-    var cred = this.appleCredentials();
-    cred.syncReminders();
-  },
-
-  // taskCalendar: function () {
-  //   var calId = this.taskCalendarId();
-  //   gapi.getTaskCalendar(calId, function () {
-
-  //   });
-  //   var cal = Calendars.findOne({ ownerId: this._id, summary: name });
-  //   return cal;
-  // },
-
   tasks: function () {
     return Tasks.find({ ownerId: this._id, isRemoved: { $not: true } });
   },
@@ -200,6 +152,54 @@ Meteor.users.helpers({
     todoList  = Scheduler.generateTodoList(freetimes, todos, 'greedy');
     return todoList;
   }
+
+  // appleCredentials: function () {
+  //   return AppleCredentials.findOne(this.appleCredentialsId);
+  // },
+
+  // setAppleCredentials: function (data) {
+  //   var cred = this.appleCredentials();
+
+  //   if(!cred) {
+  //     var id = AppleCredentials.insert(data);
+  //     this.update({ appleCredentialsId: id });
+  //   } else {
+  //     cred.update(data);
+  //   }
+  // },
+
+  // loginWithApple: function (user, pass) {
+  //   var cred = this.appleCredentials();
+  //   if( !cred && !(user && pass) ) {
+  //     return;
+  //   } else if( !cred ) {
+  //     AppleCredentials.insert({
+  //       appleId:  user,
+  //       password: pass
+  //     });
+  //   } else if( user && pass ) {
+  //     cred.update({
+  //       appleId:  user,
+  //       password: pass
+  //     });
+  //   } else {
+  //     cred.validate();
+  //   }
+  // },
+
+  // syncReminders: function () {
+  //   var cred = this.appleCredentials();
+  //   cred.syncReminders();
+  // },
+
+  // taskCalendar: function () {
+  //   var calId = this.taskCalendarId();
+  //   gapi.getTaskCalendar(calId, function () {
+
+  //   });
+  //   var cal = Calendars.findOne({ ownerId: this._id, summary: name });
+  //   return cal;
+  // },
 
 });
 
