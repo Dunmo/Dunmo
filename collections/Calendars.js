@@ -12,22 +12,15 @@
 
 Calendars = new Mongo.Collection('calendars');
 
-Calendars.before.insert(function(uid, doc) {
-  return doc;
-});
-
 Calendars.helpers({
+
   update: collectionsDefault.update(Calendars),
 
-  remove: function (bool) {
-    if(bool === undefined || bool === null) bool = true
-    this.update({ isRemoved: bool });
-  }
+  setRemoved: collectionsDefault.setRemoved(Calendars)
+
 });
 
 Calendars.before.insert(function(uid, doc) {
-  // console.log('doc: ', doc);
-
   doc.ownerId = doc.ownerId || Meteor.userId();
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
   doc.id      = undefined;
@@ -38,8 +31,6 @@ Calendars.before.insert(function(uid, doc) {
 
 
 Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
-  // console.log('doc: ', doc);
-
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
   doc.id = undefined;
 
