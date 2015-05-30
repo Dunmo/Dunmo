@@ -11,10 +11,10 @@
 
     this.When(/^I type "([^"]*)" into the email input$/, function (email, callback) {
       var emailInputSelector = '.mailing-list .email';
-      this.client.waitForVisible(emailInputSelector)
-                 .setValue(emailInputSelector, email)
-                 .getValue(emailInputSelector).should.become(email)
-                 .and.notify(callback);
+      this.client.waitForVisible(emailInputSelector).
+        setValue(emailInputSelector, email).
+        getValue(emailInputSelector).should.become(email).
+        and.notify(callback);
     });
 
     this.Then(/^the email "([^"]*)" should be added to the database$/, function (email, callback) {
