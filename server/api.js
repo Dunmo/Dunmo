@@ -7,15 +7,13 @@ var PUT    = Router.filter(function(req, res) { return req.method == "PUT"    })
 var DELETE = Router.filter(function(req, res) { return req.method == "DELETE" });
 
 GET.route('/api/subscribers/:userId', function (params, req, res, next) {
-  // get the subscriber for the user id
-  var id = params.userId;
+  var userId, ret, subscriber;
 
-  // var user  = Meteor.users.findOne(id);
-  // var subscriber = user.primaryEmailAddress();
-  var subscriber = Subscribers.findOne({ userId: id });
-  var ret;
-  if(subscriber) ret = { email: email };
-  else      ret = { email: null  };
+  userId     = params.userId;
+  subscriber = Subscribers.findOne({ userId: userId });
+
+  if(subscriber) ret = { subscriber: subscriber };
+  else           ret = { subscriber: null  };
 
   ret = JSON.stringify(ret);
   res.end(ret);
