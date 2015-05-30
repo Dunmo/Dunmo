@@ -126,9 +126,7 @@ function toFreetimes (busytimes, options) {
 };
 
 Freetimes.helpers({
-  update: function (data) {
-    Freetimes.update(this._id, { $set: data });
-  },
+  update: collectionsDefault.update(Freetimes),
 
   duration: function () {
     return this.end - this.start;

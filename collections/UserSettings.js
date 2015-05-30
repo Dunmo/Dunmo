@@ -14,12 +14,7 @@
 UserSettings = new Mongo.Collection('userSettings');
 
 UserSettings.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
-
-    return UserSettings.update(this._id, data);
-  }
+  update: collectionsDefault.update(UserSettings)
 });
 
 UserSettings.create = function(obj) {

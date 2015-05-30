@@ -17,12 +17,7 @@ Calendars.before.insert(function(uid, doc) {
 });
 
 Calendars.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
-
-    return Calendars.update(this._id, data);
-  },
+  update: collectionsDefault.update(Calendars),
 
   remove: function (bool) {
     if(bool === undefined || bool === null) bool = true

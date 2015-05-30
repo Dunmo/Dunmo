@@ -24,31 +24,28 @@ Tasks.before.insert(function(uid, doc) {
 });
 
 Tasks.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
 
-    return Tasks.update(this._id, data);
+  update: collectionsDefault.update(Tasks),
+
+  setRemoved: function (value) {
+    if(value == null || value == undefined) value = true;
+    return this.update({ isRemoved: value });
+  },
+
+  setDone: function (value) {
+    if(value == null || value == undefined) value = true;
+    return this.update({ isDone: value });
   },
 
   reParse: function (str) {
     var res = Natural.parseTask(str);
     res.inputString = str;
-    this.update(res);
-  },
-
-  markDone: function () {
-    this.update({ isDone: true });
-  },
-
-  remove: function () {
-    this.update({ isRemoved: true });
+    return this.update(res);
   },
 
   split: function(milliseconds) {
-    if(milliseconds > this.remaining) {
-      return [ null, R.cloneDeep(this) ];
-    }
+    if(milliseconds > this.remaining) milliseconds = this.remaining;
+    if(milliseconds < 0)              milliseconds = 0;
 
     var firstTask = R.cloneDeep(this);
     firstTask.remaining = milliseconds;
@@ -61,6 +58,7 @@ Tasks.helpers({
 
     return [ firstTask, secondTask ];
   }
+
 });
 
 // input: obj OR str, obj
@@ -71,6 +69,7 @@ Tasks.create = function(str, obj) {
     obj = str;
     str = '';
   }
+  if(!obj) obj = {};
 
   var res = Natural.parseTask(str);
 
