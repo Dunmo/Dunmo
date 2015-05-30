@@ -16,7 +16,7 @@ UserSettings = new Mongo.Collection('userSettings');
 UserSettings.helpers({
 
   // Should only be called by its user's setRemoved method
-  _setRemoved: collectionsDefault.setRemoved(UserSettings),
+  _setRemoved: collectionsDefault.setRemoved(),
 
   update: collectionsDefault.update(UserSettings),
 

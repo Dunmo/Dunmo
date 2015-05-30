@@ -14,7 +14,7 @@
 
 Meteor.users.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Meteor.users, function (bool) {
+  setRemoved: collectionsDefault.setRemoved(function (bool) {
     this.settings()._setRemoved(bool);
   }),
 
