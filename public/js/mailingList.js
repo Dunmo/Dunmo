@@ -3,7 +3,7 @@ $(function () {
     var email = $('.mailing-list input.email').val();
     $('.mailing-list input.email').val('');
     $('.mailing-list input.email').attr('placeholder', 'Success!');
-    var url = '/api/emails/' + email;
+    var url = '/api/subscribers/' + email;
     $.post(url);
   };
 
