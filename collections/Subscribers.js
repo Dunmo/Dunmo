@@ -8,7 +8,11 @@
 Subscribers = new Mongo.Collection('subscribers');
 
 Subscribers.helpers({
+
+  setRemoved: collectionsDefault.setRemoved(Subscribers),
+
   update: collectionsDefault.update(Subscribers)
+
 });
 
 Subscribers.fetch = collectionsDefault.fetch(Subscribers);
