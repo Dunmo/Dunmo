@@ -28,8 +28,13 @@ function createReferral(data) {
   if (ret == 1) user.referred(true);
 };
 
+function fetchMailingList() {
+  return Subscribers.fetch();
+};
+
 Meteor.methods({
   'postSync': callSync('postSync'),
   'getSync': callSync('getSync'),
-  'createReferral': createReferral
+  'createReferral': createReferral,
+  'fetchMailingList': fetchMailingList
 });

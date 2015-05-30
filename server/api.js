@@ -12,7 +12,7 @@ GET.route('/api/emails/:userId', function (params, req, res, next) {
 
   // var user  = Meteor.users.findOne(id);
   // var email = user.primaryEmailAddress();
-  var email = Emails.findOne({ userId: id });
+  var email = Subscribers.findOne({ userId: id });
   var ret;
   if(email) ret = { email: email };
   else      ret = { email: null  };
@@ -23,39 +23,31 @@ GET.route('/api/emails/:userId', function (params, req, res, next) {
 
 GET.route('/api/emails', function (params, req, res, next) {
   // get all emails
-  var emails = Emails.find({}).fetch();
-  emails = JSON.stringify(emails);
+  var emails = Subscribers.fetch();
+  emails     = JSON.stringify(emails);
   res.end(emails);
 });
 
-POST.route('/api/emails', function (params, req, res, next) {
-  var body = req.body;
+POST.route('/api/emails/:email', function (params, req, res, next) {
+  // var body = req.body;
+  // if(!body) res.end();
+  // var userId = body._id || body.userId || null;
+  // var email;
+  // if     (body.email)                    email = body.email;
+  // else if(body.primaryEmailAddress)      email = body.primaryEmailAddress();
+  // else if(body.emails && body.emails[0]) email = body.emails[0].address;
 
-  if(!body) res.end();
-
-  var userId = body._id || body.userId || null;
-  var email;
-  if     (body.email)                    email = body.email;
-  else if(body.primaryEmailAddress)      email = body.primaryEmailAddress();
-  else if(body.emails && body.emails[0]) email = body.emails[0].address;
-
-  var retId = Emails.create({
-    userId : userId,
-    email  : email
-  });
-
-  var ret = Emails.findOne(retId);
-  ret = JSON.stringify(ret);
-
-  res.end(ret);
+  var email        = params.email;
+  var subscriberId = Subscribers.create(email);
+  var subscriber   = Subscribers.findOne(subscriberId);
+  subscriber       = JSON.stringify(subscriber);
+  res.end(subscriber);
 });
 
 GET.route('/email/receive', function (params, req, res, next) {
   var user_addr = req.body.Sender;
   var text = req.body['Text-part'];
   var user = Meteor.users.findOne({ 'services.google.email': user_addr });
-
-  // console.log("user_addr: ", user_addr);
 
   Tasks.create(text, { 'ownerId': user._id });
   res.end();
