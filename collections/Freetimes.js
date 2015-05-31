@@ -99,16 +99,20 @@ function toFreetimes (busytimes, options) {
       if(minTime < obj.start) {
         start = minTime;
         end   = obj.start;
+        freetimes.push({
+          start: start,
+          end:   end
+        });
       }
     }
     else {
       start = busytimes[index-1].end;
       end   = obj.start;
+      freetimes.push({
+        start: start,
+        end:   end
+      });
     }
-    freetimes.push({
-      start: start,
-      end:   end
-    });
 
     if(index === busytimes.length-1) {
       if(maxTime > obj.end) {
