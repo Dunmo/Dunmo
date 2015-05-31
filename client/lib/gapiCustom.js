@@ -127,7 +127,7 @@ gapi.syncCalendars = function () {
       return lodash.contains(calendarIds, cal.googleCalendarId);
     });
 
-    removedCalendars.forEach(function (cal) { cal.remove(); });
+    removedCalendars.forEach(function (cal) { cal.setRemoved(); });
   });
 };
 
