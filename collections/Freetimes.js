@@ -103,8 +103,8 @@ Freetimes._toFreetimes = function (busytimes, options) {
   maxTime = options.maxTime;
 
   if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
-  busytimes = addStartEndTimes(busytimes, options);
-  busytimes = coalesceBusytimes(busytimes);
+  busytimes = this._addStartEndTimes(busytimes, options);
+  busytimes = this._coalesceBusytimes(busytimes);
 
   var freetimes = [];
 
@@ -157,7 +157,7 @@ Freetimes.create = function (obj) {
 Freetimes.createFromBusytimes = function (busytimes, options) {
   defaultProperties = options.defaultProperties;
 
-  var freetimes = toFreetimes(busytimes, options);
+  var freetimes = this._toFreetimes(busytimes, options);
   freetimes = freetimes.map(function(freetime) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
