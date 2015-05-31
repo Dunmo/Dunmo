@@ -19,36 +19,26 @@
 
 Tasks = new Mongo.Collection('tasks');
 
-Tasks.before.insert(function(uid, doc) {
-  return doc;
-});
-
 Tasks.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
 
-    return Tasks.update(this._id, data);
-  },
+  setRemoved: collectionsDefault.setRemoved(Tasks),
+
+  update: collectionsDefault.update(Tasks),
 
   reParse: function (str) {
     var res = Natural.parseTask(str);
     res.inputString = str;
-    this.update(res);
+    return this.update(res);
   },
 
-  markDone: function () {
-    this.update({ isDone: true });
-  },
-
-  remove: function () {
-    this.update({ isRemoved: true });
+  setDone: function (bool) {
+    if(bool == null || bool == undefined) bool = true;
+    return this.update({ isDone: bool });
   },
 
   split: function(milliseconds) {
-    if(milliseconds > this.remaining) {
-      return [ null, R.cloneDeep(this) ];
-    }
+    if(milliseconds > this.remaining) milliseconds = this.remaining;
+    if(milliseconds < 0)              milliseconds = 0;
 
     var firstTask = R.cloneDeep(this);
     firstTask.remaining = milliseconds;
@@ -61,7 +51,15 @@ Tasks.helpers({
 
     return [ firstTask, secondTask ];
   }
+
 });
+
+Tasks.basicSort = function(tasks) {
+  tasks = _.sortBy(tasks, 'remaining');
+  tasks = _.sortBy(tasks, 'importance').reverse();
+  tasks = _.sortBy(tasks, 'dueAt');
+  return tasks;
+};
 
 // input: obj OR str, obj
 // if `str` is given, attrs will be parsed
@@ -71,6 +69,7 @@ Tasks.create = function(str, obj) {
     obj = str;
     str = '';
   }
+  if(!obj) obj = {};
 
   var res = Natural.parseTask(str);
 
@@ -100,11 +99,4 @@ Tasks.create = function(str, obj) {
   };
 
   return Tasks.insert(obj);
-};
-
-Tasks.basicSort = function(tasks) {
-  tasks = _.sortBy(tasks, 'remaining');
-  tasks = _.sortBy(tasks, 'importance').reverse();
-  tasks = _.sortBy(tasks, 'dueAt');
-  return tasks;
 };

@@ -7,7 +7,23 @@
 
 Freetimes = new Mongo.Collection('freetimes');
 
-function addStartEndTimes (busytimes, options) {
+Freetimes.helpers({
+
+  setRemoved: collectionsDefault.setRemoved(Freetimes),
+
+  update: collectionsDefault.update(Freetimes),
+
+  duration: function () {
+    return this.end - this.start;
+  },
+
+  remaining: function () {
+    return this.duration();
+  }
+
+});
+
+Freetimes._addStartEndTimes = function (busytimes, options) {
   var starttimes = lodash.pluck(busytimes, 'start');
   var endtimes   = lodash.pluck(busytimes, 'end');
   var start      = options.minTime;
@@ -52,7 +68,7 @@ function addStartEndTimes (busytimes, options) {
   return busytimes;
 };
 
-function coalesceBusytimes (busytimes) {
+Freetimes._coalesceBusytimes = function (busytimes) {
   busytimes    = lodash.sortBy(busytimes, 'end');
   busytimes    = lodash.sortBy(busytimes, 'start');
   newBusytimes = [];
@@ -79,33 +95,31 @@ function coalesceBusytimes (busytimes) {
   return newBusytimes;
 };
 
-function toFreetimes (busytimes, options) {
+Freetimes._toFreetimes = function (busytimes, options) {
   // inputs are in milliseconds, but task time is only per minute granularity
-  options.minTime = Date.nearestMinute(options.minTime) + 1*MINUTES;
-  options.maxTime = Date.nearestMinute(options.maxTime);
+  options.minTime = Date.floorMinute(options.minTime) + 1*MINUTES;
+  options.maxTime = Date.floorMinute(options.maxTime);
   minTime = options.minTime;
   maxTime = options.maxTime;
 
   if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
-  busytimes = addStartEndTimes(busytimes, options);
-  busytimes = coalesceBusytimes(busytimes);
+  busytimes = this._addStartEndTimes(busytimes, options);
+  busytimes = this._coalesceBusytimes(busytimes);
 
   var freetimes = [];
 
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
 
-    if(index === 0) { // if first busytime
-      if(minTime < obj.start) {
-        start = minTime;
-        end   = obj.start;
-        freetimes.push({
-          start: start,
-          end:   end
-        });
-      }
+    if(index === 0 && minTime < obj.start) {
+      start = minTime;
+      end   = obj.start;
+      freetimes.push({
+        start: start,
+        end:   end
+      });
     }
-    else {
+    else if(index !== 0){
       start = busytimes[index-1].end;
       end   = obj.start;
       freetimes.push({
@@ -129,26 +143,6 @@ function toFreetimes (busytimes, options) {
   return freetimes;
 };
 
-Freetimes.helpers({
-  update: function (data) {
-    Freetimes.update(this._id, { $set: data });
-  },
-
-  duration: function () {
-    return this.end - this.start;
-  },
-
-  timeRemaining: function () {
-    return this.duration();
-  }
-});
-
-Freetimes.fetch = function (selector, options) {
-  var result = Freetimes.find(selector, options);
-  result     = result.fetch();
-  return result;
-};
-
 Freetimes.create = function (obj) {
   if(Array.isArray(obj)) {
     var ary = obj;
@@ -165,12 +159,12 @@ Freetimes.create = function (obj) {
 Freetimes.createFromBusytimes = function (busytimes, options) {
   defaultProperties = options.defaultProperties;
 
-  var freetimes = toFreetimes(busytimes, options);
+  var freetimes = this._toFreetimes(busytimes, options);
   freetimes = freetimes.map(function(freetime) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
     });
-    freetime.timeRemaining = function () {
+    freetime.remaining = function () {
       return this.end - this.start;
     }
     return freetime;
@@ -178,3 +172,5 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
 
   return freetimes; // Freetimes.create(freetimes);
 };
+
+Freetimes.fetch = collectionsDefault.fetch(Freetimes);

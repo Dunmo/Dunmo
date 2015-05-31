@@ -14,12 +14,16 @@
 UserSettings = new Mongo.Collection('userSettings');
 
 UserSettings.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
 
-    return UserSettings.update(this._id, data);
+  // Should only be called by its user's setRemoved method
+  _setRemoved: collectionsDefault.setRemoved(),
+
+  update: collectionsDefault.update(UserSettings),
+
+  user: function () {
+    return Meteor.users.findOne(this.userId);
   }
+
 });
 
 UserSettings.create = function(obj) {

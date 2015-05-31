@@ -1,12 +1,12 @@
 
-function callSync(verb) {
-  return function(uri, options) {
-    var res = request[verb](uri, options);
-    res     = res.response;
-    res     = JSON.stringify(res);
-    return res;
-  };
-};
+// function callSync(verb) {
+//   return function(uri, options) {
+//     var res = request[verb](uri, options);
+//     res     = res.response;
+//     res     = JSON.stringify(res);
+//     return res;
+//   };
+// };
 
 function createReferral(data) {
 
@@ -28,8 +28,13 @@ function createReferral(data) {
   if (ret == 1) user.referred(true);
 };
 
+function fetchMailingList() {
+  return Subscribers.fetch();
+};
+
 Meteor.methods({
-  'postSync': callSync('postSync'),
-  'getSync': callSync('getSync'),
-  'createReferral': createReferral
+  // 'postSync': callSync('postSync'),
+  // 'getSync': callSync('getSync'),
+  'createReferral': createReferral,
+  'fetchMailingList': fetchMailingList
 });

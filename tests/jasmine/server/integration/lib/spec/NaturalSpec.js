@@ -1,13 +1,28 @@
-(function () {
-  "use strict";
 
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = jasmine.getEnv().defaultTimeoutInterval = 20000;
+describe('Natural', function() {
 
-  describe('Natural', function() {
-    // everything is measured in milliseconds
-    var SECONDS = 1000;
-    var MINUTES = 60 * SECONDS;
-    var HOURS   = 60 * MINUTES;
+  // everything is measured in milliseconds
+  var SECONDS = 1000;
+  var MINUTES = 60 * SECONDS;
+  var HOURS   = 60 * MINUTES;
+
+  describe('parseImportance', function () {
+
+    it('should', function() {
+      pending();
+    });
+
+  });
+
+  describe('parseDueAt', function () {
+
+    it('should', function() {
+      pending();
+    });
+
+  });
+
+  describe('parseDuration', function () {
 
     it('should be able to parse minutes', function() {
       var input = 'for 30 minutes';
@@ -40,6 +55,23 @@
       var dur     = hours + minutes;
       expect(ret).toEqual( [ 'do the thing before tonight at 7pm', dur ] );
     });
+
   });
 
-})();
+  describe('parseTitle', function () {
+
+    it('should', function() {
+      pending();
+    });
+
+  });
+
+  describe('parseTask', function () {
+
+    it('should', function() {
+      pending();
+    });
+
+  });
+
+});
