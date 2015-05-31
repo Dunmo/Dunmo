@@ -1,12 +1,12 @@
 
-function callSync(verb) {
-  return function(uri, options) {
-    var res = request[verb](uri, options);
-    res     = res.response;
-    res     = JSON.stringify(res);
-    return res;
-  };
-};
+// function callSync(verb) {
+//   return function(uri, options) {
+//     var res = request[verb](uri, options);
+//     res     = res.response;
+//     res     = JSON.stringify(res);
+//     return res;
+//   };
+// };
 
 function createReferral(data) {
 
@@ -33,8 +33,8 @@ function fetchMailingList() {
 };
 
 Meteor.methods({
-  'postSync': callSync('postSync'),
-  'getSync': callSync('getSync'),
+  // 'postSync': callSync('postSync'),
+  // 'getSync': callSync('getSync'),
   'createReferral': createReferral,
   'fetchMailingList': fetchMailingList
 });
