@@ -147,6 +147,7 @@ Meteor.users.helpers({
   },
 
   todoList: function (freetimes) {
+    var todos, todoList;
     todos     = this.sortedTodos();
     freetimes = freetimes || this.freetimes();
     todoList  = Scheduler.generateTodoList(freetimes, todos, 'greedy');
