@@ -195,6 +195,8 @@ Meteor.users.helpers({
 
 });
 
+Meteor.users.fetch = collectionsDefault.fetch(Meteor.users);
+
 Meteor.users.findBy = collectionsDefault.findBy(Meteor.users);
 
 Meteor.users.findByEmail = function (email) {
