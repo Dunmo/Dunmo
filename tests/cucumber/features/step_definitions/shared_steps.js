@@ -15,6 +15,19 @@
 
     this.Given(/^I am a logged in user$/, function (callback) {
       // Write code here that turns the phrase above into concrete actions
+      this.client.executeAsync(function(done) {
+        Meteor.loginWithGoogle({
+          requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
+          requestOfflineToken: true,
+          loginStyle: "popup"
+        }, function (err) {
+          done({err: err, user: Meteor.user()});
+        });
+      }, function(res) {
+        console.log('res: ', res);
+        callback();
+      });
+
       callback.pending();
     });
 
