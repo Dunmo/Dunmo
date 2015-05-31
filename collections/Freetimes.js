@@ -40,8 +40,6 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
   startOfDay     = day + startOfDay;
   endOfDay       = day + endOfDay;
 
-  console.log('start, end, startOfDay, endOfDay: ', start, end, startOfDay, endOfDay);
-
   if(start < startOfDay) {
     busytimes.push({
       start: start,
@@ -162,7 +160,6 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   defaultProperties = options.defaultProperties;
 
   var freetimes = this._toFreetimes(busytimes, options);
-  console.log('freetimes: ', freetimes);
   freetimes = freetimes.map(function(freetime) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
