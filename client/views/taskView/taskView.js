@@ -8,9 +8,30 @@ Template.taskView.rendered = function () {
 };
 
 Template.taskView.helpers({
-  tasks: function() {
+  tasks: function () {
     return Meteor.user().sortedTodos();
+  },
+
+  anyTasks: function () {
+    return Meteor.user().sortedTodos().count() > 0;
+  },
+
+  recentTasks: function () {
+    return Meteor.user().recentTodos();
+  },
+
+  anyRecentTasks: function () {
+    return Meteor.user().recentTodos().count() > 0;
+  },
+
+  upcomingTasks: function () {
+    return Meteor.user().upcomingTodos();
+  },
+
+  anyUpcomingTasks: function () {
+    return Meteor.user().upcomingTodos().count() > 0;
   }
+
 });
 
 Template.taskView.events({
