@@ -100,3 +100,5 @@ Tasks.create = function(str, obj) {
 
   return Tasks.insert(obj);
 };
+
+Tasks.findAllById = collectionsDefault.findAllById(Tasks);
