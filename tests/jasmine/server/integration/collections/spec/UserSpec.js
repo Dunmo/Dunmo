@@ -1,4 +1,12 @@
 
+function fakeUser () {
+  var userId = Accounts.createUser({
+    email: faker.internet.email(),
+    password: 'password'
+  });
+  return Meteor.users.findOne(userId);
+};
+
 describe('user', function () {
 
   var _user, _userEmail;
@@ -97,32 +105,129 @@ describe('user', function () {
 
   describe('tasks', function () {
 
-    it('should', function () {
-      pending();
+    var _user;
+
+    var pickId = function (task) { return task.id; };
+
+    beforeEach(function () {
+      _user      = fakeUser();
+      var tasks  = [
+        { id: 1, ownerId: userId,   isRemoved: false },
+        { id: 2, ownerId: userId,   isRemoved: true  },
+        { id: 3, ownerId: 'someId', isRemoved: false }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
     });
 
-  });
+    it('should only return tasks owned by this user', function () {
+      var tasks   = _user.tasks();
+      tasks       = tasks.fetch();
 
-  describe('sortedTasks', function () {
+      tasks.forEach(function (task) {
+        expect(task.ownerId).toEqual(_user._id);
+      });
+    });
 
-    it('should', function () {
-      pending();
+    it('should only return tasks for which isRemoved is false', function () {
+      var tasks   = _user.tasks();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.isRemoved).toBeFalsy();
+      });
     });
 
   });
 
   describe('todos', function () {
 
-    it('should', function () {
-      pending();
+    var _user;
+
+    beforeEach(function () {
+      _user      = fakeUser();
+      var userId = _user._id;
+      var tasks  = [
+        { id: 1, ownerId: userId,   isDone: true,  isRemoved: false },
+        { id: 2, ownerId: userId,   isDone: false, isRemoved: true  },
+        { id: 3, ownerId: userId,   isDone: false, isRemoved: false },
+        { id: 4, ownerId: 'someId', isDone: false, isRemoved: false }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
+    });
+
+    it('should only return tasks owned by this user', function () {
+      var tasks   = _user.todos();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.ownerId).toEqual(_user._id);
+      });
+    });
+
+    it('should only return tasks for which isRemoved is false', function () {
+      var tasks   = _user.todos();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.isRemoved).toBeFalsy();
+      });
+    });
+
+    it('should only return tasks for which isDone is false', function () {
+      var tasks   = _user.todos();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.isDone).toBeFalsy();
+      });
     });
 
   });
 
-  describe('sortedTodos', function () {
+  describe('recentTodos', function () {
 
-    it('should', function () {
-      pending();
+    var _user;
+
+    beforeEach(function () {
+      _user      = fakeUser();
+      var userId = _user._id;
+      var tasks  = [
+        { id: 1, ownerId: userId },
+        { id: 2, ownerId: userId }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
+      var recentTask = Tasks.findOne();
+
+      Events.insert({
+        taskId:
+      });
+    });
+
+    it('should only return tasks owned by this user', function () {
+      var tasks   = _user.todos();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.ownerId).toEqual(_user._id);
+      });
+    });
+
+    it('should only return tasks for which isRemoved is false', function () {
+      var tasks   = _user.todos();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.isRemoved).toBeFalsy();
+      });
+    });
+
+    it('should only return tasks for which isDone is false', function () {
+      var tasks   = _user.todos();
+      tasks       = tasks.fetch();
+
+      tasks.forEach(function (task) {
+        expect(task.isDone).toBeFalsy();
+      });
     });
 
   });
