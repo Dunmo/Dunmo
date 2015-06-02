@@ -150,13 +150,8 @@ gapi.deleteCalendar = function (id) {
 ////////////
 
 gapi.getAllFromCalendarAfter = function (minTime, callback) {
-  if(typeof minTime === 'function') {
-    callback = minTime;
-    minTime = Date.now();
-  }
-
   if( !callback ) {
-    console.error('getAllFutureFromCalendar: no callback supplied. must be called asynchronously');
+    console.error('getAllFromCalendarAfter: no callback supplied./nUsage: gapi.getAllFromCalendarAfter(minTime, callback)');
     return;
   }
 
@@ -285,10 +280,10 @@ gapi.addEventToCalendar = function (doc) {
 
       request.execute(function(res) {
         console.log('added event: ', res);
-        res.taskId      = doc._id;
-        res.needsReview = true;
-        res.ownerId     = Meteor.userId();
-        var ret         = Events.createOrUpdate(res);
+        res.taskId        = doc._id;
+        res.needsReviewed = true;
+        res.ownerId       = Meteor.userId();
+        var ret           = Events.createOrUpdate(res);
         console.log('ret: ', ret);
       });
     });
@@ -447,6 +442,7 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
     // will not delete current task event
     gapi.deleteAllFromCalendarAfter(startingFrom);
     gapi.getFreetimes(startingFrom, function(freetimes) {
+      Events.syncActiveWithGoogle();
       var user = Meteor.user();
       todos    = user.todoList(freetimes);
       todos.forEach(function(todo) {
