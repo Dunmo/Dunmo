@@ -1,9 +1,12 @@
 /*
  * Events
  * =========
- * isStatic : Boolean
- * taskId   : String
- *
+ * isStatic         : Boolean
+ * taskId           : String
+ * googleEventId    : String
+ * start            : Date
+ * end              : Date
+ * googleCalendarId : String
  */
 
 Events = new Mongo.Collection('events');
@@ -38,6 +41,17 @@ Events.createOrUpdate = function (obj) {
 Events.fetch = collectionsDefault.fetch(Events);
 
 Events.fetchActive = collectionsDefault.fetchActive(Events);
+
+// Client Only; Requires google api
+Events.matchGoogle = function (selector, options) {
+  var events = Events.fetch(selector, options);
+  events.forEach(function (event) {
+    gapi.getEvent(event, function (googleEvent) {
+      console.log('event: ', event);
+      // Events.createOrUpdate(googleEvent);
+    });
+  });
+};
 
 Events.taskEvents = {};
 
