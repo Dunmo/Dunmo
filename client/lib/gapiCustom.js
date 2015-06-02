@@ -285,7 +285,9 @@ gapi.addEventToCalendar = function (doc) {
 
       request.execute(function(res) {
         console.log('added event: ', res);
-        Tasks.update(doc._id, { $addToSet: { gcalEventIds: res.id } });
+        res.taskId = doc._id;
+        res.needsReview = true;
+        Events.createOrUpdate(res);
       });
     });
   });
@@ -300,10 +302,8 @@ gapi.removeEventFromCalendar = function(eventId) {
       });
 
       request.execute(function(res) {
-        var tasks = Meteor.user().tasks();
-        tasks.forEach(function (task) {
-          task.update({ $pull: { gcalEventIds: eventId } });
-        });
+        console.log('removed event: ', res);
+        Meteor.call('removeEvent', res.id);
       });
     });
   });
