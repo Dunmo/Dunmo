@@ -44,6 +44,12 @@ collectionsDefault = {
     };
   },
 
+  findAllById: function (collection) {
+    return function (ids) {
+      collection.find({ _id: { $in: ids } });
+    };
+  },
+
   findBy: function (collection) {
     return function (selector) {
       return collection.findOne(selector);
