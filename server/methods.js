@@ -34,7 +34,7 @@ function fetchMailingList () {
 
 function removeEvent (googleEventId) {
   var event = Events.findOne({ googleEventId: googleEventId });
-  if(event) return event.remove();
+  if(event) return event.setRemoved();
   else      return 0;
 };
 
