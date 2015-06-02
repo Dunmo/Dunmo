@@ -98,6 +98,10 @@ Meteor.users.helpers({
     else    return settings.taskCalendarId;
   },
 
+  recentTaskEvents: function () {
+    return Events.taskEvents.recent({ ownerId: this._id });
+  },
+
   tasks: function () {
     return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
   },
@@ -114,22 +118,25 @@ Meteor.users.helpers({
 
   sortedTodos: function () {
     var todos = this.todos().fetch();
-    todos = Tasks.basicSort(todos);
+    todos     = Tasks.basicSort(todos);
     return todos;
   },
 
   recentTodos: function () {
-    var todos = this.todos();
-    // get dunmo task events
-    // todos = Tasks.basicSort(todos);
+    var events = this.recentTaskEvents();
+    var tasks  = Events.getTasks(events);
+    var todos  = _.reject(tasks, function (t) { return t.isRemoved || t.isDone; });
+    todos      = Tasks.basicSort(todos);
     return todos;
   },
 
   upcomingTodos: function () {
     var todos  = this.todos();
     var recent = this.recentTodos();
-    // reject recent tasks
-    // todos = Tasks.basicSort(todos);
+    todos      = _.reject(todos, function (t) {
+      return recent.any(function(r) { r._id === t._id });
+    });
+    todos = Tasks.basicSort(todos);
     return todos;
   },
 
