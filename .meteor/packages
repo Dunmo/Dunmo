@@ -25,3 +25,5 @@ meteorhacks:fast-render
 sanjo:jasmine
 velocity:html-reporter
 msavin:jetsetter
+accounts-password
+digilord:faker
