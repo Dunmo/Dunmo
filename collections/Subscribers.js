@@ -9,7 +9,7 @@ Subscribers = new Mongo.Collection('subscribers');
 
 Subscribers.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Subscribers),
+  setRemoved: collectionsDefault.setRemoved(),
 
   update: collectionsDefault.update(Subscribers)
 

@@ -21,7 +21,7 @@ Tasks = new Mongo.Collection('tasks');
 
 Tasks.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Tasks),
+  setRemoved: collectionsDefault.setRemoved(),
 
   update: collectionsDefault.update(Tasks),
 

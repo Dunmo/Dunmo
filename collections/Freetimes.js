@@ -9,7 +9,7 @@ Freetimes = new Mongo.Collection('freetimes');
 
 Freetimes.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Freetimes),
+  setRemoved: collectionsDefault.setRemoved(),
 
   update: collectionsDefault.update(Freetimes),
 
