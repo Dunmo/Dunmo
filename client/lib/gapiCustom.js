@@ -238,7 +238,7 @@ gapi.deleteAllFromCalendarAfter = function (minTime) {
   });
 };
 
-function isHappeningNow(event) {
+function isHappeningNow (event) {
   if( !event ) return false;
   var start = Date.ISOToMilliseconds(event.start.dateTime);
   var end = Date.ISOToMilliseconds(event.end.dateTime);
@@ -295,7 +295,7 @@ gapi.addEventToCalendar = function (doc) {
   });
 };
 
-gapi.removeEventFromCalendar = function(eventId) {
+gapi.removeEventFromCalendar = function (eventId) {
   gapi.getTaskCalendar(function (cal) {
     gapi.onAuth(function () {
       var request = gapi.client.calendar.events.delete({
@@ -307,6 +307,29 @@ gapi.removeEventFromCalendar = function(eventId) {
         Meteor.call('removeEvent', eventId);
       });
     });
+  });
+};
+
+gapi.getEvent = function (event, callback) {
+  gapi.onAuth(function () {
+    function execute (cal) {
+      var eventId, request;
+      if(typeof event === 'object') eventId = event.googleEventId;
+      else                          eventId = event;
+
+      request = gapi.client.calendar.events.get({
+        'calendarId' : cal.id,
+        'eventId'    : eventId
+      });
+
+      request.execute(callback);
+    };
+
+    if(event.taskId) {
+      gapi.getTaskCalendar(execute);
+    } else {
+      execute({ id: event.googleCalendarId });
+    }
   });
 };
 
@@ -333,7 +356,7 @@ gapi.setEndTime = function (e, newEndTime) {
 // Free/Busy //
 ///////////////
 
-function getBusytimesFromCalendars(calendars) {
+function getBusytimesFromCalendars (calendars) {
   var busytimes = [];
   lodash.keys(calendars).forEach(function(k) {
     var calendar = calendars[k];
