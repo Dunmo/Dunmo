@@ -10,7 +10,7 @@ Events = new Mongo.Collection('events');
 
 Events.helpers({
 
-  setRemoved: collectionsDefault.setRemoved(Events),
+  setRemoved: collectionsDefault.setRemoved(),
 
   update: collectionsDefault.update(Events)
 
@@ -19,21 +19,25 @@ Events.helpers({
 Events.createOrUpdate = function (obj) {
   if(Array.isArray(obj)) {
     var ary = obj;
-    ary.forEach(function(event) {
-      Events.createOrUpdate(event);
+    return ary.map(function(event) {
+      return Events.createOrUpdate(event);
     });
   } else if(typeof(obj) === 'object') {
     obj.googleEventId = obj.googleEventId || obj.id;
     var event = Events.findOne({ googleEventId: obj.googleEventId });
     if(event) {
-      Events.update(event._id, obj);
+      return Events.update(event._id, obj);
     } else {
-      Events.insert(obj);
+      return Events.insert(obj);
     }
   } else {
     console.error('type error, Events.createOrUpdate does not expect: ', typeof(obj), obj);
   }
 };
+
+Events.fetch = collectionsDefault.fetch(Events);
+
+Events.fetchActive = collectionsDefault.fetchActive(Events);
 
 Events.taskEvents = {};
 
