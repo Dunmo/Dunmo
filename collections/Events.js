@@ -53,6 +53,11 @@ Events.matchGoogle = function (selector, options) {
   });
 };
 
+// Client Only; Requires google api
+Events.matchGoogleActive = function (selector, options) {
+  Events.matchGoogle({ isRemoved: { $ne: true } });
+};
+
 Events.taskEvents = {};
 
 Events.taskEvents.find = function (selector, options) {
