@@ -1,5 +1,5 @@
 
-// function callSync(verb) {
+// function callSync (verb) {
 //   return function(uri, options) {
 //     var res = request[verb](uri, options);
 //     res     = res.response;
@@ -8,7 +8,7 @@
 //   };
 // };
 
-function createReferral(data) {
+function createReferral (data) {
 
   var referrerEmail = data.referrerEmail;
   var userEmail     = data.userEmail;
@@ -28,13 +28,20 @@ function createReferral(data) {
   if (ret == 1) user.referred(true);
 };
 
-function fetchMailingList() {
+function fetchMailingList () {
   return Subscribers.fetch();
+};
+
+function removeEvent (googleEventId) {
+  var event = Events.findOne({ googleEventId: googleEventId });
+  if(event) return event.remove();
+  else      return 0;
 };
 
 Meteor.methods({
   // 'postSync': callSync('postSync'),
   // 'getSync': callSync('getSync'),
-  'createReferral': createReferral,
-  'fetchMailingList': fetchMailingList
+  createReferral:   createReferral,
+  fetchMailingList: fetchMailingList,
+  removeEvent:      removeEvent
 });
