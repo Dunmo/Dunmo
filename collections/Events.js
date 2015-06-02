@@ -26,7 +26,7 @@ Events.createOrUpdate = function (obj) {
     obj.googleEventId = obj.googleEventId || obj.id;
     var event = Events.findOne({ googleEventId: obj.googleEventId });
     if(event) {
-      return Events.update(event._id, obj);
+      return Events.update(event._id, { $set: obj });
     } else {
       return Events.insert(obj);
     }
