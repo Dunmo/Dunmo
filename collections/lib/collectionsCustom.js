@@ -34,6 +34,16 @@ collectionsDefault = {
     };
   },
 
+  fetchActive: function (collection) {
+    return function (selector, options) {
+      selector   = selector || {};
+      selector.isRemoved = { $ne: true };
+      var result = collection.find(selector, options);
+      result     = result.fetch();
+      return result;
+    };
+  },
+
   findBy: function (collection) {
     return function (selector) {
       return collection.findOne(selector);
