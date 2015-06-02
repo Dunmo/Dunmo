@@ -120,8 +120,8 @@ describe('user', function () {
     });
 
     it('should only return tasks owned by this user', function () {
-      var tasks   = _user.tasks();
-      tasks       = tasks.fetch();
+      var tasks = _user.tasks();
+      tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
         expect(task.ownerId).toEqual(_user._id);
@@ -129,8 +129,8 @@ describe('user', function () {
     });
 
     it('should only return tasks for which isRemoved is false', function () {
-      var tasks   = _user.tasks();
-      tasks       = tasks.fetch();
+      var tasks = _user.tasks();
+      tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
         expect(task.isRemoved).toBeFalsy();
@@ -156,8 +156,8 @@ describe('user', function () {
     });
 
     it('should only return tasks owned by this user', function () {
-      var tasks   = _user.todos();
-      tasks       = tasks.fetch();
+      var tasks = _user.todos();
+      tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
         expect(task.ownerId).toEqual(_user._id);
@@ -165,8 +165,8 @@ describe('user', function () {
     });
 
     it('should only return tasks for which isRemoved is false', function () {
-      var tasks   = _user.todos();
-      tasks       = tasks.fetch();
+      var tasks = _user.todos();
+      tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
         expect(task.isRemoved).toBeFalsy();
@@ -174,8 +174,8 @@ describe('user', function () {
     });
 
     it('should only return tasks for which isDone is false', function () {
-      var tasks   = _user.todos();
-      tasks       = tasks.fetch();
+      var tasks = _user.todos();
+      tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
         expect(task.isDone).toBeFalsy();
