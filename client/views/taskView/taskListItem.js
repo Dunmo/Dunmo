@@ -44,6 +44,7 @@ Template.taskListItem.events({
 
     if(str !== this.inputString) {
       this.reParse(str);
+      this.setNeedsReviewed(false);
       gapi.syncTasksWithCalendar();
     }
   }
