@@ -23,6 +23,8 @@ Tasks.helpers({
 
   setRemoved: collectionsDefault.setRemoved(),
 
+  setNeedsReviewed: collectionsDefault.setBool(Tasks, 'needsReviewed'),
+
   update: collectionsDefault.update(Tasks),
 
   reParse: function (str) {
