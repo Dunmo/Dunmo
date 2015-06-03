@@ -142,22 +142,11 @@ Meteor.users.helpers({
   },
 
   recentTodos: function () {
-    // var events = this.recentTaskEvents();
-    // var tasks  = Events.getTasks(events);
-    // var todos  = _.reject(tasks, function (t) { return t.isRemoved || t.isDone; });
-    // todos      = Tasks.basicSort(todos);
     var recentTodos = this.sortedTodos({ needsReviewed: true });
     return recentTodos;
   },
 
   upcomingTodos: function () {
-    // var todos  = this.todos();
-    // var recent = this.recentTodos();
-    // todos      = _.reject(todos, function (t) {
-    //   return recent.any(function(r) { r._id === t._id });
-    // });
-    // todos      = Tasks.basicSort(todos);
-    // return todos;
     var upcomingTodos = this.sortedTodos({ needsReviewed: { $ne: true } });
     return upcomingTodos;
   },

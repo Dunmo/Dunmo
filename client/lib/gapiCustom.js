@@ -309,7 +309,6 @@ gapi.addEventToCalendar = function (doc) {
   if(!doc.summary) doc.summary = doc.title;
   start = Date.formatGoog(new Date(start));
   end = Date.formatGoog(new Date(end));
-  console.log('start, end: ', start, end);
 
   gapi.getTaskCalendar(function (cal) {
     gapi.onAuth(function () {
@@ -326,14 +325,11 @@ gapi.addEventToCalendar = function (doc) {
       });
 
       request.execute(function(res) {
-        console.log('added event: ', res);
-        console.log('start: ', res.start);
-        console.log('end: ', res.end);
         res.taskId        = doc._id;
         res.needsReviewed = true;
         res.ownerId       = Meteor.userId();
+        console.log('added event: ', res);
         var ret           = Events.createOrUpdate(res);
-        // console.log('ret: ', ret);
       });
     });
   });
