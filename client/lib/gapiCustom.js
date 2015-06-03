@@ -22,6 +22,21 @@ gapi.onAuth = function (callback) {
   _onauth();
 };
 
+gapi.normalizeEvents = function (obj) {
+  if(Array.isArray(obj)) {
+    var ary = obj;
+    return ary.map(function(event) {
+      return gapi.normalizeEvents(event);
+    });
+  } else if(typeof(obj) === 'object') {
+    var event    = obj;
+    event.start  = event.start.dateTime;
+    event.end    = event.end.dateTime;
+    event.userId = Meteor.userId();
+    return event;
+  }
+};
+
 ///////////////
 // Calendars //
 ///////////////
@@ -149,6 +164,37 @@ gapi.deleteCalendar = function (id) {
 // Events //
 ////////////
 
+// options:
+//   calendarId: String (Default: DunmoTaskCalendar)
+//   start:      Date
+//   end:        Date
+// callback(events)
+gapi.getEvents = function (options, callback) {
+  gapi.onAuth(function () {
+    var calendarId = options.calendarId;
+    var timeMin    = new Date(options.start);
+    var timeMax    = new Date(options.end);
+
+    function execute (calendarId) {
+      var request = gapi.client.calendar.events.list({
+        'calendarId': calendarId,
+        timeMin: Date.formatGoog(timeMin),
+        timeMax: Date.formatGoog(timeMax)
+      });
+
+      request.execute(function(res) {
+        // console.log('res: ', res);
+        var events = res.items;
+        events = gapi.normalizeEvents(events);
+        callback(events);
+      });
+    }
+
+    if(calendarId) execute(calendarId);
+    else           gapi.getTaskCalendar(function (cal) { execute(cal.id); });
+  });
+};
+
 gapi.getAllFromCalendarAfter = function (minTime, callback) {
   if( !callback ) {
     console.error('getAllFromCalendarAfter: no callback supplied./nUsage: gapi.getAllFromCalendarAfter(minTime, callback)');
@@ -263,6 +309,7 @@ gapi.addEventToCalendar = function (doc) {
   if(!doc.summary) doc.summary = doc.title;
   start = Date.formatGoog(new Date(start));
   end = Date.formatGoog(new Date(end));
+  console.log('start, end: ', start, end);
 
   gapi.getTaskCalendar(function (cal) {
     gapi.onAuth(function () {
@@ -280,11 +327,13 @@ gapi.addEventToCalendar = function (doc) {
 
       request.execute(function(res) {
         console.log('added event: ', res);
+        console.log('start: ', res.start);
+        console.log('end: ', res.end);
         res.taskId        = doc._id;
         res.needsReviewed = true;
         res.ownerId       = Meteor.userId();
         var ret           = Events.createOrUpdate(res);
-        console.log('ret: ', ret);
+        // console.log('ret: ', ret);
       });
     });
   });
@@ -441,6 +490,10 @@ gapi.syncTasksWithCalendar = function (startingFrom) {
   gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
     // will not delete current task event
     gapi.deleteAllFromCalendarAfter(startingFrom);
+
+    // remove old events from database
+    Events.syncActiveWithGoogle();
+
     gapi.getFreetimes(startingFrom, function(freetimes) {
       Events.syncActiveWithGoogle();
       var user = Meteor.user();
