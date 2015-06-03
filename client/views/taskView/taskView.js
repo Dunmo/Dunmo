@@ -4,6 +4,10 @@ Template.taskView.rendered = function () {
     var user = Meteor.user();
     heap.identify({ name: user.profile.name,
                     email: user.primaryEmailAddress() });
+    if(user.lastReview() < Date.startOfToday()) {
+      Events.taskEvents.setNeedsReviewed();
+      user.lastReview(Date.now());
+    }
   }
 };
 
@@ -12,8 +16,8 @@ Template.taskView.helpers({
     return Meteor.user().sortedTodos();
   },
 
-  anyTasks: function () {
-    return Meteor.user().sortedTodos().count() > 0;
+  noTasks: function () {
+    return Meteor.user().sortedTodos().count() == 0;
   },
 
   recentTasks: function () {
