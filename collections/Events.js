@@ -18,7 +18,7 @@ Events.helpers({
   update: collectionsDefault.update(Events),
 
   task: function () {
-    return Tasks.findOne(this.taskId);;
+    return Tasks.findOne(this.taskId);
   }
 
 });
@@ -30,14 +30,15 @@ Events.createOrUpdate = function (obj) {
       return Events.createOrUpdate(event);
     });
   } else if(typeof(obj) === 'object') {
+    obj = R.cloneDeep(obj);
     obj.googleEventId = obj.googleEventId || obj.id;
-    obj.isRemoved     = obj.isRemoved     || obj.status === 'cancelled'
-    obj.start         = new Date(obj.start.dateTime);
-    obj.end           = new Date(obj.end.dateTime);
-    obj.created       = new Date(obj.created);
-    obj.updated       = new Date(obj.updated);
+    obj.isRemoved     = obj.isRemoved     || obj.status === 'cancelled';
+    ['start', 'end', 'created', 'updated'].forEach(function (prop) {
+      obj[prop] = Number(new Date(obj[prop]));
+    });
     obj.isTransparent = obj.isTransparent || obj.transparency === 'transparent';
     obj.title         = obj.title         || obj.summary;
+    if(Meteor.userId) obj.ownerId = obj.ownerId || Meteor.userId();
     var event = Events.findOne({ googleEventId: obj.googleEventId });
     if(event) {
       return Events.update(event._id, { $set: obj });
@@ -51,7 +52,7 @@ Events.createOrUpdate = function (obj) {
 
 Events.fetch = collectionsDefault.fetch(Events);
 
-Events.fetchActive = collectionsDefault.fetchActive(Events);
+Events.fetchAll = collectionsDefault.fetchAll(Events);
 
 // Client Only; Requires google api
 Events.syncWithGoogle = function (selector, options) {
@@ -78,6 +79,56 @@ Events.taskEvents.find = function (selector, options) {
   return Events.find(selector);
 };
 
+Events.taskEvents.fetch = collectionsDefault.fetch(Events.taskEvents);
+
+// options:
+//   start: Date
+//   end:   Date
+Events.taskEvents.syncAllInRange = function (options, callback) {
+  gapi.getEvents(options, function (events) {
+    console.log('events: ', events);
+    var ret = Events.createOrUpdate(events);
+    console.log('ret: ', ret);
+    callback(ret);
+  });
+};
+
+Events.taskEvents.syncYesterdaysEvents = function (callback) {
+  var start = Number(Date.startOfYesterday());
+  var end   = Number(Date.endOfYesterday());
+  Events.taskEvents.syncAllInRange({ start: start, end: end }, callback);
+};
+
+Events.taskEvents.fetchYesterdaysEvents = function (selector, options, callback) {
+  if(typeof selector === 'function') {
+    callback = selector;
+    selector = undefined;
+  }
+  var start = Number(Date.startOfYesterday());
+  var end   = Number(Date.endOfYesterday());
+  Events.taskEvents.syncYesterdaysEvents(function () {
+    selector = selector || {};
+    _.extend(selector, {
+      start: { $gt: start },
+      end:   { $lt: end   }
+    });
+    var ret = Events.taskEvents.fetch(selector, options);
+    callback(ret);
+  });
+};
+
+Events.taskEvents.setNeedsReviewed = function () {
+  Events.taskEvents.fetchYesterdaysEvents(function (events) {
+    console.log('events: ', events);
+    var tasks = Events.getTasks(events);
+    if(tasks) {
+      return tasks.map(function (task) {
+        return task.setNeedsReviewed();
+      });
+    } else console.log('no tasks need reviewing');
+  });
+};
+
 Events.taskEvents.recent = function (selector, options) {
   selector = selector || {};
   _.extend(selector, {
@@ -85,12 +136,12 @@ Events.taskEvents.recent = function (selector, options) {
     needsReviewed: true,
     end: { $lt: new Date() }
   });
-  return Events.fetchActive(selector, options);
+  return Events.fetch(selector, options);
 };
 
 Events.getTasks = function (events) {
   var taskIds = events.map(function (e) { return e.taskId; });
   var taskIds = _.uniq(taskIds);
-  var tasks   = Tasks.findAllById(taskIds);
+  var tasks   = Tasks.findAllById(taskIds).fetch();
   return tasks;
 };
