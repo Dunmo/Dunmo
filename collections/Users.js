@@ -65,6 +65,19 @@ Meteor.users.helpers({
     return settings.startOfDay;
   },
 
+  lastReview: function (date) {
+    var settings = this.settings();
+    if(date) {
+      var time = Number(new Date(date));
+      return settings.update({ lastReview: time });
+    }
+    if(!settings.lastReview) {
+      this.lastReview(0);
+      return ;
+    }
+    return settings.lastReview;
+  },
+
   referred: function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
@@ -112,32 +125,41 @@ Meteor.users.helpers({
     return tasks;
   },
 
-  todos: function () {
-    return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true }, isDone: { $ne: true } });
+  todos: function (selector, options) {
+    selector = selector || {};
+    _.extend(selector, {
+      ownerId: this._id,
+      isRemoved: { $ne: true },
+      isDone: { $ne: true }
+    });
+    return Tasks.find(selector, options);
   },
 
-  sortedTodos: function () {
-    var todos = this.todos().fetch();
+  sortedTodos: function (selector, options) {
+    var todos = this.todos(selector, options).fetch();
     todos     = Tasks.basicSort(todos);
     return todos;
   },
 
   recentTodos: function () {
-    var events = this.recentTaskEvents();
-    var tasks  = Events.getTasks(events);
-    var todos  = _.reject(tasks, function (t) { return t.isRemoved || t.isDone; });
-    todos      = Tasks.basicSort(todos);
-    return todos;
+    // var events = this.recentTaskEvents();
+    // var tasks  = Events.getTasks(events);
+    // var todos  = _.reject(tasks, function (t) { return t.isRemoved || t.isDone; });
+    // todos      = Tasks.basicSort(todos);
+    var recentTodos = this.sortedTodos({ needsReviewed: true });
+    return recentTodos;
   },
 
   upcomingTodos: function () {
-    var todos  = this.todos();
-    var recent = this.recentTodos();
-    todos      = _.reject(todos, function (t) {
-      return recent.any(function(r) { r._id === t._id });
-    });
-    todos = Tasks.basicSort(todos);
-    return todos;
+    // var todos  = this.todos();
+    // var recent = this.recentTodos();
+    // todos      = _.reject(todos, function (t) {
+    //   return recent.any(function(r) { r._id === t._id });
+    // });
+    // todos      = Tasks.basicSort(todos);
+    // return todos;
+    var upcomingTodos = this.sortedTodos({ needsReviewed: { $ne: true } });
+    return upcomingTodos;
   },
 
   freetimes: function () {
