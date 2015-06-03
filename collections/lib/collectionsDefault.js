@@ -1,13 +1,27 @@
+
 collectionsDefault = {
 
   // Instance Methods
 
+  setBool: function (collection, prop) {
+    return function (bool) {
+      if(bool === undefined || bool === null) bool = true;
+      var selector = {}
+      selector[prop] = bool;
+      return this.update(selector);
+    }
+  },
+
   setRemoved: function (callback) {
     return function (bool) {
-      if(bool === undefined || bool === null) bool = true
+      if(bool === undefined || bool === null) bool = true;
       this.update({ isRemoved: bool });
       if(callback) callback(bool);
     }
+  },
+
+  remove: function () {
+    return this.setRemoved(true);
   },
 
   update: function (collection) {
@@ -25,7 +39,8 @@ collectionsDefault = {
 
   // Collection Methods
 
-  fetch: function (collection) {
+  // includes removed items
+  fetchAll: function (collection) {
     return function (selector, options) {
       selector   = selector || {};
       var result = collection.find(selector, options);
@@ -34,7 +49,8 @@ collectionsDefault = {
     };
   },
 
-  fetchActive: function (collection) {
+  // does not include removed items
+  fetch: function (collection) {
     return function (selector, options) {
       selector   = selector || {};
       selector.isRemoved = { $ne: true };
@@ -46,7 +62,7 @@ collectionsDefault = {
 
   findAllById: function (collection) {
     return function (ids) {
-      collection.find({ _id: { $in: ids } });
+      return collection.find({ _id: { $in: ids } });
     };
   },
 
