@@ -12,9 +12,7 @@
  *
  */
 
- var _helpers = collectionsDefault.instanceMethods(Meteor.users);
-
- Meteor.users.helpers(_.extend(_helpers, {
+ Meteor.users.helpers({
 
   setRemoved: function (bool) {
     return this.settings().setRemoved(bool);
@@ -65,15 +63,14 @@
 
   lastReview: function (date) {
     var settings = this.settings();
-    if(date) {
-      var time = Number(new Date(date));
-      return settings.update({ lastReview: time });
-    }
-    if(!settings.lastReview) {
-      this.lastReview(0);
-      return ;
-    }
-    return settings.lastReview;
+    if(!settings.lastReview) return 0;
+    else                     return settings.lastReview;
+  },
+
+  setLastReview: function (date) {
+    var settings = this.settings();
+    var time = Number(new Date(date));
+    return settings.update({ lastReview: time });
   },
 
   referred: function (bool) {
@@ -224,9 +221,7 @@
   //   cred.syncReminders();
   // },
 
-}));
-
-_.extend(Meteor.users, collectionsDefault.collectionMethods(Meteor.users));
+});
 
 Meteor.users.findByEmail = function (email) {
   return Meteor.users.findBy({ email: email });
