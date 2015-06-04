@@ -33,7 +33,8 @@ Template.calendarSettings.events({
     e.preventDefault();
     var $input = $(e.target).parents('.input-group').find('input.start-time');
     var val = $input.val();
-    var ret = Meteor.user().startOfDay(val);
+    console.log('val: ', val);
+    var ret = Meteor.user().setStartOfDay(val);
     if(ret) gapi.syncTasksWithCalendar();
   },
 

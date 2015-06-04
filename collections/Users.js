@@ -33,36 +33,34 @@
     return settings;
   },
 
-  endOfDay: function (str) {
+  endOfDay: function () {
     var defaultEndOfDay = '22:00';
     var settings = this.settings();
-    if(str === '') str = defaultEndOfDay;
-    if(str) {
-      var time = Date.parseTime(str);
-      if(time == settings.endOfDay) return false;
-      return settings.update({ endOfDay: time });
-    }
-    if(!settings.endOfDay) {
-      this.endOfDay(defaultEndOfDay);
-      return Date.parseTime(defaultEndOfDay);
-    }
-    return settings.endOfDay;
+    if(!settings.endOfDay) return Date.parseTime(defaultEndOfDay);
+    else                   return settings.endOfDay;
   },
 
-  startOfDay: function (str) {
+  setEndOfDay: function (str) {
+    var defaultEndOfDay = '22:00';
+    var settings = this.settings();
+    if(!str || str === '') str = defaultEndOfDay;
+    var time = Date.parseTime(str);
+    return settings.update({ endOfDay: time });
+  },
+
+  startOfDay: function () {
     var defaultStartOfDay = '08:00';
     var settings = this.settings();
-    if(str === '') str = defaultStartOfDay;
-    if(str) {
-      var time = Date.parseTime(str);
-      if(time == settings.startOfDay) return false;
-      return settings.update({ startOfDay: time });
-    }
-    if(!settings.startOfDay) {
-      this.startOfDay(defaultStartOfDay);
-      return Date.parseTime(defaultStartOfDay);
-    }
-    return settings.startOfDay;
+    if(!settings.startOfDay) return Date.parseTime(defaultStartOfDay);
+    else                     return settings.startOfDay;
+  },
+
+  setStartOfDay: function (str) {
+    var defaultStartOfDay = '08:00';
+    var settings = this.settings();
+    if(!str || str === '') str = defaultStartOfDay;
+    var time = Date.parseTime(str);
+    return settings.update({ startOfDay: time });
   },
 
   lastReview: function (date) {

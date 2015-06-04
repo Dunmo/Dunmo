@@ -41,11 +41,13 @@ collectionsDefault = {
 
     // Default properties
 
-    _.extend(_helpers, {
+    if(collection != Meteor.users) {
+      _.extend(_helpers, {
 
-      setRemoved: setBool('isRemoved')
+        setRemoved: setBool('isRemoved')
 
-    });
+      });
+    }
 
     // Other default methods
 
@@ -56,14 +58,15 @@ collectionsDefault = {
       },
 
       update: function (data) {
-          if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
-            var self = this;
-            lodash.forOwn(data, function(value, key) {
-              self[key] = value;
-            });
-            data = { $set: data };
-          }
-          return collection.update(this._id, data);
+        if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
+          var self = this;
+          lodash.forOwn(data, function(value, key) {
+            self[key] = value;
+          });
+          data = { $set: data };
+        }
+        // console.log('updating: ', this, data.$set);
+        return collection.update(this._id, data);
       }
 
     });
