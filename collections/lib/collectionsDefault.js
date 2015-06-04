@@ -16,98 +16,70 @@ function setProp (prop) {
   };
 };
 
-collectionsDefault = {
+_.each([Calendars, Events, Freetimes, Subscribers, Tasks, UserSettings, Meteor.users], function (collection) {
 
-  instanceMethods: function (collection, props) {
+  collection.helpers({
 
-    var _helpers = {}
+    setRemoved: setBool('isRemoved'),
 
-    // Property setters
-    props = props || [];
-    props.forEach(function (prop) {
-      var propName, propType;
-      if(typeof prop === 'object') {
-        propName = prop.name;
-        propType = prop.type;
-      } else if (typeof prop === 'string') {
-        propName = prop;
-      } else {
-        console.error('Unexpected type for collection property description')
+    remove: function () {
+      return this.setRemoved(true);
+    },
+
+    update: function (data) {
+      if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
+        var self = this;
+        lodash.forOwn(data, function(value, key) {
+          self[key] = value;
+        });
+        data = { $set: data };
       }
-      funcName = 'set' + propName.capitalize();
-      if(prop.type === 'boolean') _helpers[funcName] = setBool(propName);
-      else                        _helpers[funcName] = setProp(propName);
-    });
-
-    // Default properties
-
-    if(collection != Meteor.users) {
-      _.extend(_helpers, {
-
-        setRemoved: setBool('isRemoved')
-
-      });
+      // console.log('updating: ', this, data.$set);
+      return collection.update(this._id, data);
     }
 
-    // Other default methods
+  });
 
-    _.extend(_helpers, {
+  // includes removed items
+  collection.fetchAll = function (selector, options) {
+    selector   = selector || {};
+    var result = collection.find(selector, options);
+    result     = result.fetch();
+    return result;
+  };
 
-      remove: function () {
-        return this.setRemoved(true);
-      },
+  // does not include removed items
+  collection.fetch = function (selector, options) {
+    selector   = selector || {};
+    selector.isRemoved = { $ne: true };
+    var result = collection.find(selector, options);
+    result     = result.fetch();
+    return result;
+  };
 
-      update: function (data) {
-        if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
-          var self = this;
-          lodash.forOwn(data, function(value, key) {
-            self[key] = value;
-          });
-          data = { $set: data };
-        }
-        // console.log('updating: ', this, data.$set);
-        return collection.update(this._id, data);
-      }
+  collection.findAllById = function (ids) {
+    return collection.find({ _id: { $in: ids } });
+  };
 
-    });
+  collection.findBy = function (selector) {
+    return collection.findOne(selector);
+  };
 
-    return _helpers;
+});
 
-  },
-
-  collectionMethods: function (collection) {
-
-    var _methods = {
-
-      // includes removed items
-      fetchAll: function (selector, options) {
-        selector   = selector || {};
-        var result = collection.find(selector, options);
-        result     = result.fetch();
-        return result;
-      },
-
-      // does not include removed items
-      fetch: function (selector, options) {
-        selector   = selector || {};
-        selector.isRemoved = { $ne: true };
-        var result = collection.find(selector, options);
-        result     = result.fetch();
-        return result;
-      },
-
-      findAllById: function (ids) {
-        return collection.find({ _id: { $in: ids } });
-      },
-
-      findBy: function (selector) {
-        return collection.findOne(selector);
-      }
-
-    };
-
-    return _methods;
-
-  }
-
-};
+// Property setters
+// props = props || [];
+// props.forEach(function (prop) {
+//   var propName, propType;
+//   if(typeof prop === 'object') {
+//     propName = prop.name;
+//     propType = prop.type;
+//   } else if (typeof prop === 'string') {
+//     propName = prop;
+//   } else {
+//     console.error('Unexpected type for collection property description')
+//   }
+//   funcName = 'set' + propName.capitalize();
+//   if(prop.type === 'boolean') _helpers[funcName] = setBool(propName);
+//   else                        _helpers[funcName] = setProp(propName);
+// });

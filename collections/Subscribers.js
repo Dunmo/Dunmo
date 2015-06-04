@@ -5,16 +5,6 @@
 // email    : String
 // isActive : Boolean
 
-Subscribers = new Mongo.Collection('subscribers');
-
-var _helpers = collectionsDefault.instanceMethods(Subscribers);
-
-Subscribers.helpers(_.extend(_helpers, {
-
-}));
-
-_.extend(Subscribers, collectionsDefault.collectionMethods(Subscribers));
-
 Subscribers.create = function(obj) {
   if(Array.isArray(obj)) {
     var ary = obj;

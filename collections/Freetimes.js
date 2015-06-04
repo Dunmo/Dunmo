@@ -5,11 +5,7 @@
 // end     : Number<Milliseconds>
 // ownerId : String
 
-Freetimes = new Mongo.Collection('freetimes');
-
-var _helpers = collectionsDefault.instanceMethods(Freetimes);
-
-Freetimes.helpers(_.extend(_helpers, {
+Freetimes.helpers({
 
   duration: function () {
     return this.end - this.start;
@@ -19,9 +15,7 @@ Freetimes.helpers(_.extend(_helpers, {
     return this.duration();
   }
 
-}));
-
-_.extend(Freetimes, collectionsDefault.collectionMethods(Freetimes));
+});
 
 Freetimes._addStartEndTimes = function (busytimes, options) {
   var starttimes = lodash.pluck(busytimes, 'start');

@@ -10,16 +10,6 @@
  * TODO: hash apple passwords
  */
 
-Calendars = new Mongo.Collection('calendars');
-
-var _helpers = collectionsDefault.instanceMethods(Calendars);
-
-Calendars.helpers(_.extend(_helpers, {
-
-}));
-
-_.extend(Calendars, collectionsDefault.collectionMethods(Calendars));
-
 Calendars.before.insert(function(uid, doc) {
   doc.ownerId = doc.ownerId || Meteor.userId();
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;

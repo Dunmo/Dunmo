@@ -17,11 +17,7 @@
  *
  */
 
-Tasks = new Mongo.Collection('tasks');
-
-var _helpers = collectionsDefault.instanceMethods(Tasks, [{name:'needsReviewed',type:'boolean'}]);
-
-Tasks.helpers(_.extend(_helpers, {
+Tasks.helpers({
 
   reParse: function (str) {
     var res = Natural.parseTask(str);
@@ -50,9 +46,7 @@ Tasks.helpers(_.extend(_helpers, {
     return [ firstTask, secondTask ];
   }
 
-}));
-
-_.extend(Tasks, collectionsDefault.collectionMethods(Tasks));
+});
 
 Tasks.basicSort = function(tasks) {
   tasks = _.sortBy(tasks, 'remaining');

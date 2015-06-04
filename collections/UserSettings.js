@@ -11,19 +11,13 @@
  *
  */
 
-UserSettings = new Mongo.Collection('userSettings');
-
-var _helpers = collectionsDefault.instanceMethods(UserSettings);
-
-UserSettings.helpers(_.extend(_helpers, {
+UserSettings.helpers({
 
   user: function () {
     return Meteor.users.findOne(this.userId);
   }
 
-}));
-
-_.extend(UserSettings, collectionsDefault.collectionMethods(UserSettings));
+});
 
 UserSettings.create = function(obj) {
   if(Array.isArray(obj)) {
