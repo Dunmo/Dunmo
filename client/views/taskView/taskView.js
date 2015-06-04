@@ -5,7 +5,7 @@ Template.taskView.rendered = function () {
     heap.identify({ name: user.profile.name,
                     email: user.primaryEmailAddress() });
     if(user.lastReview() < Date.startOfToday()) {
-      Events.taskEvents.setNeedsReviewed();
+      Events.setTaskEventsNeedsReviewed();
       user.lastReview(Date.now());
     }
   }

@@ -9,19 +9,13 @@
  * googleCalendarId : String
  */
 
-Events = new Mongo.Collection('events');
-
-var _helpers = collectionsDefault.instanceMethods(Events);
-
-Events.helpers(_.extend(_helpers, {
+Events.helpers({
 
   task: function () {
     return Tasks.findOne(this.taskId);
   }
 
-}));
-
-_.extend(Events, collectionsDefault.collectionMethods(Events));
+});
 
 Events.createOrUpdate = function (obj) {
   if(Array.isArray(obj)) {
@@ -67,65 +61,65 @@ Events.syncActiveWithGoogle = function (selector, options) {
   Events.syncWithGoogle(selector, options);
 };
 
-Events.taskEvents = {};
-
-Events.taskEvents.find = function (selector, options) {
+Events.findTaskEvents = function (selector, options) {
   selector = selector || {};
   selector.taskId = { $exists: true };
   return Events.find(selector);
 };
 
-_.extend(Events.taskEvents, collectionsDefault.collectionMethods(Events.taskEvents));
+Events.fetchTaskEvents = function (selector, options) {
+  selector = selector || {};
+  var ret  = Events.find(selector);
+  ret      = ret.fetch();
+  return ret;
+};
 
 // options:
 //   start: Date
 //   end:   Date
-Events.taskEvents.syncAllInRange = function (options, callback) {
+Events.syncAllTaskEventsInRange = function (options, callback) {
   gapi.getEvents(options, function (events) {
-    console.log('events: ', events);
     var ret = Events.createOrUpdate(events);
-    console.log('ret: ', ret);
     callback(ret);
   });
 };
 
-Events.taskEvents.syncYesterdaysEvents = function (callback) {
+Events.syncYesterdaysTaskEvents = function (callback) {
   var start = Number(Date.startOfYesterday());
   var end   = Number(Date.endOfYesterday());
-  Events.taskEvents.syncAllInRange({ start: start, end: end }, callback);
+  Events.syncAllTaskEventsInRange({ start: start, end: end }, callback);
 };
 
-Events.taskEvents.fetchYesterdaysEvents = function (selector, options, callback) {
+Events.fetchYesterdaysTaskEvents = function (selector, options, callback) {
   if(typeof selector === 'function') {
     callback = selector;
     selector = undefined;
   }
   var start = Number(Date.startOfYesterday());
   var end   = Number(Date.endOfYesterday());
-  Events.taskEvents.syncYesterdaysEvents(function () {
+  Events.syncYesterdaysTaskEvents(function () {
     selector = selector || {};
     _.extend(selector, {
       start: { $gt: start },
       end:   { $lt: end   }
     });
-    var ret = Events.taskEvents.fetch(selector, options);
+    var ret = Events.fetchTaskEvents(selector, options);
     callback(ret);
   });
 };
 
-Events.taskEvents.setNeedsReviewed = function () {
-  Events.taskEvents.fetchYesterdaysEvents(function (events) {
-    console.log('events: ', events);
+Events.setTaskEventsNeedsReviewed = function () {
+  Events.fetchYesterdaysTaskEvents(function (events) {
     var tasks = Events.getTasks(events);
     if(tasks) {
       return tasks.map(function (task) {
         return task.setNeedsReviewed();
       });
-    } else console.log('no tasks need reviewing');
+    }
   });
 };
 
-Events.taskEvents.recent = function (selector, options) {
+Events.recentTaskEvents = function (selector, options) {
   selector = selector || {};
   _.extend(selector, {
     taskId: { $exists: true },
