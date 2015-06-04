@@ -11,17 +11,17 @@
 
 Events = new Mongo.Collection('events');
 
-Events.helpers({
+var _helpers = collectionsDefault.instanceMethods(Events);
 
-  setRemoved: collectionsDefault.setRemoved(),
-
-  update: collectionsDefault.update(Events),
+Events.helpers(_.extend(_helpers, {
 
   task: function () {
     return Tasks.findOne(this.taskId);
   }
 
-});
+}));
+
+_.extend(Events, collectionsDefault.collectionMethods(Events));
 
 Events.createOrUpdate = function (obj) {
   if(Array.isArray(obj)) {
@@ -50,10 +50,6 @@ Events.createOrUpdate = function (obj) {
   }
 };
 
-Events.fetch = collectionsDefault.fetch(Events);
-
-Events.fetchAll = collectionsDefault.fetchAll(Events);
-
 // Client Only; Requires google api
 Events.syncWithGoogle = function (selector, options) {
   var events = Events.fetch(selector, options);
@@ -79,7 +75,7 @@ Events.taskEvents.find = function (selector, options) {
   return Events.find(selector);
 };
 
-Events.taskEvents.fetch = collectionsDefault.fetch(Events.taskEvents);
+_.extend(Events.taskEvents, collectionsDefault.collectionMethods(Events.taskEvents));
 
 // options:
 //   start: Date

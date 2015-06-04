@@ -12,13 +12,13 @@
 
 Calendars = new Mongo.Collection('calendars');
 
-Calendars.helpers({
+var _helpers = collectionsDefault.instanceMethods(Calendars);
 
-  setRemoved: collectionsDefault.setRemoved(),
+Calendars.helpers(_.extend(_helpers, {
 
-  update: collectionsDefault.update(Calendars)
+}));
 
-});
+_.extend(Calendars, collectionsDefault.collectionMethods(Calendars));
 
 Calendars.before.insert(function(uid, doc) {
   doc.ownerId = doc.ownerId || Meteor.userId();

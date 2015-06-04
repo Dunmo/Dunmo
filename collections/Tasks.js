@@ -19,13 +19,9 @@
 
 Tasks = new Mongo.Collection('tasks');
 
-Tasks.helpers({
+var _helpers = collectionsDefault.instanceMethods(Tasks, [{name:'needsReviewed',type:'boolean'}]);
 
-  setRemoved: collectionsDefault.setRemoved(),
-
-  setNeedsReviewed: collectionsDefault.setBool(Tasks, 'needsReviewed'),
-
-  update: collectionsDefault.update(Tasks),
+Tasks.helpers(_.extend(_helpers, {
 
   reParse: function (str) {
     var res = Natural.parseTask(str);
@@ -54,7 +50,9 @@ Tasks.helpers({
     return [ firstTask, secondTask ];
   }
 
-});
+}));
+
+_.extend(Tasks, collectionsDefault.collectionMethods(Tasks));
 
 Tasks.basicSort = function(tasks) {
   tasks = _.sortBy(tasks, 'remaining');
@@ -102,5 +100,3 @@ Tasks.create = function(str, obj) {
 
   return Tasks.insert(obj);
 };
-
-Tasks.findAllById = collectionsDefault.findAllById(Tasks);

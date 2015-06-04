@@ -1,75 +1,110 @@
 
+function setBool (prop) {
+  return function (bool) {
+    if(bool === undefined || bool === null) bool = true;
+    var selector = {};
+    selector[prop] = bool;
+    return this.update(selector);
+  };
+};
+
+function setProp (prop) {
+  return function (value) {
+    var selector = {};
+    selector[prop] = value;
+    return this.update(selector);
+  };
+};
+
 collectionsDefault = {
 
-  // Instance Methods
+  instanceMethods: function (collection, props) {
 
-  setBool: function (collection, prop) {
-    return function (bool) {
-      if(bool === undefined || bool === null) bool = true;
-      var selector = {}
-      selector[prop] = bool;
-      return this.update(selector);
-    }
-  },
+    var _helpers = {}
 
-  setRemoved: function (callback) {
-    return function (bool) {
-      if(bool === undefined || bool === null) bool = true;
-      this.update({ isRemoved: bool });
-      if(callback) callback(bool);
-    }
-  },
-
-  remove: function () {
-    return this.setRemoved(true);
-  },
-
-  update: function (collection) {
-    return function (data) {
-      if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
-        var self = this;
-        lodash.forOwn(data, function(value, key) {
-          self[key] = value;
-        });
-        data = { $set: data };
+    // Property setters
+    props = props || [];
+    props.forEach(function (prop) {
+      var propName, propType;
+      if(typeof prop === 'object') {
+        propName = prop.name;
+        propType = prop.type;
+      } else if (typeof prop === 'string') {
+        propName = prop;
+      } else {
+        console.error('Unexpected type for collection property description')
       }
-      return collection.update(this._id, data);
-    };
+      funcName = 'set' + propName.capitalize();
+      if(prop.type === 'boolean') _helpers[funcName] = setBool(propName);
+      else                        _helpers[funcName] = setProp(propName);
+    });
+
+    // Default properties
+
+    _.extend(_helpers, {
+
+      setRemoved: setBool('isRemoved')
+
+    });
+
+    // Other default methods
+
+    _.extend(_helpers, {
+
+      remove: function () {
+        return this.setRemoved(true);
+      },
+
+      update: function (data) {
+          if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
+            var self = this;
+            lodash.forOwn(data, function(value, key) {
+              self[key] = value;
+            });
+            data = { $set: data };
+          }
+          return collection.update(this._id, data);
+      }
+
+    });
+
+    return _helpers;
+
   },
 
-  // Collection Methods
+  collectionMethods: function (collection) {
 
-  // includes removed items
-  fetchAll: function (collection) {
-    return function (selector, options) {
-      selector   = selector || {};
-      var result = collection.find(selector, options);
-      result     = result.fetch();
-      return result;
-    };
-  },
+    var _methods = {
 
-  // does not include removed items
-  fetch: function (collection) {
-    return function (selector, options) {
-      selector   = selector || {};
-      selector.isRemoved = { $ne: true };
-      var result = collection.find(selector, options);
-      result     = result.fetch();
-      return result;
-    };
-  },
+      // includes removed items
+      fetchAll: function (selector, options) {
+        selector   = selector || {};
+        var result = collection.find(selector, options);
+        result     = result.fetch();
+        return result;
+      },
 
-  findAllById: function (collection) {
-    return function (ids) {
-      return collection.find({ _id: { $in: ids } });
-    };
-  },
+      // does not include removed items
+      fetch: function (selector, options) {
+        selector   = selector || {};
+        selector.isRemoved = { $ne: true };
+        var result = collection.find(selector, options);
+        result     = result.fetch();
+        return result;
+      },
 
-  findBy: function (collection) {
-    return function (selector) {
-      return collection.findOne(selector);
+      findAllById: function (ids) {
+        return collection.find({ _id: { $in: ids } });
+      },
+
+      findBy: function (selector) {
+        return collection.findOne(selector);
+      }
+
     };
+
+    return _methods;
+
   }
 
 };

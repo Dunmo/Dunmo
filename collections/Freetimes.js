@@ -7,11 +7,9 @@
 
 Freetimes = new Mongo.Collection('freetimes');
 
-Freetimes.helpers({
+var _helpers = collectionsDefault.instanceMethods(Freetimes);
 
-  setRemoved: collectionsDefault.setRemoved(),
-
-  update: collectionsDefault.update(Freetimes),
+Freetimes.helpers(_.extend(_helpers, {
 
   duration: function () {
     return this.end - this.start;
@@ -21,7 +19,9 @@ Freetimes.helpers({
     return this.duration();
   }
 
-});
+}));
+
+_.extend(Freetimes, collectionsDefault.collectionMethods(Freetimes));
 
 Freetimes._addStartEndTimes = function (busytimes, options) {
   var starttimes = lodash.pluck(busytimes, 'start');
@@ -172,5 +172,3 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
 
   return freetimes; // Freetimes.create(freetimes);
 };
-
-Freetimes.fetch = collectionsDefault.fetch(Freetimes);

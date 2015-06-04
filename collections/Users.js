@@ -12,13 +12,13 @@
  *
  */
 
-Meteor.users.helpers({
+ var _helpers = collectionsDefault.instanceMethods(Meteor.users);
 
-  setRemoved: collectionsDefault.setRemoved(function (bool) {
-    this.settings()._setRemoved(bool);
-  }),
+ Meteor.users.helpers(_.extend(_helpers, {
 
-  update: collectionsDefault.update(Meteor.users),
+  setRemoved: function (bool) {
+    return this.settings().setRemoved(bool);
+  },
 
   primaryEmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
@@ -226,11 +226,9 @@ Meteor.users.helpers({
   //   cred.syncReminders();
   // },
 
-});
+}));
 
-Meteor.users.fetch = collectionsDefault.fetch(Meteor.users);
-
-Meteor.users.findBy = collectionsDefault.findBy(Meteor.users);
+_.extend(Meteor.users, collectionsDefault.collectionMethods(Meteor.users));
 
 Meteor.users.findByEmail = function (email) {
   return Meteor.users.findBy({ email: email });

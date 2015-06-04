@@ -7,15 +7,13 @@
 
 Subscribers = new Mongo.Collection('subscribers');
 
-Subscribers.helpers({
+var _helpers = collectionsDefault.instanceMethods(Subscribers);
 
-  setRemoved: collectionsDefault.setRemoved(),
+Subscribers.helpers(_.extend(_helpers, {
 
-  update: collectionsDefault.update(Subscribers)
+}));
 
-});
-
-Subscribers.fetch = collectionsDefault.fetch(Subscribers);
+_.extend(Subscribers, collectionsDefault.collectionMethods(Subscribers));
 
 Subscribers.create = function(obj) {
   if(Array.isArray(obj)) {
