@@ -1,5 +1,7 @@
 
-function setBool (prop) {
+Setters = {};
+
+Setters.setBool = function (prop) {
   return function (bool) {
     if(bool === undefined || bool === null) bool = true;
     var selector = {};
@@ -8,7 +10,7 @@ function setBool (prop) {
   };
 };
 
-function setProp (prop) {
+Setters.setProp = function (prop) {
   return function (value) {
     var selector = {};
     selector[prop] = value;
@@ -20,7 +22,7 @@ _.each([Calendars, Events, Freetimes, Subscribers, Tasks, UserSettings, Meteor.u
 
   collection.helpers({
 
-    setRemoved: setBool('isRemoved'),
+    setRemoved: Setters.setBool('isRemoved'),
 
     remove: function () {
       return this.setRemoved(true);
