@@ -22,12 +22,15 @@
     return this.services && this.services.google && this.services.google.email;
   },
 
+  createSettings: function () {
+    console.log('creating settings');
+    var settingsId = UserSettings.create({ userId: this._id });
+    return UserSettings.findOne(settingsId);
+  },
+
   settings: function () {
     var settings = UserSettings.findOne({ userId: this._id });
-    if(!settings) {
-      var settingsId = UserSettings.create({ userId: this._id });
-      settings       = UserSettings.findOne(settingsId);
-    }
+    if(!settings) settings = this.createSettings();
     return settings;
   },
 
