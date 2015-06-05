@@ -316,10 +316,9 @@ gapi.addEventToCalendar = function (doc) {
       });
 
       request.execute(function(res) {
-        // res.taskId        = doc._id;
-        // res.needsReviewed = true;
-        // res.ownerId       = Meteor.userId();
-        // var ret           = Events.createOrUpdate(res);
+        res.taskId  = doc._id;
+        res.ownerId = Meteor.userId();
+        var ret     = Events.createOrUpdate(res);
         gapi.pendingEvents--;
         if(gapi.pendingEvents == 0) {
           gapi.isSyncing = false;
