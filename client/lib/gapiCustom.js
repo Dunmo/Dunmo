@@ -11,21 +11,25 @@ gapi.AUTH_PARAMS = {
 };
 
 gapi.onAuth = function (callback) {
-  if(gapi.isAuthed && gapi.client.calendarIsLoaded) callback();
-  if(gapi.isAuthed) gapi.client.load('calendar', 'v3', callback);
-  _onauth = function () {
-    if(!gapi.auth) window.setTimeout(_onauth, 1);
-    else {
-      gapi.auth.authorize(gapi.AUTH_PARAMS, function(authResult) {
-        if(authResult) {
-          gapi.isAuthed = true;
-          gapi.client.load('calendar', 'v3', callback);
-          gapi.client.calendarIsLoaded = true;
-        }
-      });
-    }
-  };
-  _onauth();
+  if(gapi.isAuthed && gapi.client.calendarIsLoaded) {
+    callback();
+  } else if(gapi.isAuthed) {
+    gapi.client.load('calendar', 'v3', callback);
+  } else {
+    _onauth = function () {
+      if(!gapi.auth) window.setTimeout(_onauth, 1);
+      else {
+        gapi.auth.authorize(gapi.AUTH_PARAMS, function(authResult) {
+          if(authResult) {
+            gapi.isAuthed = true;
+            gapi.client.load('calendar', 'v3', callback);
+            gapi.client.calendarIsLoaded = true;
+          }
+        });
+      }
+    };
+    _onauth();
+  }
 };
 
 gapi.normalizeEvents = function (obj) {
@@ -96,6 +100,7 @@ gapi.getTaskCalendar = function (callback) {
   else                  gapi.findOrCreateTaskCalendar(callback);
 };
 
+// Warning, not all calendars may be gone when callback is called
 gapi.deleteTaskCalendar = function (callback) {
   gapi.getCalendarList(function (calendarList) {
     var calendars = calendarList.items;
@@ -103,6 +108,7 @@ gapi.deleteTaskCalendar = function (callback) {
     calendars.forEach(function (calendar) {
       gapi.deleteCalendar(calendar.id);
     });
+    callback();
   });
 };
 
@@ -275,12 +281,13 @@ function isHappeningNow (event) {
 };
 
 // will not delete the current task event
+// Warning, not all events may be gone when callback is called
 gapi.deleteAllFutureFromCalendar = function (callback) {
   gapi.getAllFutureFromCalendar(function(events) {
-
     events.forEach(function (e) {
       gapi.removeEventFromCalendar(e.id);
     });
+    callback();
   });
 };
 
@@ -309,11 +316,16 @@ gapi.addEventToCalendar = function (doc) {
       });
 
       request.execute(function(res) {
-        res.taskId        = doc._id;
-        res.needsReviewed = true;
-        res.ownerId       = Meteor.userId();
-        console.log('added event: ', res);
+        // res.taskId        = doc._id;
+        // res.needsReviewed = true;
+        // res.ownerId       = Meteor.userId();
         // var ret           = Events.createOrUpdate(res);
+        gapi.pendingEvents--;
+        if(gapi.pendingEvents == 0) {
+          gapi.isSyncing = false;
+          Session.set('isSyncing', false);
+          console.log('done syncing');
+        }
       });
     });
   });
@@ -463,27 +475,40 @@ gapi.getFreetimes = function (startingFrom, callback) {
 ////////////////
 
 gapi.syncTasksWithCalendar = function () {
-  gapi.getTaskCalendar(function () {
-    console.log('task calendar loaded');
-    var startingFrom = Date.now();
+  if(gapi.isSyncing && gapi.isQueued) return;
 
-    gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
-      console.log('current task event fixed');
-      // will not delete current task event
-      gapi.deleteAllFromCalendarAfter(startingFrom);
-      console.log('old future events deleted');
+  if(gapi.isSyncing) gapi.isQueued = true;
+  function _sync () {
+    if(gapi.isSyncing && gapi.isQueued) {
+      window.setTimeout(_sync, 10);
+      return;
+    } else {
+      gapi.isSyncing = true;
+      gapi.isQueued  = false;
+      Session.set('isSyncing', true);
+    }
+    gapi.getTaskCalendar(function () {
+      var startingFrom = Date.now();
 
-      gapi.getFreetimes(startingFrom, function(freetimes) {
-        console.log('freetimes fetched');
-        todos = Meteor.user().todoList(freetimes);
-        console.log('adding events');
+      gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
+        // console.log('current task event fixed');
+        // will not delete current task event
+        gapi.deleteAllFromCalendarAfter(startingFrom);
+        // console.log('old future events deleted');
 
-        todos.forEach(function(todo) {
-          gapi.addEventToCalendar(todo);
+        gapi.getFreetimes(startingFrom, function(freetimes) {
+          // console.log('freetimes fetched');
+          todos = Meteor.user().todoList(freetimes);
+          // console.log('adding events');
+          gapi.pendingEvents = todos.length;
+          todos.forEach(function(todo) {
+            gapi.addEventToCalendar(todo);
+          });
         });
       });
     });
-  });
+  };
+  _sync();
 };
 
 //////////////
