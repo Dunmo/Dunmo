@@ -4,9 +4,10 @@ Template.taskView.rendered = function () {
     var user = Meteor.user();
     heap.identify({ name: user.profile.name,
                     email: user.primaryEmailAddress() });
-    if(user.lastReview() < Date.startOfToday()) {
-      Events.setTaskEventsNeedsReviewed();
-      user.lastReview(Date.now());
+    if(user.lastReviewed() < Date.startOfToday()) {
+      console.log('setting tasks to review...')
+      Tasks.setNeedsReviewed();
+      user.setLastReviewed(Date.now());
     }
   }
 };
