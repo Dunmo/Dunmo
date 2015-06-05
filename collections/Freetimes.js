@@ -89,22 +89,13 @@ Freetimes._coalesceBusytimes = function (busytimes) {
   return newBusytimes;
 };
 
-Freetimes._toFreetimes = function (busytimes, options) {
-  // inputs are in milliseconds, but task time is only per minute granularity
-  options.minTime = Date.floorMinute(options.minTime) + 1*MINUTES;
-  options.maxTime = Date.floorMinute(options.maxTime);
-  minTime = options.minTime;
-  maxTime = options.maxTime;
-
-  if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
-  busytimes = this._addStartEndTimes(busytimes, options);
-  busytimes = this._coalesceBusytimes(busytimes);
-
+Freetimes._invertBusytimes = function (busytimes) {
   var freetimes = [];
 
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
 
+    // if it's the first item, add a freetime before obj.start
     if(index === 0 && minTime < obj.start) {
       start = minTime;
       end   = obj.start;
@@ -113,7 +104,9 @@ Freetimes._toFreetimes = function (busytimes, options) {
         end:   end
       });
     }
-    else if(index !== 0){
+
+    // for every other item, including the last, add a freetime between items
+    if(index !== 0) {
       start = busytimes[index-1].end;
       end   = obj.start;
       freetimes.push({
@@ -122,17 +115,31 @@ Freetimes._toFreetimes = function (busytimes, options) {
       });
     }
 
-    if(index === busytimes.length-1) {
-      if(maxTime > obj.end) {
-        start = obj.end;
-        end   = maxTime;
-      }
+    // if it's the last item, add a freetime after obj.end
+    if(index === busytimes.length-1 && maxTime > obj.end) {
+      start = obj.end;
+      end   = maxTime;
       freetimes.push({
         start: start,
         end:   end
       });
     }
   });
+
+  return freetimes;
+};
+
+Freetimes._toFreetimes = function (busytimes, options) {
+  // inputs are in milliseconds, but task time is only per minute granularity
+  options.minTime = Date.floorMinute(options.minTime) + 1*MINUTES;
+  options.maxTime = Date.floorMinute(options.maxTime);
+  minTime = options.minTime;
+  maxTime = options.maxTime;
+
+  if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
+  busytimes     = this._addStartEndTimes(busytimes, options);
+  busytimes     = this._coalesceBusytimes(busytimes);
+  var freetimes = this._invertBusytimes(busytimes);
 
   return freetimes;
 };
@@ -165,4 +172,13 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   });
 
   return freetimes; // Freetimes.create(freetimes);
+};
+
+Freetimes.printable = function (freetimes) {
+  freetimes = R.cloneDeep(freetimes);
+  return freetimes.map(function (freetime) {
+    freetime.start = new Date(freetime.start);
+    freetime.end   = new Date(freetime.end);
+    return freetime;
+  });
 };
