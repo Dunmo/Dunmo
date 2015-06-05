@@ -28,6 +28,8 @@ Tasks.helpers({
 
   setNeedsReviewed: Setters.setBool('needsReviewed'),
 
+  setWillBeOverdue: Setters.setBool('willBeOverdue'),
+
   markDone: function (bool) {
     return this.setIsDone(bool);
   },
@@ -93,6 +95,14 @@ Tasks.create = function(str, obj) {
   };
 
   return Tasks.insert(obj);
+};
+
+Tasks.fetch = function (selector, options) {
+  selector           = selector || {};
+  selector.isDone    = { $ne: true };
+  selector.isRemoved = { $ne: true };
+  var tasks          = Tasks.find(selector, options);
+  return tasks.fetch();
 };
 
 Tasks.setNeedsReviewed = function () {
