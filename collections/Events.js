@@ -45,20 +45,25 @@ Events.createOrUpdate = function (obj) {
 };
 
 // Client Only; Requires google api
-Events.syncWithGoogle = function (selector, options) {
-  var events = Events.fetch(selector, options);
-  events.forEach(function (event) {
-    gapi.getEvent(event, function (googleEvent) {
-      Events.createOrUpdate(googleEvent);
+Events.syncTaskEventsWithGoogle = function (options, callback) {
+  Events.syncAllTaskEventsInRange(options, function () {
+    var selector = selector || {};
+    selector.taskId = { $exists: true };
+    selector.start  = { $gt: options.start };
+    selector.end    = { $lt: options.end };
+    console.log('fetching events...');
+    var events = Events.fetch(selector, options);
+    console.log('events: ', events);
+    Events.queuedEvents = events.length;
+    events.forEach(function (event) {
+      gapi.getEvent(event, function (googleEvent) {
+        var ret = Events.createOrUpdate(googleEvent);
+        Events.queuedEvents--;
+        console.log('Events.queuedEvents: ', Events.queuedEvents);
+        if(Events.queuedEvents == 0) callback();
+      });
     });
   });
-};
-
-// Client Only; Requires google api
-Events.syncActiveWithGoogle = function (selector, options) {
-  selector = selector || {};
-  selector.isRemoved = { $ne: true };
-  Events.syncWithGoogle(selector, options);
 };
 
 Events.findTaskEvents = function (selector, options) {
@@ -67,11 +72,17 @@ Events.findTaskEvents = function (selector, options) {
   return Events.find(selector);
 };
 
-Events.fetchTaskEvents = function (selector, options) {
-  selector = selector || {};
-  var ret  = Events.find(selector);
-  ret      = ret.fetch();
-  return ret;
+Events.fetchTaskEvents = function (options, callback) {
+  var selector = selector || {};
+  selector.taskId = { $exists: true };
+  selector.start  = { $gt: options.start };
+  selector.end    = { $lt: options.end };
+  console.log('syncing with google...');
+  Events.syncTaskEventsWithGoogle(options, function () {
+    var ret = Events.find(selector);
+    ret     = ret.fetch();
+    callback(ret);
+  });
 };
 
 // options:
