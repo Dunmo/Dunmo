@@ -480,19 +480,15 @@ gapi.syncTasksWithCalendar = function () {
       var startingFrom = Date.now();
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
-        // console.log('current task event fixed');
-        // will not delete current task event
+        // should not delete current task event
         gapi.deleteAllFromCalendarAfter(startingFrom);
-        // console.log('old future events deleted');
 
         Meteor.user().todos().fetch().forEach(function (todo) {
           todo.setWillBeOverdue(false);
         });
 
         gapi.getFreetimes(startingFrom, function(freetimes) {
-          // console.log('freetimes fetched');
           todos = Meteor.user().todoList(freetimes);
-          // console.log('adding events');
           gapi.pendingEvents = todos.length;
           todos.forEach(function(todo) {
             if(todo.isOverdue) {
