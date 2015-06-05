@@ -34,6 +34,10 @@ Template.taskView.helpers({
 
   anyUpcomingTasks: function () {
     return Meteor.user().upcomingTodos().count() > 0;
+  },
+
+  faSpinClass: function () {
+    return Session.get('isSyncing') ? 'fa-spin' : '';
   }
 
 });
