@@ -8,5 +8,5 @@ Meteor.publish(allClients, function () {
   var calendars    = Calendars.find({ ownerId: this.userId });
   var tasks        = Tasks.find({ ownerId: this.userId });
   var events       = Events.find({ ownerId: this.userId });
-  return [currentUser, calendars, tasks, events];
+  return [currentUser, userSettings, calendars, tasks, events];
 });
