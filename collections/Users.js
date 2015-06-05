@@ -61,16 +61,16 @@
     return settings.update({ startOfDay: time });
   },
 
-  lastReview: function (date) {
+  lastReviewed: function (date) {
     var settings = this.settings();
-    if(!settings.lastReview) return 0;
-    else                     return settings.lastReview;
+    if(!settings.lastReviewed) return 0;
+    else                     return settings.lastReviewed;
   },
 
-  setLastReview: function (date) {
+  setLastReviewed: function (date) {
     var settings = this.settings();
     var time = Number(new Date(date));
-    return settings.update({ lastReview: time });
+    return settings.update({ lastReviewed: time });
   },
 
   referred: function (bool) {
