@@ -25,9 +25,10 @@ Tasks.helpers({
     return this.update(res);
   },
 
-  setDone: function (bool) {
-    if(bool == null || bool == undefined) bool = true;
-    return this.update({ isDone: bool });
+  setIsDone: Setters.setBool('isDone'),
+
+  markDone: function (bool) {
+    return this.setIsDone(bool);
   },
 
   split: function(milliseconds) {
