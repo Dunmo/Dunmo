@@ -2,14 +2,13 @@
  * Task
  * =========
  * ownerId         : String
- * appleReminderId : String
- * calendarId      : String
  * title           : String
  * importance      : <1,2,3>
  * dueAt           : DateTime
  * remaining       : Number<milliseconds>
  * spent           : Number<milliseconds>
  * snoozedUntil    : DateTime
+ * needsReviewed   : Boolean
  * isDone          : Boolean
  * isRemoved       : Boolean
  * timeMarkedDone  : DateTime
@@ -26,6 +25,8 @@ Tasks.helpers({
   },
 
   setIsDone: Setters.setBool('isDone'),
+
+  setNeedsReviewed: Setters.setBool('needsReviewed'),
 
   markDone: function (bool) {
     return this.setIsDone(bool);
@@ -69,8 +70,6 @@ Tasks.create = function(str, obj) {
   var res = Natural.parseTask(str);
 
   obj.ownerId         = obj.ownerId         || null; // Meteor.userId();
-  obj.appleReminderId = obj.appleReminderId || null;
-  obj.calendarId      = obj.calendarId      || null;
   obj.inputString     = obj.inputString     || str;
   obj.title           = obj.title           || res.title;
   obj.importance      = obj.importance      || res.importance;
@@ -94,4 +93,21 @@ Tasks.create = function(str, obj) {
   };
 
   return Tasks.insert(obj);
+};
+
+Tasks.setNeedsReviewed = function () {
+  var start      = Number(Date.startOfYesterday());
+  var end        = Number(Date.endOfYesterday());
+  var options   = { start: start, end: end };
+  console.log('fetching task events...');
+  Events.fetchTaskEvents(options, function (events) {
+    console.log('getting tasks from events...');
+    var tasks = Events.getTasks(events);
+    console.log('tasks: ', tasks);
+    if(tasks) {
+      return tasks.map(function (task) {
+        return task.setNeedsReviewed();
+      });
+    }
+  });
 };
