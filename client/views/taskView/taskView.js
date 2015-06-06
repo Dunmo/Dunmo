@@ -4,11 +4,16 @@ Template.taskView.rendered = function () {
     var user = Meteor.user();
     heap.identify({ name: user.profile.name,
                     email: user.primaryEmailAddress() });
+
     if(user.lastReviewed() < Date.startOfToday()) {
       console.log('setting tasks to review...');
       Tasks.setNeedsReviewed();
       user.setLastReviewed(Date.now());
     }
+
+    $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
+      $(".overlay").addClass("hidden")
+    });
   }
 };
 
