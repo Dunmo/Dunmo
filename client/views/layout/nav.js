@@ -6,12 +6,12 @@ Template.nav.events({
   },
 
   'click .taskView': function (e) {
-    csFlow.dismissFlow();
+    if(csFlow) csFlow.dismissFlow();
     location.href = '/taskView';
   },
 
   'click .calendarSettings': function (e) {
-    tvFlow.dismissFlow();
+    if(tvFlow) tvFlow.dismissFlow();
     location.href = '/calendarSettings';
   }
 });
