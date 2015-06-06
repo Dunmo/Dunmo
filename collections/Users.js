@@ -78,8 +78,8 @@
   hasOnboarded: function (key) {
     var settings = this.settings();
     if(!settings.hasOnboarded) settings.hasOnboarded = {};
-    var value    = settings.hasOnboarded[key];
-    return value;
+    if(key === null || key === undefined) return settings.hasOnboarded;
+    else                                  return settings.hasOnboarded[key];
   },
 
   setHasOnboarded: function (key, bool) {
