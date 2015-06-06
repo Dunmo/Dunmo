@@ -1,7 +1,8 @@
 
 Meteor.methods({
-  'getCalendar': function getCalendar(user) {
+  'getCalendar': function(user) {
     var CalDAVApi = Meteor.npmRequire('dav');
+    console.log("CalDAVApi: ", CalDAVApi);
     var caldav = new CalDAVApi({
         version: "1.7.6"
     });
