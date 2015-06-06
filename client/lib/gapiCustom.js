@@ -205,8 +205,8 @@ gapi.getAllFutureFromCalendar = function (callback) {
 };
 
 gapi.getCurrentTaskEvent = function (callback) {
-  var min = Date.now() - (2 * MINUTES);
-  var max = Date.now() + (2 * MINUTES);
+  var min = Date.floor(Date.now(), 5*MINUTES);
+  var max = Date.ceiling(Date.now(), 5*MINUTES);
 
   min = Date.formatGoog(min);
   max = Date.formatGoog(max);
@@ -225,6 +225,7 @@ gapi.getCurrentTaskEvent = function (callback) {
         // TODO: sort by date
 
         var item  = items[0];
+        item = gapi.normalizeEvents(item);
         callback(item);
       });
     });
@@ -234,25 +235,39 @@ gapi.getCurrentTaskEvent = function (callback) {
 gapi.fixCurrentTaskEvent = function (startingFrom, callback) {
   gapi.getCurrentTaskEvent(function(currEvent) {
     if(currEvent) {
-      // if current task is first task
+      console.log('currEvent: ', currEvent);
+      var doc       = Events.findOne(Events.createOrUpdate(currEvent))
+      var taskId    = doc.taskId;
       var firstTask = Meteor.user().sortedTodos()[0];
-      if( firstTask && lodash.contains(firstTask.gcalEventIds, currEvent.id) ) {
-        startingFrom = Date.ISOToMilliseconds(currEvent.start.dateTime);
-      }
-      else gapi.setEndTime(currEvent, startingFrom);
 
-      callback(startingFrom);
+      // if current task is first task
+      if( firstTask && taskId === firstTask._id ) {
+        // since it's the first task, we remove the old event, and set the
+        // new start time back to the start of the current event. it will be
+        // replaced accordingly during the todoList creation
+        startingFrom = doc.start;
+        gapi.removeEventFromCalendar(currEvent.id);
+      }
+      else {
+        gapi.setEndTime(currEvent, startingFrom);
+      }
     }
-    else callback(startingFrom);
+
+    callback(startingFrom);
   });
 };
 
 // minTime is a Number of Milliseconds
-gapi.deleteAllFromCalendarAfter = function (minTime) {
+gapi.deleteAllFromCalendarAfter = function (minTime, callback) {
   gapi.getTaskEvents({ start: minTime }, function(events) {
+    gapi.pendingDeletes = events.length;
     events.forEach(function (e) {
       gapi.removeEventFromCalendar(e.id);
     });
+    (function _local () {
+      if(gapi.pendingDeletes == 0) callback();
+      else                         window.setTimeout(_local, 50);
+    })();
   });
 };
 
@@ -326,8 +341,12 @@ gapi.removeEventFromCalendar = function (eventId) {
       });
       var _local = function () {
         request.execute(function(res) {
-          if(res.code == 403) window.setTimeout(_local, 100);
-          else                Meteor.call('removeEvent', eventId);
+          if(res.code == 403) {
+            window.setTimeout(_local, 100);
+          } else {
+            Meteor.call('removeEvent', eventId);
+            gapi.pendingDeletes--;
+          }
         });
       }
       window.setTimeout(_local, 100);
@@ -371,7 +390,7 @@ gapi.setEndTime = function (e, newEndTime) {
   e.end.dateTime = Date.formatGoog(new Date(newEndTime));
 
   gapi.removeEventFromCalendar(e.id);
-  gapi.addEventToCalendar(e);
+  window.setTimeout(function () { gapi.addEventToCalendar(e); }, 100);
 };
 
 ///////////////
@@ -480,28 +499,30 @@ gapi.syncTasksWithCalendar = function () {
       var startingFrom = Date.now();
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
+        console.log('startingFrom: ', startingFrom);
         // should not delete current task event
-        gapi.deleteAllFromCalendarAfter(startingFrom);
+        gapi.deleteAllFutureFromCalendar(function () {
 
-        Meteor.user().todos().fetch().forEach(function (todo) {
-          todo.setWillBeOverdue(false);
-        });
+          Meteor.user().todos().fetch().forEach(function (todo) {
+            todo.setWillBeOverdue(false);
+          });
 
-        gapi.getFreetimes(startingFrom, function(freetimes) {
-          todos = Meteor.user().todoList(freetimes);
-          gapi.pendingEvents = todos.length;
-          todos.forEach(function(todo) {
-            if(todo.isOverdue) {
-              todo.setWillBeOverdue(true);
-              gapi.pendingEvents--;
-              if(gapi.pendingEvents == 0) {
-                gapi.isSyncing = false;
-                Session.set('isSyncing', false);
-                console.log('done syncing');
+          gapi.getFreetimes(startingFrom, function(freetimes) {
+            todos = Meteor.user().todoList(freetimes);
+            gapi.pendingEvents = todos.length;
+            todos.forEach(function(todo) {
+              if(todo.isOverdue) {
+                todo.setWillBeOverdue(true);
+                gapi.pendingEvents--;
+                if(gapi.pendingEvents == 0) {
+                  gapi.isSyncing = false;
+                  Session.set('isSyncing', false);
+                  console.log('done syncing');
+                }
+              } else {
+                gapi.addEventToCalendar(todo);
               }
-            } else {
-              gapi.addEventToCalendar(todo);
-            }
+            });
           });
         });
       });
