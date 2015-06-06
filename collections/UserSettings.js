@@ -8,9 +8,7 @@
  * taskCalendarId : String
  * referrals      : String[]
  * isReferred     : Boolean
- * hasOnboarded   : Object
- *   tasks    : Boolean
- *   settings : Boolean
+ * hasOnboarded   : Object <flow:Boolean>
  *
  */
 
