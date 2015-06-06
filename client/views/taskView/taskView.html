@@ -8,20 +8,44 @@
         </div>
       </div> -->
 
+      {{#if anyRecentTasks}}
+        <div class="row">
+          <div class="col-lg-12">
+            <section class="panel task-review-panel">
+              <header class="panel-heading bg bg-primary">
+                Recent Tasks
+              </header>
+              <ul class="list-group">
+              {{#each recentTasks}}
+                {{> taskListItem}}
+              {{/each}}
+              </ul>
+            </section>
+          </div>
+        </div>
+      {{/if}}
+
       <div class="row">
         <div class="col-lg-12">
-          <section class="panel">
+          <section class="panel task-panel">
             <header class="panel-heading bg bg-primary">
               <a class="pull-right inline-action sync" href="#" style="color: white;">
                 <span class="title">Sync Tasks</span>
-                <i class="fa fa-refresh"></i>
+                <i class="fa fa-refresh {{faSpinClass}}"></i>
               </a>
-              Dunmo Tasks
+              {{#if anyRecentTasks}} Upcoming Tasks {{else}} Dunmo Tasks {{/if}}
             </header>
             <ul class="list-group">
-            {{#each tasks}}
-              {{> taskListItem}}
-            {{/each}}
+            {{> emptyTaskListNotice}}
+            {{#if anyRecentTasks}}
+              {{#each upcomingTasks}}
+                {{> taskListItem}}
+              {{/each}}
+            {{else}}
+              {{#each tasks}}
+                {{> taskListItem}}
+              {{/each}}
+            {{/if}}
             </ul>
           </section>
         </div>

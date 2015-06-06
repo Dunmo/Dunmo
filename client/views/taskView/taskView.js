@@ -1,13 +1,46 @@
 
 Template.taskView.rendered = function () {
-  heap.identify({ name: Meteor.user().profile.name,
-                  email: Meteor.user().services.google.email });
+  if(Meteor.userId()){
+    var user = Meteor.user();
+    heap.identify({ name: user.profile.name,
+                    email: user.primaryEmailAddress() });
+    if(user.lastReviewed() < Date.startOfToday()) {
+      console.log('setting tasks to review...');
+      Tasks.setNeedsReviewed();
+      user.setLastReviewed(Date.now());
+    }
+  }
 };
 
 Template.taskView.helpers({
-  tasks: function() {
+  tasks: function () {
     return Meteor.user().sortedTodos();
+  },
+
+  noTasks: function () {
+    return Meteor.user().sortedTodos().count() == 0;
+  },
+
+  recentTasks: function () {
+    return Meteor.user().recentTodos();
+  },
+
+  anyRecentTasks: function () {
+    return Meteor.user().recentTodos().count() > 0;
+  },
+
+  upcomingTasks: function () {
+    return Meteor.user().upcomingTodos();
+  },
+
+  anyUpcomingTasks: function () {
+    return Meteor.user().upcomingTodos().count() > 0;
+  },
+
+  faSpinClass: function () {
+    return Session.get('isSyncing') ? 'fa-spin' : '';
   }
+
 });
 
 Template.taskView.events({

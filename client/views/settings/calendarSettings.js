@@ -29,19 +29,19 @@ Template.calendarSettings.helpers({
 });
 
 Template.calendarSettings.events({
-  'submit .start-time.form-control, click button.start-time': function (e) {
-    e.preventDefault();
+  'keydown .start-time.form-control, click button.start-time': function (e) {
+    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
     var $input = $(e.target).parents('.input-group').find('input.start-time');
     var val = $input.val();
-    var ret = Meteor.user().startOfDay(val);
+    var ret = Meteor.user().setStartOfDay(val);
     if(ret) gapi.syncTasksWithCalendar();
   },
 
-  'submit .end-time.form-control, click button.end-time': function (e) {
-    e.preventDefault();
+  'keydown .end-time.form-control, click button.end-time': function (e) {
+    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
     var $input = $(e.target).parents('.input-group').find('input.end-time');
     var val = $input.val();
-    var ret = Meteor.user().endOfDay(val);
+    var ret = Meteor.user().setEndOfDay(val);
     if(ret) gapi.syncTasksWithCalendar();
   }
 });

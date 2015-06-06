@@ -5,9 +5,19 @@
 // end     : Number<Milliseconds>
 // ownerId : String
 
-Freetimes = new Mongo.Collection('freetimes');
+Freetimes.helpers({
 
-function addStartEndTimes (busytimes, options) {
+  duration: function () {
+    return this.end - this.start;
+  },
+
+  remaining: function () {
+    return this.duration();
+  }
+
+});
+
+Freetimes._addStartEndTimes = function (busytimes, options) {
   var starttimes = lodash.pluck(busytimes, 'start');
   var endtimes   = lodash.pluck(busytimes, 'end');
   var start      = options.minTime;
@@ -52,7 +62,7 @@ function addStartEndTimes (busytimes, options) {
   return busytimes;
 };
 
-function coalesceBusytimes (busytimes) {
+Freetimes._coalesceBusytimes = function (busytimes) {
   busytimes    = lodash.sortBy(busytimes, 'end');
   busytimes    = lodash.sortBy(busytimes, 'start');
   newBusytimes = [];
@@ -79,42 +89,36 @@ function coalesceBusytimes (busytimes) {
   return newBusytimes;
 };
 
-function toFreetimes (busytimes, options) {
-  // inputs are in milliseconds, but task time is only per minute granularity
-  options.minTime = Date.nearestMinute(options.minTime) + 1*MINUTES;
-  options.maxTime = Date.nearestMinute(options.maxTime);
-  minTime = options.minTime;
-  maxTime = options.maxTime;
-
-  if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
-  busytimes = addStartEndTimes(busytimes, options);
-  busytimes = coalesceBusytimes(busytimes);
-
+Freetimes._invertBusytimes = function (busytimes) {
   var freetimes = [];
 
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
 
-    if(index === 0) { // if first busytime
-      if(minTime < obj.start) {
-        start = minTime;
-        end   = obj.start;
-      }
+    // if it's the first item, add a freetime before obj.start
+    if(index === 0 && minTime < obj.start) {
+      start = minTime;
+      end   = obj.start;
+      freetimes.push({
+        start: start,
+        end:   end
+      });
     }
-    else {
+
+    // for every other item, including the last, add a freetime between items
+    if(index !== 0) {
       start = busytimes[index-1].end;
       end   = obj.start;
+      freetimes.push({
+        start: start,
+        end:   end
+      });
     }
-    freetimes.push({
-      start: start,
-      end:   end
-    });
 
-    if(index === busytimes.length-1) {
-      if(maxTime > obj.end) {
-        start = obj.end;
-        end   = maxTime;
-      }
+    // if it's the last item, add a freetime after obj.end
+    if(index === busytimes.length-1 && maxTime > obj.end) {
+      start = obj.end;
+      end   = maxTime;
       freetimes.push({
         start: start,
         end:   end
@@ -125,24 +129,19 @@ function toFreetimes (busytimes, options) {
   return freetimes;
 };
 
-Freetimes.helpers({
-  update: function (data) {
-    Freetimes.update(this._id, { $set: data });
-  },
+Freetimes._toFreetimes = function (busytimes, options) {
+  // inputs are in milliseconds, but task time is only per minute granularity
+  options.minTime = Date.floorMinute(options.minTime) + 1*MINUTES;
+  options.maxTime = Date.floorMinute(options.maxTime);
+  minTime = options.minTime;
+  maxTime = options.maxTime;
 
-  duration: function () {
-    return this.end - this.start;
-  },
+  if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
+  busytimes     = this._addStartEndTimes(busytimes, options);
+  busytimes     = this._coalesceBusytimes(busytimes);
+  var freetimes = this._invertBusytimes(busytimes);
 
-  timeRemaining: function () {
-    return this.duration();
-  }
-});
-
-Freetimes.fetch = function (selector, options) {
-  var result = Freetimes.find(selector, options);
-  result     = result.fetch();
-  return result;
+  return freetimes;
 };
 
 Freetimes.create = function (obj) {
@@ -161,16 +160,25 @@ Freetimes.create = function (obj) {
 Freetimes.createFromBusytimes = function (busytimes, options) {
   defaultProperties = options.defaultProperties;
 
-  var freetimes = toFreetimes(busytimes, options);
+  var freetimes = this._toFreetimes(busytimes, options);
   freetimes = freetimes.map(function(freetime) {
     lodash.forOwn(defaultProperties, function(value, key) {
       freetime[key] = value;
     });
-    freetime.timeRemaining = function () {
+    freetime.remaining = function () {
       return this.end - this.start;
     }
     return freetime;
   });
 
   return freetimes; // Freetimes.create(freetimes);
+};
+
+Freetimes.printable = function (freetimes) {
+  freetimes = R.cloneDeep(freetimes);
+  return freetimes.map(function (freetime) {
+    freetime.start = new Date(freetime.start);
+    freetime.end   = new Date(freetime.end);
+    return freetime;
+  });
 };

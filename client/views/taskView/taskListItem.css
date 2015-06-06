@@ -11,3 +11,11 @@
 .task .media-body {
   padding-top: 5px;
 }
+
+.task.overdue {
+  background-color: #FF6464;
+}
+
+.task.at-risk {
+  background-color: #F8D667;
+}
