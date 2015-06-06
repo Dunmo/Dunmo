@@ -66,13 +66,29 @@
   lastReviewed: function (date) {
     var settings = this.settings();
     if(!settings.lastReviewed) return 0;
-    else                     return settings.lastReviewed;
+    else                       return settings.lastReviewed;
   },
 
   setLastReviewed: function (date) {
     var settings = this.settings();
     var time = Number(new Date(date));
     return settings.update({ lastReviewed: time });
+  },
+
+  hasOnboarded: function (key) {
+    var settings = this.settings();
+    if(!settings.hasOnboarded) settings.hasOnboarded = {};
+    var value    = settings.hasOnboarded[key];
+    return value;
+  },
+
+  setHasOnboarded: function (key, bool) {
+    if(bool === undefined || bool === null) bool = true;
+    var settings = this.settings();
+    key = 'hasOnboarded.' + key;
+    var selector = {};
+    selector[key] = bool;
+    return settings.update(selector);
   },
 
   referred: function (bool) {
