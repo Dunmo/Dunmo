@@ -1,6 +1,4 @@
 
-var numberkeys = [];
-
 Template.addTaskInput.rendered = function () {
   $("form").on("submit", function(e) {e.preventDefault()});
 };
@@ -55,7 +53,7 @@ Template.addTaskInput.events({
     taskImportance = $taskImportance.val();
 
     var endOfDay = Date.timeString(Meteor.user().endOfDay());
-    console.log('endOfDay: ', endOfDay);
+
 
     if (taskDueAt === '')      taskDueAt = 'tomorrow at ' + endOfDay;
 
@@ -91,11 +89,9 @@ Template.addTaskInput.events({
     val += ' due ' + taskDueAt;
     val += ' ' + taskImportance + ' important';
 
-    console.log("val: ", val);
 
     var ret = Tasks.create(val, { ownerId: Meteor.userId() });
 
-    console.log('ret: ', ret);
 
     if (ret && ret.err) {
       $('#input-validation-msg').flash_message({

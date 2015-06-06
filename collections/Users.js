@@ -12,126 +12,157 @@
  *
  */
 
-Meteor.users.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
+ Meteor.users.helpers({
 
-    return Meteor.users.update(this._id, data);
+  setRemoved: function (bool) {
+    return this.settings().setRemoved(bool);
   },
 
-  'primaryEmailAddress': function () {
-    return this.emails[0] && this.emails[0].address;
+  primaryEmailAddress: function () {
+    return this.services && this.services.google && this.services.google.email;
   },
 
-  'settings': function () {
+  createSettings: function () {
+    var settingsId = UserSettings.create({ userId: this._id });
+    return UserSettings.findOne(settingsId);
+  },
+
+  settings: function () {
     var settings = UserSettings.findOne({ userId: this._id });
-    if(!settings) {
-      settings = UserSettings.create({ userId: this._id });
-      settings = UserSettings.findOne(settings);
-    }
+    if(!settings) settings = this.createSettings();
     return settings;
   },
 
-  'startOfDay': function (str) {
+  endOfDay: function () {
+    var defaultEndOfDay = '22:00';
     var settings = this.settings();
-    if(str) {
-      var time = Date.parseTime(str);
-      return settings.update({ startOfDay: time });
-    }
-    return settings.startOfDay;
+    if(!settings.endOfDay) return Date.parseTime(defaultEndOfDay);
+    else                   return settings.endOfDay;
   },
 
-  'endOfDay': function (str) {
+  setEndOfDay: function (str) {
+    var defaultEndOfDay = '22:00';
     var settings = this.settings();
-    if(str) {
-      var time = Date.parseTime(str);
-      return settings.update({ endOfDay: time });
+    if(!str || str === '') str = defaultEndOfDay;
+    var time = Date.parseTime(str);
+    return settings.update({ endOfDay: time });
+  },
+
+  startOfDay: function () {
+    var defaultStartOfDay = '08:00';
+    var settings = this.settings();
+    if(!settings.startOfDay) return Date.parseTime(defaultStartOfDay);
+    else                     return settings.startOfDay;
+  },
+
+  setStartOfDay: function (str) {
+    var defaultStartOfDay = '08:00';
+    var settings = this.settings();
+    if(!str || str === '') str = defaultStartOfDay;
+    var time = Date.parseTime(str);
+    return settings.update({ startOfDay: time });
+  },
+
+  lastReviewed: function (date) {
+    var settings = this.settings();
+    if(!settings.lastReviewed) return 0;
+    else                     return settings.lastReviewed;
+  },
+
+  setLastReviewed: function (date) {
+    var settings = this.settings();
+    var time = Number(new Date(date));
+    return settings.update({ lastReviewed: time });
+  },
+
+  referred: function (bool) {
+    var settings = this.settings();
+    if(bool !== undefined && bool !== null) {
+      if(bool === settings.bool) return false;
+      return settings.update({ isReferred: bool });
     }
-    return settings.endOfDay;
+    return settings.isReferred;
   },
 
-  'appleCredentials': function () {
-    return AppleCredentials.findOne(this.appleCredentialsId);
+  addReferral: function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $addToSet: { referrals: str } });
+    else    return null;
   },
 
-  'setAppleCredentials': function (data) {
-    var cred = this.appleCredentials();
-
-    if(!cred) {
-      var id = AppleCredentials.insert(data);
-      this.update({ appleCredentialsId: id });
-    } else {
-      cred.update(data);
-    }
+  referrals: function () {
+    var settings = this.settings();
+    return settings.referrals;
   },
 
-  'loginWithApple': function (user, pass) {
-    var cred = this.appleCredentials();
-    if( !cred && !(user && pass) ) {
-      return;
-    } else if( !cred ) {
-      AppleCredentials.insert({
-        appleId:  user,
-        password: pass
-      });
-    } else if( user && pass ) {
-      cred.update({
-        appleId:  user,
-        password: pass
-      });
-    } else {
-      cred.validate();
-    }
+  removeReferral: function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $pull: { referrals: str } });
+    else    return null;
   },
 
-  'syncReminders': function () {
-    var cred = this.appleCredentials();
-    cred.syncReminders();
+  taskCalendarId: function (str) {
+    var settings = this.settings();
+    if(str && str === settings.taskCalendarId) return false;
+    if(str) return settings.update({ taskCalendarId: str });
+    else    return settings.taskCalendarId;
   },
 
-  'taskCalendar': function () {
-    var name = 'Dunmo Tasks';
-    var cal = Calendars.findOne({ ownerId: this._id, summary: name });
-    return cal;
+  recentTaskEvents: function () {
+    return Events.taskEvents.recent({ ownerId: this._id });
   },
 
-  'tasks': function () {
-    // this.syncReminders();
-    return Tasks.find({ ownerId: this._id, isRemoved: { $not: true } });
+  tasks: function () {
+    return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
   },
 
-  'sortedTasks': function () {
+  sortedTasks: function () {
     var tasks = this.tasks().fetch();
     tasks = Tasks.basicSort(tasks);
     return tasks;
   },
 
-  'todos': function () {
-    return Tasks.find({ ownerId: this._id, isRemoved: { $not: true }, isDone: { $not: true } });
+  todos: function (selector, options) {
+    selector = selector || {};
+    _.extend(selector, {
+      ownerId: this._id,
+      isRemoved: { $ne: true },
+      isDone: { $ne: true }
+    });
+    return Tasks.find(selector, options);
   },
 
-  'sortedTodos': function () {
-    var todos = this.todos().fetch();
-    todos = Tasks.basicSort(todos);
+  sortedTodos: function (selector, options) {
+    var todos = this.todos(selector, options).fetch();
+    todos     = Tasks.basicSort(todos);
     return todos;
   },
 
-  'freetimes': function () {
+  recentTodos: function () {
+    var recentTodos = this.sortedTodos({ needsReviewed: true });
+    return recentTodos;
+  },
+
+  upcomingTodos: function () {
+    var upcomingTodos = this.sortedTodos({ needsReviewed: { $ne: true } });
+    return upcomingTodos;
+  },
+
+  freetimes: function () {
     return Freetimes.find({ ownerId: this._id });
   },
 
-  'calendars': function () {
+  calendars: function () {
     var uid = this._id;
     return Calendars.find({ ownerId: uid });
   },
 
-  'activeCalendars': function () {
+  activeCalendars: function () {
     var uid = this._id;
     return Calendars.find({ ownerId: uid, active: true });
   },
 
-  'calendarIdObjects': function () {
+  calendarIdObjects: function () {
     var calendars = this.activeCalendars();
     var idObjects = calendars.map(function(calendar) {
       return { id: calendar.googleCalendarId };
@@ -139,104 +170,76 @@ Meteor.users.helpers({
     return idObjects;
   },
 
-  'latestTaskTime': function () {
-    var latestTask = lodash.max(this.tasks().fetch(), 'dueAt');
-    var maxTime = latestTask.dueAt;
+  latestTodoTime: function () {
+    var latestTodo = lodash.max(this.todos().fetch(), 'dueAt');
+    var maxTime    = latestTodo.dueAt;
     return maxTime;
   },
 
-  todoList: function(freetimes) {
-    todos = this.sortedTodos();
-    freetimes = freetimes || this.freetimes || this.freetimes();
-    todoList = this._generateTodoList(freetimes, todos, 'greedy');
+  todoList: function (freetimes) {
+    var todos, todoList;
+    todos     = this.sortedTodos();
+    freetimes = freetimes || this.freetimes();
+    todoList  = Scheduler.generateTodoList(freetimes, todos, 'greedy');
     return todoList;
-  },
-
-  // a private helper function for todoList
-  _generateTodoList: function(freetimes, todos, algorithm) {
-    if(algorithm !== 'greedy') {
-      return [];
-    }
-
-    var user = this;
-
-    var todoList  = lodash.map(freetimes, function(freetime) {
-      if(todos.length > 0) {
-        var ret     = user._generateDayList(freetime, todos);
-        var freetime = ret[0];
-        todos       = ret[1];
-        return freetime.todos;
-      } else {
-        return null;
-      }
-    });
-
-    return lodash.flatten(lodash.compact(todoList));
-  },
-
-  // a private helper function for todoList
-  _generateDayList: function(freetime, todos) {
-    var user      = this;
-    var dayList   = R.cloneDeep(freetime);
-    var remaining = freetime.timeRemaining();
-    dayList.todos = [];
-
-    while(remaining > 0 && todos.length > 0) { // TODO: remaining.toTaskInterval() > 0 ?
-      var ret   = user._appendTodo(dayList, todos, remaining);
-      dayList   = R.cloneDeep(ret[0]);
-      todos     = R.cloneDeep(ret[1]);
-      remaining = R.cloneDeep(ret[2]);
-    }
-
-    if(todos.length > 0) {
-      var ret = this._appendOverdue(dayList, todos);
-      dayList = ret[0];
-      todos   = ret[1];
-    }
-
-    return [ dayList, todos ];
-  },
-
-  // a private helper function for todoList
-  _appendTodo: function(dayList, todos, remaining) {
-    var todo = R.cloneDeep(todos[0]);
-
-    var todoStart = Number(dayList.start) + ( dayList.timeRemaining() - remaining );
-
-    // TODO: what about overdue items?
-    if((todo.remaining > remaining) && (todo.dueAt >= (new Date()))) {
-      var ret   = R.cloneDeep(todo.split(remaining));
-      todo      = R.cloneDeep(ret[0]);
-      todos[0]  = R.cloneDeep(ret[1]);
-      remaining = 0;
-    } else {
-      todos.shift();
-      remaining = remaining - todo.remaining;
-    }
-
-    if(todo.dueAt < Date.now()) todo.isOverdue = true;
-
-    todo.start = new Date(todoStart);
-    todo.end = new Date(todoStart + todo.remaining);
-
-    dayList.todos.push(todo);
-
-    return [ dayList, todos, remaining ];
-  },
-
-  _appendOverdue: function(freetime, todos) {
-    var todo = R.cloneDeep(todos[0]);
-
-    while( todo && (todo.dueAt <= freetime.end) ) {
-      todo.isOverdue = true;
-      freetime.todos.push(todo);
-      todos.shift();
-      todo = todos[0];
-    }
-
-    return [ freetime, todos ]
   }
+
+  // appleCredentials: function () {
+  //   return AppleCredentials.findOne(this.appleCredentialsId);
+  // },
+
+  // setAppleCredentials: function (data) {
+  //   var cred = this.appleCredentials();
+
+  //   if(!cred) {
+  //     var id = AppleCredentials.insert(data);
+  //     this.update({ appleCredentialsId: id });
+  //   } else {
+  //     cred.update(data);
+  //   }
+  // },
+
+  // loginWithApple: function (user, pass) {
+  //   var cred = this.appleCredentials();
+  //   if( !cred && !(user && pass) ) {
+  //     return;
+  //   } else if( !cred ) {
+  //     AppleCredentials.insert({
+  //       appleId:  user,
+  //       password: pass
+  //     });
+  //   } else if( user && pass ) {
+  //     cred.update({
+  //       appleId:  user,
+  //       password: pass
+  //     });
+  //   } else {
+  //     cred.validate();
+  //   }
+  // },
+
+  // syncReminders: function () {
+  //   var cred = this.appleCredentials();
+  //   cred.syncReminders();
+  // },
 
 });
 
+Meteor.users.findByEmail = function (email) {
+  return Meteor.users.findBy({ email: email });
+};
 
+// Requires email & password, could be an array of new users
+Meteor.users.create = function (obj) {
+  if(Array.isArray(obj)) {
+    var ary = obj;
+    ary.forEach(function(user) {
+      Meteor.users.create(user);
+    });
+  } else if(typeof(obj) === 'object') {
+    var user = Meteor.users.findByEmail(obj.email);
+    // if(!user) return Meteor.users.insert(user);
+  } else {
+    console.error('type error, Meteor.users.create does not expect: ', typeof(obj));
+  }
+};
