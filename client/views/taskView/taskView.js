@@ -44,6 +44,10 @@ Template.taskView.helpers({
 
   faSpinClass: function () {
     return Session.get('isSyncing') ? 'fa-spin' : '';
+  },
+
+  hasOnboarded: function () {
+    return Meteor.user().hasOnboarded('taskView');
   }
 
 });

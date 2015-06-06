@@ -79,6 +79,8 @@
     </section>
   </section>
 
-  {{> calendarSettingsFlow}}
+  {{#unless hasOnboarded}}
+    {{> calendarSettingsFlow}}
+  {{/unless}}
 
 </template>

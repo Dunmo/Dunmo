@@ -4,6 +4,7 @@ Template.calendarSettings.rendered = function () {
 };
 
 Template.calendarSettings.helpers({
+
   calendars: function() {
     var calendars = Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' }, isRemoved: { $not: true } }).fetch();
     calendars = lodash.sortBy(calendars, function(cal) {
@@ -25,7 +26,12 @@ Template.calendarSettings.helpers({
     var end = Meteor.user().endOfDay();
     var str = Date.timeString(end);
     return str;
+  },
+
+  hasOnboarded: function () {
+    return Meteor.user().hasOnboarded('calendarSettings');
   }
+
 });
 
 Template.calendarSettings.events({
