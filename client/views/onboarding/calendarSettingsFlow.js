@@ -1,12 +1,13 @@
 
 Template.calendarSettingsFlow.rendered = function () {
-  if(Meteor.user().hasOnboarded('calendarSettings')) return;
-
   $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
-    $(".overlay").addClass("hidden");
     Meteor.user().setHasOnboarded('calendarSettings');
+    $(".overlay").addClass("hidden")
   });
-
-  csFlow = Onboarded.load();
-  csFlow.startFlow();
 };
+
+Template.calendarSettingsFlow.helpers({
+  userEmail: function () {
+    return Meteor.user().primaryEmailAddress();
+  }
+});

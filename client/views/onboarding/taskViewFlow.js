@@ -1,12 +1,13 @@
 
 Template.taskViewFlow.rendered = function () {
-  if(Meteor.user().hasOnboarded('taskView')) return;
-
   $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
-    $(".overlay").addClass("hidden");
     Meteor.user().setHasOnboarded('taskView');
+    $(".overlay").addClass("hidden")
   });
-
-  tvFlow = Onboarded.load();
-  tvFlow.startFlow();
 };
+
+Template.taskViewFlow.helpers({
+  userEmail: function () {
+    return Meteor.user().primaryEmailAddress();
+  }
+});
