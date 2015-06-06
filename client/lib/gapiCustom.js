@@ -235,7 +235,6 @@ gapi.getCurrentTaskEvent = function (callback) {
 gapi.fixCurrentTaskEvent = function (startingFrom, callback) {
   gapi.getCurrentTaskEvent(function(currEvent) {
     if(currEvent) {
-      console.log('currEvent: ', currEvent);
       var doc       = Events.findOne(Events.createOrUpdate(currEvent))
       var taskId    = doc.taskId;
       var firstTask = Meteor.user().sortedTodos()[0];
@@ -499,7 +498,6 @@ gapi.syncTasksWithCalendar = function () {
       var startingFrom = Date.now();
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
-        console.log('startingFrom: ', startingFrom);
         // should not delete current task event
         gapi.deleteAllFutureFromCalendar(function () {
 

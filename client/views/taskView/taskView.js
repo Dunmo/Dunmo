@@ -5,7 +5,7 @@ Template.taskView.rendered = function () {
     heap.identify({ name: user.profile.name,
                     email: user.primaryEmailAddress() });
     if(user.lastReviewed() < Date.startOfToday()) {
-      console.log('setting tasks to review...')
+      console.log('setting tasks to review...');
       Tasks.setNeedsReviewed();
       user.setLastReviewed(Date.now());
     }

@@ -32,7 +32,6 @@ Template.taskListItem.events({
   },
 
   'click .done.btn': function (e) {
-    console.log('this: ', this);
     this.markDone();
     gapi.syncTasksWithCalendar();
   },

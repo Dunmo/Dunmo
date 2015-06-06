@@ -52,15 +52,12 @@ Events.syncTaskEventsWithGoogle = function (options, callback) {
     selector.taskId = { $exists: true };
     selector.start  = { $gt: options.start };
     selector.end    = { $lt: options.end };
-    console.log('fetching events...');
     var events = Events.fetch(selector, options);
-    console.log('events: ', events);
     Events.queuedEvents = events.length;
     events.forEach(function (event) {
       gapi.getEvent(event, function (googleEvent) {
         var ret = Events.createOrUpdate(googleEvent);
         Events.queuedEvents--;
-        console.log('Events.queuedEvents: ', Events.queuedEvents);
         if(Events.queuedEvents == 0) callback();
       });
     });
@@ -78,7 +75,6 @@ Events.fetchTaskEvents = function (options, callback) {
   selector.taskId = { $exists: true };
   selector.start  = { $gt: options.start };
   selector.end    = { $lt: options.end };
-  console.log('syncing with google...');
   Events.syncTaskEventsWithGoogle(options, function () {
     var ret = Events.find(selector);
     ret     = ret.fetch();

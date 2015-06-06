@@ -23,7 +23,6 @@
   },
 
   createSettings: function () {
-    console.log('creating settings');
     var settingsId = UserSettings.create({ userId: this._id });
     return UserSettings.findOne(settingsId);
   },
@@ -239,7 +238,6 @@ Meteor.users.create = function (obj) {
     });
   } else if(typeof(obj) === 'object') {
     var user = Meteor.users.findByEmail(obj.email);
-    console.log('user: ', user);
     // if(!user) return Meteor.users.insert(user);
   } else {
     console.error('type error, Meteor.users.create does not expect: ', typeof(obj));

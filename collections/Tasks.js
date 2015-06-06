@@ -109,11 +109,8 @@ Tasks.setNeedsReviewed = function () {
   var start      = Number(Date.startOfYesterday());
   var end        = Number(Date.endOfYesterday());
   var options   = { start: start, end: end };
-  console.log('fetching task events...');
   Events.fetchTaskEvents(options, function (events) {
-    console.log('getting tasks from events...');
     var tasks = Events.getTasks(events);
-    console.log('tasks: ', tasks);
     if(tasks) {
       return tasks.map(function (task) {
         return task.setNeedsReviewed();

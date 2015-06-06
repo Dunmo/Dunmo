@@ -33,7 +33,6 @@ Template.calendarSettings.events({
     if(e.which && ! (e.which == 13 || e.which == 1) ) return;
     var $input = $(e.target).parents('.input-group').find('input.start-time');
     var val = $input.val();
-    console.log('val: ', val);
     var ret = Meteor.user().setStartOfDay(val);
     if(ret) gapi.syncTasksWithCalendar();
   },
