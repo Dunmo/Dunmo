@@ -1,6 +1,8 @@
 #!/bin/bash
 
+meteor remove sanjo:jasmine velocity:html-reporter
 meteor build . --debug
 scp dunmo.tar.gz root@dunmoapp.com:/home/dunmo/dunmo.tar.gz
 ssh root@dunmoapp.com 'bash -s' < bin/remote/redeploy
 rm dunmo.tar.gz
+meteor add sanjo:jasmine velocity:html-reporter
