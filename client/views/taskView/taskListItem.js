@@ -30,7 +30,7 @@ Template.taskListItem.helpers({
   },
 
   remainingString: function () {
-    return moment.duration(this.remaining).humanize();
+    return Natural.humanizeDuration(this.remaining);
   },
 
   dueAtString: function () {
