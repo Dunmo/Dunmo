@@ -32,7 +32,7 @@ Daylists.createFromFreetimes = function (freetimes) {
 
   freetimes.forEach(function (freetime) {
     if(freetime.end > currentEndOfDay) {
-      currentEndOfDay = Date.endOfDay(freetime);
+      currentEndOfDay = Date.endOfDay(freetime.start);
       daylists.push(currentDaylist);
       currentDaylist = new Daylist({ endOfDay: currentEndOfDay });
     }
