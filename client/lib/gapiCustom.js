@@ -511,11 +511,15 @@ gapi.syncTasksWithCalendar = function () {
             todos.forEach(function(todo) {
               if(todo.isOverdue) {
                 todo.setWillBeOverdue(true);
-                gapi.pendingEvents--;
-                if(gapi.pendingEvents == 0) {
-                  gapi.isSyncing = false;
-                  Session.set('isSyncing', false);
-                  console.log('done syncing');
+                if(!todo.start || !todo.end) {
+                  gapi.pendingEvents--;
+                  if(gapi.pendingEvents == 0) {
+                    gapi.isSyncing = false;
+                    Session.set('isSyncing', false);
+                    console.log('done syncing');
+                  }
+                } else {
+                  gapi.addEventToCalendar(todo);
                 }
               } else {
                 gapi.addEventToCalendar(todo);
