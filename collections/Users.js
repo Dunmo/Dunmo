@@ -75,6 +75,39 @@
     return settings.update({ lastReviewed: time });
   },
 
+  maxTaskInterval: function () {
+    var settings = this.settings();
+    return settings.maxTaskInterval;
+  },
+
+  setMaxTaskInterval: function (str) {
+    var settings = this.settings();
+    var time = Date.parseDuration(str);
+    return settings.update({ maxTaskInterval: time });
+  },
+
+  maxTimePerTaskPerDay: function (str) {
+    var settings = this.settings();
+    return settings.maxTimePerTaskPerDay;
+  },
+
+  setMaxTimePerTaskPerDay: function (str) {
+    var settings = this.settings();
+    var time = Date.parseDuration(str);
+    return settings.update({ maxTimePerTaskPerDay: time });
+  },
+
+  taskBreakInterval: function (str) {
+    var settings = this.settings();
+    return settings.taskBreakInterval;
+  },
+
+  setTaskBreakInterval: function (str) {
+    var settings = this.settings();
+    var time = Date.parseDuration(str);
+    return settings.update({ taskBreakInterval: time });
+  },
+
   referred: function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
@@ -99,33 +132,6 @@
     var settings = this.settings();
     if(str) return settings.update({ $pull: { referrals: str } });
     else    return null;
-  },
-
-  maxTaskInterval: function (str) {
-    var settings = this.settings();
-    if(str) {
-      var time = Date.parseDuration(str);
-      return settings.update({ maxTaskInterval: time });
-    }
-    return settings.maxTaskInterval;
-  },
-
-  maxTimePerTaskPerDay: function (str) {
-    var settings = this.settings();
-    if(str) {
-      var time = Date.parseDuration(str);
-      return settings.update({ maxTimePerTaskPerDay: time });
-    }
-    return settings.maxTimePerTaskPerDay;
-  },
-
-  taskBreakInterval: function (str) {
-    var settings = this.settings();
-    if(str) {
-      var time = Date.parseDuration(str);
-      return settings.update({ taskBreakInterval: time });
-    }
-    return settings.taskBreakInterval;
   },
 
   taskCalendarId: function (str) {
@@ -203,7 +209,11 @@
     var todos, todoList;
     todos     = this.sortedTodos();
     freetimes = freetimes || this.freetimes();
-    todoList  = Scheduler.generateTodoList(freetimes, todos, 'greedy');
+    todoList  = Scheduler.generateTodoList(freetimes, todos, {
+      algorithm: 'greedy',
+      maxTaskInterval: this.maxTaskInterval();
+      maxTimePerTaskPerDay: this.maxTimePerTaskPerDay();
+    });
     return todoList;
   }
 
