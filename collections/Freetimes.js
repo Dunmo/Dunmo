@@ -178,11 +178,14 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   return freetimes; // Freetimes.create(freetimes);
 };
 
-Freetimes.printable = function (freetimes) {
-  freetimes = R.cloneDeep(freetimes);
-  return freetimes.map(function (freetime) {
+Freetimes.printable = function (obj) {
+  if(Array.isArray(obj)) {
+    var freetimes = R.cloneDeep(obj);
+    return freetimes.map(Freetimes.printable);
+  } else {
+    var freetime   = R.cloneDeep(obj);
     freetime.start = new Date(freetime.start);
     freetime.end   = new Date(freetime.end);
     return freetime;
-  });
+  }
 };
