@@ -14,4 +14,4 @@
  *
  */
 
-AppleReminders = new Mongo.Collection('appleReminders');
+// AppleReminders = new Mongo.Collection('appleReminders');

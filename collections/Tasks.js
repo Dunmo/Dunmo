@@ -2,51 +2,41 @@
  * Task
  * =========
  * ownerId         : String
- * appleReminderId : String
- * calendarId      : String
  * title           : String
  * importance      : <1,2,3>
- * dueAt           : Number<milliseconds>
+ * dueAt           : DateTime
  * remaining       : Number<milliseconds>
  * spent           : Number<milliseconds>
  * snoozedUntil    : DateTime
+ * needsReviewed   : Boolean
+ * isDone          : Boolean
+ * isRemoved       : Boolean
+ * timeMarkedDone  : DateTime
  * description     : String
  *
- * TODO: hash apple passwords
  */
 
-Tasks = new Mongo.Collection('tasks');
-
-Tasks.before.insert(function(uid, doc) {
-  return doc;
-});
-
 Tasks.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
-
-    return Tasks.update(this._id, data);
-  },
 
   reParse: function (str) {
     var res = Natural.parseTask(str);
     res.inputString = str;
-    this.update(res);
+    return this.update(res);
   },
 
-  markDone: function () {
-    this.update({ isDone: true });
-  },
+  setIsDone: Setters.setBool('isDone'),
 
-  remove: function () {
-    this.update({ isRemoved: true });
+  setNeedsReviewed: Setters.setBool('needsReviewed'),
+
+  setWillBeOverdue: Setters.setBool('willBeOverdue'),
+
+  markDone: function (bool) {
+    return this.setIsDone(bool);
   },
 
   split: function(milliseconds) {
-    if(milliseconds > this.remaining) {
-      return [ null, R.cloneDeep(this) ];
-    }
+    if(milliseconds > this.remaining) milliseconds = this.remaining;
+    if(milliseconds < 0)              milliseconds = 0;
 
     var firstTask = R.cloneDeep(this);
     firstTask.remaining = milliseconds;
@@ -59,7 +49,15 @@ Tasks.helpers({
 
     return R.cloneDeep([ firstTask, secondTask ]);
   }
+
 });
+
+Tasks.basicSort = function(tasks) {
+  tasks = _.sortBy(tasks, 'remaining').reverse();
+  tasks = _.sortBy(tasks, 'importance').reverse();
+  tasks = _.sortBy(tasks, 'dueAt');
+  return tasks;
+};
 
 // input: obj OR str, obj
 // if `str` is given, attrs will be parsed
@@ -69,12 +67,11 @@ Tasks.create = function(str, obj) {
     obj = str;
     str = '';
   }
+  if(!obj) obj = {};
 
   var res = Natural.parseTask(str);
 
   obj.ownerId         = obj.ownerId         || null; // Meteor.userId();
-  obj.appleReminderId = obj.appleReminderId || null;
-  obj.calendarId      = obj.calendarId      || null;
   obj.inputString     = obj.inputString     || str;
   obj.title           = obj.title           || res.title;
   obj.importance      = obj.importance      || res.importance;
@@ -100,10 +97,25 @@ Tasks.create = function(str, obj) {
   return Tasks.insert(obj);
 };
 
-Tasks.basicSort = function(tasks) {
-  tasks = _.sortBy(tasks, 'remaining');
-  tasks = _.sortBy(tasks, 'importance').reverse();
-  tasks = _.sortBy(tasks, 'dueAt');
-  return tasks;
+Tasks.fetch = function (selector, options) {
+  selector           = selector || {};
+  selector.isDone    = { $ne: true };
+  selector.isRemoved = { $ne: true };
+  var tasks          = Tasks.find(selector, options);
+  return tasks.fetch();
+};
+
+Tasks.setNeedsReviewed = function () {
+  var start      = Number(Date.startOfYesterday());
+  var end        = Number(Date.endOfYesterday());
+  var options   = { start: start, end: end };
+  Events.fetchTaskEvents(options, function (events) {
+    var tasks = Events.getTasks(events);
+    if(tasks) {
+      return tasks.map(function (task) {
+        return task.setNeedsReviewed();
+      });
+    }
+  });
 };
 

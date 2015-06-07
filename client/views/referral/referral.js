@@ -17,7 +17,6 @@ var submitEmail = function () {
   var data = { referrerEmail: referrerEmail, userEmail: userEmail };
   // data = JSON.stringify(data);
 
-  console.log('data: ', data);
 
   Meteor.call('createReferral', data);
 

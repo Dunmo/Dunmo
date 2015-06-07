@@ -11,33 +11,33 @@
  *
  */
 
-UserSettings = new Mongo.Collection('userSettings');
-
 UserSettings.helpers({
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
 
-    return UserSettings.update(this._id, data);
+  user: function () {
+    return Meteor.users.findOne(this.userId);
   }
+
 });
 
 UserSettings.create = function(obj) {
   if(Array.isArray(obj)) {
     var ary = obj;
-    ary.forEach(function(o) {
-      UserSettings.create(o);
+    return ary.forEach(function(o) {
+      return UserSettings.create(o);
     });
   }
 
   obj.startOfDay = obj.startOfDay || Date.parseTime('08:00');
   obj.endOfDay   = obj.endOfDay   || Date.parseTime('22:00');
-  // obj.maxTaskInterval      = obj.maxTaskInterval      || Date.parseDuration('2 hours');
-  // obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || Date.parseDuration('4 hours');
-  // obj.taskBreakInterval    = obj.taskBreakInterval    || Date.parseDuration('30 minutes');
+  // obj.maxTaskInterval      = obj.maxTaskInterval      || 2*HOURS;
+  // obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || 4*HOURS;
+  // obj.taskBreakInterval    = obj.taskBreakInterval    || 30*MINUTES;
   obj.referrals  = obj.referrals  || []
 
   var curr = UserSettings.findOne({ userId: obj.userId });
-  if(curr) return curr.update(obj);
-  else     return UserSettings.insert(obj);
+  if(curr) {
+    curr.update(obj);
+    return curr._id;
+  }
+  else return UserSettings.insert(obj);
 };

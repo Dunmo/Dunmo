@@ -12,43 +12,93 @@
  *
  */
 
-var helpers = {
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) )
-      data = { $set: data };
+ Meteor.users.helpers({
 
-    return Meteor.users.update(this._id, data);
+  setRemoved: function (bool) {
+    return this.settings().setRemoved(bool);
   },
 
   primaryEmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
   },
 
+  createSettings: function () {
+    var settingsId = UserSettings.create({ userId: this._id });
+    return UserSettings.findOne(settingsId);
+  },
+
   settings: function () {
     var settings = UserSettings.findOne({ userId: this._id });
-    if(!settings) {
-      settings = UserSettings.create({ userId: this._id });
-      settings = UserSettings.findOne(settings);
-    }
+    if(!settings) settings = this.createSettings();
     return settings;
   },
 
-  startOfDay: function (str) {
+  endOfDay: function () {
+    var defaultEndOfDay = '22:00';
     var settings = this.settings();
-    if(str) {
-      var time = Date.parseTime(str);
-      return settings.update({ startOfDay: time });
-    }
-    return settings.startOfDay;
+    if(!settings.endOfDay) return Date.parseTime(defaultEndOfDay);
+    else                   return settings.endOfDay;
   },
 
-  endOfDay: function (str) {
+  setEndOfDay: function (str) {
+    var defaultEndOfDay = '22:00';
     var settings = this.settings();
-    if(str) {
-      var time = Date.parseTime(str);
-      return settings.update({ endOfDay: time });
+    if(!str || str === '') str = defaultEndOfDay;
+    var time = Date.parseTime(str);
+    return settings.update({ endOfDay: time });
+  },
+
+  startOfDay: function () {
+    var defaultStartOfDay = '08:00';
+    var settings = this.settings();
+    if(!settings.startOfDay) return Date.parseTime(defaultStartOfDay);
+    else                     return settings.startOfDay;
+  },
+
+  setStartOfDay: function (str) {
+    var defaultStartOfDay = '08:00';
+    var settings = this.settings();
+    if(!str || str === '') str = defaultStartOfDay;
+    var time = Date.parseTime(str);
+    return settings.update({ startOfDay: time });
+  },
+
+  lastReviewed: function (date) {
+    var settings = this.settings();
+    if(!settings.lastReviewed) return 0;
+    else                     return settings.lastReviewed;
+  },
+
+  setLastReviewed: function (date) {
+    var settings = this.settings();
+    var time = Number(new Date(date));
+    return settings.update({ lastReviewed: time });
+  },
+
+  referred: function (bool) {
+    var settings = this.settings();
+    if(bool !== undefined && bool !== null) {
+      if(bool === settings.bool) return false;
+      return settings.update({ isReferred: bool });
     }
-    return settings.endOfDay;
+    return settings.isReferred;
+  },
+
+  addReferral: function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $addToSet: { referrals: str } });
+    else    return null;
+  },
+
+  referrals: function () {
+    var settings = this.settings();
+    return settings.referrals;
+  },
+
+  removeReferral: function (str) {
+    var settings = this.settings();
+    if(str) return settings.update({ $pull: { referrals: str } });
+    else    return null;
   },
 
   maxTaskInterval: function (str) {
@@ -78,79 +128,15 @@ var helpers = {
     return settings.taskBreakInterval;
   },
 
-  referred: function (bool) {
-    var settings = this.settings();
-    if(bool !== undefined && bool !== null) {
-      return settings.update({ isReferred: bool });
-    }
-    return settings.isReferred;
-  },
-
-  addReferral: function (str) {
-    var settings = this.settings();
-    if(str) return settings.update({ $addToSet: { referrals: str } });
-    else    return null;
-  },
-
-  referrals: function () {
-    var settings = this.settings();
-    return settings.referrals;
-  },
-
-  removeReferral: function (str) {
-    var settings = this.settings();
-    if(str) return settings.update({ $pull: { referrals: str } });
-    else    return null;
-  },
-
   taskCalendarId: function (str) {
     var settings = this.settings();
+    if(str && str === settings.taskCalendarId) return false;
     if(str) return settings.update({ taskCalendarId: str });
     else    return settings.taskCalendarId;
   },
 
-  appleCredentials: function () {
-    return AppleCredentials.findOne(this.appleCredentialsId);
-  },
-
-  setAppleCredentials: function (data) {
-    var cred = this.appleCredentials();
-
-    if(!cred) {
-      var id = AppleCredentials.insert(data);
-      this.update({ appleCredentialsId: id });
-    } else {
-      cred.update(data);
-    }
-  },
-
-  loginWithApple: function (user, pass) {
-    var cred = this.appleCredentials();
-    if( !cred && !(user && pass) ) {
-      return;
-    } else if( !cred ) {
-      AppleCredentials.insert({
-        appleId:  user,
-        password: pass
-      });
-    } else if( user && pass ) {
-      cred.update({
-        appleId:  user,
-        password: pass
-      });
-    } else {
-      cred.validate();
-    }
-  },
-
-  syncReminders: function () {
-    var cred = this.appleCredentials();
-    cred.syncReminders();
-  },
-
   tasks: function () {
-    var r = new RegExp('true');
-    return Tasks.find({ ownerId: this._id, isRemoved: { $not: r } });
+    return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
   },
 
   sortedTasks: function () {
@@ -159,15 +145,30 @@ var helpers = {
     return tasks;
   },
 
-  todos: function () {
-    var r = new RegExp('true');
-    return Tasks.find({ ownerId: this._id, isRemoved: { $not: r }, isDone: { $not: r } });
+  todos: function (selector, options) {
+    selector = selector || {};
+    _.extend(selector, {
+      ownerId: this._id,
+      isRemoved: { $ne: true },
+      isDone: { $ne: true }
+    });
+    return Tasks.find(selector, options);
   },
 
-  sortedTodos: function () {
-    var todos = this.todos().fetch();
+  sortedTodos: function (selector, options) {
+    var todos = this.todos(selector, options).fetch();
     todos     = Tasks.basicSort(todos);
     return todos;
+  },
+
+  recentTodos: function () {
+    var recentTodos = this.sortedTodos({ needsReviewed: true });
+    return recentTodos;
+  },
+
+  upcomingTodos: function () {
+    var upcomingTodos = this.sortedTodos({ needsReviewed: { $ne: true } });
+    return upcomingTodos;
   },
 
   freetimes: function () {
@@ -198,341 +199,31 @@ var helpers = {
     return maxTime;
   },
 
-  // a private helper function for todoList
-  // _splitTasksByMaxTaskInterval: function (tasks) {
-  //   var maxTaskInterval = this.maxTaskInterval();
-  //   if(!maxTaskInterval) return tasks;
-  //   var tasks           = R.cloneDeep(tasks);
-  //   var splitTasks      = [];
-
-  //   tasks.forEach(function (task) {
-  //     while(task.remaining > maxTaskInterval) {
-  //       var ret = task.split(maxTaskInterval);
-  //       splitTasks.push(ret[0])
-  //       task    = ret[1];
-  //     }
-  //     splitTasks.push(task);
-  //   });
-
-  //   return splitTasks;
-  // },
-
-  todoList: function(freetimes) {
-    var todos, maxTimePerTaskPerDay, isByDay, todoList;
-
-    todos = this.sortedTodos();
-
+  todoList: function (freetimes) {
+    var todos, todoList;
+    todos     = this.sortedTodos();
     freetimes = freetimes || this.freetimes();
-
-    maxTimePerTaskPerDay = this.maxTimePerTaskPerDay();
-    if(this.maxTimePerTaskPerDay() != 0) isByDay = true;
-
-    if(isByDay) freetimes = this.freetimesByDay(freetimes);
-
-    todoList = this._generateTodoList(freetimes, todos, 'greedy', isByDay);
-
+    todoList  = Scheduler.generateTodoList(freetimes, todos, 'greedy');
     return todoList;
-  },
+  }
 
-  freetimesByDay: function(freetimes) {
-    var end = this.endOfDay();
-    var grouped = lodash.groupBy(freetimes, function (freetime) {
-      return Number(Date.startOfDay(freetime.start)) + end;
+};
+
+Meteor.users.findByEmail = function (email) {
+  return Meteor.users.findBy({ email: email });
+};
+
+// Requires email & password, could be an array of new users
+Meteor.users.create = function (obj) {
+  if(Array.isArray(obj)) {
+    var ary = obj;
+    ary.forEach(function(user) {
+      Meteor.users.create(user);
     });
-    return grouped;
-  },
-
-  // a private helper function for todoList
-  _generateTodoList: function(freetimes, todos, algorithm, isByDay) {
-
-    var user = this;
-
-    if(!isByDay) {
-      var todoList  = lodash.map(freetimes, function(freetime) {
-        if(todos.length > 0) {
-          var ret      = user._generateDayList(freetime, todos);
-          var freetime = ret[0];
-          todos        = ret[1];
-          return freetime.todos;
-        } else {
-          return null;
-        }
-      });
-
-      return lodash.flatten(lodash.compact(todoList));
-    }
-    else {
-      var todoList       = [];
-      var freetimesByDay = freetimes;
-      var endsOfDays     = lodash.keys(freetimesByDay);
-      var endOfFirstDay  = Number(endsOfDays[0]);
-      var endOfDay       = user.endOfDay();
-      var newEnd         = endOfFirstDay + endOfDay;
-      var taskTimeAssignedToday = {};
-
-      lodash.forOwn(freetimesByDay, function(freetimes, day) {
-        todos.forEach(function (todo) {
-          taskTimeAssignedToday[todo._id] = 0;
-        });
-
-        freetimes.forEach(function(freetime) {
-          if(todos.length > 0) {
-            var ret  = user._fillFreetime(freetime, todos, taskTimeAssignedToday);
-            freetime = ret[0];
-            todos    = ret[1];
-            taskTimeAssignedToday = ret[2];
-            todoList = todoList.concat(freetime.todos);
-          } else {
-            return null;
-          }
-        });
-      });
-
-      return lodash.flatten(lodash.compact(todoList));
-    }
-  },
-
-  // a private helper function for todoList
-  _fillFreetime: function(freetime, todos, taskTimeAssignedToday) {
-    var user       = this;
-    var freetime   = R.cloneDeep(freetime);
-    var remaining  = freetime.remaining();
-    freetime.todos = [];
-
-    while(remaining > 0 && todos.length > 0) {
-      var ret   = user._appendTodo(freetime, todos, remaining, taskTimeAssignedToday);
-      freetime  = ret[0];
-      todos     = ret[1];
-      remaining = ret[2];
-      taskTimeAssignedToday = ret[3];
-    }
-
-    if(todos.length > 0) {
-      var ret  = this._appendOverdue(freetime, todos);
-      freetime = ret[0];
-      todos    = ret[1];
-    }
-
-    return R.cloneDeep([ freetime, todos, taskTimeAssignedToday ]);
-  },
-
-  // a private helper function for todoList
-  _appendTodo: function(freetime, todos, remaining, taskTimeAssignedToday) {
-    var user                 = this;
-    var freetimeStart        = freetime.start;
-    var maxTaskInterval      = user.maxTaskInterval();
-    var maxTimePerTaskPerDay = user.maxTimePerTaskPerDay();
-    var lastTodo             = lodash.last(freetime.todos);
-    var todo, todoIndex;
-
-    // find a todo that's different from the most recent one on this freetime
-    // and that we aren't already spending "maxTimePerTaskPerDay" on today
-    if(lastTodo && taskTimeAssignedToday) {
-      todo = lodash.find(todos, function (todo, index) {
-        todoIndex     = index;
-        var different = lastTodo ? todo._id != lastTodo._id : true;
-        var timeLeft  = taskTimeAssignedToday[todo._id] < maxTimePerTaskPerDay;
-        return different && timeLeft;
-      });
-    }
-    else if(lastTodo) {
-      todo = lodash.find(todos, function (todo, index) {
-        todoIndex     = index;
-        var different = lastTodo ? todo._id != lastTodo._id : true;
-        return different;
-      });
-    }
-    else if(taskTimeAssignedToday) {
-      todo = lodash.find(todos, function (todo, index) {
-        todoIndex    = index;
-        var timeLeft = taskTimeAssignedToday[todo._id] < maxTimePerTaskPerDay;
-        return timeLeft;
-      });
-    }
-    else {
-      todoIndex = 0;
-      todo      = todos[0];
-    }
-
-    if(!todo && todos.length > 0) {
-      var taskBreakInterval = user.taskBreakInterval();
-      if(remaining > taskBreakInterval) {
-        remaining -= taskBreakInterval;
-      } else {
-        remaining = 0;
-        return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
-      }
-
-      if(taskTimeAssignedToday) {
-        todo = lodash.find(todos, function (todo, index) {
-          todoIndex    = index;
-          var timeLeft = taskTimeAssignedToday[todo._id] < maxTimePerTaskPerDay;
-          return timeLeft;
-        });
-      }
-      else {
-        todoIndex = 0;
-        todo      = todos[0];
-      }
-    }
-    else if(!todo) {
-      remaining = 0;
-      return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
-    }
-
-    todo = R.cloneDeep(todo);
-
-    var todoStart = freetimeStart + ( freetime.remaining() - remaining );
-    var taskTimeLeftToday = maxTimePerTaskPerDay - taskTimeAssignedToday[todo._id];
-    var rem = lodash.min([taskTimeLeftToday, remaining, maxTaskInterval]);
-
-    if( (todo.remaining > rem) && (todo.dueAt >= freetimeStart) ) {
-      var ret          = todo.split(rem);
-      todo             = ret[0];
-      todos[todoIndex] = ret[1];
-    } else {
-      todos.splice(todoIndex, 1);
-    }
-
-    if(todo.dueAt < freetimeStart) todo.isOverdue = true;
-
-    todo.start = new Date(todoStart);
-    todo.end   = new Date(todoStart + todo.remaining);
-
-    taskTimeAssignedToday[todo._id] += todo.remaining;
-    remaining -= todo.remaining;
-
-    freetime.todos.push(todo);
-
-    return R.cloneDeep([ freetime, todos, remaining, taskTimeAssignedToday ]);
-  },
-
-  _appendOverdue: function(freetime, todos) {
-    var todo = R.cloneDeep(todos[0]);
-
-    while( todo && (todo.dueAt <= freetime.end) ) {
-      todo.isOverdue = true;
-      freetime.todos.push(todo);
-      todos.shift();
-      todo = todos[0];
-    }
-
-    return R.cloneDeep([ freetime, todos ]);
+  } else if(typeof(obj) === 'object') {
+    var user = Meteor.users.findByEmail(obj.email);
+    // if(!user) return Meteor.users.insert(user);
+  } else {
+    console.error('type error, Meteor.users.create does not expect: ', typeof(obj));
   }
-
 };
-
-Meteor.users.helpers(helpers);
-
-function propsToDates(obj) {
-  obj = R.cloneDeep(obj);
-  if( Array.isArray(obj) ) return obj.map(propsToDates);
-
-  obj.start = new Date(obj.start);
-  obj.end   = new Date(obj.end);
-
-  return obj;
-};
-
-function tasksAreEqual(task1, task2) {
-  return ['title', 'start', 'end', 'overdue'].all(function (prop) {
-    return ( lodash.isEqual(task1[prop], task2[prop]) );
-  });
-};
-
-if(CONFIG.testing) {
-  // SETUP
-  var user = helpers;
-  user._id = '1337';
-  user.maxTaskInterval      = function () { return 2 * HOURS; };
-  user.maxTimePerTaskPerDay = function () { return 4 * HOURS; };
-  user.taskBreakInterval    = function () { return 1 * HOURS; };
-  var tasks = user.tasks().fetch();
-  tasks.forEach(function (task) {
-    Tasks.remove(task._id);
-  });
-  var tasks = user.tasks().fetch();
-
-  Tasks.create('task 1 due by tomorrow at midnight for 4 hours very important', { ownerId: '1337' });
-  Tasks.create('task 2 due by next monday at midnight for 4 hours very important', { ownerId: '1337' });
-
-  var freetimes = [
-    // { start: 'sunday   at 8am ', end: 'sunday   at 12pm ' },
-    // { start: 'sunday   at 2pm ', end: 'sunday   at 6pm ' },
-    // { start: 'sunday   at 8pm ', end: 'sunday   at 10pm' },
-    { start: 'tuesday at 8am ', end: 'tuesday at 11am' },
-    { start: 'tuesday at 2pm ', end: 'tuesday at 10pm' }
-  ];
-
-  freetimes = freetimes.map(function (obj) {
-    obj.start = Number(Date.create(obj.start));
-    obj.end   = Number(Date.create(obj.end));
-    return Freetimes.create(obj);
-  });
-
-  // console.log('freetimes: ', freetimes);
-
-  // COMPUTATION
-  var taskEvents = user.todoList(freetimes);
-
-  // EVALUATION
-  taskEvents.forEach(function (ev) {
-    var obj = {
-      title:   ev.title,
-      start:   ev.start,
-      end:     ev.end,
-      overdue: ev.overdue
-    }
-    console.log(obj);
-  });
-
-  if(taskEvents.any(function(t){return (Number(t.end)-Number(t.start))>2*HOURS})) {
-    console.log('failed, task lasts longer than 2 hours');
-  }
-
-  var expected = [
-    {
-      title: 'task 1',
-      start: Date.create('tuesday at 8am'),
-      end:   Date.create('tuesday at 10am')
-    },
-    {
-      title: 'task 2',
-      start: Date.create('tuesday at 10am'),
-      end:   Date.create('tuesday at 11am')
-    },
-    {
-      title: 'task 1',
-      start: Date.create('tuesday at 2pm'),
-      end:   Date.create('tuesday at 4pm')
-    },
-    {
-      title: 'task 2',
-      start: Date.create('tuesday at 4pm'),
-      end:   Date.create('tuesday at 6pm')
-    },
-    {
-      title: 'task 2',
-      start: Date.create('tuesday at 7pm'),
-      end:   Date.create('tuesday at 8pm')
-    }
-  ];
-
-  var currTask, currIndex;
-  if(expected.any(function(et, i) {
-    currTask  = taskEvents[i];
-    currIndex = i;
-    return !currTask || ( ! tasksAreEqual(et, currTask) );
-  })) {
-    console.log('FAILED. Expected\n', currTask, '\nto be\n', expected[currIndex]);
-  }
-
-  // TEARDOWN
-  freetimes.forEach(function (freetime) {
-    Freetimes.remove(freetime._id);
-  });
-
-  user.tasks().forEach(function (task) {
-    Tasks.remove(task._id);
-  });
-}
