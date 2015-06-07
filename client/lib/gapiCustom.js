@@ -422,8 +422,9 @@ gapi.getBusytimes = function (startingFrom, callback) {
     timeMin = startingFrom;
   }
 
-  timeMax = Meteor.user().latestTodoTime();
-  timeMax = Number(timeMax);
+  // timeMax = Meteor.user().latestTodoTime();
+  // timeMax = Number(timeMax);
+  timeMax = timeMin + 30*DAYS;
 
   if( !timeMax || timeMax < timeMin) {
     console.warn('Warning: No tasks or all tasks are due before start time');
@@ -464,12 +465,12 @@ gapi.getBusytimes = function (startingFrom, callback) {
 gapi.getFreetimes = function (startingFrom, callback) {
   gapi.getBusytimes(function(busytimes) {
     var userId      = Meteor.userId();
-    var maxTime     = Meteor.user().latestTodoTime();
-    maxTime         = Number(maxTime);
+    // var maxTime     = Meteor.user().latestTodoTime();
+    // maxTime         = Number(maxTime);
     var freetimes = Freetimes.createFromBusytimes(busytimes, {
       userId            : userId,
       minTime           : startingFrom,
-      maxTime           : maxTime,
+      maxTime           : startingFrom + 30*DAYS,
       defaultProperties : { ownerId: userId }
     });
     // var freetimes   = Freetimes.fetch({ _id: { $in: freetimeIds } });
