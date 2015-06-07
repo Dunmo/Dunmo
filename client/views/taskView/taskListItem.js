@@ -4,6 +4,7 @@ Template.taskListItem.rendered = function () {
 };
 
 Template.taskListItem.helpers({
+
   activeClass: function () {
     if(Number(this.dueAt) < Date.now()) return 'overdue';
     else if(this.willBeOverdue)         return 'at-risk';
@@ -34,7 +35,20 @@ Template.taskListItem.helpers({
 
   dueAtString: function () {
     return moment(this.dueAt).format('dddd, MMM Do [at] h:mm a');
+  },
+
+  titleWidth: function () {
+    return Session.get('titleWidth');
+  },
+
+  linePropRemainingWidth: function () {
+    return Session.get('linePropRemainingWidth');
+  },
+
+  linePropDueWidth: function () {
+    return Session.get('linePropDueWidth');
   }
+
 });
 
 Template.taskListItem.events({
@@ -59,13 +73,13 @@ Template.taskListItem.events({
     // if we press escape, cancel
     if( e.which && e.which === 27 ) {
       Session.set('currentlyEditing', '');
-      window.setTimeout(resetTaskListItemWidths, 50);
+      resetTaskListItemWidths();
       return;
     }
 
     var str = $('input.todo').val();
     Session.set('currentlyEditing', '');
-    window.setTimeout(resetTaskListItemWidths, 50);
+    resetTaskListItemWidths();
 
     if(str !== this.inputString) {
       this.reParse(str);
