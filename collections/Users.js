@@ -66,7 +66,7 @@ Meteor.users.helpers({
   lastReviewed: function (date) {
     var settings = this.settings();
     if(!settings.lastReviewed) return 0;
-    else                     return settings.lastReviewed;
+    else                       return settings.lastReviewed;
   },
 
   setLastReviewed: function (date) {
@@ -224,7 +224,7 @@ Meteor.users.helpers({
     return todoList;
   }
 
-};
+});
 
 Meteor.users.findByEmail = function (email) {
   return Meteor.users.findBy({ email: email });
