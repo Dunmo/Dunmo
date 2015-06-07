@@ -43,10 +43,6 @@
   font-size: 16px;
 }
 
-.task .media-body .options {
-  margin-top: 3px;
-}
-
 .task .line-prop {
   height: 32px;
 }
@@ -87,6 +83,13 @@
   font-size: 32px;
   top: 0;
   position: absolute;
+}
+
+.task .media-body .options {
+  margin-top: 3px;
+  margin-left: 10px;
+  width: 32px;
+  padding: 0 12px 0;
 }
 
 .task .options .fa {
