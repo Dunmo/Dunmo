@@ -59,6 +59,134 @@
       </div>
 
       <div class="row">
+        <div class="time-header col-lg-12">
+          <section class="col-lg-4">
+            <h4><a href="#" data-toggle="tooltip"
+                            data-placement="bottom"
+                            data-original-title="A large tooltip.">
+              Max Task Duration
+            </a></h4>
+          </section>
+          <section class="col-lg-4">
+            <h4><a href="#" data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="A large tooltip.">
+              Max Day Total per Task
+            </a></h4>
+          </section>
+          <section class="col-lg-4">
+            <h4><a href="#" data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="A large tooltip.">
+              Break Duration
+            </a></h4>
+          </section>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+
+          <section class="comment-list block col-lg-3 col-lg-offset-1">
+            <article class="comment-item media" id="comment-form">
+              <section class="media-body">
+                <form id="maxTaskIntervalForm" class="m-b-none form-inline inline-hrs-mins">
+                  <div class="form-group">
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="hours form-control input-sm task-input-sm"
+                             id="maxTaskIntervalHours"
+                             placeholder="-"
+                             hour="0"
+                             value="{{maxTaskIntervalHours}}">
+                      <div class="input-group-addon">hr</div>
+                    </div>
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="minutes form-control input-sm task-input-sm"
+                             id="maxTaskIntervalMinutes"
+                             placeholder="-"
+                             min="0"
+                             value="{{maxTaskIntervalMinutes}}">
+                      <div class="input-group-addon">min</div>
+                    </div>
+                    <div class="input-group-btn inline">
+                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </article>
+          </section>
+
+          <section class="comment-list block col-lg-3 col-lg-offset-1">
+            <article class="comment-item media" id="comment-form">
+              <section class="media-body">
+                <form id="maxTimePerTaskPerDayForm" class="m-b-none form-inline inline-hrs-mins">
+                  <div class="form-group">
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="hours form-control input-sm task-input-sm"
+                             id="maxTimePerTaskPerDayHours"
+                             placeholder="-"
+                             hour="0"
+                             value="{{maxTimePerTaskPerDayHours}}">
+                      <div class="input-group-addon">hr</div>
+                    </div>
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="minutes form-control input-sm task-input-sm"
+                             id="maxTimePerTaskPerDayMinutes"
+                             placeholder="-"
+                             min="0"
+                             value="{{maxTimePerTaskPerDayMinutes}}">
+                      <div class="input-group-addon">min</div>
+                    </div>
+                    <div class="input-group-btn inline">
+                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </article>
+          </section>
+
+          <section class="comment-list block col-lg-3 col-lg-offset-1">
+            <article class="comment-item media" id="comment-form">
+              <section class="media-body">
+                <form id="taskBreakIntervalForm" class="m-b-none form-inline inline-hrs-mins">
+                  <div class="form-group">
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="hours form-control input-sm task-input-sm"
+                             id="taskBreakIntervalHours"
+                             placeholder="-"
+                             hour="0"
+                             value="{{taskBreakIntervalHours}}">
+                      <div class="input-group-addon">hr</div>
+                    </div>
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="minutes form-control input-sm task-input-sm"
+                             id="taskBreakIntervalMinutes"
+                             placeholder="-"
+                             min="0"
+                             value="{{taskBreakIntervalMinutes}}">
+                      <div class="input-group-addon">min</div>
+                    </div>
+                    <div class="input-group-btn inline">
+                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </article>
+          </section>
+
+        </div>
+      </div>
+
+      <div class="row">
         <div class="col-lg-12">
 
           <section class="panel">
