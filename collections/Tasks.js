@@ -35,8 +35,7 @@ Tasks.helpers({
   },
 
   split: function(milliseconds) {
-    if(milliseconds > this.remaining) milliseconds = this.remaining;
-    if(milliseconds < 0)              milliseconds = 0;
+    milliseconds = _.bound(milliseconds, 0, this.remaining);
 
     var firstTask = R.cloneDeep(this);
     firstTask.remaining = milliseconds;
@@ -47,7 +46,7 @@ Tasks.helpers({
 
     // TODO: set timeSpent also
 
-    return R.cloneDeep([ firstTask, secondTask ]);
+    return [ firstTask, secondTask ];
   }
 
 });
