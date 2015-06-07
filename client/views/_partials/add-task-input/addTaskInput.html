@@ -2,11 +2,11 @@
 <template name="addTaskInput">
   <form class="form-inline add-task">
     <div class="form-group">
-      <label for="taskTitle">Title</label>
-      <input type="text" class="form-control input-sm" id="taskTitle" placeholder="Task title">
+      <label for="taskTitle">My task</label>
+      <input type="text" class="form-control input-sm" id="taskTitle" placeholder="task title">
     </div>
     <div class="form-group">
-      <label for="taskHours">Duration</label>
+      <label for="taskHours">will take</label>
       <div class="input-group inline">
         <input type="number" class="form-control input-sm task-input-sm" id="taskHours" placeholder="-" hour="0">
         <div class="input-group-addon">hr</div>
@@ -17,11 +17,11 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="taskDueAt">Due</label>
+      <label for="taskDueAt">it's due</label>
       <input type="text" class="form-control input-sm" id="taskDueAt" placeholder="tomorrow at {{endOfDayString}}">
     </div>
     <div class="form-group">
-      <label for="taskImportance">Importance</label>
+      <label for="taskImportance">and it's</label>
       <select name="importanceSelect" id="taskImportance" class="form-control input-sm">
         <option value="very">very</option>
         <option value="somewhat">somewhat</option>

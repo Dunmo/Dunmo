@@ -11,6 +11,10 @@ form.add-task > .form-group > label:not(.inline) {
   display: block;
 }
 
+form.add-task > .form-group > label.inline {
+  margin-left: 5px;
+}
+
 form.add-task > .form-group > .input-group {
   display: inline-block;
   max-width: 110px;

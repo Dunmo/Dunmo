@@ -565,7 +565,7 @@ input[type="text"], select, textarea{min-width: 40px;height: auto;}
   .nav-vertical.nav-icon > ul > li > a i{margin: 8px auto;}
   .nav-primary.nav-vertical > ul > li > a > .badge{position: absolute;top: 4px;right: 15px;font-size: 11px;padding:3px 6px}
 
-  #nav{position: relative;width: 150px;position: absolute;z-index:1000;left:0;top:50px;bottom: 0;}
+  #nav{position: relative;width: 150px;position: absolute;z-index:1000;left:0;bottom: 0;}
   #nav.bg-light{border-color:#bfc7d0}
   #nav.nav-vertical {width: 90px}
   #nav + #content{padding-left: 150px;}
