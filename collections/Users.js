@@ -45,6 +45,11 @@ Meteor.users.helpers({
     var settings = this.settings();
     if(!str || str === '') str = defaultEndOfDay;
     var time = Date.parseTime(str);
+    if(time < settings.startOfDay) {
+      Session.set('errorMessage', "You can't end before you start!");
+      $('.message').show();
+      return false;
+    }
     return settings.update({ endOfDay: time });
   },
 
@@ -60,6 +65,11 @@ Meteor.users.helpers({
     var settings = this.settings();
     if(!str || str === '') str = defaultStartOfDay;
     var time = Date.parseTime(str);
+    if(time > settings.endOfDay) {
+      Session.set('errorMessage', "You can't start after you end!");
+      $('.message').show();
+      return false;
+    }
     return settings.update({ startOfDay: time });
   },
 
