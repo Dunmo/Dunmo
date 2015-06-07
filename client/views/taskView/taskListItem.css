@@ -1,4 +1,30 @@
 
+.task {
+  height: 64px;
+}
+
+.task.overdue {
+  background-color: #FF6464;
+}
+
+.task.at-risk {
+  background-color: #F8D667;
+}
+
+.task.at-risk .fa,
+.task.overdue .fa {
+  color: white;
+}
+
+.task .media > .pull-left.action-btn-wrapper {
+  margin-top: 5px;
+  margin-right: 20px;
+}
+
+.task .media {
+  height: 44px;
+}
+
 .task .task-text {
   color: #333;
 }
@@ -9,13 +35,67 @@
 }
 
 .task .media-body {
-  padding-top: 5px;
+  margin-top: 6px;
+  height: 34px;
 }
 
-.task.overdue {
-  background-color: #FF6464;
+.task .media-body .task-text {
+  font-size: 16px;
 }
 
-.task.at-risk {
-  background-color: #F8D667;
+.task .media-body .options {
+  margin-top: 3px;
+}
+
+.task .line-prop {
+  height: 32px;
+}
+
+.task .line-prop:not(:first-child) {
+  margin-left: 30px;
+}
+
+.task .line-prop.title {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.task .line-prop.remaining .task-text,
+.task .line-prop.due .task-text {
+  margin-left: 8px;
+}
+
+.task .line-prop .fa-wrapper {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  position: relative;
+}
+
+.task .line-prop.remaining .fa {
+  font-size: 32px;
+  position: absolute;
+}
+
+.task .line-prop.remaining .task-text,
+.task .line-prop.due .task-text {
+  top: 21px;
+  position: absolute;
+}
+
+.task .line-prop.due .fa {
+  font-size: 32px;
+  top: 0;
+  position: absolute;
+}
+
+.task .options .fa {
+  font-size: 32px;
+  width: 32px;
+  color: #DAE1E1;
+}
+
+.task.at-risk .options .fa,
+.task.overdue .options .fa {
+  color: white;
 }

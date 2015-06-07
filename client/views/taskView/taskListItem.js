@@ -22,11 +22,19 @@ Template.taskListItem.helpers({
 
   editing: function () {
     return Session.get('currentlyEditing') === this._id;
+  },
+
+  remainingString: function () {
+    return moment.duration(this.remaining).humanize();
+  },
+
+  dueAtString: function () {
+    return moment(this.dueAt).format('dddd, MMM Do [at] h:mm a');
   }
 });
 
 Template.taskListItem.events({
-  'click .remove': function (e) {
+  'click .remove.btn': function (e) {
     this.remove();
     gapi.syncTasksWithCalendar();
   },
@@ -42,13 +50,18 @@ Template.taskListItem.events({
 
   'click .save, keydown input.todo': function (e) {
     // if we press anything except enter or the save button, return
-    if( e.which && (e.which !== 13 && e.which !== 1) ) return;
+    if( e.which && (e.which !== 13 && e.which !== 1 && e.which !== 27) ) return;
 
     // if we press escape, cancel
-    if( e.which && e.which === 27 ) Session.set('currentlyEditing', '');
+    if( e.which && e.which === 27 ) {
+      Session.set('currentlyEditing', '');
+      window.setTimeout(resetTaskListItemWidths, 50);
+      return;
+    }
 
     var str = $('input.todo').val();
     Session.set('currentlyEditing', '');
+    window.setTimeout(resetTaskListItemWidths, 50);
 
     if(str !== this.inputString) {
       this.reParse(str);

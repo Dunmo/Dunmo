@@ -1,19 +1,32 @@
 <template name="taskListItem">
   <li id={{_id}} class="task list-group-item {{activeClass}}" data-target="#todo-{{listIndex}}">
-    <div class="media task">
-      <span class="pull-left thumb-double-width m-t-mini">
-        <a href="#" class="done btn btn-success"><i class="fa fa-check-square-o text-default"></i></a>
-        <a href="#" class="{{editBtnClass}} btn"><i class="fa {{faEditClass}} text-default"></i></a>
+    <div class="media">
+      <span class="pull-left action-btn-wrapper">
+        <a href="#" class="done btn btn-success"><i class="fa fa-check text-default"></i></a>
       </span>
-      <div id="todo-{{listIndex}}" class="remove pull-right text-primary m-t-small">
-        <i class="fa fa-times fa-lg text text-red"></i>
-      </div>
       <div class="media-body">
         {{#if editing}}
-          <div><input class="todo full-width" type="text" value="{{inputString}}"></div>
+          <div><input autofocus class="todo full-width" type="text" value="{{inputString}}"></div>
         {{else}}
-          <h5 class="task-text">{{inputString}}</h5>
+          <div class="line-prop title pull-left">
+            <span class="task-text">{{title}}</span>
+          </div>
+          <div class="line-prop remaining pull-left">
+            <div class="fa-wrapper pull-left"><i class="fa fa-clock-o text"></i></div>
+            <span class="task-text pull-left">{{remainingString}}</span>
+          </div>
+          <div class="line-prop due pull-left">
+            <div class="fa-wrapper pull-left"><i class="fa fa-calendar-o text"></i></div>
+            <span class="task-text pull-left">{{dueAtString}}</span>
+          </div>
+          <span class="pull-right action-btn-wrapper">
+            <a href="#" class="edit btn btn-warning"><i class="fa fa-edit text-default"></i></a>
+            <a href="#" class="remove btn btn-danger"><i class="fa fa-times text-default"></i></a>
+          </span>
         {{/if}}
+        <!-- <div id="todo-{{listIndex}}" class="options pull-right">
+          <i class="fa fa-ellipsis-v text-primary"></i>
+        </div> -->
       </div>
     </div>
   </li>

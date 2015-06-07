@@ -10,6 +10,7 @@ Template.taskView.rendered = function () {
       user.setLastReviewed(Date.now());
     }
   }
+  resetTaskListItemWidths();
 };
 
 Template.taskView.helpers({
