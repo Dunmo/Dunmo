@@ -27,9 +27,9 @@ UserSettings.create = function(obj) {
     });
   }
 
-  obj.startOfDay = obj.startOfDay || Date.parseTime('08:00');
-  obj.endOfDay   = obj.endOfDay   || Date.parseTime('22:00');
-  // obj.maxTaskInterval      = obj.maxTaskInterval      || 2*HOURS;
+  obj.startOfDay      = obj.startOfDay      || Date.parseTime('08:00');
+  obj.endOfDay        = obj.endOfDay        || Date.parseTime('22:00');
+  obj.maxTaskInterval = obj.maxTaskInterval || 2*HOURS;
   // obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || 4*HOURS;
   // obj.taskBreakInterval    = obj.taskBreakInterval    || 30*MINUTES;
   obj.referrals  = obj.referrals  || []
