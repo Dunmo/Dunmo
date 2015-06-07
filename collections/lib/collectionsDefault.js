@@ -81,7 +81,7 @@ _.each([Calendars, Events, Freetimes, Subscribers, Tasks, UserSettings, Meteor.u
 //   } else {
 //     console.error('Unexpected type for collection property description')
 //   }
-//   funcName = 'set' + propName.capitalize();
+//   funcName = 'set' + _.capitalize(propName);
 //   if(prop.type === 'boolean') _helpers[funcName] = setBool(propName);
 //   else                        _helpers[funcName] = setProp(propName);
 // });
