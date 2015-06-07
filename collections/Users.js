@@ -172,7 +172,8 @@ Meteor.users.helpers({
     _.extend(selector, {
       ownerId: this._id,
       isRemoved: { $ne: true },
-      isDone: { $ne: true }
+      isDone: { $ne: true },
+      snoozedUntil: { $lt: Date.now() }
     });
     return Tasks.find(selector, options);
   },

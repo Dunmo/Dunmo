@@ -30,6 +30,8 @@ Tasks.helpers({
 
   setWillBeOverdue: Setters.setBool('willBeOverdue'),
 
+  setSnoozedUntil: Setters.setProp('snoozedUntil'),
+
   markDone: function (bool) {
     return this.setIsDone(bool);
   },
@@ -77,7 +79,7 @@ Tasks.create = function(str, obj) {
   obj.dueAt           = obj.dueAt           || res.dueAt;
   obj.remaining       = obj.remaining       || res.remaining
   obj.spent           = obj.spent           || 0;
-  obj.snoozedUntil    = obj.snoozedUntil    || null;
+  obj.snoozedUntil    = obj.snoozedUntil    || 0;
   obj.description     = obj.description     || '';
   obj.isDone          = obj.isDone          || false;
   obj.isRemoved       = obj.isRemoved       || false;
