@@ -4,7 +4,11 @@ Template.calendarSettings.rendered = function () {
 };
 
 Template.calendarSettings.helpers({
-  calendars: function() {
+  errorMessage: function () {
+    return Session.get('errorMessage');
+  },
+
+  calendars: function () {
     var calendars = Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' }, isRemoved: { $not: true } }).fetch();
     calendars = lodash.sortBy(calendars, function(cal) {
       return cal.summary.toLowerCase();
@@ -80,6 +84,7 @@ Template.calendarSettings.events({
 
   'keydown .start-time.form-control, click button.start-time': function (e) {
     if(e.which && ! (e.which == 13 || e.which == 1) ) return;
+    Session.set('errorMessage', '');
     var $input = $(e.target).parents('.input-group').find('input.start-time');
     var val = $input.val();
     var ret = Meteor.user().setStartOfDay(val);
@@ -88,6 +93,7 @@ Template.calendarSettings.events({
 
   'keydown .end-time.form-control, click button.end-time': function (e) {
     if(e.which && ! (e.which == 13 || e.which == 1) ) return;
+    Session.set('errorMessage', '');
     var $input = $(e.target).parents('.input-group').find('input.end-time');
     var val = $input.val();
     var ret = Meteor.user().setEndOfDay(val);
@@ -96,6 +102,7 @@ Template.calendarSettings.events({
 
   'keydown form.inline-hrs-mins input, click form.inline-hrs-mins .btn.save': function (e) {
     if(e.which && ! (e.which == 13 || e.which == 1) ) return;
+    Session.set('errorMessage', '');
 
     var $parent = $(e.target).parents('form');
     var prop  = $parent.attr('id');
