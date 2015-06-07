@@ -106,6 +106,8 @@ Template.addTaskInput.events({
     $taskMinutes.val('');
     $taskDueAt.val('');
 
+    window.setTimeout(resetTaskListItemWidths, 50);
+
     gapi.syncTasksWithCalendar();
   }
 });

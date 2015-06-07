@@ -24,6 +24,10 @@ Template.taskListItem.helpers({
     return Session.get('currentlyEditing') === this._id;
   },
 
+  importanceString: function () {
+    return Natural.numBangs[this.importance];
+  },
+
   remainingString: function () {
     return moment.duration(this.remaining).humanize();
   },
