@@ -12,7 +12,7 @@
  *
  */
 
- Meteor.users.helpers({
+Meteor.users.helpers({
 
   setRemoved: function (bool) {
     return this.settings().setRemoved(bool);
@@ -82,7 +82,9 @@
 
   setMaxTaskInterval: function (str) {
     var settings = this.settings();
+    if(str === 'Infinity') return settings.update({ maxTaskInterval: Infinity });
     var time = Date.parseDuration(str);
+    time = _.bound(time, 0, 24*HOURS);
     return settings.update({ maxTaskInterval: time });
   },
 
@@ -93,7 +95,9 @@
 
   setMaxTimePerTaskPerDay: function (str) {
     var settings = this.settings();
+    if(str === 'Infinity') return settings.update({ maxTimePerTaskPerDay: Infinity });
     var time = Date.parseDuration(str);
+    time = _.bound(time, 0, 24*HOURS);
     return settings.update({ maxTimePerTaskPerDay: time });
   },
 
@@ -104,7 +108,9 @@
 
   setTaskBreakInterval: function (str) {
     var settings = this.settings();
+    if(str === 'Infinity') return settings.update({ taskBreakInterval: Infinity });
     var time = Date.parseDuration(str);
+    time = _.bound(time, 0, 24*HOURS);
     return settings.update({ taskBreakInterval: time });
   },
 
@@ -210,9 +216,10 @@
     todos     = this.sortedTodos();
     freetimes = freetimes || this.freetimes();
     todoList  = Scheduler.generateTodoList(freetimes, todos, {
-      algorithm: 'greedy',
-      maxTaskInterval: this.maxTaskInterval();
-      maxTimePerTaskPerDay: this.maxTimePerTaskPerDay();
+      algorithm:            'greedy',
+      maxTaskInterval:      this.maxTaskInterval(),
+      maxTimePerTaskPerDay: this.maxTimePerTaskPerDay(),
+      taskBreakInterval:    this.taskBreakInterval()
     });
     return todoList;
   }
