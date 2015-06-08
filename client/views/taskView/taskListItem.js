@@ -25,6 +25,10 @@ Template.taskListItem.helpers({
     return Session.get('currentlyEditing') === this._id;
   },
 
+  snoozeActive: function () {
+    return Session.get('snoozeActive') === this._id;
+  },
+
   importanceString: function () {
     return Natural.numBangs[this.importance];
   },
@@ -64,6 +68,17 @@ Template.taskListItem.events({
 
   'click .edit.btn': function (e) {
     Session.set('currentlyEditing', this._id);
+  },
+
+  'click .snooze.btn': function (e) {
+    if(Session.get('snoozeActive') === this._id) {
+      var val = $("#datetimepicker").val();
+      val = Number(new Date(val));
+      this.setSnoozedUntil(val);
+      Session.set('snoozeActive', '');
+    } else {
+      Session.set('snoozeActive', this._id);
+    }
   },
 
   'click .save, keydown input.todo': function (e) {
