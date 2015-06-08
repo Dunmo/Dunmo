@@ -1,13 +1,6 @@
 <template name="taskView">
   <section id="content">
-    <!-- <section class="main padder"> -->
-
-      <!-- <div class="row">
-        <div class="col-lg-12">
-          <button id="cal">Sync Tasks with Calendar</button><br>
-        </div>
-      </div> -->
-
+    {{#if renderTasks}}
       {{#if anyRecentTasks}}
         <div class="row">
           <div class="col-lg-12">
@@ -50,16 +43,11 @@
           </section>
         </div>
       </div>
-
-    <!-- </section> -->
+    {{/if}}
   </section>
-    <!-- footer -->
   <footer id="footer">
     <div class="text-center padder clearfix">
-      <p>
-        <small>&copy; Dunmo 2015</small><br><br>
-      </p>
+      <p><small>&copy; Dunmo 2015</small><br><br></p>
     </div>
   </footer>
-  <!-- / footer -->
 </template>
