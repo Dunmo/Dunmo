@@ -27,3 +27,4 @@ accounts-password
 digilord:faker
 sanjo:jasmine
 velocity:html-reporter
+tsega:bootstrap3-datetimepicker
