@@ -1,9 +1,11 @@
 <template name="taskListItem">
   <li id={{_id}} class="task list-group-item {{activeClass}}" data-target="#todo-{{listIndex}}">
     <div class="media">
-      <span class="pull-left action-btn-wrapper">
-        <a href="#" class="done btn btn-success"><i class="fa fa-check text-default"></i></a>
-      </span>
+      {{#unless editing}}
+        <span class="pull-left action-btn-wrapper">
+          <a href="#" class="done btn btn-success"><i class="fa fa-check text-default"></i></a>
+        </span>
+      {{/unless}}
       <div class="media-body">
         {{#if editing}}
           <div><input autofocus class="todo full-width" type="text" value="{{inputString}}"></div>
@@ -20,7 +22,11 @@
             <div class="text-wrapper pull-left"><span class="task-text">{{dueAtString}}</span></div>
           </div>
           <span class="pull-right action-btn-wrapper">
-            <a href="#" class="edit btn btn-warning"><i class="fa fa-edit text-default"></i></a>
+            <a href="#" class="edit btn btn-default"><i class="fa fa-edit text-default"></i></a>
+            {{#if snoozeActive}}
+              {{> snoozeInput}}
+            {{/if}}
+            <a href="#" class="snooze btn btn-warning"><i class="fa fa-moon-o text-default"></i></a>
             <a href="#" class="remove btn btn-danger"><i class="fa fa-times text-default"></i></a>
           </span>
         {{/if}}
