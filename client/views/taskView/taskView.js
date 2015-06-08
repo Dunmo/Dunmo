@@ -22,10 +22,8 @@ Template.taskView.onRendered(function () {
     var time = Date.floorMinute(Date.now());
     console.log('time: ', time);
     if(Session.get('currentMinute') !== time) {
-      console.log('resetting...')
       Session.set('renderTasks', false);
       window.setTimeout(rerender, 1);
-      Session.set('currentMinute', time);
     }
     window.setTimeout(setTime, 1000)
   };
