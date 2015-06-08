@@ -151,7 +151,11 @@ Freetimes.create = function (obj) {
       return Freetimes.create(ft);
     });
   } else if(typeof(obj) === 'object') {
-    return Freetimes.insert(obj);
+    obj.start = Number(obj.start);
+    obj.end   = Number(obj.end);
+
+    var id = Freetimes.insert(obj);
+    return Freetimes.findOne(id);
   } else {
     console.error('Error: Freetimes.create does not expect type:', typeof(obj));
   }
@@ -174,11 +178,14 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   return freetimes; // Freetimes.create(freetimes);
 };
 
-Freetimes.printable = function (freetimes) {
-  freetimes = R.cloneDeep(freetimes);
-  return freetimes.map(function (freetime) {
+Freetimes.printable = function (obj) {
+  if(Array.isArray(obj)) {
+    var freetimes = R.cloneDeep(obj);
+    return freetimes.map(Freetimes.printable);
+  } else {
+    var freetime   = R.cloneDeep(obj);
     freetime.start = new Date(freetime.start);
     freetime.end   = new Date(freetime.end);
     return freetime;
-  });
+  }
 };

@@ -1,0 +1,31 @@
+
+form.add-task > .form-group {
+  height: 54px;
+}
+
+form.add-task > .form-group:not(:first-child) {
+  margin-left: 20px;
+}
+
+form.add-task > .form-group > label:not(.inline) {
+  display: block;
+}
+
+form.add-task > .form-group > label.inline {
+  margin-left: 5px;
+}
+
+form.add-task > .form-group > .input-group {
+  display: inline-block;
+  max-width: 110px;
+  margin: 0;
+}
+
+form.add-task > .form-group > .input-group > .input-group-addon {
+  width: 0;
+  height: 30px;
+}
+
+form.add-task > .form-group > .btn.add-task {
+  margin-top: 23px;
+}

@@ -30,13 +30,14 @@ Tasks.helpers({
 
   setWillBeOverdue: Setters.setBool('willBeOverdue'),
 
+  setSnoozedUntil: Setters.setProp('snoozedUntil'),
+
   markDone: function (bool) {
     return this.setIsDone(bool);
   },
 
   split: function(milliseconds) {
-    if(milliseconds > this.remaining) milliseconds = this.remaining;
-    if(milliseconds < 0)              milliseconds = 0;
+    milliseconds = _.bound(milliseconds, 0, this.remaining);
 
     var firstTask = R.cloneDeep(this);
     firstTask.remaining = milliseconds;
@@ -78,7 +79,7 @@ Tasks.create = function(str, obj) {
   obj.dueAt           = obj.dueAt           || res.dueAt;
   obj.remaining       = obj.remaining       || res.remaining
   obj.spent           = obj.spent           || 0;
-  obj.snoozedUntil    = obj.snoozedUntil    || null;
+  obj.snoozedUntil    = obj.snoozedUntil    || 0;
   obj.description     = obj.description     || '';
   obj.isDone          = obj.isDone          || false;
   obj.isRemoved       = obj.isRemoved       || false;
@@ -118,3 +119,4 @@ Tasks.setNeedsReviewed = function () {
     }
   });
 };
+

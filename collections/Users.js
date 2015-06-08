@@ -12,7 +12,7 @@
  *
  */
 
- Meteor.users.helpers({
+Meteor.users.helpers({
 
   setRemoved: function (bool) {
     return this.settings().setRemoved(bool);
@@ -45,6 +45,11 @@
     var settings = this.settings();
     if(!str || str === '') str = defaultEndOfDay;
     var time = Date.parseTime(str);
+    if(time < settings.startOfDay) {
+      Session.set('errorMessage', "You can't end before you start!");
+      $('.message').show();
+      return false;
+    }
     return settings.update({ endOfDay: time });
   },
 
@@ -60,6 +65,11 @@
     var settings = this.settings();
     if(!str || str === '') str = defaultStartOfDay;
     var time = Date.parseTime(str);
+    if(time > settings.endOfDay) {
+      Session.set('errorMessage', "You can't start after you end!");
+      $('.message').show();
+      return false;
+    }
     return settings.update({ startOfDay: time });
   },
 
@@ -89,6 +99,41 @@
     var selector = {};
     selector[key] = bool;
     return settings.update(selector);
+
+  maxTaskInterval: function () {
+    var settings = this.settings();
+    return settings.maxTaskInterval;
+  },
+
+  setMaxTaskInterval: function (time) {
+    var settings = this.settings();
+    if(!time || time === Infinity) return settings.update({ maxTaskInterval: Infinity });
+    time = _.bound(time, 0, 24*HOURS);
+    return settings.update({ maxTaskInterval: time });
+  },
+
+  maxTimePerTaskPerDay: function (str) {
+    var settings = this.settings();
+    return settings.maxTimePerTaskPerDay;
+  },
+
+  setMaxTimePerTaskPerDay: function (time) {
+    var settings = this.settings();
+    if(!time || time === Infinity) return settings.update({ maxTimePerTaskPerDay: Infinity });
+    time = _.bound(time, 0, 24*HOURS);
+    return settings.update({ maxTimePerTaskPerDay: time });
+  },
+
+  taskBreakInterval: function (str) {
+    var settings = this.settings();
+    return settings.taskBreakInterval;
+  },
+
+  setTaskBreakInterval: function (time) {
+    var settings = this.settings();
+    if(!time || time === Infinity) return settings.update({ taskBreakInterval: Infinity });
+    time = _.bound(time, 0, 24*HOURS);
+    return settings.update({ taskBreakInterval: time });
   },
 
   referred: function (bool) {
@@ -124,17 +169,13 @@
     else    return settings.taskCalendarId;
   },
 
-  recentTaskEvents: function () {
-    return Events.taskEvents.recent({ ownerId: this._id });
-  },
-
   tasks: function () {
     return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
   },
 
   sortedTasks: function () {
     var tasks = this.tasks().fetch();
-    tasks = Tasks.basicSort(tasks);
+    tasks     = Tasks.basicSort(tasks);
     return tasks;
   },
 
@@ -143,7 +184,8 @@
     _.extend(selector, {
       ownerId: this._id,
       isRemoved: { $ne: true },
-      isDone: { $ne: true }
+      isDone: { $ne: true },
+      snoozedUntil: { $lt: Date.now() }
     });
     return Tasks.find(selector, options);
   },
@@ -196,48 +238,14 @@
     var todos, todoList;
     todos     = this.sortedTodos();
     freetimes = freetimes || this.freetimes();
-    todoList  = Scheduler.generateTodoList(freetimes, todos, 'greedy');
+    todoList  = Scheduler.generateTodoList(freetimes, todos, {
+      algorithm:            'greedy',
+      maxTaskInterval:      this.maxTaskInterval(),
+      maxTimePerTaskPerDay: this.maxTimePerTaskPerDay(),
+      taskBreakInterval:    this.taskBreakInterval()
+    });
     return todoList;
   }
-
-  // appleCredentials: function () {
-  //   return AppleCredentials.findOne(this.appleCredentialsId);
-  // },
-
-  // setAppleCredentials: function (data) {
-  //   var cred = this.appleCredentials();
-
-  //   if(!cred) {
-  //     var id = AppleCredentials.insert(data);
-  //     this.update({ appleCredentialsId: id });
-  //   } else {
-  //     cred.update(data);
-  //   }
-  // },
-
-  // loginWithApple: function (user, pass) {
-  //   var cred = this.appleCredentials();
-  //   if( !cred && !(user && pass) ) {
-  //     return;
-  //   } else if( !cred ) {
-  //     AppleCredentials.insert({
-  //       appleId:  user,
-  //       password: pass
-  //     });
-  //   } else if( user && pass ) {
-  //     cred.update({
-  //       appleId:  user,
-  //       password: pass
-  //     });
-  //   } else {
-  //     cred.validate();
-  //   }
-  // },
-
-  // syncReminders: function () {
-  //   var cred = this.appleCredentials();
-  //   cred.syncReminders();
-  // },
 
 });
 

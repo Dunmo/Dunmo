@@ -1,0 +1,109 @@
+
+.task {
+  height: 64px;
+
+  &.overdue {
+    background-color: #FF6464;
+  }
+
+  &.at-risk {
+    background-color: #F8D667;
+  }
+
+  &.at-risk .fa,
+  &.overdue .fa {
+    color: white;
+
+    .options .fa {
+      color: white;
+    }
+  }
+
+  .media > .pull-left.action-btn-wrapper {
+    margin-top: 5px;
+    margin-right: 20px;
+  }
+
+  .media {
+    overflow: visible;
+    height: 44px;
+  }
+
+  .task-text {
+    color: #333;
+  }
+
+  input {
+    color: #2F3234;
+    padding: 5px;
+  }
+
+  .media-body {
+    overflow: visible;
+    margin-top: 6px;
+    height: 34px;
+  }
+
+  .media-body .task-text {
+    font-size: 16px;
+  }
+
+  .line-prop {
+    height: 32px;
+
+    &:not(:first-child) {
+      margin-left: 30px;
+    }
+
+    &.title {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    &.remaining {
+      min-width: 210px;
+
+      .fa {
+        font-size: 32px;
+        position: absolute;
+      }
+    }
+
+    &.due {
+      min-width: 300px;
+
+      .fa {
+        font-size: 32px;
+        top: 0;
+        position: absolute;
+      }
+    }
+
+    &.remaining .text-wrapper,
+    &.due .text-wrapper {
+      padding-top: 5px;
+      margin-left: 8px;
+    }
+
+    .fa-wrapper {
+      width: 32px;
+      height: 32px;
+      display: inline-block;
+      position: relative;
+    }
+  } /* .line-prop */
+
+  .media-body .options {
+    margin-top: 3px;
+    margin-left: 10px;
+    width: 32px;
+    padding: 0 12px 0;
+  }
+
+  .options .fa {
+    font-size: 32px;
+    width: 32px;
+    color: #DAE1E1;
+  }
+
+} /* .task */

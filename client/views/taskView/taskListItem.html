@@ -1,18 +1,34 @@
 <template name="taskListItem">
   <li id={{_id}} class="task list-group-item {{activeClass}}" data-target="#todo-{{listIndex}}">
-    <div class="media task">
-      <span class="pull-left thumb-double-width m-t-mini">
-        <a href="#" class="done btn btn-success"><i class="fa fa-check-square-o text-default"></i></a>
-        <a href="#" class="{{editBtnClass}} btn"><i class="fa {{faEditClass}} text-default"></i></a>
-      </span>
-      <div id="todo-{{listIndex}}" class="remove pull-right text-primary m-t-small">
-        <i class="fa fa-times fa-lg text text-red"></i>
-      </div>
+    <div class="media">
+      {{#unless editing}}
+        <span class="pull-left action-btn-wrapper">
+          <a href="#" class="done btn btn-success"><i class="fa fa-check text-default"></i></a>
+        </span>
+      {{/unless}}
       <div class="media-body">
         {{#if editing}}
-          <div><input class="todo full-width" type="text" value="{{inputString}}"></div>
+          <div><input autofocus class="todo full-width" type="text" value="{{inputString}}"></div>
         {{else}}
-          <h5 class="task-text">{{inputString}}</h5>
+          <div class="line-prop title pull-left">
+            <span class="task-text"><strong>{{importanceString}}</strong>&nbsp;&nbsp;{{title}}</span>
+          </div>
+          <div class="line-prop remaining pull-left">
+            <div class="fa-wrapper pull-left"><i class="fa fa-clock-o text"></i></div>
+            <div class="text-wrapper pull-left"><span class="task-text">{{remainingString}}</span></div>
+          </div>
+          <div class="line-prop due pull-left">
+            <div class="fa-wrapper pull-left"><i class="fa fa-calendar-o text"></i></div>
+            <div class="text-wrapper pull-left"><span class="task-text">{{dueAtString}}</span></div>
+          </div>
+          <span class="pull-right action-btn-wrapper">
+            <a href="#" class="edit btn btn-default"><i class="fa fa-edit text-default"></i></a>
+            {{#if snoozeActive}}
+              {{> snoozeInput}}
+            {{/if}}
+            <a href="#" class="snooze btn btn-warning"><i class="fa fa-moon-o text-default"></i></a>
+            <a href="#" class="remove btn btn-danger"><i class="fa fa-times text-default"></i></a>
+          </span>
         {{/if}}
       </div>
     </div>
