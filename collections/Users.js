@@ -99,6 +99,7 @@ Meteor.users.helpers({
     var selector = {};
     selector[key] = bool;
     return settings.update(selector);
+  },
 
   maxTaskInterval: function () {
     var settings = this.settings();
