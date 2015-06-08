@@ -1,5 +1,5 @@
 
-Template.taskView.rendered = function () {
+Template.taskView.onRendered(function () {
   if(Meteor.userId()){
     var user = Meteor.user();
     heap.identify({ name: user.profile.name,
@@ -10,8 +10,28 @@ Template.taskView.rendered = function () {
       user.setLastReviewed(Date.now());
     }
   }
+  Session.set('snoozeActive', '');
   resetTaskListItemWidths();
-};
+
+  function rerender () {
+    Session.set('renderTasks', true);
+    resetTaskListItemWidths();
+  };
+
+  function setTime () {
+    var time = Date.floorMinute(Date.now());
+    console.log('time: ', time);
+    if(Session.get('currentMinute') !== time) {
+      console.log('resetting...')
+      Session.set('renderTasks', false);
+      window.setTimeout(rerender, 1);
+      Session.set('currentMinute', time);
+    }
+    window.setTimeout(setTime, 1000)
+  };
+
+  window.setTimeout(setTime, 1000);
+});
 
 Template.taskView.helpers({
   tasks: function () {
@@ -40,6 +60,10 @@ Template.taskView.helpers({
 
   faSpinClass: function () {
     return Session.get('isSyncing') ? 'fa-spin' : '';
+  },
+
+  renderTasks: function () {
+    return Session.get('renderTasks');
   }
 
 });
