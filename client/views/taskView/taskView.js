@@ -20,9 +20,9 @@ Template.taskView.onRendered(function () {
 
   function setTime () {
     var time = Date.floorMinute(Date.now());
-    console.log('time: ', time);
     if(Session.get('currentMinute') !== time) {
       Session.set('renderTasks', false);
+      Session.set('currentMinute', time);
       window.setTimeout(rerender, 1);
     }
     window.setTimeout(setTime, 1000)
