@@ -10,6 +10,7 @@ Template.taskView.onRendered(function () {
       user.setLastReviewed(Date.now());
     }
   }
+  Session.set('lastRendered', Date.floorMinute(Date.now()));
   Session.set('snoozeActive', '');
   resetTaskListItemWidths();
 
@@ -21,9 +22,15 @@ Template.taskView.onRendered(function () {
   function setTime () {
     var time = Date.floorMinute(Date.now());
     if(Session.get('currentMinute') !== time) {
-      Session.set('renderTasks', false);
       Session.set('currentMinute', time);
-      window.setTimeout(rerender, 1);
+
+      var lastRendered = Number(Session.get('lastRendered'));
+      var tasks = Tasks.fetch({ snoozedUntil: { $gt: lastRendered } });
+      if(tasks.any(function (t) { return t.snoozedUntil < time; })) {
+        Session.set('renderTasks', false);
+        window.setTimeout(rerender, 1);
+        Session.set('lastRendered', time);
+      }
     }
     window.setTimeout(setTime, 1000)
   };
