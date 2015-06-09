@@ -169,8 +169,7 @@ Meteor.users.helpers({
     _.extend(selector, {
       ownerId: this._id,
       isRemoved: { $ne: true },
-      isDone: { $ne: true },
-      snoozedUntil: { $lt: Date.now() }
+      isDone: { $ne: true }
     });
     return Tasks.find(selector, options);
   },
@@ -181,13 +180,19 @@ Meteor.users.helpers({
     return todos;
   },
 
+  unsnoozedTodos: function (selector, options) {
+    selector = selector || {};
+    selector.snoozedUntil = { $lt: Date.now() };
+    return this.sortedTodos(selector, options);
+  },
+
   recentTodos: function () {
-    var recentTodos = this.sortedTodos({ needsReviewed: true });
+    var recentTodos = this.unsnoozedTodos({ needsReviewed: true });
     return recentTodos;
   },
 
   upcomingTodos: function () {
-    var upcomingTodos = this.sortedTodos({ needsReviewed: { $ne: true } });
+    var upcomingTodos = this.unsnoozedTodos({ needsReviewed: { $ne: true } });
     return upcomingTodos;
   },
 
