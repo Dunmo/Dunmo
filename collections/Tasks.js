@@ -106,6 +106,12 @@ Tasks.fetch = function (selector, options) {
   return tasks.fetch();
 };
 
+Tasks.fetchSnoozed = function (selector, options) {
+  selector = selector || {};
+  selector.snoozedUntil = { $exists: true };
+  return Tasks.fetch(selector, options);
+};
+
 Tasks.setNeedsReviewed = function () {
   var start      = Number(Date.startOfYesterday());
   var end        = Number(Date.endOfYesterday());
