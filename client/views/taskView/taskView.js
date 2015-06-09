@@ -41,11 +41,11 @@ Template.taskView.onRendered(function () {
 
 Template.taskView.helpers({
   tasks: function () {
-    return Meteor.user().sortedTodos();
+    return Meteor.user().unsnoozedTodos();
   },
 
   noTasks: function () {
-    return Meteor.user().sortedTodos().count() == 0;
+    return Meteor.user().unsnoozedTodos().count() == 0;
   },
 
   recentTasks: function () {
