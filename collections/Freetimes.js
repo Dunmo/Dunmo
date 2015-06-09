@@ -136,7 +136,6 @@ Freetimes._toFreetimes = function (busytimes, options) {
   minTime = options.minTime;
   maxTime = options.maxTime;
 
-  if(busytimes.length == 0) return [ { start: minTime, end: maxTime } ];
   busytimes     = this._addStartEndTimes(busytimes, options);
   busytimes     = this._coalesceBusytimes(busytimes);
   var freetimes = this._invertBusytimes(busytimes);
