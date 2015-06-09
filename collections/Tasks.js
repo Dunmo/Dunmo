@@ -108,7 +108,7 @@ Tasks.fetch = function (selector, options) {
 
 Tasks.fetchSnoozed = function (selector, options) {
   selector = selector || {};
-  selector.snoozedUntil = { $exists: true };
+  selector.snoozedUntil = { $ne: 0 };
   return Tasks.fetch(selector, options);
 };
 
