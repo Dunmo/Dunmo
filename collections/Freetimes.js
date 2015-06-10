@@ -131,8 +131,9 @@ Freetimes._invertBusytimes = function (busytimes) {
 
 Freetimes._toFreetimes = function (busytimes, options) {
   // inputs are in milliseconds, but task time is only per minute granularity
-  options.minTime = Date.floorMinute(options.minTime) + 1*MINUTES;
-  options.maxTime = Date.floorMinute(options.maxTime);
+  var granularity = Meteor.user().taskGranularity();
+  options.minTime = Date.floor(options.minTime, granularity);
+  options.maxTime = Date.floor(options.maxTime, granularity);
   minTime = options.minTime;
   maxTime = options.maxTime;
 
