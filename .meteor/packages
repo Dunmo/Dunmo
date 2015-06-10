@@ -28,7 +28,3 @@ digilord:faker
 tsega:bootstrap3-datetimepicker
 sanjo:jasmine
 velocity:html-reporter
-meteorhacks:npm
-
-
-npm-container
