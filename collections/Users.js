@@ -169,7 +169,7 @@ Meteor.users.helpers({
 
   sortedTodos: function (selector, options) {
     var todos = this.todos(selector, options).fetch();
-    todos     = Tasks.basicSort(todos);
+    todos     = Tasks.advancedSort(todos);
     return todos;
   },
 
