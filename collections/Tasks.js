@@ -13,6 +13,7 @@
  * isRemoved          : Boolean
  * timeLastMarkedDone : DateTime
  * description        : String
+ * dependsOn          : String[]
  *
  */
 
@@ -37,6 +38,18 @@ Tasks.helpers({
   setWillBeOverdue: Setters.setBool('willBeOverdue'),
 
   setSnoozedUntil: Setters.setProp('snoozedUntil'),
+
+  addDependency: function (dependencyIds) {
+    return this.update({ $addToSet: { dependsOn: dependencyIds } });
+  },
+
+  removeDependency: function (dependencyIds) {
+    return this.update({ $pullAll: { dependsOn: dependencyIds } });
+  },
+
+  removeAllDependencies: function () {
+    return this.update({ dependsOn: [] });
+  },
 
   markDone: function (bool) {
     return this.setIsDone(bool);
@@ -86,7 +99,7 @@ Tasks.create = function (str, obj) {
   obj.remaining       = obj.remaining       || res.remaining
   obj.spent           = obj.spent           || 0;
   obj.snoozedUntil    = obj.snoozedUntil    || 0;
-  obj.description     = obj.description     || '';
+  obj.dependsOn       = obj.dependsOn       || [];
   obj.isDone          = obj.isDone          || false;
   obj.isRemoved       = obj.isRemoved       || false;
   obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
