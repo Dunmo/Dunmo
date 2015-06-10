@@ -13,7 +13,7 @@
  * isRemoved          : Boolean
  * timeLastMarkedDone : DateTime
  * description        : String
- * dependsOn          : String[]
+ * dependencies       : String[]
  *
  */
 
@@ -40,15 +40,20 @@ Tasks.helpers({
   setSnoozedUntil: Setters.setProp('snoozedUntil'),
 
   addDependency: function (dependencyIds) {
-    return this.update({ $addToSet: { dependsOn: dependencyIds } });
+    return this.update({ $addToSet: { dependencies: dependencyIds } });
   },
 
   removeDependency: function (dependencyIds) {
-    return this.update({ $pullAll: { dependsOn: dependencyIds } });
+    return this.update({ $pullAll: { dependencies: dependencyIds } });
   },
 
   removeAllDependencies: function () {
-    return this.update({ dependsOn: [] });
+    return this.update({ dependencies: [] });
+  },
+
+  dependsOn: function (task) {
+    if(typeof task === 'string') return _.include(this.dependencies, task);
+    else                         return _.include(this.dependencies, task._id);
   },
 
   markDone: function (bool) {
@@ -71,6 +76,12 @@ Tasks.helpers({
   }
 
 });
+
+Tasks.advancedSort = function (tasks) {
+  tasks = Tasks.basicSort(tasks);
+  tasks = Tasks.topologicalSort(tasks);
+  return tasks;
+};
 
 Tasks.basicSort = function (tasks) {
   tasks = _.sortBy(tasks, 'remaining').reverse();
@@ -99,7 +110,7 @@ Tasks.create = function (str, obj) {
   obj.remaining       = obj.remaining       || res.remaining
   obj.spent           = obj.spent           || 0;
   obj.snoozedUntil    = obj.snoozedUntil    || 0;
-  obj.dependsOn       = obj.dependsOn       || [];
+  obj.dependencies    = obj.dependencies    || [];
   obj.isDone          = obj.isDone          || false;
   obj.isRemoved       = obj.isRemoved       || false;
   obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
@@ -135,6 +146,19 @@ Tasks.fetchSnoozed = function (selector, options) {
   return Tasks.fetch(selector, options);
 };
 
+Tasks.getDependencyEdges = function (tasks) {
+  var taskIds = _.pluck(tasks, '_id');
+  var edges = tasks.map(function (task) {
+    if(!task.dependencies) return [];
+    return task.dependencies.map(function (depId) {
+      if( ! taskIds.any(function (id) { return id === depId; }) ) return [];
+      else return [task._id, depId];
+    });
+  });
+  edges = _.flatten(edges);
+  return edges;
+};
+
 Tasks.setNeedsReviewed = function () {
   var start      = Number(Date.startOfYesterday());
   var end        = Number(Date.endOfYesterday());
@@ -149,3 +173,13 @@ Tasks.setNeedsReviewed = function () {
   });
 };
 
+Tasks.topologicalSort = function (tasks) {
+  tasks = tasks.reverse();
+  var nodes = _.pluck(tasks, '_id');
+  var edges = Tasks.getDependencyEdges(tasks);
+  var taskIds = Toposort.sortArray(nodes, edges);
+  tasks = taskIds.map(function (taskId) {
+    return _.find(tasks, { '_id': taskId });
+  });
+  return tasks.reverse();
+};
