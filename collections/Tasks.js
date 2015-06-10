@@ -1,18 +1,18 @@
 /*
  * Task
  * ==========
- * ownerId         : String
- * title           : String
- * importance      : <1,2,3>
- * dueAt           : DateTime
- * remaining       : Number<milliseconds>
- * spent           : Number<milliseconds>
- * snoozedUntil    : DateTime
- * needsReviewed   : Boolean
- * isDone          : Boolean
- * isRemoved       : Boolean
- * timeMarkedDone  : DateTime
- * description     : String
+ * ownerId            : String
+ * title              : String
+ * importance         : <1,2,3>
+ * dueAt              : DateTime
+ * remaining          : Number<milliseconds>
+ * spent              : Number<milliseconds>
+ * snoozedUntil       : DateTime
+ * needsReviewed      : Boolean
+ * isDone             : Boolean
+ * isRemoved          : Boolean
+ * timeLastMarkedDone : DateTime
+ * description        : String
  *
  */
 
@@ -29,7 +29,7 @@ Tasks.helpers({
     if(bool === this.isDone) return 1;
     var selector = {};
     selector[prop] = bool;
-    selector.timeMarkedDone = Date.nearestSecond();
+    if(bool) selector.timeLastMarkedDone = Date.nearestSecond();
     return this.update(selector);
   },
 
