@@ -27,8 +27,7 @@ Tasks.helpers({
   setIsDone: function (bool) {
     if(bool === undefined || bool === null) bool = true;
     if(bool === this.isDone) return 1;
-    var selector = {};
-    selector[prop] = bool;
+    var selector = { isDone: bool };
     if(bool) selector.timeLastMarkedDone = Date.now();
     return this.update(selector);
   },
