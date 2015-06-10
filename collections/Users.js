@@ -211,6 +211,18 @@ Meteor.users.helpers({
     return idObjects;
   },
 
+  tags: function (selector, options) {
+    var _selector = { ownerId: this._id, isRemoved: false };
+    selector = _.extend(_selector, selector);
+    return Tags.find(selector, options);
+  },
+
+  activeTags: function (selector, options) {
+    selector = selector || {};
+    selector.isActive = true;
+    return this.tags(selector, options)
+  },
+
   latestTodoTime: function () {
     var latestTodo = lodash.max(this.todos().fetch(), 'dueAt');
     var maxTime    = latestTodo.dueAt;
