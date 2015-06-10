@@ -85,6 +85,9 @@ Tasks.create = function(str, obj) {
   obj.isRemoved       = obj.isRemoved       || false;
   obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
 
+  var granularity = Meteor.users.findOne(obj.ownerId).taskGranularity();
+  obj.remaining   = Date.nearest(obj.remaining, granularity);
+
   if (!obj.title) {
     return { err: 'Title not found.' };
   } else if (!obj.importance) {
