@@ -12,6 +12,33 @@
  *
  */
 
+var settingsGetters = {};
+
+propsAndDefaults = [
+  ['startOfDay', Date.parseTime('08:00')],
+  ['endOfDay', Date.parseTime('22:00')],
+  ['taskCalendarId', null],
+  ['referrals', []],
+  ['isReferred', false],
+  ['lastReviewed', 0],
+  ['maxTaskInterval', 2*HOURS],
+  ['maxTimePerTaskPerDay', 6*HOURS],
+  ['taskBreakInterval', 30*MINUTES],
+  ['taskGranularity', 5*MINUTES]
+];
+
+propsAndDefaults.forEach(function (pair) {
+  var prop       = pair[0];
+  var defaultVal = pair[1];
+  settingsGetters[prop] = function () {
+    var settings = this.settings();
+    if(!settings[prop]) return defaultVal;
+    else                return settings[prop];
+  };
+});
+
+Meteor.users.helpers(settingsGetters)
+
 Meteor.users.helpers({
 
   setRemoved: function (bool) {
@@ -33,13 +60,6 @@ Meteor.users.helpers({
     return settings;
   },
 
-  endOfDay: function () {
-    var defaultEndOfDay = '22:00';
-    var settings = this.settings();
-    if(!settings.endOfDay) return Date.parseTime(defaultEndOfDay);
-    else                   return settings.endOfDay;
-  },
-
   setEndOfDay: function (str) {
     var defaultEndOfDay = '22:00';
     var settings = this.settings();
@@ -51,13 +71,6 @@ Meteor.users.helpers({
       return false;
     }
     return settings.update({ endOfDay: time });
-  },
-
-  startOfDay: function () {
-    var defaultStartOfDay = '08:00';
-    var settings = this.settings();
-    if(!settings.startOfDay) return Date.parseTime(defaultStartOfDay);
-    else                     return settings.startOfDay;
   },
 
   setStartOfDay: function (str) {
@@ -73,21 +86,10 @@ Meteor.users.helpers({
     return settings.update({ startOfDay: time });
   },
 
-  lastReviewed: function (date) {
-    var settings = this.settings();
-    if(!settings.lastReviewed) return 0;
-    else                       return settings.lastReviewed;
-  },
-
   setLastReviewed: function (date) {
     var settings = this.settings();
     var time = Number(new Date(date));
     return settings.update({ lastReviewed: time });
-  },
-
-  maxTaskInterval: function () {
-    var settings = this.settings();
-    return settings.maxTaskInterval;
   },
 
   setMaxTaskInterval: function (time) {
@@ -97,21 +99,11 @@ Meteor.users.helpers({
     return settings.update({ maxTaskInterval: time });
   },
 
-  maxTimePerTaskPerDay: function (str) {
-    var settings = this.settings();
-    return settings.maxTimePerTaskPerDay;
-  },
-
   setMaxTimePerTaskPerDay: function (time) {
     var settings = this.settings();
     if(!time || time === Infinity) return settings.update({ maxTimePerTaskPerDay: Infinity });
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ maxTimePerTaskPerDay: time });
-  },
-
-  taskBreakInterval: function (str) {
-    var settings = this.settings();
-    return settings.taskBreakInterval;
   },
 
   setTaskBreakInterval: function (time) {
@@ -147,12 +139,6 @@ Meteor.users.helpers({
     else    return null;
   },
 
-  taskCalendarId: function (str) {
-    var settings = this.settings();
-    if(str && str === settings.taskCalendarId) return false;
-    if(str) return settings.update({ taskCalendarId: str });
-    else    return settings.taskCalendarId;
-  },
 
   tasks: function () {
     return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
