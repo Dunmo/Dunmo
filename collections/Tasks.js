@@ -24,7 +24,14 @@ Tasks.helpers({
     return this.update(res);
   },
 
-  setIsDone: Setters.setBool('isDone'),
+  setIsDone: function (bool) {
+    if(bool === undefined || bool === null) bool = true;
+    if(bool === this.isDone) return 1;
+    var selector = {};
+    selector[prop] = bool;
+    selector.timeMarkedDone = Date.nearestSecond();
+    return this.update(selector);
+  },
 
   setNeedsReviewed: Setters.setBool('needsReviewed'),
 
