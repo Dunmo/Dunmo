@@ -87,6 +87,7 @@ Tasks.create = function(str, obj) {
 
   var granularity = Meteor.users.findOne(obj.ownerId).taskGranularity();
   obj.remaining   = Date.nearest(obj.remaining, granularity);
+  if(obj.remaining == 0) obj.remaining = granularity;
 
   if (!obj.title) {
     return { err: 'Title not found.' };
