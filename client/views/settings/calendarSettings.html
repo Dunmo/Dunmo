@@ -11,18 +11,25 @@
 
       <div class="row">
         <div class="time-header col-lg-12">
-          <section class="col-lg-6">
+          <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
                             data-placement="bottom"
                             data-original-title="A large tooltip.">
               Start of Work Day
             </a></h4>
           </section>
-          <section class="col-lg-6">
+          <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
                             data-placement="bottom"
                             title="A large tooltip.">
               End of Work Day
+            </a></h4>
+          </section>
+          <section class="col-lg-4">
+            <h4><a href="#" data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="A large tooltip.">
+              Task Granularity
             </a></h4>
           </section>
         </div>
@@ -31,7 +38,7 @@
       <div class="row">
         <div class="col-lg-12">
 
-          <section class="comment-list block col-lg-6">
+          <section class="comment-list block col-lg-3 col-lg-offset-1">
             <article class="comment-item media" id="comment-form">
               <section class="media-body">
                 <form action="" class="m-b-none form-inline">
@@ -46,7 +53,7 @@
             </article>
           </section>
 
-          <section class="comment-list block col-lg-6">
+          <section class="comment-list block col-lg-3 col-lg-offset-1">
             <article class="comment-item media" id="comment-form">
               <section class="media-body">
                 <form action="" class="m-b-none form-inline">
@@ -55,6 +62,29 @@
                     <span class="input-group-btn">
                       <button class="btn btn-primary end-time" type="button">SAVE</button>
                     </span>
+                  </div>
+                </form>
+              </section>
+            </article>
+          </section>
+
+          <section class="comment-list block col-lg-3 col-lg-offset-1">
+            <article class="comment-item media" id="comment-form">
+              <section class="media-body">
+                <form id="taskGranularityForm" class="m-b-none form-inline inline-mins">
+                  <div class="form-group">
+                    <div class="input-group inline">
+                      <input type="number"
+                             class="minutes form-control input-sm task-input-sm"
+                             id="taskGranularityMinutes"
+                             placeholder="-"
+                             min="0"
+                             value="{{taskGranularityMinutes}}">
+                      <div class="input-group-addon">min</div>
+                    </div>
+                    <div class="input-group-btn inline">
+                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
+                    </div>
                   </div>
                 </form>
               </section>
