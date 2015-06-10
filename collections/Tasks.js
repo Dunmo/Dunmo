@@ -29,7 +29,7 @@ Tasks.helpers({
     if(bool === this.isDone) return 1;
     var selector = {};
     selector[prop] = bool;
-    if(bool) selector.timeLastMarkedDone = Date.nearestSecond();
+    if(bool) selector.timeLastMarkedDone = Date.now();
     return this.update(selector);
   },
 
@@ -43,7 +43,7 @@ Tasks.helpers({
     return this.setIsDone(bool);
   },
 
-  split: function(milliseconds) {
+  split: function (milliseconds) {
     milliseconds = _.bound(milliseconds, 0, this.remaining);
 
     var firstTask = R.cloneDeep(this);
@@ -60,7 +60,7 @@ Tasks.helpers({
 
 });
 
-Tasks.basicSort = function(tasks) {
+Tasks.basicSort = function (tasks) {
   tasks = _.sortBy(tasks, 'remaining').reverse();
   tasks = _.sortBy(tasks, 'importance').reverse();
   tasks = _.sortBy(tasks, 'dueAt');
@@ -70,7 +70,7 @@ Tasks.basicSort = function(tasks) {
 // input: obj OR str, obj
 // if `str` is given, attrs will be parsed
 // otherwise, all attrs must be present in `obj`
-Tasks.create = function(str, obj) {
+Tasks.create = function (str, obj) {
   if(typeof(str) === 'object') {
     obj = str;
     str = '';
