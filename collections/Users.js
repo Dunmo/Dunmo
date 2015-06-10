@@ -41,10 +41,6 @@ Meteor.users.helpers(settingsGetters);
 
 Meteor.users.helpers({
 
-  setRemoved: function (bool) {
-    return this.settings().setRemoved(bool);
-  },
-
   primaryEmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
   },
@@ -58,6 +54,11 @@ Meteor.users.helpers({
     var settings = UserSettings.findOne({ userId: this._id });
     if(!settings) settings = this.createSettings();
     return settings;
+  },
+
+  setRemoved: function (bool) {
+    this.settings().setRemoved(bool);
+    return this.update({ isRemoved: bool });
   },
 
   setEndOfDay: function (str) {
@@ -113,6 +114,13 @@ Meteor.users.helpers({
     return settings.update({ taskBreakInterval: time });
   },
 
+  setTaskGranularity: function (time) {
+    var settings = this.settings();
+    if(!time || time === 0) return settings.update({ setTaskGranularity: 0 });
+    time = _.bound(time, 0, 24*HOURS);
+    return settings.update({ setTaskGranularity: time });
+  },
+
   referred: function (bool) {
     var settings = this.settings();
     if(bool !== undefined && bool !== null) {
@@ -138,7 +146,6 @@ Meteor.users.helpers({
     if(str) return settings.update({ $pull: { referrals: str } });
     else    return null;
   },
-
 
   tasks: function () {
     return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
