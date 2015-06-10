@@ -12,9 +12,7 @@
  *
  */
 
-var settingsGetters = {};
-
-propsAndDefaults = [
+var settingsPropsAndDefaults = [
   ['startOfDay', Date.parseTime('08:00')],
   ['endOfDay', Date.parseTime('22:00')],
   ['taskCalendarId', null],
@@ -27,7 +25,9 @@ propsAndDefaults = [
   ['taskGranularity', 5*MINUTES]
 ];
 
-propsAndDefaults.forEach(function (pair) {
+var settingsGetters = {};
+
+settingsPropsAndDefaults.forEach(function (pair) {
   var prop       = pair[0];
   var defaultVal = pair[1];
   settingsGetters[prop] = function () {
@@ -37,7 +37,7 @@ propsAndDefaults.forEach(function (pair) {
   };
 });
 
-Meteor.users.helpers(settingsGetters)
+Meteor.users.helpers(settingsGetters);
 
 Meteor.users.helpers({
 
