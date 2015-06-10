@@ -36,7 +36,6 @@ _.each([Calendars, Events, Freetimes, Subscribers, Tasks, UserSettings, Meteor.u
         });
         data = { $set: data };
       }
-      // console.log('updating: ', this, data.$set);
       return collection.update(this._id, data);
     }
 

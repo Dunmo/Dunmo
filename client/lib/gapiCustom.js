@@ -182,6 +182,8 @@ gapi.getEvents = function (options, callback) {
         gapi.client.calendar.events.list(obj).execute(_callback);
       } else {
         events = gapi.normalizeEvents(events);
+        console.log('events: ', events);
+        console.log('options: ', options);
         events = _.reject(events, function (event) {
           return event.start < options.start;
         });
