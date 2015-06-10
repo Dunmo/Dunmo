@@ -70,6 +70,14 @@ Template.taskView.helpers({
 
   renderTasks: function () {
     return Session.get('renderTasks');
+  },
+
+  anyActiveTags: function () {
+    return user.activeTags().count();
+  },
+
+  activeTags: function () {
+    return user.activeTags();
   }
 
 });
