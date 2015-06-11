@@ -29,7 +29,18 @@
               {{#if anyRecentTasks}} Upcoming Tasks {{else}} Dunmo Tasks {{/if}}
             </header>
             <ul class="list-group">
-            {{> emptyTaskListNotice}}
+            {{#if anyRecentTasks}}
+              {{#unless anyOtherTasks}}
+                {{> emptyTaskListNotice
+                    message="Yay! You don't have any other tasks. Enjoy your freedom. :)"}}
+              {{/unless}}
+            {{else}}
+              {{#if noTasks}}
+                {{> emptyTaskListNotice
+                    message="Yay! You don't have any tasks. Enjoy your freedom. :)"}}
+              {{/if}}
+            {{/if}}
+
             {{#if anyRecentTasks}}
               {{#each upcomingTasks}}
                 {{> taskListItem}}
