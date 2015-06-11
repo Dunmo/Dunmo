@@ -193,11 +193,15 @@ gapi.getEvents = function (options, callback) {
     });
   };
 
-  if(!options.calendarId) gapi.getTaskCalendar(function(cal) {
-    console.log('cal: ', cal);
-    options.calendarId = cal.googleCalendarId || cal.id;
+  if(!options.calendarId) {
+    gapi.getTaskCalendar(function(cal) {
+      options.calendarId = cal.googleCalendarId || cal.id;
+      _local();
+    });
+  }
+  else {
     _local();
-  })
+  }
 };
 
 gapi.getTaskEvents = function (options, callback) {
