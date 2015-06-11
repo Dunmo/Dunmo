@@ -35,6 +35,10 @@ Template.calendarSettings.helpers({
     return Meteor.user().hasOnboarded('calendarSettings');
   },
 
+  taskGranularityMinutes: function () {
+    return Date.minutes(Meteor.user().taskGranularity());
+  },
+
   maxTaskIntervalHours: function () {
     return Date.hours(Meteor.user().maxTaskInterval());
   },
@@ -115,6 +119,22 @@ Template.calendarSettings.events({
     var hours = Number($parent.find('input.hours').val());
     var mins  = Number($parent.find('input.minutes').val());
     var val   = hours*HOURS + mins*MINUTES;
+
+    var ret   = Meteor.user()['set' + prop](val);
+    if(ret) gapi.syncTasksWithCalendar();
+  },
+
+  'keydown form.inline-mins input, click form.inline-mins .btn.save': function (e) {
+    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
+    Session.set('errorMessage', '');
+
+    var $parent = $(e.target).parents('form');
+    var prop  = $parent.attr('id');
+    prop      = prop.substring(0, prop.length-4); // remove 'Form' from the end
+    prop      = _.capitalize(prop);
+    // var hours = Number($parent.find('input.hours').val());
+    var mins  = Number($parent.find('input.minutes').val());
+    var val   = mins*MINUTES;
 
     var ret   = Meteor.user()['set' + prop](val);
     if(ret) gapi.syncTasksWithCalendar();

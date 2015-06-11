@@ -168,28 +168,36 @@ gapi.deleteCalendar = function (id) {
 gapi.getEvents = function (options, callback) {
   var calendarId, events, obj, timeMin, timeMax;
 
-  obj = { calendarId: options.calendarId };
-  if(options.start) obj.timeMin = Date.formatGoog(new Date(options.start));
-  if(options.end)   obj.timeMax = Date.formatGoog(new Date(options.end));
+  function _local () {
+    obj = { calendarId: options.calendarId };
+    if(options.start) obj.timeMin = Date.formatGoog(new Date(options.start));
+    if(options.end)   obj.timeMax = Date.formatGoog(new Date(options.end));
 
-  events = [];
+    events = [];
 
-  gapi.onAuth(function () {
-    var _callback = function(res) {
-      events = events.concat(res.items);
-      if(res.nextPageToken) {
-        obj.pageToken = res.nextPageToken;
-        gapi.client.calendar.events.list(obj).execute(_callback);
-      } else {
-        events = gapi.normalizeEvents(events);
-        events = _.reject(events, function (event) {
-          return event.start < options.start;
-        });
-        callback(events);
-      }
-    };
-    gapi.client.calendar.events.list(obj).execute(_callback);
-  });
+    gapi.onAuth(function () {
+      var _callback = function(res) {
+        if(res.items) events = events.concat(res.items);
+        if(res.nextPageToken) {
+          obj.pageToken = res.nextPageToken;
+          gapi.client.calendar.events.list(obj).execute(_callback);
+        } else {
+          events = gapi.normalizeEvents(events);
+          events = _.reject(events, function (event) {
+            return event.start < options.start;
+          });
+          callback(events);
+        }
+      };
+      gapi.client.calendar.events.list(obj).execute(_callback);
+    });
+  };
+
+  if(!options.calendarId) gapi.getTaskCalendar(function(cal) {
+    console.log('cal: ', cal);
+    options.calendarId = cal.googleCalendarId || cal.id;
+    _local();
+  })
 };
 
 gapi.getTaskEvents = function (options, callback) {
@@ -205,8 +213,10 @@ gapi.getAllFutureFromCalendar = function (callback) {
 };
 
 gapi.getCurrentTaskEvent = function (callback) {
-  var min = Date.floor(Date.now(), 5*MINUTES);
-  var max = Date.ceiling(Date.now(), 5*MINUTES);
+  var granularity = Meteor.user().taskGranularity();
+  var now = Date.now();
+  var min = Date.floor(now, granularity);
+  var max = Date.ceiling(now, granularity);
 
   min = Date.formatGoog(min);
   max = Date.formatGoog(max);
@@ -235,16 +245,21 @@ gapi.getCurrentTaskEvent = function (callback) {
 gapi.fixCurrentTaskEvent = function (startingFrom, callback) {
   gapi.getCurrentTaskEvent(function(currEvent) {
     if(currEvent) {
-      var doc       = Events.findOne(Events.createOrUpdate(currEvent))
-      var taskId    = doc.taskId;
-      var firstTask = Meteor.user().sortedTodos()[0];
+      var doc         = Events.findOne(Events.createOrUpdate(currEvent))
+      var taskId      = doc.taskId;
+      var user        = Meteor.user();
+      var firstTask   = user.sortedTodos()[0];
+      var granularity = user.taskGranularity();
 
-      // if current task is first task
-      if( firstTask && taskId === firstTask._id ) {
+      // current task is first task
+      if(firstTask && taskId === firstTask._id) {
         // since it's the first task, we remove the old event, and set the
         // new start time back to the start of the current event. it will be
         // replaced accordingly during the todoList creation
         startingFrom = doc.start;
+        gapi.removeEventFromCalendar(currEvent.id);
+      }
+      else if(startingFrom - doc.start < granularity) { // event is too short
         gapi.removeEventFromCalendar(currEvent.id);
       }
       else {
@@ -497,6 +512,9 @@ gapi.syncTasksWithCalendar = function () {
     }
     gapi.getTaskCalendar(function () {
       var startingFrom = Date.now();
+      var granularity  = Meteor.user().taskGranularity();
+      startingFrom     = Date.nearest(startingFrom, granularity);
+      console.log('startingFrom: ', startingFrom);
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
         // should not delete current task event

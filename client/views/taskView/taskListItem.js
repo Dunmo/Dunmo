@@ -75,6 +75,7 @@ Template.taskListItem.events({
       var val = $("#datetimepicker").val();
       val = Number(new Date(val));
       this.setSnoozedUntil(val);
+      gapi.syncTasksWithCalendar();
       Session.set('snoozeActive', '');
     } else {
       Session.set('snoozeActive', this._id);

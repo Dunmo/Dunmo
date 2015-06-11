@@ -2,13 +2,18 @@
 /*
  * UserSettings
  * ==================
- * userId         : String
- * startOfDay     : Number (Duration)
- * endOfDay       : Number (Duration)
- * taskCalendarId : String
- * referrals      : String[]
- * isReferred     : Boolean
+ * userId               : String
+ * startOfDay           : Number<milliseconds>
+ * endOfDay             : Number<milliseconds>
+ * taskCalendarId       : String
+ * referrals            : String[]
+ * isReferred           : Boolean
  * hasOnboarded   : Object <flow:Boolean>
+ * lastReviewed         : Date
+ * maxTaskInterval      : Number<milliseconds>
+ * maxTimePerTaskPerDay : Number<milliseconds>
+ * taskBreakInterval    : Number<milliseconds>
+ * taskGranularity      : Number<milliseconds>
  *
  */
 
@@ -27,13 +32,6 @@ UserSettings.create = function(obj) {
       return UserSettings.create(o);
     });
   }
-
-  obj.startOfDay           = obj.startOfDay           || Date.parseTime('08:00');
-  obj.endOfDay             = obj.endOfDay             || Date.parseTime('22:00');
-  obj.maxTaskInterval      = obj.maxTaskInterval      || 2*HOURS;
-  obj.maxTimePerTaskPerDay = obj.maxTimePerTaskPerDay || 6*HOURS;
-  obj.taskBreakInterval    = obj.taskBreakInterval    || 30*MINUTES;
-  obj.referrals            = obj.referrals            || [];
 
   var curr = UserSettings.findOne({ userId: obj.userId });
   if(curr) {

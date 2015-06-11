@@ -12,11 +12,34 @@
  *
  */
 
-Meteor.users.helpers({
+var settingsPropsAndDefaults = [
+  ['startOfDay', Date.parseTime('08:00')],
+  ['endOfDay', Date.parseTime('22:00')],
+  ['taskCalendarId', null],
+  ['referrals', []],
+  ['isReferred', false],
+  ['lastReviewed', 0],
+  ['maxTaskInterval', 2*HOURS],
+  ['maxTimePerTaskPerDay', 6*HOURS],
+  ['taskBreakInterval', 30*MINUTES],
+  ['taskGranularity', 5*MINUTES]
+];
 
-  setRemoved: function (bool) {
-    return this.settings().setRemoved(bool);
-  },
+var settingsGetters = {};
+
+settingsPropsAndDefaults.forEach(function (pair) {
+  var prop       = pair[0];
+  var defaultVal = pair[1];
+  settingsGetters[prop] = function () {
+    var settings = this.settings();
+    if(!settings[prop]) return defaultVal;
+    else                return settings[prop];
+  };
+});
+
+Meteor.users.helpers(settingsGetters);
+
+Meteor.users.helpers({
 
   primaryEmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
@@ -33,11 +56,9 @@ Meteor.users.helpers({
     return settings;
   },
 
-  endOfDay: function () {
-    var defaultEndOfDay = '22:00';
-    var settings = this.settings();
-    if(!settings.endOfDay) return Date.parseTime(defaultEndOfDay);
-    else                   return settings.endOfDay;
+  setRemoved: function (bool) {
+    this.settings().setRemoved(bool);
+    return this.update({ isRemoved: bool });
   },
 
   setEndOfDay: function (str) {
@@ -53,13 +74,6 @@ Meteor.users.helpers({
     return settings.update({ endOfDay: time });
   },
 
-  startOfDay: function () {
-    var defaultStartOfDay = '08:00';
-    var settings = this.settings();
-    if(!settings.startOfDay) return Date.parseTime(defaultStartOfDay);
-    else                     return settings.startOfDay;
-  },
-
   setStartOfDay: function (str) {
     var defaultStartOfDay = '08:00';
     var settings = this.settings();
@@ -73,37 +87,10 @@ Meteor.users.helpers({
     return settings.update({ startOfDay: time });
   },
 
-  lastReviewed: function (date) {
-    var settings = this.settings();
-    if(!settings.lastReviewed) return 0;
-    else                       return settings.lastReviewed;
-  },
-
   setLastReviewed: function (date) {
     var settings = this.settings();
     var time = Number(new Date(date));
     return settings.update({ lastReviewed: time });
-  },
-
-  hasOnboarded: function (key) {
-    var settings = this.settings();
-    if(!settings.hasOnboarded) settings.hasOnboarded = {};
-    if(key === null || key === undefined) return settings.hasOnboarded;
-    else                                  return settings.hasOnboarded[key];
-  },
-
-  setHasOnboarded: function (key, bool) {
-    if(bool === undefined || bool === null) bool = true;
-    var settings = this.settings();
-    key = 'hasOnboarded.' + key;
-    var selector = {};
-    selector[key] = bool;
-    return settings.update(selector);
-  },
-
-  maxTaskInterval: function () {
-    var settings = this.settings();
-    return settings.maxTaskInterval;
   },
 
   setMaxTaskInterval: function (time) {
@@ -113,11 +100,6 @@ Meteor.users.helpers({
     return settings.update({ maxTaskInterval: time });
   },
 
-  maxTimePerTaskPerDay: function (str) {
-    var settings = this.settings();
-    return settings.maxTimePerTaskPerDay;
-  },
-
   setMaxTimePerTaskPerDay: function (time) {
     var settings = this.settings();
     if(!time || time === Infinity) return settings.update({ maxTimePerTaskPerDay: Infinity });
@@ -125,16 +107,18 @@ Meteor.users.helpers({
     return settings.update({ maxTimePerTaskPerDay: time });
   },
 
-  taskBreakInterval: function (str) {
-    var settings = this.settings();
-    return settings.taskBreakInterval;
-  },
-
   setTaskBreakInterval: function (time) {
     var settings = this.settings();
     if(!time || time === Infinity) return settings.update({ taskBreakInterval: Infinity });
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ taskBreakInterval: time });
+  },
+
+  setTaskGranularity: function (time) {
+    var settings = this.settings();
+    if(!time || time === 0) return settings.update({ setTaskGranularity: 0 });
+    time = _.bound(time, 0, 24*HOURS);
+    return settings.update({ setTaskGranularity: time });
   },
 
   referred: function (bool) {
@@ -163,13 +147,6 @@ Meteor.users.helpers({
     else    return null;
   },
 
-  taskCalendarId: function (str) {
-    var settings = this.settings();
-    if(str && str === settings.taskCalendarId) return false;
-    if(str) return settings.update({ taskCalendarId: str });
-    else    return settings.taskCalendarId;
-  },
-
   tasks: function () {
     return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
   },
@@ -185,25 +162,30 @@ Meteor.users.helpers({
     _.extend(selector, {
       ownerId: this._id,
       isRemoved: { $ne: true },
-      isDone: { $ne: true },
-      snoozedUntil: { $lt: Date.now() }
+      isDone: { $ne: true }
     });
     return Tasks.find(selector, options);
   },
 
   sortedTodos: function (selector, options) {
     var todos = this.todos(selector, options).fetch();
-    todos     = Tasks.basicSort(todos);
+    todos     = Tasks.advancedSort(todos);
     return todos;
   },
 
+  unsnoozedTodos: function (selector, options) {
+    selector = selector || {};
+    selector.snoozedUntil = { $lt: Date.now() };
+    return this.sortedTodos(selector, options);
+  },
+
   recentTodos: function () {
-    var recentTodos = this.sortedTodos({ needsReviewed: true });
+    var recentTodos = this.unsnoozedTodos({ needsReviewed: true });
     return recentTodos;
   },
 
   upcomingTodos: function () {
-    var upcomingTodos = this.sortedTodos({ needsReviewed: { $ne: true } });
+    var upcomingTodos = this.unsnoozedTodos({ needsReviewed: { $ne: true } });
     return upcomingTodos;
   },
 
@@ -227,6 +209,18 @@ Meteor.users.helpers({
       return { id: calendar.googleCalendarId };
     });
     return idObjects;
+  },
+
+  tags: function (selector, options) {
+    var _selector = { ownerId: this._id, isRemoved: false };
+    selector = _.extend(_selector, selector);
+    return Tags.find(selector, options);
+  },
+
+  activeTags: function (selector, options) {
+    selector = selector || {};
+    selector.isActive = true;
+    return this.tags(selector, options)
   },
 
   latestTodoTime: function () {

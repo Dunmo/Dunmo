@@ -7,41 +7,45 @@
   }
 }
 
-form.inline-hrs-mins > .form-group {
-  height: 30px;
-
-  &:not(:first-child) {
-    margin-left: 20px;
-  }
-
-  > label:not(.inline) {
-    display: block;
-  }
-
-  > label.inline {
-    margin-left: 5px;
-  }
-
-  > .input-group {
-    display: inline-block;
-    max-width: 110px;
-    margin: 0;
-  }
-
-  > .input-group > .input-group-addon {
-    width: 0;
+form.inline-hrs-mins,
+form.inline-mins {
+  > .form-group {
     height: 30px;
-  }
 
-  > .btn.add-task {
-    margin-top: 23px;
-  }
+    &:not(:first-child) {
+      margin-left: 20px;
+    }
 
-  .input-group-btn:first-child,
-  .input-group-btn:last-child {
-    > .btn {
-      margin-bottom: 24px;
-      border-radius: 3px;
+    > label:not(.inline) {
+      display: block;
+    }
+
+    > label.inline {
+      margin-left: 5px;
+    }
+
+    > .input-group {
+      display: inline-block;
+      max-width: 110px;
+      margin: 0;
+      vertical-align: initial;
+    }
+
+    > .input-group > .input-group-addon {
+      width: 0;
+      height: 30px;
+    }
+
+    > .btn.add-task {
+      margin-top: 23px;
+    }
+
+    .input-group-btn:first-child,
+    .input-group-btn:last-child {
+      > .btn {
+        margin-bottom: 24px;
+        border-radius: 3px;
+      }
     }
   }
 }

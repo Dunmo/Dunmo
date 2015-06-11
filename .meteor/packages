@@ -25,6 +25,7 @@ meteorhacks:fast-render
 msavin:jetsetter
 accounts-password
 digilord:faker
+tsega:bootstrap3-datetimepicker
 sanjo:jasmine
 velocity:html-reporter
-tsega:bootstrap3-datetimepicker
+velocity:console-reporter
