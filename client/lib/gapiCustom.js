@@ -168,30 +168,36 @@ gapi.deleteCalendar = function (id) {
 gapi.getEvents = function (options, callback) {
   var calendarId, events, obj, timeMin, timeMax;
 
-  obj = { calendarId: options.calendarId };
-  if(options.start) obj.timeMin = Date.formatGoog(new Date(options.start));
-  if(options.end)   obj.timeMax = Date.formatGoog(new Date(options.end));
+  function _local () {
+    obj = { calendarId: options.calendarId };
+    if(options.start) obj.timeMin = Date.formatGoog(new Date(options.start));
+    if(options.end)   obj.timeMax = Date.formatGoog(new Date(options.end));
 
-  events = [];
+    events = [];
 
-  gapi.onAuth(function () {
-    var _callback = function(res) {
-      events = events.concat(res.items);
-      if(res.nextPageToken) {
-        obj.pageToken = res.nextPageToken;
-        gapi.client.calendar.events.list(obj).execute(_callback);
-      } else {
-        events = gapi.normalizeEvents(events);
-        console.log('events: ', events);
-        console.log('options: ', options);
-        events = _.reject(events, function (event) {
-          return event.start < options.start;
-        });
-        callback(events);
-      }
-    };
-    gapi.client.calendar.events.list(obj).execute(_callback);
-  });
+    gapi.onAuth(function () {
+      var _callback = function(res) {
+        if(res.items) events = events.concat(res.items);
+        if(res.nextPageToken) {
+          obj.pageToken = res.nextPageToken;
+          gapi.client.calendar.events.list(obj).execute(_callback);
+        } else {
+          events = gapi.normalizeEvents(events);
+          events = _.reject(events, function (event) {
+            return event.start < options.start;
+          });
+          callback(events);
+        }
+      };
+      gapi.client.calendar.events.list(obj).execute(_callback);
+    });
+  };
+
+  if(!options.calendarId) gapi.getTaskCalendar(function(cal) {
+    console.log('cal: ', cal);
+    options.calendarId = cal.googleCalendarId || cal.id;
+    _local();
+  })
 };
 
 gapi.getTaskEvents = function (options, callback) {
