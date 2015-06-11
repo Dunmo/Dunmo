@@ -193,11 +193,15 @@ gapi.getEvents = function (options, callback) {
     });
   };
 
-  if(!options.calendarId) gapi.getTaskCalendar(function(cal) {
-    console.log('cal: ', cal);
-    options.calendarId = cal.googleCalendarId || cal.id;
+  if(!options.calendarId) {
+    gapi.getTaskCalendar(function(cal) {
+      options.calendarId = cal.googleCalendarId || cal.id;
+      _local();
+    });
+  }
+  else {
     _local();
-  })
+  }
 };
 
 gapi.getTaskEvents = function (options, callback) {
@@ -514,7 +518,6 @@ gapi.syncTasksWithCalendar = function () {
       var startingFrom = Date.now();
       var granularity  = Meteor.user().taskGranularity();
       startingFrom     = Date.nearest(startingFrom, granularity);
-      console.log('startingFrom: ', startingFrom);
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
         // should not delete current task event
