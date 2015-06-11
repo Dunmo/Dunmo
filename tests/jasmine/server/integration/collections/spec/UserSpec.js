@@ -1,12 +1,4 @@
 
-function fakeUser () {
-  var userId = Accounts.createUser({
-    email: faker.internet.email(),
-    password: 'password'
-  });
-  return Meteor.users.findOne(userId);
-};
-
 describe('user', function () {
 
   var _user, _userEmail;
@@ -110,7 +102,8 @@ describe('user', function () {
     var pickId = function (task) { return task.id; };
 
     beforeEach(function () {
-      _user      = fakeUser();
+      _user      = TestHelpers.fakeUser();
+      var userId = _user._id;
       var tasks  = [
         { id: 1, ownerId: userId,   isRemoved: false },
         { id: 2, ownerId: userId,   isRemoved: true  },
@@ -144,7 +137,7 @@ describe('user', function () {
     var _user;
 
     beforeEach(function () {
-      _user      = fakeUser();
+      _user      = TestHelpers.fakeUser();
       var userId = _user._id;
       var tasks  = [
         { id: 1, ownerId: userId,   isDone: true,  isRemoved: false },
@@ -189,7 +182,7 @@ describe('user', function () {
     var _user;
 
     beforeEach(function () {
-      _user      = fakeUser();
+      _user      = TestHelpers.fakeUser();
       var userId = _user._id;
       var tasks  = [
         { id: 1, ownerId: userId },
@@ -198,9 +191,9 @@ describe('user', function () {
       tasks.forEach(function (task) { Tasks.insert(task); });
       var recentTask = Tasks.findOne();
 
-      Events.insert({
-        taskId:
-      });
+      // Events.insert({
+      //   taskId:
+      // });
     });
 
     it('should only return tasks owned by this user', function () {

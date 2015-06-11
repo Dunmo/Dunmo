@@ -4,7 +4,8 @@ describe('task', function () {
   var _task;
 
   beforeEach(function () {
-    var taskId = Tasks.create('test task for 2 hours due next friday important');
+    var user   = TestHelpers.fakeUser();
+    var taskId = Tasks.create('test task for 2 hours due next friday important', { ownerId: user._id });
     _task      = Tasks.findOne(taskId);
   });
 
@@ -40,10 +41,10 @@ describe('task', function () {
 
   });
 
-  describe('setDone', function () {
+  describe('setIsDone', function () {
 
     it('should default to setting .isDone = true', function () {
-      _task.setDone();
+      _task.setIsDone();
 
       var expectedDefault = true;
       expect(_task.isDone).toEqual(expectedDefault);
@@ -56,14 +57,14 @@ describe('task', function () {
       var updatedTask, expectedDefault;
 
       expectedDefault = true;
-      _task.setDone(expectedDefault);
+      _task.setIsDone(expectedDefault);
       expect(_task.isDone).toEqual(expectedDefault);
 
       updatedTask = Tasks.findOne(_task._id);
       expect(updatedTask.isDone).toEqual(expectedDefault);
 
       expectedDefault = false;
-      _task.setDone(expectedDefault);
+      _task.setIsDone(expectedDefault);
       expect(_task.isDone).toEqual(expectedDefault);
 
       updatedTask = Tasks.findOne(_task._id);
