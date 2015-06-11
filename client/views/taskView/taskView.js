@@ -32,9 +32,9 @@ Template.taskView.onRendered(function () {
       user.setLastReviewed(Date.now());
     }
 
-    $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
-      $(".overlay").addClass("hidden")
-    });
+    // $(document).on("onboarded:flow:afterComplete", function (e, flow, step) {
+    //   $(".overlay").addClass("hidden")
+    // });
   }
   Session.set('lastRendered', Date.floorMinute(Date.now()));
   Session.set('snoozeActive', '');
