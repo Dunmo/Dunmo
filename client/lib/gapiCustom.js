@@ -514,7 +514,6 @@ gapi.syncTasksWithCalendar = function () {
       var startingFrom = Date.now();
       var granularity  = Meteor.user().taskGranularity();
       startingFrom     = Date.nearest(startingFrom, granularity);
-      console.log('startingFrom: ', startingFrom);
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
         // should not delete current task event
