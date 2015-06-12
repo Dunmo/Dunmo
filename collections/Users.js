@@ -111,28 +111,28 @@ Meteor.users.helpers({
 
   setMaxTaskInterval: function (time) {
     var settings = this.settings();
-    if(!time || time === Infinity) return settings.update({ maxTaskInterval: Infinity });
+    if(!time) time = 24*HOURS;
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ maxTaskInterval: time });
   },
 
   setMaxTimePerTaskPerDay: function (time) {
     var settings = this.settings();
-    if(!time || time === Infinity) return settings.update({ maxTimePerTaskPerDay: Infinity });
+    if(!time) time = 24*HOURS;
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ maxTimePerTaskPerDay: time });
   },
 
   setTaskBreakInterval: function (time) {
     var settings = this.settings();
-    if(!time || time === Infinity) return settings.update({ taskBreakInterval: Infinity });
+    if(!time) time = 0;
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ taskBreakInterval: time });
   },
 
   setTaskGranularity: function (time) {
     var settings = this.settings();
-    if(!time || time === 0) return settings.update({ taskGranularity: 0 });
+    if(!time) time = 0;
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ taskGranularity: time });
   },
