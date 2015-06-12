@@ -94,11 +94,16 @@ Tasks.basicSort = function (tasks) {
 // if `str` is given, attrs will be parsed
 // otherwise, all attrs must be present in `obj`
 Tasks.create = function (str, obj) {
-  if(typeof(str) === 'object') {
+  if(Array.isArray(str)) {
+    return str.map(function(taskStr) {
+      return Tasks.create(taskStr, obj);
+    });
+  } else if(typeof(str) === 'object') {
     obj = str;
     str = '';
   }
   if(!obj) obj = {};
+  obj = R.cloneDeep(obj);
 
   var res = Natural.parseTask(str);
 
