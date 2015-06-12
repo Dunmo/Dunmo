@@ -38,7 +38,9 @@ Template.taskListItem.helpers({
   },
 
   dueAtString: function () {
-    return moment(this.dueAt).format('dddd, MMM Do [at] h:mm a');
+    var due = this.dueAt;
+    if(due == Infinity) return 'someday';
+    return moment().format('dddd, MMM Do [at] h:mm a');
   },
 
   titleWidth: function () {
@@ -58,11 +60,13 @@ Template.taskListItem.helpers({
 Template.taskListItem.events({
   'click .remove.btn': function (e) {
     this.remove();
+    if(this.isOnboardingTask) setOnboardingTasks();
     gapi.syncTasksWithCalendar();
   },
 
   'click .done.btn': function (e) {
     this.markDone();
+    if(this.isOnboardingTask) setOnboardingTasks();
     gapi.syncTasksWithCalendar();
   },
 
@@ -75,6 +79,7 @@ Template.taskListItem.events({
       var val = $("#datetimepicker").val();
       val = Number(new Date(val));
       this.setSnoozedUntil(val);
+      if(this.isOnboardingTask) setOnboardingTasks();
       gapi.syncTasksWithCalendar();
       Session.set('snoozeActive', '');
     } else {
