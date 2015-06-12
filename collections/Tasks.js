@@ -11,6 +11,7 @@
  * needsReviewed      : Boolean
  * isDone             : Boolean
  * isRemoved          : Boolean
+ * isOnboardingTask   : Boolean
  * timeLastMarkedDone : DateTime
  * description        : String
  * dependencies       : String[]
@@ -107,18 +108,19 @@ Tasks.create = function (str, obj) {
 
   var res = Natural.parseTask(str);
 
-  obj.ownerId         = obj.ownerId         || null; // Meteor.userId();
-  obj.inputString     = obj.inputString     || str;
-  obj.title           = obj.title           || res.title;
-  obj.importance      = obj.importance      || res.importance;
-  obj.dueAt           = obj.dueAt           || res.dueAt;
-  obj.remaining       = obj.remaining       || res.remaining
-  obj.spent           = obj.spent           || 0;
-  obj.snoozedUntil    = obj.snoozedUntil    || 0;
-  obj.dependencies    = obj.dependencies    || [];
-  obj.isDone          = obj.isDone          || false;
-  obj.isRemoved       = obj.isRemoved       || false;
-  obj.lastUpdatedAt   = obj.lastUpdatedAt   || Date.now();
+  obj.ownerId          = obj.ownerId          || null; // Meteor.userId();
+  obj.inputString      = obj.inputString      || str;
+  obj.title            = obj.title            || res.title;
+  obj.importance       = obj.importance       || res.importance;
+  obj.dueAt            = obj.dueAt            || res.dueAt;
+  obj.remaining        = obj.remaining        || res.remaining
+  obj.spent            = obj.spent            || 0;
+  obj.snoozedUntil     = obj.snoozedUntil     || 0;
+  obj.dependencies     = obj.dependencies     || [];
+  obj.isDone           = obj.isDone           || false;
+  obj.isRemoved        = obj.isRemoved        || false;
+  obj.isOnboardingTask = obj.isOnboardingTask || false;
+  obj.lastUpdatedAt    = obj.lastUpdatedAt    || Date.now();
 
   var granularity = Meteor.users.findOne(obj.ownerId).taskGranularity();
   obj.remaining   = Date.nearest(obj.remaining, granularity);
@@ -126,7 +128,7 @@ Tasks.create = function (str, obj) {
 
   if (!obj.title) {
     return { err: 'Title not found.' };
-  } else if (!obj.importance) {
+  } else if (typeof obj.importance !== 'number') {
     return { err: 'Importance not found.' };
   } else if (!obj.dueAt) {
     return { err: 'Due date not found.' };
