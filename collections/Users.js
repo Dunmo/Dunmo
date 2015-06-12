@@ -93,6 +93,22 @@ Meteor.users.helpers({
     return settings.update({ lastReviewed: time });
   },
 
+  hasOnboarded: function (key) {
+    var settings = this.settings();
+    if(!settings.hasOnboarded) settings.hasOnboarded = {};
+    if(key === null || key === undefined) return settings.hasOnboarded;
+    else                                  return settings.hasOnboarded[key];
+  },
+
+  setHasOnboarded: function (key, bool) {
+    if(bool === undefined || bool === null) bool = true;
+    var settings = this.settings();
+    key = 'hasOnboarded.' + key;
+    var selector = {};
+    selector[key] = bool;
+    return settings.update(selector);
+  },
+
   setMaxTaskInterval: function (time) {
     var settings = this.settings();
     if(!time || time === Infinity) return settings.update({ maxTaskInterval: Infinity });
