@@ -22,7 +22,8 @@ var settingsPropsAndDefaults = [
   ['maxTaskInterval', 2*HOURS],
   ['maxTimePerTaskPerDay', 6*HOURS],
   ['taskBreakInterval', 30*MINUTES],
-  ['taskGranularity', 5*MINUTES]
+  ['taskGranularity', 5*MINUTES],
+  ['onboardingIndex', 0]
 ];
 
 var settingsGetters = {};
@@ -107,6 +108,12 @@ Meteor.users.helpers({
     var selector = {};
     selector[key] = bool;
     return settings.update(selector);
+  },
+
+  setOnboardingIndex: function (index) {
+    var settings = this.settings();
+    index = _.bound(index, 0, Infinity);
+    return settings.update({ onboardingIndex: index });
   },
 
   setMaxTaskInterval: function (time) {
@@ -203,6 +210,11 @@ Meteor.users.helpers({
   upcomingTodos: function () {
     var upcomingTodos = this.unsnoozedTodos({ needsReviewed: { $ne: true } });
     return upcomingTodos;
+  },
+
+  onboardingTasks: function () {
+    var onboardingTasks = this.unsnoozedTodos({ isOnboardingTask: true });
+    return onboardingTasks;
   },
 
   freetimes: function () {
