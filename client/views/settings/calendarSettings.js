@@ -1,4 +1,15 @@
 
+function hoursAndMinutes(milliseconds) {
+  var hours     = Date.hours(milliseconds);
+  milliseconds -= hours*HOURS;
+  var mins      = Date.minutes(milliseconds);
+  var str       = '';
+  if(hours > 0) str += hours + ' hours';
+  if(hours > 0 && mins > 0) str += ' and ';
+  if(mins  > 0) str += mins + ' minutes';
+  return str;
+};
+
 Template.calendarSettings.rendered = function () {
   gapi.syncCalendars();
 };
@@ -39,6 +50,10 @@ Template.calendarSettings.helpers({
     return Date.minutes(Meteor.user().taskGranularity());
   },
 
+  taskGranularity: function () {
+    return Date.minutes(Meteor.user().taskGranularity()) + ' minute';
+  },
+
   maxTaskIntervalHours: function () {
     return Date.hours(Meteor.user().maxTaskInterval());
   },
@@ -47,6 +62,11 @@ Template.calendarSettings.helpers({
     var total = Meteor.user().maxTaskInterval();
     total    -= Date.hours(total)*HOURS;
     return Date.minutes(total);
+  },
+
+  maxTaskInterval: function () {
+    var total = Meteor.user().maxTaskInterval();
+    return hoursAndMinutes(total);
   },
 
   maxTimePerTaskPerDayHours: function () {
@@ -59,6 +79,11 @@ Template.calendarSettings.helpers({
     return Date.minutes(total);
   },
 
+  maxTimePerTaskPerDay: function () {
+    var total = Meteor.user().maxTimePerTaskPerDay();
+    return hoursAndMinutes(total);
+  },
+
   taskBreakIntervalHours: function () {
     return Date.hours(Meteor.user().taskBreakInterval());
   },
@@ -67,6 +92,11 @@ Template.calendarSettings.helpers({
     var total = Meteor.user().taskBreakInterval();
     total    -= Date.hours(total)*HOURS;
     return Date.minutes(total);
+  },
+
+  taskBreakInterval: function () {
+    var total = Meteor.user().taskBreakInterval();
+    return hoursAndMinutes(total);
   }
 
 });
