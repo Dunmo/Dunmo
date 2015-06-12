@@ -23,7 +23,7 @@
           <section class="panel task-panel">
             <header class="panel-heading bg bg-primary">
               <a class="pull-right inline-action sync" href="#" style="color: white;">
-                <span class="title">Sync Tasks</span>
+                <span class="title">{{syncTitle}}</span>
                 <i class="fa fa-refresh {{faSpinClass}}"></i>
               </a>
               {{#if anyRecentTasks}} Upcoming Tasks {{else}} Dunmo Tasks {{/if}}
@@ -32,12 +32,12 @@
             {{#if anyRecentTasks}}
               {{#unless anyOtherTasks}}
                 {{> emptyTaskListNotice
-                    message="Yay! You don't have any other tasks. Enjoy your freedom. :)"}}
+                    message="Yay, you don't have any other tasks. Enjoy your freedom, or add more tasks!"}}
               {{/unless}}
             {{else}}
               {{#if noTasks}}
                 {{> emptyTaskListNotice
-                    message="Yay! You don't have any tasks. Enjoy your freedom. :)"}}
+                    message="Yay, you don't have any tasks. Enjoy your freedom, or add more tasks!"}}
               {{/if}}
             {{/if}}
 
