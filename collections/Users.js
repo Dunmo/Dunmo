@@ -132,9 +132,9 @@ Meteor.users.helpers({
 
   setTaskGranularity: function (time) {
     var settings = this.settings();
-    if(!time || time === 0) return settings.update({ setTaskGranularity: 0 });
+    if(!time || time === 0) return settings.update({ taskGranularity: 0 });
     time = _.bound(time, 0, 24*HOURS);
-    return settings.update({ setTaskGranularity: time });
+    return settings.update({ taskGranularity: time });
   },
 
   referred: function (bool) {
