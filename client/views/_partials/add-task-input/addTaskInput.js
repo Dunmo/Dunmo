@@ -89,9 +89,7 @@ Template.addTaskInput.events({
     val += ' due ' + taskDueAt;
     val += ' ' + taskImportance + ' important';
 
-
     var ret = Tasks.create(val, { ownerId: Meteor.userId() });
-
 
     if (ret && ret.err) {
       $('#input-validation-msg').flash_message({
