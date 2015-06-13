@@ -40,7 +40,7 @@ Template.taskListItem.helpers({
   dueAtString: function () {
     var due = this.dueAt;
     if(due == Infinity) return 'someday';
-    return moment().format('dddd, MMM Do [at] h:mm a');
+    return moment(due).format('dddd, MMM Do [at] h:mm a');
   },
 
   titleWidth: function () {
