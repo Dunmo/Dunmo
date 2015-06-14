@@ -195,11 +195,103 @@ describe('Freetimes', function () {
   });
 
   describe('_toFreetimes', function () {
+    var busytimes, expected;
 
-    it('', function () {
+    describe('when busytimes is empty', function () {
+
+      beforeEach(function () {
+        busytimes = [];
+        expected  = [
+          {
+            start: options.minTime,
+            end:   startOfDayNow + 22*HOURS
+          },
+          {
+            start: startOfDayNow + 1*DAYS + 8*HOURS,
+            end:   options.maxTime
+          }
+        ];
+      });
+
+      it('should work', function () {
+        var ret = Freetimes._invertBusytimes(busytimes, options);
+        expect(ret.sort()).toEqual(expected.sort());
+      });
 
     });
 
-  });
+    describe('when busytimes has one item', function () {
+      var anotherThing;
+
+      beforeEach(function () {
+        anotherThing = {
+          start: startOfDayNow + 13*HOURS,
+          end:   startOfDayNow + 14*HOURS
+        };
+        busytimes = [anotherThing];
+        expected  = [
+          {
+            start: options.minTime,
+            end:   anotherThing.start
+          },
+          {
+            start: anotherThing.end,
+            end:   startOfDayNow + 22*HOURS
+          },
+          {
+            start: startOfDayNow + 1*DAYS + 8*HOURS,
+            end:   options.maxTime
+          }
+        ];
+      });
+
+      it('should work', function () {
+        var ret = Freetimes._invertBusytimes(busytimes, options);
+
+        expect(ret.sort()).toEqual(expected.sort());
+      });
+
+    });
+
+    describe('when busytimes has two items', function () {
+
+      beforeEach(function () {
+        busytimes = [
+          {
+            start: startOfDayNow + 13*HOURS,
+            end:   startOfDayNow + 14*HOURS
+          },
+          {
+            start: startOfDayNow + 15*HOURS,
+            end:   startOfDayNow + 16*HOURS
+          }
+        ];
+        expected = [
+          {
+            start: options.minTime,
+            end:   busytimes[0].start
+          },
+          {
+            start: busytimes[0].end,
+            end:   busytimes[1].start
+          },
+          {
+            start: busytimes[1].end,
+            end:   startOfDayNow + 22*HOURS
+          },
+          {
+            start: startOfDayNow + 1*DAYS + 8*HOURS,
+            end:   options.maxTime
+          }
+        ];
+      });
+
+      it('should work', function () {
+        var ret = Freetimes._invertBusytimes(busytimes, options);
+
+        expect(ret.sort()).toEqual(expected.sort());
+      });
+
+    });
 
 });
