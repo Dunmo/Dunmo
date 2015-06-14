@@ -64,10 +64,10 @@ Tasks.helpers({
   split: function (milliseconds) {
     milliseconds = _.bound(milliseconds, 0, this.remaining);
 
-    var firstTask = R.cloneDeep(this);
+    var firstTask = _.cloneDeep(this);
     firstTask.remaining = milliseconds;
 
-    var secondTask = R.cloneDeep(this);
+    var secondTask = _.cloneDeep(this);
     var remaining  = this.remaining - milliseconds;
     secondTask.remaining =  remaining;
 
@@ -104,7 +104,7 @@ Tasks.create = function (str, obj) {
     str = '';
   }
   if(!obj) obj = {};
-  obj = R.cloneDeep(obj);
+  obj = _.cloneDeep(obj);
 
   var res = Natural.parseTask(str);
 
