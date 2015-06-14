@@ -18,16 +18,12 @@ Freetimes.helpers({
 });
 
 Freetimes._addStartEndTimes = function (busytimes, options) {
-  var starttimes = lodash.pluck(busytimes, 'start');
-  var endtimes   = lodash.pluck(busytimes, 'end');
   var start      = options.minTime;
   var end        = options.maxTime;
-  var userId     = options.userId;
 
   var day        = Number(Date.startOfDay(start));
-  var lastDay    = Number(Date.startOfDay(end));
 
-  var user       = Meteor.users.findOne(userId);
+  var user       = Meteor.users.findOne(options.userId);
   var startOfDay = user.startOfDay() || 0;
   var endOfDay   = user.endOfDay()   || 1 * DAYS;
 
@@ -41,6 +37,7 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
     });
   }
 
+  var lastDay = Number(Date.startOfDay(end));
   while(day < lastDay) {
     busytimes.push({
       start: endOfDay,
