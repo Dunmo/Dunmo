@@ -22,36 +22,34 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
   var end        = options.maxTime;
 
   var day        = Number(Date.startOfDay(start));
+  var lastDay    = Number(Date.startOfDay(end));
 
   var user       = Meteor.users.findOne(options.userId);
   var startOfDay = user.startOfDay() || 0;
   var endOfDay   = user.endOfDay()   || 1 * DAYS;
 
-  startOfDay     = day + startOfDay;
-  endOfDay       = day + endOfDay;
+  function startOf (day) { return day + startOfDay; };
+  function endOf (day)   { return day + endOfDay;   };
 
-  if(start < startOfDay) {
+  if(start < startOf(day)) {
     busytimes.push({
       start: start,
-      end:   startOfDay
+      end:   startOf(day)
     });
   }
 
-  var lastDay = Number(Date.startOfDay(end));
   while(day < lastDay) {
     busytimes.push({
-      start: endOfDay,
-      end:   startOfDay + 1 * DAYS
+      start: endOf(day),
+      end:   startOf(day) + 1 * DAYS
     });
 
-    startOfDay += 1 * DAYS;
-    endOfDay   += 1 * DAYS;
-    day        += 1 * DAYS;
+    day += 1*DAYS;
   }
 
-  if(end > endOfDay) {
+  if(end > endOf(day)) {
     busytimes.push({
-      start: endOfDay,
+      start: endOf(day),
       end:   end
     });
   }
