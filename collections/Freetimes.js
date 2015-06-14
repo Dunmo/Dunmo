@@ -29,7 +29,7 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
   while(day < lastDay) {
     busytimes.push({
       start: endOf(day),
-      end:   startOf(day) + 1 * DAYS
+      end:   startOf(day) + 1*DAYS
     });
 
     day += 1*DAYS;
