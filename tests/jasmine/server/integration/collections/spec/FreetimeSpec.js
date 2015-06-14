@@ -27,7 +27,6 @@ describe('Freetimes', function () {
     describe('when busytimes is empty', function () {
 
       it('should work', function () {
-        console.log('busytimes: ', busytimes);
         var ret = Freetimes._addStartEndTimes(busytimes, options);
         expect(ret).toEqual([expected]);
       });
@@ -112,8 +111,84 @@ describe('Freetimes', function () {
   });
 
   describe('_invertBusytimes', function () {
+    var busytimes, expected;
 
-    it('', function () {
+    describe('when busytimes is empty', function () {
+
+      beforeEach(function () {
+        busytimes = [];
+      });
+
+      it('should return the entire range min to max', function () {
+        var ret = Freetimes._invertBusytimes(busytimes, options);
+        expect(ret).toEqual([{ start: options.minTime, end: options.maxTime }]);
+      });
+
+    });
+
+    describe('when busytimes has one item', function () {
+      var anotherThing;
+
+      beforeEach(function () {
+        anotherThing = {
+          start: startOfDayNow + 13*HOURS,
+          end:   startOfDayNow + 14*HOURS
+        };
+        busytimes = [anotherThing];
+        expected = [
+          {
+            start: options.minTime,
+            end:   anotherThing.start
+          },
+          {
+            start: anotherThing.end,
+            end:   options.maxTime
+          }
+        ];
+      });
+
+      it('should return the opposite', function () {
+        var ret = Freetimes._invertBusytimes(busytimes, options);
+
+        expect(ret.sort()).toEqual(expected.sort());
+      });
+
+    });
+
+    describe('when busytimes has two items', function () {
+
+      beforeEach(function () {
+        busytimes = [
+          {
+            start: startOfDayNow + 13*HOURS,
+            end:   startOfDayNow + 14*HOURS
+          },
+          {
+            start: startOfDayNow + 15*HOURS,
+            end:   startOfDayNow + 16*HOURS
+          }
+        ];
+        expected = [
+          {
+            start: options.minTime,
+            end:   busytimes[0].start
+          },
+          {
+            start: busytimes[0].end,
+            end:   busytimes[1].start
+          },
+          {
+            start: busytimes[1].end,
+            end:   options.maxTime
+          }
+        ];
+      });
+
+      it('should return the opposite', function () {
+        var ret = Freetimes._invertBusytimes(busytimes, options);
+
+        expect(ret.sort()).toEqual(expected.sort());
+      });
 
     });
 
