@@ -483,16 +483,14 @@ gapi.getBusytimes = function (startingFrom, callback) {
 // callback(freetimes)
 gapi.getFreetimes = function (startingFrom, callback) {
   gapi.getBusytimes(function(busytimes) {
-    var userId      = Meteor.userId();
-    // var maxTime     = Meteor.user().latestTodoTime();
-    // maxTime         = Number(maxTime);
+    var user      = Meteor.user();
     var freetimes = Freetimes.createFromBusytimes(busytimes, {
-      userId            : userId,
       minTime           : startingFrom,
       maxTime           : startingFrom + 30*DAYS,
+      startOfDay        : user.startOfDay(),
+      endOfDay          : user.endOfDay(),
       defaultProperties : { ownerId: userId }
     });
-    // var freetimes   = Freetimes.fetch({ _id: { $in: freetimeIds } });
     callback(freetimes);
   });
 };

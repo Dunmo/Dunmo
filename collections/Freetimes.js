@@ -6,20 +6,18 @@
 // ownerId : String
 
 // busytimes: [{start, end}]
-// options:   { minTime, maxTime, userId }
+// options:   { minTime, maxTime, startOfDay, endOfDay }
 Freetimes._addStartEndTimes = function (busytimes, options) {
   var start      = options.minTime;
   var end        = options.maxTime;
-
-  var day        = Number(Date.startOfDay(start));
-  var lastDay    = Number(Date.startOfDay(end));
-
-  var user       = Meteor.users.findOne(options.userId);
-  var startOfDay = user.startOfDay() || 0;
-  var endOfDay   = user.endOfDay()   || 1 * DAYS;
+  var startOfDay = options.startOfDay || 0;
+  var endOfDay   = options.endOfDay   || 1*DAYS;
 
   function startOf (day) { return day + startOfDay; };
   function endOf   (day) { return day + endOfDay;   };
+
+  var day        = Number(Date.startOfDay(start));
+  var lastDay    = Number(Date.startOfDay(end));
 
   if(start < startOf(day)) {
     busytimes.push({
@@ -115,6 +113,7 @@ Freetimes._invertBusytimes = function (busytimes) {
 };
 
 // busytimes: [{start, end}]
+// options:   { minTime, maxTime, startOfDay, endOfDay }
 Freetimes._toFreetimes = function (busytimes, options) {
   // inputs are in milliseconds, but task time is limited by granularity
   var granularity = Meteor.user().taskGranularity();
@@ -131,7 +130,7 @@ Freetimes._toFreetimes = function (busytimes, options) {
 };
 
 // busytimes: [{start, end}]
-// options:   { userId, minTime, maxTime, defaultProperties }
+// options:   { minTime, maxTime, startOfDay, endOfDay, defaultProperties }
 Freetimes.createFromBusytimes = function (busytimes, options) {
   var freetimes = this._toFreetimes(busytimes, options);
 
