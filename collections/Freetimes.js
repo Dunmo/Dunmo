@@ -60,26 +60,24 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
 };
 
 Freetimes._coalesceBusytimes = function (busytimes) {
-  busytimes    = lodash.sortBy(busytimes, 'end');
-  busytimes    = lodash.sortBy(busytimes, 'start');
+  busytimes    = _.sortBy(busytimes, 'end');
+  busytimes    = _.sortBy(busytimes, 'start');
   newBusytimes = [];
 
-  busytimes.forEach(function (obj) {
-    if(newBusytimes.length === 0) {
-      newBusytimes.push(obj);
-      return;
-    }
+  busytimes.forEach(function (next) {
     var last = newBusytimes.pop();
-    var next = obj;
-    if(last.end < next.start) {
+    if(!last) {
+      newBusytimes.push(next);
+    }
+    else if(last.end < next.start) {
       newBusytimes.push(last);
       newBusytimes.push(next);
     }
     else {
-      var newObj = {};
-      newObj.start = lodash.min([last.start, next.start]);
-      newObj.end   = lodash.max([last.end,   next.end]);
-      newBusytimes.push(newObj);
+      newBusytimes.push({
+        start: _.min(last.start, next.start),
+        end:   _.max(last.end,   next.end)
+      });
     }
   });
 
