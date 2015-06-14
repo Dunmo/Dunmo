@@ -5,6 +5,8 @@
 // end     : Number<Milliseconds>
 // ownerId : String
 
+// busytimes: [{start, end}]
+// options:   { minTime, maxTime, userId }
 Freetimes._addStartEndTimes = function (busytimes, options) {
   var start      = options.minTime;
   var end        = options.maxTime;
@@ -45,6 +47,7 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
   return busytimes;
 };
 
+// busytimes: [{start, end}]
 Freetimes._coalesceBusytimes = function (busytimes) {
   busytimes    = _.sortBy(busytimes, 'end');
   busytimes    = _.sortBy(busytimes, 'start');
@@ -70,6 +73,7 @@ Freetimes._coalesceBusytimes = function (busytimes) {
   return newBusytimes;
 };
 
+// busytimes: [{start, end}]
 Freetimes._invertBusytimes = function (busytimes) {
   var freetimes = [];
 
@@ -110,6 +114,7 @@ Freetimes._invertBusytimes = function (busytimes) {
   return freetimes;
 };
 
+// busytimes: [{start, end}]
 Freetimes._toFreetimes = function (busytimes, options) {
   // inputs are in milliseconds, but task time is limited by granularity
   var granularity = Meteor.user().taskGranularity();
@@ -117,6 +122,7 @@ Freetimes._toFreetimes = function (busytimes, options) {
   options.minTime = Date.floor(options.minTime, granularity);
   options.maxTime = Date.floor(options.maxTime, granularity);
 
+  // TODO: add busytimes { start: -Infinity, minTime }
   busytimes     = this._addStartEndTimes(busytimes, options);
   busytimes     = this._coalesceBusytimes(busytimes);
   var freetimes = this._invertBusytimes(busytimes);
@@ -124,6 +130,8 @@ Freetimes._toFreetimes = function (busytimes, options) {
   return freetimes;
 };
 
+// busytimes: [{start, end}]
+// options:   { userId, minTime, maxTime, defaultProperties }
 Freetimes.createFromBusytimes = function (busytimes, options) {
   var freetimes = this._toFreetimes(busytimes, options);
 
@@ -134,6 +142,7 @@ Freetimes.createFromBusytimes = function (busytimes, options) {
   });
 };
 
+// obj: [{start, end}] OR {start, end}
 Freetimes.printable = function (obj) {
   if(Array.isArray(obj)) return obj.map(Freetimes.printable);
   else {
