@@ -489,7 +489,7 @@ gapi.getFreetimes = function (startingFrom, callback) {
       maxTime           : startingFrom + 30*DAYS,
       startOfDay        : user.startOfDay(),
       endOfDay          : user.endOfDay(),
-      defaultProperties : { ownerId: userId }
+      defaultProperties : { ownerId: user._id }
     });
     callback(freetimes);
   });
