@@ -72,15 +72,16 @@ Freetimes._coalesceBusytimes = function (busytimes) {
 };
 
 // busytimes: [{start, end}]
-Freetimes._invertBusytimes = function (busytimes) {
+// options:   { minTime, maxTime }
+Freetimes._invertBusytimes = function (busytimes, options) {
   var freetimes = [];
 
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
 
     // if it's the first item, add a freetime before obj.start
-    if(index === 0 && minTime < obj.start) {
-      start = minTime;
+    if(index === 0 && options.minTime < obj.start) {
+      start = options.minTime;
       end   = obj.start;
       freetimes.push({
         start: start,
@@ -99,9 +100,9 @@ Freetimes._invertBusytimes = function (busytimes) {
     }
 
     // if it's the last item, add a freetime after obj.end
-    if(index === busytimes.length-1 && maxTime > obj.end) {
+    if(index === busytimes.length-1 && options.maxTime > obj.end) {
       start = obj.end;
-      end   = maxTime;
+      end   = options.maxTime;
       freetimes.push({
         start: start,
         end:   end
@@ -124,7 +125,7 @@ Freetimes._toFreetimes = function (busytimes, options) {
   // TODO: add busytimes { start: -Infinity, minTime }
   busytimes     = this._addStartEndTimes(busytimes, options);
   busytimes     = this._coalesceBusytimes(busytimes);
-  var freetimes = this._invertBusytimes(busytimes);
+  var freetimes = this._invertBusytimes(busytimes, options);
 
   return freetimes;
 };
