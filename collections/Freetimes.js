@@ -76,36 +76,39 @@ Freetimes._coalesceBusytimes = function (busytimes) {
 Freetimes._invertBusytimes = function (busytimes, options) {
   var freetimes = [];
 
+  if(busytimes.length == 0) {
+    return [
+      {
+        start: options.minTime,
+        end:   options.maxTime
+      }
+    ];
+  }
+
   busytimes.forEach(function (obj, index, busytimes) {
     var start, end;
 
     // if it's the first item, add a freetime before obj.start
     if(index === 0 && options.minTime < obj.start) {
-      start = options.minTime;
-      end   = obj.start;
       freetimes.push({
-        start: start,
-        end:   end
+        start: options.minTime,
+        end:   obj.start
       });
     }
 
     // for every other item, including the last, add a freetime between items
     if(index !== 0) {
-      start = busytimes[index-1].end;
-      end   = obj.start;
       freetimes.push({
-        start: start,
-        end:   end
+        start: busytimes[index-1].end,
+        end:   obj.start
       });
     }
 
     // if it's the last item, add a freetime after obj.end
     if(index === busytimes.length-1 && options.maxTime > obj.end) {
-      start = obj.end;
-      end   = options.maxTime;
       freetimes.push({
-        start: start,
-        end:   end
+        start: obj.end,
+        end:   options.maxTime
       });
     }
   });
@@ -135,18 +138,19 @@ Freetimes._toFreetimes = function (busytimes, options) {
 Freetimes.createFromBusytimes = function (busytimes, options) {
   var freetimes = this._toFreetimes(busytimes, options);
 
-  return freetimes.map(function(freetime) {
-    freetime = _.extend(options.defaultProperties, freetime);
+  freetimes = freetimes.map(function(freetime) {
+    freetime = _.extend({}, options.defaultProperties, freetime);
     freetime.remaining = function () { return this.end - this.start; };
     return freetime;
   });
+  return freetimes;
 };
 
 // obj: [{start, end}] OR {start, end}
 Freetimes.printable = function (obj) {
   if(Array.isArray(obj)) return obj.map(Freetimes.printable);
   else {
-    var freetime   = R.cloneDeep(obj);
+    var freetime   = _.cloneDeep(obj);
     freetime.start = new Date(freetime.start);
     freetime.end   = new Date(freetime.end);
     return freetime;
