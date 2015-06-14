@@ -5,18 +5,6 @@
 // end     : Number<Milliseconds>
 // ownerId : String
 
-Freetimes.helpers({
-
-  duration: function () {
-    return this.end - this.start;
-  },
-
-  remaining: function () {
-    return this.duration();
-  }
-
-});
-
 Freetimes._addStartEndTimes = function (busytimes, options) {
   var start      = options.minTime;
   var end        = options.maxTime;
@@ -29,7 +17,7 @@ Freetimes._addStartEndTimes = function (busytimes, options) {
   var endOfDay   = user.endOfDay()   || 1 * DAYS;
 
   function startOf (day) { return day + startOfDay; };
-  function endOf (day)   { return day + endOfDay;   };
+  function endOf   (day) { return day + endOfDay;   };
 
   if(start < startOf(day)) {
     busytimes.push({
@@ -123,12 +111,11 @@ Freetimes._invertBusytimes = function (busytimes) {
 };
 
 Freetimes._toFreetimes = function (busytimes, options) {
-  // inputs are in milliseconds, but task time is only per minute granularity
+  // inputs are in milliseconds, but task time is limited by granularity
   var granularity = Meteor.user().taskGranularity();
+  granularity     = _.bound(granularity, 1, Infinity);
   options.minTime = Date.floor(options.minTime, granularity);
   options.maxTime = Date.floor(options.maxTime, granularity);
-  minTime = options.minTime;
-  maxTime = options.maxTime;
 
   busytimes     = this._addStartEndTimes(busytimes, options);
   busytimes     = this._coalesceBusytimes(busytimes);
@@ -137,45 +124,19 @@ Freetimes._toFreetimes = function (busytimes, options) {
   return freetimes;
 };
 
-Freetimes.create = function (obj) {
-  if(Array.isArray(obj)) {
-    var ary = obj;
-    return ary.map(function(ft) {
-      return Freetimes.create(ft);
-    });
-  } else if(typeof(obj) === 'object') {
-    obj.start = Number(obj.start);
-    obj.end   = Number(obj.end);
-
-    var id = Freetimes.insert(obj);
-    return Freetimes.findOne(id);
-  } else {
-    console.error('Error: Freetimes.create does not expect type:', typeof(obj));
-  }
-};
-
 Freetimes.createFromBusytimes = function (busytimes, options) {
-  defaultProperties = options.defaultProperties;
-
   var freetimes = this._toFreetimes(busytimes, options);
-  freetimes = freetimes.map(function(freetime) {
-    lodash.forOwn(defaultProperties, function(value, key) {
-      freetime[key] = value;
-    });
-    freetime.remaining = function () {
-      return this.end - this.start;
-    }
+
+  return freetimes.map(function(freetime) {
+    freetime = _.extend(options.defaultProperties, freetime);
+    freetime.remaining = function () { return this.end - this.start; };
     return freetime;
   });
-
-  return freetimes; // Freetimes.create(freetimes);
 };
 
 Freetimes.printable = function (obj) {
-  if(Array.isArray(obj)) {
-    var freetimes = R.cloneDeep(obj);
-    return freetimes.map(Freetimes.printable);
-  } else {
+  if(Array.isArray(obj)) return obj.map(Freetimes.printable);
+  else {
     var freetime   = R.cloneDeep(obj);
     freetime.start = new Date(freetime.start);
     freetime.end   = new Date(freetime.end);

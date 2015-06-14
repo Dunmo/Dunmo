@@ -18,7 +18,7 @@ Setters.setProp = function (prop) {
   };
 };
 
-_.each([Calendars, Events, Freetimes, Subscribers, Tags, Tasks, UserSettings, Meteor.users], function (collection) {
+_.each([Calendars, Events, Subscribers, Tags, Tasks, UserSettings, Meteor.users], function (collection) {
 
   collection.helpers({
 
