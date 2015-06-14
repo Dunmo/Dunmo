@@ -394,8 +394,8 @@ gapi.getEvent = function (event, callback) {
 
 gapi.splitEvent = function (e, splitTime) {
   var startTime = new Date(e.start.dateTime);
-  var event1 = R.cloneDeep(e);
-  var event2 = R.cloneDeep(e);
+  var event1 = _.cloneDeep(e);
+  var event2 = _.cloneDeep(e);
 
   event1.end.dateTime   = Date.formatGoog(new Date(splitTime));
   event2.start.dateTime = Date.formatGoog(new Date(splitTime));

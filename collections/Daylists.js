@@ -1,7 +1,7 @@
 
 Daylist = function (doc) {
   doc = doc || {};
-  doc = R.cloneDeep(doc);
+  doc = _.cloneDeep(doc);
 
   var properties = {
     freetimes: []

@@ -24,7 +24,7 @@ Events.createOrUpdate = function (obj) {
       return Events.createOrUpdate(event);
     });
   } else if(typeof(obj) === 'object') {
-    obj = R.cloneDeep(obj);
+    obj = _.cloneDeep(obj);
     obj.googleEventId = obj.googleEventId || obj.id;
     obj.isRemoved     = obj.isRemoved     || obj.status === 'cancelled';
     ['start', 'end', 'created', 'updated'].forEach(function (prop) {
