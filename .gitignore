@@ -12,3 +12,5 @@ custom.bootstrap.less
 custom.bootstrap.mixins.import.less
 *.scssc
 public/config.rb
+dunmo.v12.suo
+dunmo.sln

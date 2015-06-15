@@ -213,23 +213,23 @@
         })
 
         $('.landing-story').waypoint(function () {
-            $('.landing-nav__item').removeClass('current');
-            $('.landing-nav__item--story').addClass('current');
+            //$('.landing-nav__item').removeClass('current');
+            $('.landing-nav__item--story').toggleClass('current');
         })
 
         $('.landing-meet').waypoint(function () {
-            $('.landing-nav__item').removeClass('current');
-            $('.landing-nav__item--meet').addClass('current');
+            $('.landing-nav__item--story').toggleClass('current');
+            $('.landing-nav__item--meet').toggleClass('current');
         })
 
         $('.landing-team').waypoint(function () {
-            $('.landing-nav__item').removeClass('current');
-            $('.landing-nav__item--team').addClass('current');
+            $('.landing-nav__item--meet').toggleClass('current');
+            $('.landing-nav__item--team').toggleClass('current');
         })
 
         $('.landing-contact').waypoint(function () {
-            $('.landing-nav__item').removeClass('current');
-            $('.landing-nav__item--contact').addClass('current');
+            $('.landing-nav__item--team').toggleClass('current');
+            $('.landing-nav__item--contact').toggleClass('current');
         })
     </script>
 
