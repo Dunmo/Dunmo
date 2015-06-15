@@ -6,10 +6,11 @@ describe('Freetimes', function () {
     now           = Number(Date.startOfToday()) + 12*HOURS;
     startOfDayNow = Number(Date.startOfDay(now));
     options = {
-      minTime:    now,
-      maxTime:    now + 1*DAYS,
-      startOfDay: 8*HOURS,
-      endOfDay:   22*HOURS
+      granularity: 1*MINUTES,
+      minTime:     now,
+      maxTime:     now + 1*DAYS,
+      startOfDay:  8*HOURS,
+      endOfDay:    22*HOURS
     };
   });
 
@@ -252,8 +253,18 @@ describe('Freetimes', function () {
 
   });
 
-  describe('_toFreetimes', function () {
-    var busytimes, expected;
+  describe('fromBusytimes', function () {
+    var busytimes, expected, filter;
+
+    filter = function (arg) {
+      if(Array.isArray(arg)) {
+        return arg.map(function (timerange) { return filter(timerange); });
+      }
+      else return {
+        start: arg.start,
+        end:   arg.end
+      };
+    };
 
     describe('when busytimes is empty', function () {
 
@@ -272,7 +283,8 @@ describe('Freetimes', function () {
       });
 
       it('should work', function () {
-        var ret = Freetimes._invertBusytimes(busytimes, options);
+        var ret = Freetimes.fromBusytimes(busytimes, options);
+        ret     = filter(ret);
         expect(ret.sort()).toEqual(expected.sort());
       });
 
@@ -304,8 +316,8 @@ describe('Freetimes', function () {
       });
 
       it('should work', function () {
-        var ret = Freetimes._invertBusytimes(busytimes, options);
-
+        var ret = Freetimes.fromBusytimes(busytimes, options);
+        ret     = filter(ret);
         expect(ret.sort()).toEqual(expected.sort());
       });
 
@@ -345,8 +357,8 @@ describe('Freetimes', function () {
       });
 
       it('should work', function () {
-        var ret = Freetimes._invertBusytimes(busytimes, options);
-
+        var ret = Freetimes.fromBusytimes(busytimes, options);
+        ret     = filter(ret);
         expect(ret.sort()).toEqual(expected.sort());
       });
 
