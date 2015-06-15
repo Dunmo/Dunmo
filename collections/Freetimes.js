@@ -117,10 +117,10 @@ Freetimes._invertBusytimes = function (busytimes, options) {
 };
 
 // busytimes: [{start, end}]
-// options:   { minTime, maxTime, startOfDay, endOfDay }
-Freetimes._toFreetimes = function (busytimes, options) {
+// options:   { granularity, minTime, maxTime, startOfDay, endOfDay, defaultProperties }
+Freetimes.fromBusytimes = function (busytimes, options) {
   // inputs are in milliseconds, but task time is limited by granularity
-  var granularity = Meteor.user().taskGranularity();
+  var granularity = options.granularity;
   granularity     = _.bound(granularity, 1, Infinity);
   options.minTime = Date.floor(options.minTime, granularity);
   options.maxTime = Date.floor(options.maxTime, granularity);
@@ -130,19 +130,12 @@ Freetimes._toFreetimes = function (busytimes, options) {
   busytimes     = this._coalesceBusytimes(busytimes);
   var freetimes = this._invertBusytimes(busytimes, options);
 
-  return freetimes;
-};
-
-// busytimes: [{start, end}]
-// options:   { minTime, maxTime, startOfDay, endOfDay, defaultProperties }
-Freetimes.createFromBusytimes = function (busytimes, options) {
-  var freetimes = this._toFreetimes(busytimes, options);
-
   freetimes = freetimes.map(function(freetime) {
     freetime = _.extend({}, options.defaultProperties, freetime);
     freetime.remaining = function () { return this.end - this.start; };
     return freetime;
   });
+
   return freetimes;
 };
 
