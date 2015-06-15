@@ -3,7 +3,7 @@ describe('Freetimes', function () {
   var now, options, startOfDayNow;
 
   beforeEach(function () {
-    now = Number(Date.startOfDay()) + 12*HOURS;
+    now           = Number(Date.startOfToday()) + 12*HOURS;
     startOfDayNow = Number(Date.startOfDay(now));
     options = {
       minTime:    now,
@@ -16,15 +16,15 @@ describe('Freetimes', function () {
   describe('_addStartEndTimes', function () {
     var busytimes, expected;
 
-    beforeEach(function () {
-      busytimes = [];
-      expected = {
-        start: startOfDayNow + 22*HOURS,
-        end:   startOfDayNow + 1*DAYS + 8*HOURS
-      };
-    });
-
     describe('when busytimes is empty', function () {
+
+      beforeEach(function () {
+        busytimes = [];
+        expected = {
+          start: startOfDayNow + 22*HOURS,
+          end:   startOfDayNow + 1*DAYS + 8*HOURS
+        };
+      });
 
       it('should work', function () {
         var ret = Freetimes._addStartEndTimes(busytimes, options);
@@ -79,6 +79,31 @@ describe('Freetimes', function () {
 
     });
 
+    describe('when busytimes has one item', function () {
+      var busytimes;
+
+      beforeEach(function () {
+        busytimes = [
+          {
+            start: startOfDayNow + 12*HOURS,
+            end:   startOfDayNow + 14*HOURS
+          }
+        ];
+        expected = [
+          {
+            start: startOfDayNow + 12*HOURS,
+            end:   startOfDayNow + 14*HOURS
+          }
+        ];
+      });
+
+      it('should not alter the array', function () {
+        var ret = Freetimes._coalesceBusytimes(busytimes);
+        expect(ret).toEqual(expected);
+      });
+
+    });
+
     describe('when busytimes has overlapping stuff', function () {
       var busytimes;
 
@@ -104,6 +129,39 @@ describe('Freetimes', function () {
       it('should coalesce them', function () {
         var ret = Freetimes._coalesceBusytimes(busytimes);
         expect(ret).toEqual(expected);
+      });
+
+    });
+
+    describe('when busytimes does not have overlapping stuff', function () {
+      var busytimes;
+
+      beforeEach(function () {
+        busytimes = [
+          {
+            start: startOfDayNow + 12*HOURS,
+            end:   startOfDayNow + 13*HOURS
+          },
+          {
+            start: startOfDayNow + 14*HOURS,
+            end:   startOfDayNow + 15*HOURS
+          }
+        ];
+        expected = [
+          {
+            start: startOfDayNow + 12*HOURS,
+            end:   startOfDayNow + 13*HOURS
+          },
+          {
+            start: startOfDayNow + 14*HOURS,
+            end:   startOfDayNow + 15*HOURS
+          }
+        ];
+      });
+
+      it('should not coalesce them', function () {
+        var ret = Freetimes._coalesceBusytimes(busytimes);
+        expect(ret.sort()).toEqual(expected.sort());
       });
 
     });
@@ -293,5 +351,7 @@ describe('Freetimes', function () {
       });
 
     });
+
+  });
 
 });
