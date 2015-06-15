@@ -1,0 +1,713 @@
+/* line 5, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 3, ../sass/_common.scss */
+html, body {
+  font: 1em "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  color: #969696;
+  background: #fafafa;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0px;
+}
+
+/* line 14, ../sass/_common.scss */
+b {
+  font-weight: bold;
+}
+
+/* line 15, ../sass/_common.scss */
+i {
+  font-style: italic;
+}
+
+/* line 16, ../sass/_common.scss */
+a {
+  text-decoration: none;
+}
+
+/* line 29, ../sass/_common.scss */
+h1 {
+  width: 100%;
+  text-align: center;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-transform: uppercase;
+}
+
+/* line 36, ../sass/_common.scss */
+.display-none {
+  display: none;
+}
+
+/* line 38, ../sass/_common.scss */
+.group:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* line 3, ../sass/_landing.scss */
+.landing-nav {
+  position: relative;
+  box-sizing: border-box;
+  height: 4rem;
+  width: 100%;
+  text-align: center;
+  color: #fafafa;
+  text-transform: uppercase;
+  z-index: 50;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 3, ../sass/_landing.scss */
+  .landing-nav {
+    font: 1.25rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 3, ../sass/_landing.scss */
+  .landing-nav {
+    font: 1.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 3, ../sass/_landing.scss */
+  .landing-nav {
+    font: 1.75rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  }
+}
+/* line 20, ../sass/_landing.scss */
+.landing-nav.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3rem;
+  font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  color: #141414;
+  background: rgba(250, 250, 250, 0.85);
+  border-bottom: 1px solid #5ada63;
+}
+/* line 32, ../sass/_landing.scss */
+.landing-nav__item {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0 0.5rem;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+/* line 39, ../sass/_landing.scss */
+.landing-nav__item:hover {
+  color: #5ada63;
+}
+/* line 43, ../sass/_landing.scss */
+.landing-nav__item.current {
+  color: #5ada63;
+}
+/* line 49, ../sass/_landing.scss */
+.landing-nav__logo {
+  display: none;
+  position: absolute;
+  top: 0.25rem;
+  left: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+}
+/* line 59, ../sass/_landing.scss */
+.landing-nav__action {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  color: #3dc846;
+  text-transform: uppercase;
+}
+/* line 71, ../sass/_landing.scss */
+.landing-splash {
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  background: url("../images/0b.jpg") center center/cover no-repeat;
+  display: table;
+  color: #969696;
+}
+/* line 79, ../sass/_landing.scss */
+.landing-splash__container {
+  display: table-cell;
+  vertical-align: middle;
+}
+/* line 84, ../sass/_landing.scss */
+.landing-splash__brand {
+  display: block;
+  height: auto;
+  margin: auto;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 84, ../sass/_landing.scss */
+  .landing-splash__brand {
+    width: 30rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 84, ../sass/_landing.scss */
+  .landing-splash__brand {
+    width: 35rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 84, ../sass/_landing.scss */
+  .landing-splash__brand {
+    width: 50rem;
+  }
+}
+/* line 99, ../sass/_landing.scss */
+.landing-splash__tagline {
+  width: 100%;
+  text-align: center;
+  color: #fafafa;
+  font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  margin: 1rem auto;
+}
+/* line 107, ../sass/_landing.scss */
+.landing-splash__action {
+  text-transform: uppercase;
+  margin: 1rem auto;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 107, ../sass/_landing.scss */
+  .landing-splash__action {
+    -moz-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    display: block;
+    width: 15rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    border: 1px solid #fafafa;
+    background: none;
+    font-size: 1rem;
+    line-height: 3rem;
+    font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    color: white;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 107, ../sass/_landing.scss */
+  .landing-splash__action {
+    -moz-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    display: block;
+    width: 20rem;
+    height: 4rem;
+    border-radius: 2rem;
+    border: 1px solid #fafafa;
+    background: none;
+    font-size: 1.5rem;
+    line-height: 4rem;
+    font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    color: white;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 107, ../sass/_landing.scss */
+  .landing-splash__action {
+    -moz-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    display: block;
+    width: 25rem;
+    height: 5rem;
+    border-radius: 2.5rem;
+    border: 1px solid #fafafa;
+    background: none;
+    font-size: 2.5rem;
+    line-height: 5rem;
+    font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    color: white;
+    text-align: center;
+  }
+}
+/* line 119, ../sass/_landing.scss */
+.landing-splash__action:hover {
+  background: #fafafa;
+  color: #3dc846;
+}
+/* line 126, ../sass/_landing.scss */
+.landing-story {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+  background: #fafafa;
+  color: #969696;
+}
+@media screen and (max-width: 800px) {
+  /* line 126, ../sass/_landing.scss */
+  .landing-story {
+    padding: 3rem 1rem;
+  }
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 126, ../sass/_landing.scss */
+  .landing-story {
+    padding: 3rem 2.5rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 126, ../sass/_landing.scss */
+  .landing-story {
+    padding: 3rem 4rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 126, ../sass/_landing.scss */
+  .landing-story {
+    padding: 3rem 6rem;
+  }
+}
+/* line 132, ../sass/_landing.scss */
+.landing-story__heading {
+  width: 100%;
+  text-align: center;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-transform: uppercase;
+}
+/* line 139, ../sass/_landing.scss */
+.landing-story__text {
+  display: block;
+  margin: 1rem auto;
+  text-align: justify;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 139, ../sass/_landing.scss */
+  .landing-story__text {
+    width: 30rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 139, ../sass/_landing.scss */
+  .landing-story__text {
+    width: 35rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 139, ../sass/_landing.scss */
+  .landing-story__text {
+    width: 50rem;
+  }
+}
+/* line 156, ../sass/_landing.scss */
+.landing-meet {
+  position: relative;
+  box-sizing: border-box;
+  height: 400%;
+  width: 100%;
+  background: #3dc846;
+  color: #fafafa;
+}
+@media screen and (max-width: 800px) {
+  /* line 156, ../sass/_landing.scss */
+  .landing-meet {
+    padding: 3rem 1rem;
+  }
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 156, ../sass/_landing.scss */
+  .landing-meet {
+    padding: 3rem 2.5rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 156, ../sass/_landing.scss */
+  .landing-meet {
+    padding: 3rem 4rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 156, ../sass/_landing.scss */
+  .landing-meet {
+    padding: 3rem 6rem;
+  }
+}
+/* line 162, ../sass/_landing.scss */
+.landing-meet__heading {
+  width: 100%;
+  text-align: center;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-transform: uppercase;
+}
+/* line 169, ../sass/_landing.scss */
+.landing-meet__slide {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+}
+/* line 175, ../sass/_landing.scss */
+.landing-team {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+  background: #fafafa;
+}
+@media screen and (max-width: 800px) {
+  /* line 175, ../sass/_landing.scss */
+  .landing-team {
+    padding: 3rem 1rem;
+  }
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 175, ../sass/_landing.scss */
+  .landing-team {
+    padding: 3rem 2.5rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 175, ../sass/_landing.scss */
+  .landing-team {
+    padding: 3rem 4rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 175, ../sass/_landing.scss */
+  .landing-team {
+    padding: 3rem 6rem;
+  }
+}
+/* line 180, ../sass/_landing.scss */
+.landing-team__heading {
+  width: 100%;
+  text-align: center;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-transform: uppercase;
+}
+/* line 187, ../sass/_landing.scss */
+.landing-team__container {
+  margin: 1rem auto;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 187, ../sass/_landing.scss */
+  .landing-team__container {
+    width: 45rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 187, ../sass/_landing.scss */
+  .landing-team__container {
+    width: 72rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 187, ../sass/_landing.scss */
+  .landing-team__container {
+    width: 108rem;
+  }
+}
+/* line 200, ../sass/_landing.scss */
+.landing-team__profile {
+  float: left;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 200, ../sass/_landing.scss */
+  .landing-team__profile {
+    width: 13rem;
+    margin: 0 1rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 200, ../sass/_landing.scss */
+  .landing-team__profile {
+    width: 20rem;
+    margin: 0 2rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 200, ../sass/_landing.scss */
+  .landing-team__profile {
+    width: 30rem;
+    margin: 0 3rem;
+  }
+}
+/* line 215, ../sass/_landing.scss */
+.landing-team__profile__picture {
+  display: block;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+  margin: 1rem auto;
+}
+/* line 223, ../sass/_landing.scss */
+.landing-team__profile__name {
+  width: 100%;
+  font: 1.5rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-align: center;
+}
+/* line 229, ../sass/_landing.scss */
+.landing-team__profile__position {
+  width: 100%;
+  font: 0.75rem/1rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-align: center;
+}
+/* line 235, ../sass/_landing.scss */
+.landing-team__profile__bio {
+  display: block;
+  text-align: justify;
+}
+/* line 244, ../sass/_landing.scss */
+.landing-contact, .landing-subscribe {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+  background: #969696;
+  color: white;
+}
+@media screen and (max-width: 800px) {
+  /* line 244, ../sass/_landing.scss */
+  .landing-contact, .landing-subscribe {
+    padding: 3rem 1rem;
+  }
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 244, ../sass/_landing.scss */
+  .landing-contact, .landing-subscribe {
+    padding: 3rem 2.5rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 244, ../sass/_landing.scss */
+  .landing-contact, .landing-subscribe {
+    padding: 3rem 4rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 244, ../sass/_landing.scss */
+  .landing-contact, .landing-subscribe {
+    padding: 3rem 6rem;
+  }
+}
+/* line 251, ../sass/_landing.scss */
+.landing-contact__heading, .landing-subscribe__heading {
+  width: 100%;
+  text-align: center;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  text-transform: uppercase;
+}
+/* line 258, ../sass/_landing.scss */
+.landing-contact__form, .landing-subscribe__form {
+  margin: 0 auto;
+  text-align: center;
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 258, ../sass/_landing.scss */
+  .landing-contact__form, .landing-subscribe__form {
+    width: 30rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 258, ../sass/_landing.scss */
+  .landing-contact__form, .landing-subscribe__form {
+    width: 35rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 258, ../sass/_landing.scss */
+  .landing-contact__form, .landing-subscribe__form {
+    width: 50rem;
+  }
+}
+/* line 271, ../sass/_landing.scss */
+.landing-contact__form__input, .landing-contact__form__textarea, .landing-subscribe__form__input, .landing-subscribe__form__textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 2rem;
+  border-radius: 1rem;
+  border: none;
+}
+/* line 279, ../sass/_landing.scss */
+.landing-contact__form__input:focus, .landing-contact__form__textarea:focus, .landing-subscribe__form__input:focus, .landing-subscribe__form__textarea:focus {
+  outline: none;
+}
+/* line 283, ../sass/_landing.scss */
+.landing-contact__form__input, .landing-subscribe__form__input {
+  margin: 1rem auto;
+  padding: 0 1rem;
+  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+}
+/* line 288, ../sass/_landing.scss */
+.landing-contact__form__textarea, .landing-subscribe__form__textarea {
+  height: 5rem;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+}
+/* line 295, ../sass/_landing.scss */
+.landing-contact__form__submit, .landing-subscribe__form__submit {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  display: block;
+  width: 50%;
+  height: 3rem;
+  border-radius: 1.5rem;
+  border: 1px solid #fafafa;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0 auto;
+  cursor: pointer;
+}
+/* line 300, ../sass/_landing.scss */
+.landing-contact__form__submit:hover, .landing-subscribe__form__submit:hover {
+  color: #969696;
+  background: #fafafa;
+}
+/* line 310, ../sass/_landing.scss */
+.landing-subscribe {
+  background: #3dc846;
+}
+/* line 313, ../sass/_landing.scss */
+.landing-subscribe__form__input {
+  height: 3rem;
+  font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  border-radius: 1.5rem;
+}
+/* line 319, ../sass/_landing.scss */
+.landing-subscribe__form__submit:hover {
+  color: #3dc846;
+}
+/* line 325, ../sass/_landing.scss */
+.landing-footer {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+  background: #141414;
+}
+@media screen and (max-width: 800px) {
+  /* line 325, ../sass/_landing.scss */
+  .landing-footer {
+    padding: 5rem 1rem;
+  }
+}
+@media screen and (min-width: 801px) and (max-width: 1280px) {
+  /* line 325, ../sass/_landing.scss */
+  .landing-footer {
+    padding: 5rem 2.5rem;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  /* line 325, ../sass/_landing.scss */
+  .landing-footer {
+    padding: 5rem 4rem;
+  }
+}
+@media screen and (min-width: 1441px) {
+  /* line 325, ../sass/_landing.scss */
+  .landing-footer {
+    padding: 5rem 6rem;
+  }
+}
+
+/* line 1, ../sass/_experimental.scss */
+.purdue-login {
+  display: block;
+  box-sizing: border-box;
+  width: 20rem;
+  height: 7rem;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  background: #c7c7c7;
+  border: 3px solid #adadad;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+/* line 13, ../sass/_experimental.scss */
+.purdue-login img {
+  height: 100%;
+  width: auto;
+  opacity: 0.5;
+}

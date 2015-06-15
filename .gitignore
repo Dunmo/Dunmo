@@ -10,3 +10,5 @@ dunmo.tar.gz
 .DS_Store
 custom.bootstrap.less
 custom.bootstrap.mixins.import.less
+*.scssc
+public/config.rb
