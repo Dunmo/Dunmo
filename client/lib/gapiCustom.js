@@ -484,7 +484,8 @@ gapi.getBusytimes = function (startingFrom, callback) {
 gapi.getFreetimes = function (startingFrom, callback) {
   gapi.getBusytimes(function(busytimes) {
     var user      = Meteor.user();
-    var freetimes = Freetimes.createFromBusytimes(busytimes, {
+    var freetimes = Freetimes.fromBusytimes(busytimes, {
+      granularity       : user.taskGranularity(),
       minTime           : startingFrom,
       maxTime           : startingFrom + 30*DAYS,
       startOfDay        : user.startOfDay(),
