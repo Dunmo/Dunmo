@@ -1,7 +1,6 @@
 
 function rerender () {
   Session.set('renderTasks', true);
-  resetTaskListItemWidths();
 };
 
 function setTime () {

@@ -1,63 +1,70 @@
 
-.row.rules {
-  margin-right: 120px;
-  margin-left: 120px;
+.settings-container {
 
-  .text {
-    color: #2F3234;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 20px;
-    font-weight: 200;
+  .row.rules {
+    margin: 20px 120px 0;
+
+    .text {
+      color: #2F3234;
+      font-family: 'Helvetica Neue', sans-serif;
+      font-size: 20px;
+      font-weight: 200;
+    }
   }
-}
 
-.message {
-  display: none;
+  .message {
+    display: none;
 
-  .text {
-    text-align: center;
+    .text {
+      text-align: center;
+    }
   }
-}
 
-form.inline-hrs-mins,
-form.inline-mins {
-  > .form-group {
-    height: 30px;
+  .calendar-panel {
+    margin-top: 0;
+  }
 
-    &:not(:first-child) {
-      margin-left: 20px;
-    }
-
-    > label:not(.inline) {
-      display: block;
-    }
-
-    > label.inline {
-      margin-left: 5px;
-    }
-
-    > .input-group {
-      display: inline-block;
-      max-width: 110px;
-      margin: 0;
-      vertical-align: initial;
-    }
-
-    > .input-group > .input-group-addon {
-      width: 0;
+  form.inline-hrs-mins,
+  form.inline-mins {
+    > .form-group {
       height: 30px;
-    }
 
-    > .btn.add-task {
-      margin-top: 23px;
-    }
+      &:not(:first-child) {
+        margin-left: 20px;
+      }
 
-    .input-group-btn:first-child,
-    .input-group-btn:last-child {
-      > .btn {
-        margin-bottom: 24px;
-        border-radius: 3px;
+      > label:not(.inline) {
+        display: block;
+      }
+
+      > label.inline {
+        margin-left: 5px;
+      }
+
+      > .input-group {
+        display: inline-block;
+        max-width: 110px;
+        margin: 0;
+        vertical-align: initial;
+      }
+
+      > .input-group > .input-group-addon {
+        width: 0;
+        height: 30px;
+      }
+
+      > .btn.add-task {
+        margin-top: 23px;
+      }
+
+      .input-group-btn:first-child,
+      .input-group-btn:last-child {
+        > .btn {
+          margin-bottom: 24px;
+          border-radius: 3px;
+        }
       }
     }
   }
-}
+
+} /* settings-container */

@@ -75,16 +75,31 @@ Template.taskListItem.events({
   },
 
   'click .snooze.btn': function (e) {
-    if(Session.get('snoozeActive') === this._id) {
-      var val = $("#datetimepicker").val();
+    Session.set('snoozeActive', this._id);
+  },
+
+  'click .snooze-container .confirm, keydown .snooze-container input.snooze': function (e) {
+    if( e.which && (e.which !== 13 && e.which !== 1 && e.which !== 27) ) return;
+
+    // if we press escape, cancel
+    if( e.which && e.which === 27 ) {
+      Session.set('snoozeActive', '');
+      return;
+    }
+
+    if(Session.get('snoozeActive') == this._id) {
+      var val = $("input.snooze").val();
+      val = moment(val).toDate();
       val = Number(new Date(val));
       this.setSnoozedUntil(val);
       if(this.isOnboardingTask) setOnboardingTasks();
       gapi.syncTasksWithCalendar();
       Session.set('snoozeActive', '');
-    } else {
-      Session.set('snoozeActive', this._id);
     }
+  },
+
+  'click .snooze-container .cancel': function (e) {
+    if(Session.get('snoozeActive') == this._id) Session.set('snoozeActive', '');
   },
 
   'click .save, keydown input.todo': function (e) {
@@ -94,13 +109,11 @@ Template.taskListItem.events({
     // if we press escape, cancel
     if( e.which && e.which === 27 ) {
       Session.set('currentlyEditing', '');
-      resetTaskListItemWidths();
       return;
     }
 
     var str = $('input.todo').val();
     Session.set('currentlyEditing', '');
-    resetTaskListItemWidths();
 
     if(str !== this.inputString) {
       this.reParse(str);
