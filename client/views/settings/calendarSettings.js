@@ -11,6 +11,9 @@ function hoursAndMinutes(milliseconds) {
 };
 
 Template.calendarSettings.rendered = function () {
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
   gapi.syncCalendars();
 };
 

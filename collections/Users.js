@@ -26,7 +26,6 @@ var settingsPropsAndDefaults = [
 ];
 
 var settingsGetters = {};
-
 settingsPropsAndDefaults.forEach(function (pair) {
   var prop       = pair[0];
   var defaultVal = pair[1];

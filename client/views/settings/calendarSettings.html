@@ -1,32 +1,7 @@
 
 <template name="calendarSettings">
   <section id="content">
-    <section class="main padder">
-
-      <div class="row rules">
-        <div class="col-lg-12">
-          <p class="text">
-            <strong>Workday:</strong>
-            We'll only schedule tasks from {{startTime}} to {{endTime}}.
-          </p>
-          <p class="text">
-            <strong>Granularity:</strong>
-            Rather than scheduling down to the minute, we'll work with {{taskGranularity}} units.
-          </p>
-          <p class="text">
-            <strong>Max Duration:</strong>
-            We won't tell you to work on the same thing for more than {{maxTaskInterval}} at a time.
-          </p>
-          <p class="text">
-            <strong>Max Per Day:</strong>
-            We'll only tell you to work on the same thing for a total of {{maxTimePerTaskPerDay}} per day.
-          </p>
-          <p class="text">
-            <strong>Break Duration:</strong>
-            When you have to do the same thing for longer than {{maxTaskInterval}}, we'll schedule a break of {{taskBreakInterval}} in between sessions.
-          </p>
-        </div>
-      </div>
+    <section class="main padder settings-container">
 
       <div class="row message">
         <div class="col-lg-12">
@@ -37,23 +12,22 @@
       <div class="row">
         <div class="time-header col-lg-12">
           <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip"
-                            data-placement="bottom"
-                            data-original-title="A large tooltip.">
+            <h4><a href="#" data-toggle="tooltip" data-placement="top"
+                   title="We'll only schedule tasks after {{startTime}}.">
               Start of Work Day
             </a></h4>
           </section>
           <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
-                            data-placement="bottom"
-                            title="A large tooltip.">
+                            data-placement="top"
+                            title="We'll only schedule tasks before {{endTime}}.">
               End of Work Day
             </a></h4>
           </section>
           <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
-                            data-placement="bottom"
-                            title="A large tooltip.">
+                            data-placement="top"
+                            title="Rather than scheduling down to the minute, we'll work with {{taskGranularity}} units.">
               Task Granularity
             </a></h4>
           </section>
@@ -68,9 +42,9 @@
               <section class="media-body">
                 <form action="" class="m-b-none form-inline">
                   <div class="input-group">
-                    <input type="time" value="{{startTime}}" class="form-control start-time">
+                    <input type="time" value="{{startTime}}" class="form-control input-sm start-time">
                     <span class="input-group-btn">
-                      <button class="btn btn-primary start-time" type="button">SAVE</button>
+                      <button class="btn btn-sm btn-primary start-time" type="button">SAVE</button>
                     </span>
                   </div>
                 </form>
@@ -83,9 +57,9 @@
               <section class="media-body">
                 <form action="" class="m-b-none form-inline">
                   <div class="input-group ">
-                    <input type="time" value="{{endTime}}" class="form-control end-time">
+                    <input type="time" value="{{endTime}}" class="form-control input-sm end-time">
                     <span class="input-group-btn">
-                      <button class="btn btn-primary end-time" type="button">SAVE</button>
+                      <button class="btn btn-sm btn-primary end-time" type="button">SAVE</button>
                     </span>
                   </div>
                 </form>
@@ -123,22 +97,22 @@
         <div class="time-header col-lg-12">
           <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
-                            data-placement="bottom"
-                            data-original-title="A large tooltip.">
+                            data-placement="top"
+                            data-original-title="We won't tell you to work on the same thing for more than {{maxTaskInterval}} at a time.">
               Max Task Duration
             </a></h4>
           </section>
           <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
-                            data-placement="bottom"
-                            title="A large tooltip.">
+                            data-placement="top"
+                            title="We'll only tell you to work on the same thing for a total of {{maxTimePerTaskPerDay}} per day.">
               Max Day Total per Task
             </a></h4>
           </section>
           <section class="col-lg-4">
             <h4><a href="#" data-toggle="tooltip"
-                            data-placement="bottom"
-                            title="A large tooltip.">
+                            data-placement="top"
+                            title="When you have to do the same thing for longer than {{maxTaskInterval}}, we'll schedule a break of {{taskBreakInterval}} in between sessions.">
               Break Duration
             </a></h4>
           </section>
@@ -247,13 +221,17 @@
         </div>
       </div>
 
+      <div class="row rules">
+        <div class="col-lg-12">
+          <p class="text">
+            We won't schedule tasks during events on the highlighted calendars.
+          </p>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-lg-12">
-
-          <section class="panel">
-            <p class="text">
-              We won't schedule tasks during events on the highlighted calendars.
-            </p>
+          <section class="panel calendar-panel">
             <header class="panel-heading bg bg-primary">
               <a class="btn btn-link pull-right nav"></a>
               Active Calendars
@@ -264,7 +242,6 @@
             {{/each}}
             </ul>
           </section>
-
         </div>
       </div>
 
