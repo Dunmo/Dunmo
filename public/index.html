@@ -1,238 +1,211 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="/favicon.ico">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="img/favicon.ico">
+  <title>Dunmo | Personal Productivity Assistant</title>
 
-    <title>Dunmo | Personal Productivity Assistant</title>
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template
-    <link href="css/ionicons.min.css" rel="stylesheet">
-    <link href="css/helpers.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet"> -->
-    <link href="stylesheets/screen.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/ionicons.min.css" rel="stylesheet">
+  <link href="css/helpers.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <!-- <link href="stylesheets/screen.css" rel="stylesheet"> -->
 
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
-    <!--<script type="text/javascript">
-        window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+t+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
-        heap.load("1530466225");
-    </script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <script type="text/javascript">
+    window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+t+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+    heap.load("1530466225");
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-61436323-1', 'auto');
-        ga('send', 'pageview');
-    </script>-->
-
+    ga('create', 'UA-61436323-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 </head>
 <body data-spy="scroll" data-offset="0" data-target="#theMenu">
 
-    <div class="landing-splash">
-        <div class="landing-splash__container">
+  <img src="img/social.png" alt="" class="hidden">
 
-            <img src="img/assets/letters/letters.png" class="landing-splash__brand" />
+  <!-- ********** HEADER ********** -->
+  <div id="h">
+    <div class="container">
+      <div class="row">
+        <img src="img/assets/logoHoriz_wTagLine/logo_horiz_wTagLine.svg" alt="Dunmo Logo" class="img-logo" style="height: 50%; width: 50%;">
+        <br/>
+        <h2>Get More Done with Dunmo</h2>
+        <p class="mt"><a href='/taskView' class="btn btn-conf btn-green">Get the Dunmo Beta Now!</a></p>
+        <div class="promo">
+          <h2>
+            <a href="/promotion.html" style="text-decoration: underline;"> Get 10 friends to sign up, Get a free T-shirt! </a>
+          </h2>
+        </div>
+        <br>
+        <h3><a href="#about">Learn More</a></h3>
+      </div><!--/row -->
+    </div><!--/container -->
+  </div><!--/H -->
 
-            <div class="landing-splash__tagline">
-                Your Personal Productivity Assistant
+  <!-- ********** STAND OUT / CALL TO ACTION ********** -->
+  <section class="news" id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 section-bg-color">
+          <div class="row">
+            <div class="col-sm-12">
+              <h2 class="header-text"> Hi! I'm Dunmo! </h2>
+              <img src="img/assets/bot/dunmo.svg" alt="Dunmo" style="height: 10%; width: 10%;">
+              <p> I'm here to save you time and make your life easier by managing your time for you. Until now, it was your job to find time in your day to do tasks. Now you can relax and let me do the work for you. </p>
             </div>
-
-            <a href="" class="landing-splash__action">Try the Beta</a>
-
-            <div class="landing-nav">
-                <div class="landing-nav__item landing-nav__item--story">Our Story</div>
-                <div class="landing-nav__item landing-nav__item--meet">Meet Dunmo</div>
-                <div class="landing-nav__item landing-nav__item--team">The Team</div>
-                <div class="landing-nav__item landing-nav__item--contact">Contact Us</div>
-
-                <img class="landing-nav__logo" src="img/assets/check.png" />
-
-                <a href="" class="landing-nav__action">Get the Beta</a>
+          </div><!--/row-->
+          <div class="row">
+            <div class="col-sm-12">
+              <h2 class="header-text"> How can I make your life easier? </h2>
+              <img src="img/tasks-take-time.png" alt="">
+              <p> I prioritize your task list and schedule each task into your calendar<br>so you always know what you should be working on. This way you can see clearly what you need to do, when you need to do it, and how long you'll need to spend on it. With me doing the work for you, you'll have more time to spend doing the things you love. </p>
             </div>
+          </div><!--/row-->
+        </div><!-- /col-sm-6-->
+      </div><!--/row -->
+    </div><!--/container -->
+  </section><!--/NEWS -->
 
+  <!-- ********** SPEAKERS ********** -->
+  <section id="speakers"></section>
+  <div class="ptb">
+    <div class="container">
+      <div class="row">
+        <h2 class="centered">TEAM</h2>
+        <hr class="aligncenter mb">
+        <!-- Speakers First Row -->
+        <div class="col-md-4 col-md-offset-1 text-center">
+          <img src="img/circle-michael.png" class="img-circle img-120 centered" alt="">
+          <h4>Michael Goldman</h4>
+          <h6><tg>CEO</tg></h6>
+          <p>Michael is focused on building an amazing product that will make life easier and he is driving the team toward that goal. "Power and simplicity. That's what we aim to achieve." </p>
         </div>
-    </div>
-
-    <div class="landing-story">
-
-        <div class="landing-story__heading">Our Story</div>
-
-        <p class="landing-story__text">
-            Carles post-ironic banh mi, sartorial distillery food truck fanny pack PBR kogi swag keffiyeh ethical. Chambray Williamsburg cronut, sustainable selvage photo booth artisan. Gentrify Tumblr photo booth XOXO. Vinyl forage cray, Banksy chambray cronut squid church-key gentrify Pitchfork occupy. Shoreditch YOLO asymmetrical cronut VHS cornhole. Leggings aesthetic four loko swag, you probably haven't heard of them Blue Bottle hoodie gluten-free. Gastropub cliche listicle cornhole cred distillery normcore.
-        </p>
-
-        <p class="landing-story__text">
-            Intelligentsia authentic locavore, Truffaut shabby chic viral vegan put a bird on it. Kogi gastropub migas, artisan cronut freegan narwhal mumblecore. Try-hard fanny pack tousled photo booth, post-ironic tofu Carles mustache flannel umami organic distillery. Williamsburg Etsy sriracha, scenester keffiyeh plaid tote bag pickled 8-bit roof party umami church-key Tumblr forage cred. Gluten-free mumblecore ethical tofu pickled paleo salvia umami. Squid wayfarers forage irony tilde Marfa, asymmetrical whatever YOLO McSweeney's swag. Williamsburg street art bespoke farm-to-table, twee church-key plaid leggings meh.
-        </p>
-
-    </div>
-
-    <div class="landing-meet">
-
-        <div class="landing-meet__heading">Meet Dunmo</div>
-
-        <div class="landing-meet__slide">
-
+        <div class="col-md-4 col-md-offset-2 text-center">
+          <img src="img/circle-jeremy.png" class="img-circle img-120" alt="">
+          <h4>Jeremy Meyer</h4>
+          <h6><tg>CTO</tg></h6>
+          <p>Jeremy puts the quality of the user experience above all else, but his primary concern is creating an extremely robust and powerful technology stack to drive Dunmo.</p>
         </div>
+        <!-- <div class="col-md-4 text-center">
+          <img src="img/circle-adeyo.png" class="img-circle img-120" alt="">
+          <h4>Laolu Adeyo</h4>
+          <h6><tg>CCO</tg></h6>
+          <p>Adeyo drives the creative direction here at Dunmo. He's the visionary designer responsible for the beautiful and intuitive Dunmo personal productivity assistant.</p>
+        </div> -->
+      </div><!--/row-->
+    </div><!--/container-->
+  </div>
 
-        <div class="landing-meet__slide">
-
-        </div>
-
-        <div class="landing-meet__slide">
-
-        </div>
-
-        <div class="landing-meet__slide">
-
-        </div>
-
-    </div>
-
-    <div class="landing-team">
-
-        <div class="landing-team__heading">The Team</div>
-
-        <div class="landing-team__container group">
-
-            <div class="landing-team__profile">
-                <img src="img/ui-01.jpg" class="landing-team__profile__picture" />
-                <div class="landing-team__profile__name">Bro</div>
-                <div class="landing-team__profile__position">CEO</div>
-                <p class="landing-team__profile__bio">
-                    Fashion axe keytar taxidermy before they sold out hoodie farm-to-table fanny pack, biodiesel butcher irony chillwave synth. Drinking vinegar gluten-free hella McSweeney's photo booth occupy, synth cardigan Brooklyn. Godard hella Portland Brooklyn seitan lumbersexual food truck polaroid post-ironic, scenester pork belly artisan Neutra Truffaut. Cardigan salvia small batch normcore, kogi kitsch yr disrupt chambray. Schlitz Helvetica banjo sriracha, four loko VHS Blue Bottle skateboard polaroid cornhole. Shoreditch cronut you probably haven't heard of them Banksy, gentrify quinoa bitters Truffaut kogi. Jean shorts drinking vinegar mlkshk pop-up four dollar toast.
-                </p>
+  <!-- ********** TESTIMONIALS ********** -->
+  <!--<section class="testimonials">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-6 section-bg-grey centered">
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <!--<div class="carousel-inner">
+              <div class="item active">
+                <h3>I enjoyed so much the last edition of Landing Sumo, that I bought the tickets for the new one edition of the event the first day.</h3>
+                <h5><tgr>DAVID JHONSON</tgr></h5>
+              </div>
+              <div class="item">
+                <h3>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</h3>
+                <h5><tgr>MARK LAWRENCE</tgr></h5>
+              </div>
+              <div class="item">
+                <h3>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration, by injected humour.</h3>
+                <h5><tgr>LISA SMITH</tgr></h5>
+              </div>
             </div>
+          </div><!--/Carousel-->
+        <!--<!--<!--<!--</div><!--/col-sm-6-->
+      <!--<!--<!--</div><!--/row-->
+    <!--<!--</div><!--/container-->
+  <!--</section><!--/testimonials-->
 
-            <div class="landing-team__profile">
-                <img src="img/ui-02.jpg" class="landing-team__profile__picture" />
-                <div class="landing-team__profile__name">Dude</div>
-                <div class="landing-team__profile__position">CTO</div>
-                <p class="landing-team__profile__bio">
-                    Roof party cronut authentic cray, selfies pickled banh mi Etsy meh tote bag. American Apparel sustainable direct trade brunch, meditation cardigan authentic Tumblr pour-over butcher cronut art party 90's gentrify. Fap scenester church-key banjo cred Schlitz. Aesthetic you probably haven't heard of them Tumblr, tote bag Vice Marfa authentic keytar typewriter flannel cardigan dreamcatcher small batch Bushwick four dollar toast. Polaroid listicle literally selfies, try-hard fashion axe plaid hashtag Vice PBR paleo Marfa jean shorts. Thundercats Kickstarter twee, banjo health goth occupy wayfarers McSweeney's Shoreditch you probably haven't heard of them paleo flannel DIY listicle. Ennui Austin Kickstarter, tofu health goth listicle retro cold-pressed church-key cray.
-                </p>
+  <!-- ********** FEATURE REQUEST ********** -->
+  <section id="contact"></section>
+  <div id="f">
+    <div class="container">
+      <div class="row centered">
+        <h2>Think we're missing something?</h2>
+        <div class="col-md-6 col-md-offset-3 mt">
+          <div class="mailing-list">
+            <button class="btn btn-conf btn-green btn-submit">Request a Feature</button>
+          </div>
+        </div><!--/col-md-6-->
+      </div><!--/row-->
+    </div><!--/container-->
+  </div><!--/F-->
 
-            </div>
+  <!-- ********** MAILING LIST ********** -->
+  <section id="contact"></section>
+  <div id="f">
+    <div class="container">
+      <div class="row centered">
+        <h2>Don't miss any news. &nbsp;Subscribe below to be updated.</h2>
+        <div class="col-md-6 col-md-offset-3 mt">
+          <div class="mailing-list">
+            <input type="email" name="email" class="email subscribe-input" placeholder="Enter your e-mail address..." required>
+            <button class="btn btn-conf btn-green btn-submit">Subscribe</button>
+          </div>
+        </div><!--/col-md-6-->
+      </div><!--/row-->
+    </div><!--/container-->
+  </div><!--/F-->
 
-            <div class="landing-team__profile">
-                <img src="img/ui-03.jpg" class="landing-team__profile__picture" />
-                <div class="landing-team__profile__name">Man</div>
-                <div class="landing-team__profile__position">CDO</div>
-                <p class="landing-team__profile__bio">
-                    Vice mumblecore 90's, art party mustache shabby chic mlkshk pop-up. Cold-pressed brunch kale chips church-key Marfa flannel, letterpress plaid Helvetica retro readymade bicycle rights. Mixtape squid salvia, drinking vinegar vegan post-ironic food truck church-key cronut. Hella Pitchfork health goth wolf, PBR XOXO butcher Shoreditch paleo Thundercats lo-fi Truffaut distillery hashtag. Pitchfork Thundercats polaroid, kale chips farm-to-table slow-carb viral fap pug. Roof party street art ennui, Austin meditation gastropub taxidermy quinoa 8-bit single-origin coffee organic fixie tousled Blue Bottle. Vegan trust fund readymade gluten-free High Life 90's, fashion axe fanny pack chia paleo.
-                </p>
-
-            </div>
-
+  <!-- ********** COPYRIGHT ********** -->
+  <div id="copyright">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <img src="img/dunmo3.png" height="35px" width="145px">
         </div>
+        <div class="col-md-4">
+          <p class="alignright">
+            <a href="http://facebook.com/DunmoApp"><i class="ion-social-facebook"></i></a>
+            <a href="http://twitter.com/DunmoApp"><i class="ion-social-twitter"></i></a>
+          </p>
+        </div>
+      </div><!--/row-->
+    </div><!--/container-->
+  </div><!--/copyright-->
 
-    </div>
-
-    <div class="landing-contact">
-
-        <div class="landing-contact__heading">Contact Us</div>
-
-        <form id="contact" action="" method="" class="landing-contact__form">
-
-            <input class="landing-contact__form__input" name="name" type="text" value="Name" />
-
-            <input class="landing-contact__form__input" name="email" type="text" value="Email" />
-
-            <input class="landing-contact__form__input" name="subject" type="text" value="Subject" />
-
-            <textarea class="landing-contact__form__textarea" name="message" rows="2">Message</textarea>
-
-            <input type="submit" value="Send" class="landing-contact__form__submit">
-
-        </form>
-
-    </div>
-
-    <div class="landing-subscribe">
-
-        <div class="landing-contact__heading">Subscribe</div>
-
-        <form id="subscribe" class="landing-subscribe__form">
-
-            <input class="landing-subscribe__form__input" name="email" type="text" value="Email" />
-
-            <input type="submit" value="Send" class="landing-subscribe__form__submit">
-
-        </form>
-
-    </div>
-
-    <div class="landing-footer">
-
-    </div>
-
-
-    <!-- Javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery.min.js"></script>
-    <!--<script src="js/bootstrap.min.js"></script>
-    <script src="js/classie.js"></script>
-    <script src="js/smoothscroll.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/retina-1.1.0.js"></script>
-    <script src="js/mailingList.js"></script>-->
-    <script type="text/javascript" src="js/jquery.waypoints.min.js"></script>
-
-    <script>
-        //alert($('.landing-nav').offset().top);
-        //alert($(document).scrollTop());
-        if ($('.landing-nav').offset().top < $(document).scrollTop()) {
-            $('.landing-nav').addClass('sticky');
-            $('.landing-nav__logo').fadeIn(200);
-            $('.landing-nav__action').fadeIn(200);
-        }
-
-        $('.landing-nav').waypoint(function() {
-            $('.landing-nav').toggleClass('sticky');
-            $('.landing-nav__logo').fadeToggle(200);
-            $('.landing-nav__action').fadeToggle(200);
-        }, {
-            offset: '0%'
-        })
-
-        $('.landing-story').waypoint(function () {
-            //$('.landing-nav__item').removeClass('current');
-            $('.landing-nav__item--story').toggleClass('current');
-        })
-
-        $('.landing-meet').waypoint(function () {
-            $('.landing-nav__item--story').toggleClass('current');
-            $('.landing-nav__item--meet').toggleClass('current');
-        })
-
-        $('.landing-team').waypoint(function () {
-            $('.landing-nav__item--meet').toggleClass('current');
-            $('.landing-nav__item--team').toggleClass('current');
-        })
-
-        $('.landing-contact').waypoint(function () {
-            $('.landing-nav__item--team').toggleClass('current');
-            $('.landing-nav__item--contact').toggleClass('current');
-        })
-    </script>
-
+  <!-- Javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/classie.js"></script>
+  <script src="js/smoothscroll.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/retina-1.1.0.js"></script>
+  <script src="js/mailingList.js"></script>
+  <script type="text/javascript" src="js/jquery.waypoints.min.js"></script>
 </body>
 </html>
 
