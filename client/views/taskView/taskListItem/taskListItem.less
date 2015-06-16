@@ -1,6 +1,7 @@
 
 .task {
   height: 64px;
+  width: 100%;
 
   &.overdue {
     background-color: #FF6464;
@@ -26,7 +27,7 @@
 
   .media {
     overflow: visible;
-    height: 44px;
+    height: 64px;
   }
 
   .task-text {
@@ -107,3 +108,108 @@
   }
 
 } /* .task */
+
+  /* Temporary hacky/messy fixes */
+
+.btn {
+    display: block;
+    box-shadow: none !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    text-align: center;
+    border-radius: 16px;
+    line-height: 32px !important;
+}
+
+.list-group-item {
+    padding: 0 !important;
+}
+
+.pull-left.action-btn-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin: 16px !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+}
+
+.media {
+    position: relative !important;
+    width: 100%;
+}
+
+.media-body {
+    //overflow: hidden !important;
+    position: absolute;
+    width: ~"calc(100% - 64px)" !important;
+    height: 64px !important;
+    margin: 0 !important;
+    margin-left: 64px !important;
+}
+
+.line-prop.title {
+    width: ~"calc(100% - (64px * 3))" !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    float: none !important;
+    padding: 0 !important;
+    //position: absolute;
+}
+
+.line-prop.remaining {
+    margin: 0 !important;
+    .fa-wrapper {
+        text-align: center;
+    }
+    .fa-wrapper .fa {
+        font-size: 24px !important;
+        line-height: 32px !important;
+    }
+}
+.line-prop.due {
+   // margin: 0 !important;
+    .fa-wrapper {
+        text-align: left;
+    }
+    .fa-wrapper .fa {
+        font-size: 24px !important;
+        line-height: 32px !important;
+    }
+}
+
+.list-group {
+    width: 100% !important;
+}
+
+.remove.btn {
+    //display: none;
+}
+
+.media-body .action-btn-wrapper {
+    display: block;
+    float: none !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: ~"calc(64px * )" !important;
+    height: 32px !important;
+    margin: 16px 8px !important;
+}
+
+.edit.btn,
+.snooze.btn,
+.remove.btn {
+    float: left;
+    margin: 0 8px !important;
+}
+
+.overdue {
+    background: lighten(#FF6464,15%) !important;
+}
+
+.btn.add-task {
+  width: 50px !important;
+  border-radius: 4px;
+}
