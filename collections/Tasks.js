@@ -14,7 +14,7 @@
  * isOnboardingTask   : Boolean
  * timeLastMarkedDone : DateTime
  * description        : String
- * dependencies       : String[]
+ * dependencyIds      : String[]
  * tags               : String[]
  * assigneeIds        : String[]
  *
@@ -69,20 +69,22 @@ Tasks.helpers({
   },
 
   addDependency: function (dependencyIds) {
-    return this.update({ $addToSet: { dependencies: dependencyIds } });
+    return this.update({ $addToSet: { dependencyIds: dependencyIds } });
   },
 
   removeDependency: function (dependencyIds) {
-    return this.update({ $pullAll: { dependencies: dependencyIds } });
+    return this.update({ $pullAll: { dependencyIds: dependencyIds } });
   },
 
   removeAllDependencies: function () {
-    return this.update({ dependencies: [] });
+    return this.update({ dependencyIds: [] });
   },
 
   dependsOn: function (task) {
-    if(typeof task === 'string') return _.include(this.dependencies, task);
-    else                         return _.include(this.dependencies, task._id);
+    var taskId;
+    if(typeof task === 'string') taskId = task;
+    else                         taskId = task._id;
+    return _.include(this.dependencyIds, taskId);
   },
 
   markDone: function (bool) {
