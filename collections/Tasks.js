@@ -2,6 +2,7 @@
  * Task
  * ==========
  * ownerId            : String
+ * projectId          : String
  * title              : String
  * importance         : <1,2,3>
  * dueAt              : DateTime
@@ -10,13 +11,46 @@
  * snoozedUntil       : DateTime
  * needsReviewed      : Boolean
  * isDone             : Boolean
- * isRemoved          : Boolean
  * isOnboardingTask   : Boolean
  * timeLastMarkedDone : DateTime
  * description        : String
  * dependencies       : String[]
+ * tags               : String[]
+ * assigneeIds        : String[]
  *
  */
+
+var props = [
+  'projectId',
+  'title',
+  'importance',
+  'dueAt',
+  'remaining',
+  'spent',
+  'snoozedUntil',
+  'timeLastMarkedDone',
+  'description'
+];
+
+var boolProps = [
+  'needsReviewed',
+  'isDone',
+  'isOnboardingTask'
+];
+
+var setters = {};
+
+props.forEach(function (prop) {
+  var setterName      = 'set' + prop.capitalize();
+  setters[setterName] = Setters.setProp(prop);
+});
+
+boolProps.forEach(function (prop) {
+  var setterName      = 'set' + prop.capitalize();
+  setters[setterName] = Setters.setBool(prop);
+});
+
+Tasks.helpers(setters);
 
 Tasks.helpers({
 
@@ -33,12 +67,6 @@ Tasks.helpers({
     if(bool) selector.timeLastMarkedDone = Date.now();
     return this.update(selector);
   },
-
-  setNeedsReviewed: Setters.setBool('needsReviewed'),
-
-  setWillBeOverdue: Setters.setBool('willBeOverdue'),
-
-  setSnoozedUntil: Setters.setProp('snoozedUntil'),
 
   addDependency: function (dependencyIds) {
     return this.update({ $addToSet: { dependencies: dependencyIds } });
@@ -74,7 +102,68 @@ Tasks.helpers({
     // TODO: set timeSpent also
 
     return [ firstTask, secondTask ];
+  },
+
+  isInProgress: function () {
+    return this.spent > 0;
+  },
+
+  isSnoozed: function () {
+    return this.snoozedUntil > Date.now();
+  },
+
+  isTodo: function () {
+    return !this.isDone;
+  },
+
+  addTag: function (tag) {
+    if(tag.charAt(0) === '#') tag = tag.slice(1);
+    if(tag.length === 0) return 0;
+    return this.update({ $addToSet: { tags: tag } });
+  },
+
+  removeTag: function (tag) {
+    if(tag.charAt(0) === '#') tag = tag.slice(1);
+    if(tag.length === 0) return 0;
+    return this.update({ $pullAll: { tags: tag } });
+  },
+
+  assignees: function () {
+    return Meteor.users.find({ _id: { $in: this.assigneeIds } });
+  },
+
+  fetchAssignees: function () {
+    return this.assignees().fetch();
+  },
+
+  addAssignee: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $addToSet: { assigneeIds: userId } });
+  },
+
+  removeAssignee: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $pullAll: { assigneeIds: userId } });
+  },
+
+  isUnassigned: function () {
+    return this.assignees.length === 0;
+  },
+
+  project: function () {
+    return Projects.findOne(this.projectId);
+  },
+
+  hasProject: function () {
+    return !!this.projectId;
   }
+
+  // dueAtString
+  // needs to handle relative dates
 
 });
 
