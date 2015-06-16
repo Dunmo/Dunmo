@@ -70,6 +70,7 @@ Events.findTaskEvents = function (selector, options) {
   return Events.find(selector);
 };
 
+// options: { start, end }
 Events.fetchTaskEvents = function (options, callback) {
   var selector = selector || {};
   selector.taskId = { $exists: true };
