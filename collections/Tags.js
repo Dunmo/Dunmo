@@ -1,19 +1,10 @@
 /*
  * Tag
  * ==========
- * ownerId       : String
- * title         : String
- * active        : Boolean
- * isRemoved     : Boolean
- * lastUpdatedAt : Date
+ * title : String
+ * type  : String<user,topic>
  *
  */
-
-Tags.helpers({
-
-  setTitle: Setters.setProp('title'),
-
-});
 
 Tags._symbolForTagType = {
   user:  '@',
@@ -49,7 +40,6 @@ Tags.createOrUpdate = function (obj) {
     obj.inputString     = obj.inputString;
     obj.title           = obj.title         || obj.inputString.substring(1);
     obj.type            = obj.type          || Tags.tagTypeFromString(obj.inputString);
-    obj.active          = obj.active        || false;
     obj.isRemoved       = obj.isRemoved     || false;
     obj.lastUpdatedAt   = obj.lastUpdatedAt || Date.now();
 
