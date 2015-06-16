@@ -15,7 +15,6 @@ function onboardingTask (title) {
 };
 
 setOnboardingTasks = function () {
-  console.log('setting ob tasks...');
   var user = Meteor.user();
 
   var maxOnboardingTasks = 4;
@@ -38,6 +37,4 @@ setOnboardingTasks = function () {
   if(start >= onboardingTitles.length) user.setHasOnboarded('taskView', true);
 
   user.setOnboardingIndex(end);
-
-  resetTaskListItemWidths();
 };
