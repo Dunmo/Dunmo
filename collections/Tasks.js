@@ -87,6 +87,14 @@ Tasks.helpers({
     return _.include(this.dependencyIds, taskId);
   },
 
+  dependencies: function () {
+    return Tasks.find({ _id: { $in: this.dependencyIds } });
+  },
+
+  fetchDependencies: function () {
+    return this.dependencies().fetch();
+  },
+
   markDone: function (bool) {
     return this.setIsDone(bool);
   },
