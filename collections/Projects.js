@@ -10,7 +10,7 @@
 
 var props = [
   'title',
-  'dueAt',
+  'dueAt'
 ];
 
 var setters = {};
