@@ -267,6 +267,99 @@ Meteor.users.helpers({
       taskBreakInterval:    this.taskBreakInterval()
     });
     return todoList;
+  },
+
+  events: function (selector, options) {
+    selector = selector || {};
+    selector.ownerId = this._id;
+    return Events.find(selector, options);
+  },
+
+  calendarEvents: function (selector, options) {
+    selector = selector || {};
+    selector.taskId = selector.taskId || { $ne: true };
+    return this.events(selector, options);
+  },
+
+  taskEvents: function (selector, options) {
+    selector = selector || {};
+    selector.taskId = selector.taskId || { $exists: true };
+    return this.events(selector, options);
+  },
+
+  fetchTaskEventsInRange: function (start, end) {
+    start = Number(new Date(start));
+    end   = Number(new Date(end));
+    var selector = { $or: { start: { $lt: end }, end: { $gt: start } } };
+    return this.taskEvents(selector).fetch();
+  },
+
+  taskTimeSpentInRange: function (start, end) {
+    start = Number(new Date(start));
+    end   = Number(new Date(end));
+
+    var taskEvents = this.fetchTaskEventsInRange(start, end);
+
+    var durations = taskEvents.map(function (taskEvent) {
+      return taskEvent.durationWithinRange(start, end);
+    });
+
+    var timeSpent = _.sum(durations);
+
+    return timeSpent;
+  },
+
+  lengthOfWorkday: function () {
+    return this.endOfDay() - this.startOfDay();
+  },
+
+  workTimeInRange: function (start, end) {
+    start = Number(new Date(start));
+    end   = Number(new Date(end));
+
+    var beginningSegment = 0;
+    var endSegment       = 0;
+    var startTime = Date.timeOfDay(start);
+    var endTime   = Date.timeOfDay(end);
+    var lengthOfWorkday = this.lengthOfWorkday();
+
+    if(startTime > this.startOfDay() &&
+    startTime < this.endOfDay()) {
+      beginningSegment = this.endOfDay() - startTime;
+    }
+    else if(startTime < this.startOfDay()) {
+      beginningSegment = lengthOfWorkday;
+    }
+
+    if(endTime > this.startOfDay() &&
+    endTime < this.endOfDay()) {
+      endSegment = endTime - this.startOfDay();
+    }
+    else if(endTime > this.endOfDay()) {
+      endSegment = lengthOfWorkday;
+    }
+
+    var numDays = Date.numberOfDaysInRange(Date.endOfDay(start), Date.startOfDay(end));
+
+    var workTime = beginningSegment + numDays*lengthOfWorkday + endSegment;
+
+    return workTime;
+  },
+
+  productiveTimeSpentInRange: function (start, end) {
+    return this.taskTimeSpentInRange(start, end);
+  },
+
+  prouctivityPercentage: function (start, end) {
+    start = Number(new Date(start));
+    end   = Number(new Date(end));
+
+    var productiveTime = this.productiveTimeSpentInRange(start, end);
+    var totalTime = this.workTimeInRange(start, end);
+
+    var percentage = timeSpent / totalTime;
+
+    return percentage;
   }
 
 });
