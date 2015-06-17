@@ -7,12 +7,17 @@
  * start            : Date
  * end              : Date
  * googleCalendarId : String
+ *
  */
 
 Events.helpers({
 
   task: function () {
     return Tasks.findOne(this.taskId);
+  },
+
+  isTaskEvent: function () {
+    return !!this.taskId;
   }
 
 });
