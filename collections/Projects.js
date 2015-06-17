@@ -4,7 +4,8 @@
  * ownerId            : String
  * title              : String
  * dueAt              : DateTime
- * memberIds          : String[]
+ * readerIds          : String[]
+ * writerIds          : String[]
  * managerIds         : String[]
  */
 
@@ -24,26 +25,87 @@ Projects.helpers(setters);
 
 Projects.helpers({
 
-  members: function () {
-    return Meteor.users.find({ _id: { $in: this.memberIds } });
+  members: function (selector, options) {
+    selector = selector || {};
+    var memberIds = _.union(this.readerIds, this.writerIds, this.managerIds);
+    selector._id = selector._id || { $in: memberIds };
+    return Meteor.users.find(selector, options);
   },
 
-  fetchMembers: function () {
-    return this.members().fetch();
+  fetchMembers: function (selector, options) {
+    return this.members(selector, options).fetch();
   },
 
-  addMember: function (user) {
+  addMember: function (user, type) {
     var userId;
     if(typeof user === 'string') userId = user;
     else                         userId = user._id;
-    return this.update({ $addToSet: { memberIds: userId } });
+    switch (type) {
+      case 'reader':
+      case 'read':
+        return this.addReader(userId);
+      case 'writer':
+      case 'write':
+        return this.addWriter(userId);
+      case 'manager':
+      case 'manage':
+        return this.addManager(userId);
+    }
   },
 
   removeMember: function (user) {
     var userId;
     if(typeof user === 'string') userId = user;
     else                         userId = user._id;
-    return this.update({ $pullAll: { memberIds: userId } });
+    return this.update({ $pullAll: { readerIds: userId, writerIds: userId, managerIds: userId } });
+  },
+
+  readers: function (selector, options) {
+    selector = selector || {};
+    selector._id = selector._id || { $in: this.readerIds };
+    return this.members()
+  },
+
+  fetchReaders: function (selector, options) {
+    return this.readers(selector, options).fetch();
+  },
+
+  addReader: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $addToSet: { readerIds: userId } });
+  },
+
+  removeReader: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $pullAll: { readerIds: userId } });
+  },
+
+  writers: function (selector, options) {
+    selector = selector || {};
+    selector._id = selector._id || { $in: this.writerIds };
+    return this.members()
+  },
+
+  fetchWriters: function (selector, options) {
+    return this.writers(selector, options).fetch();
+  },
+
+  addWriter: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $addToSet: { writerIds: userId } });
+  },
+
+  removeWriter: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $pullAll: { writerIds: userId } });
   },
 
   managers: function () {
