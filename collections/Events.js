@@ -18,6 +18,14 @@ Events.helpers({
 
   isTaskEvent: function () {
     return !!this.taskId;
+  },
+
+  duration: function () {
+    return this.end - this.start;
+  },
+
+  durationWithinRange: function (start, end) {
+    return Date.durationWithinRange([this.start, this.end], [start, end]);
   }
 
 });
