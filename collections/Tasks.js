@@ -10,6 +10,7 @@
  * spent              : Number<milliseconds>
  * snoozedUntil       : DateTime
  * needsReviewed      : Boolean
+ * willBeOverdue      : Boolean
  * isDone             : Boolean
  * isOnboardingTask   : Boolean
  * timeLastMarkedDone : DateTime
@@ -36,6 +37,7 @@ var props = [
 
 var boolProps = [
   'needsReviewed',
+  'willBeOverdue',
   'isDone',
   'isOnboardingTask'
 ];
