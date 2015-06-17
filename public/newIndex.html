@@ -55,15 +55,17 @@
 
             <a href="" class="landing-splash__action">Try the Beta</a>
 
-            <div class="landing-nav">
-                <div class="landing-nav__item landing-nav__item--story">Our Story</div>
-                <div class="landing-nav__item landing-nav__item--meet">Meet Dunmo</div>
-                <div class="landing-nav__item landing-nav__item--team">The Team</div>
-                <div class="landing-nav__item landing-nav__item--contact">Contact Us</div>
+            <div class="landing-splash__nav-container">
+                <div class="landing-nav">
+                    <div class="landing-nav__item landing-nav__item--story">Our Story</div>
+                    <div class="landing-nav__item landing-nav__item--meet">Meet Dunmo</div>
+                    <div class="landing-nav__item landing-nav__item--team">The Team</div>
+                    <div class="landing-nav__item landing-nav__item--contact">Contact Us</div>
 
-                <img class="landing-nav__logo" src="img/assets/check.png" />
+                    <img class="landing-nav__logo" src="img/assets/check.png" />
 
-                <a href="" class="landing-nav__action">Get the Beta</a>
+                    <a href="" class="landing-nav__action">Get the Beta</a>
+                </div>
             </div>
 
         </div>
@@ -87,20 +89,39 @@
 
         <div class="landing-meet__heading">Meet Dunmo</div>
 
-        <div class="landing-meet__slide">
+        <div class="landing-meet__bot-container">
+        </div>
+        <img src="img/assets/bot/dunmo.png" class="landing-meet__bot" data-anchor-target=".landing-meet" data--1000-top="left:50%;transform:translateX(-50%)" data--1250-top="left:3%;transform:translateX(0%)" data--2000-top="left:3%;transform:translateX(0%)" data--2250-top="left:97%;transform:translateX(-100%)" data--3000-top="left:97%;transform:translateX(-100%)" data--3250-top="left:50%;transform:translateX(-50%)" />
 
+        
+
+        <div class="landing-meet__slide abs landing-meet__slide--left landing-meet__slide--1" data-anchor-target=".landing-meet" data-75p-top="opacity:0" data-50p-top="opacity:1" data--850-top="opacity:1" data--1000-top="opacity:0">
+            <p>Hey there!<br />I'm Dunmo!</p>
         </div>
 
-        <div class="landing-meet__slide">
-
+        <div class="landing-meet__slide abs landing-meet__slide--left landing-meet__slide--2" data-anchor-target=".landing-meet" data-60p-top="opacity:0" data-35p-top="opacity:1" data--850-top="opacity:1" data--1000-top="opacity:0">
+            <br /><br /><br />
+            <p> Deep v Brooklyn flannel plaid chia. Distillery actually Helvetica meggings viral, ugh fap Portland tote bag wolf pork belly pug mumblecore.</p>
         </div>
 
-        <div class="landing-meet__slide">
-
+        <div class="landing-meet__slide abs landing-meet__slide--right landing-meet__slide--3" data-anchor-target=".landing-meet" data-45p-top="opacity:0" data-20p-top="opacity:1" data--850-top="opacity:1" data--1000-top="opacity:0">
+            <p>Sartorial chambray actually YOLO four loko direct trade Schlitz. Pork belly Odd Future seitan, Brooklyn chillwave skateboard PBR YOLO disrupt hoodie Neutra normcore distillery.</p>
         </div>
 
-        <div class="landing-meet__slide">
+        <div class="landing-meet__slide abs landing-meet__slide--center-right landing-meet__slide--4" data-anchor-target=".landing-meet" data--1150-top="opacity:0" data--1250-top="opacity:1" data--1850-top="opacity:1" data--2000-top="opacity:0">
+            <p>I turn your tasks from this...</p>
+            <img src="" />
+        </div>
 
+        <div class="landing-meet__slide abs landing-meet__slide--center-left landing-meet__slide--5" data-anchor-target=".landing-meet" data--2150-top="opacity:0" data--2250-top="opacity:1" data--2850-top="opacity:1" data--3000-top="opacity:0">
+            <p>...to something like this!</p>
+            <img src="" />
+        </div>
+
+        <div class="landing-meet__slide abs landing-meet__slide--right landing-meet__slide--6" data-anchor-target=".landing-meet" data--3000-top="opacity:0" data--3150-top="opacity:1" data--3600-top="opacity:1" data--3700-top="opacity:0">
+            <p>Pretty cool, eh?</p>
+            <br />
+            <p>Well, that's all for now. See you soon!</p>
         </div>
 
     </div>
@@ -150,13 +171,13 @@
 
         <form id="contact" action="" method="" class="landing-contact__form">
 
-            <input class="landing-contact__form__input" name="name" type="text" value="Name" />
+            <input class="landing-contact__form__input" name="name" type="text" placeholder="Name" />
 
-            <input class="landing-contact__form__input" name="email" type="text" value="Email" />
+            <input class="landing-contact__form__input" name="email" type="text" placeholder="Email" />
 
-            <input class="landing-contact__form__input" name="subject" type="text" value="Subject" />
+            <input class="landing-contact__form__input" name="subject" type="text" placeholder="Subject" />
 
-            <textarea class="landing-contact__form__textarea" name="message" rows="2">Message</textarea>
+            <textarea class="landing-contact__form__textarea" name="message" rows="2" placeholder="Message"></textarea>
 
             <input type="submit" value="Send" class="landing-contact__form__submit">
 
@@ -170,9 +191,9 @@
 
         <form id="subscribe" class="landing-subscribe__form">
 
-            <input class="landing-subscribe__form__input" name="email" type="text" value="Email" />
+            <input class="landing-subscribe__form__input" name="email" type="text" placeholder="Email" />
 
-            <input type="submit" value="Send" class="landing-subscribe__form__submit">
+            <input type="submit" value="Subscribe" class="landing-subscribe__form__submit">
 
         </form>
 
@@ -194,44 +215,9 @@
     <script src="js/retina-1.1.0.js"></script>
     <script src="js/mailingList.js"></script>-->
     <script type="text/javascript" src="js/jquery.waypoints.min.js"></script>
+    <script type="text/javascript" src="js/skrollr.min.js"></script>
 
-    <script>
-        //alert($('.landing-nav').offset().top);
-        //alert($(document).scrollTop());
-        if ($('.landing-nav').offset().top < $(document).scrollTop()) {
-            $('.landing-nav').addClass('sticky');
-            $('.landing-nav__logo').fadeIn(200);
-            $('.landing-nav__action').fadeIn(200);
-        }
-
-        $('.landing-nav').waypoint(function() {
-            $('.landing-nav').toggleClass('sticky');
-            $('.landing-nav__logo').fadeToggle(200);
-            $('.landing-nav__action').fadeToggle(200);
-        }, {
-            offset: '0%'
-        })
-
-        $('.landing-story').waypoint(function () {
-            //$('.landing-nav__item').removeClass('current');
-            $('.landing-nav__item--story').toggleClass('current');
-        })
-
-        $('.landing-meet').waypoint(function () {
-            $('.landing-nav__item--story').toggleClass('current');
-            $('.landing-nav__item--meet').toggleClass('current');
-        })
-
-        $('.landing-team').waypoint(function () {
-            $('.landing-nav__item--meet').toggleClass('current');
-            $('.landing-nav__item--team').toggleClass('current');
-        })
-
-        $('.landing-contact').waypoint(function () {
-            $('.landing-nav__item--team').toggleClass('current');
-            $('.landing-nav__item--contact').toggleClass('current');
-        })
-    </script>
+    <script type="text/javascript" src="js/landing.js"></script>
 
 </body>
 </html>

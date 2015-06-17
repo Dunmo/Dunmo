@@ -18,12 +18,22 @@
         z-index: 50;
 
         &.sticky {
+            @include transition(all 0.25s ease-in-out);
+            @include medium {
+                font: 0.75rem/3rem $sans-serif;
+            }
+            @include large {
+                font: 1rem/3rem $sans-serif;
+            }
+            @include larger {
+                font: 1.25rem/3rem $sans-serif;
+            }
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             height: 3rem;
-            font: 1rem/3rem $sans-serif;
+            //font: 1rem/3rem $sans-serif;
             color: $black;
             background: rgba($white,0.85);
             border-bottom: 1px solid $fern;
@@ -49,10 +59,10 @@
         &__logo {
             display: none;
             position: absolute;
-            top: 0.25rem;
+            top: 0.5rem;
             left: 1rem;
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2rem;
+            height: 2rem;
             cursor: pointer;
         }
 
@@ -61,7 +71,7 @@
             position: absolute;
             top: 0;
             right: 1rem;
-            font: 1rem/3rem $sans-serif;
+            //font: 1rem/3rem $sans-serif;
             color: $mantis;
             text-transform: uppercase;
         }
@@ -121,6 +131,11 @@
                 color: $mantis;
             }
         }
+
+        &__nav-container {
+            @include block(4rem);
+        }
+
     }
 
     &-story {
@@ -154,8 +169,9 @@
     }
 
     &-meet {
-        @include block(400%);
+        @include block(600%);
         @include padding(3rem);
+        min-height: 4000px;
         background: $mantis;
         color: $white;
 
@@ -166,8 +182,148 @@
                 text-transform: uppercase;
             }
 
+            &__bot-container {
+                /*@include medium {
+                    width: 15rem;
+                }
+                @include large {
+                    width: 20rem;
+                }
+                @include larger {
+                    width: 25rem;
+                }*/
+                width: 100%;
+                //height: auto;
+                //margin: 1rem auto;
+
+            }
+
+            &__bot {
+                //@include transition(all 0.25s ease-in-out);
+                @include medium {
+                    width: 15rem;
+                }
+                @include large {
+                    width: 17.5rem;
+                }
+                @include larger {
+                    width: 20rem;
+                }
+                height: auto;
+                position: absolute;
+                display: block;
+                left: 50%;
+                transform: translateX(-50%);
+                height: auto;
+                //margin: 1rem auto;
+                &--sticky {
+                    position: fixed;
+                    top: 5rem;
+                    //left: 50%;
+                    //transform: translateX(-50%);
+                }
+                &--end {
+                    position: absolute !important;
+                    //bottom: 3rem;
+                    //left: 50%;
+                    //transform: translateX(-50%);
+                }
+            }
+
             &__slide {
-                @include block;
+                @include medium {
+                    font: 1rem/1.25rem $sans-serif;
+                    width: 15rem;
+                }
+                @include large {
+                    font: 1.5rem/1.75rem $sans-serif;
+                    width: 20rem;
+                }
+                @include larger {
+                    font: 1.75rem/2rem $sans-serif;
+                    width: 30rem;
+                }
+                position: fixed;
+                top: 10rem;
+                font: 1.25rem/1.5rem $sans-serif;
+                //background: $white;
+                display: none;
+                opacity: 0;
+                &.abs {
+                    position: absolute !important;
+                }
+                &--left {
+                    @include medium {
+                        right: calc(50% + 9rem);
+                    }
+                    @include large {
+                        right: calc(50% + 12rem);
+                    }
+                    @include larger {
+                        right: calc(50% + 17rem);
+                    }
+                    text-align: right;
+                }
+                &--right {
+                    @include medium {
+                        left: calc(50% + 9rem);
+                    }
+                    @include large {
+                        left: calc(50% + 12rem);
+                    }
+                    @include larger {
+                        left: calc(50% + 17rem);
+                    }
+                    text-align: left;
+                }
+                &--center-right {
+                    @include medium {
+                        font: 2rem/2.5rem $sans-serif;
+                        width: 30rem;
+                        left: calc(3% + 17rem);
+                    }
+                    @include large {
+                        font: 2.5rem/3rem $sans-serif;
+                        width: 40rem;
+                        left: calc(3% + 20rem);
+                    }
+                    @include larger {
+                        font: 3rem/3.5rem $sans-serif;
+                        width: 60rem;
+                        left: calc(3% + 25rem);
+                    }
+                    top: 7rem;
+                    text-align: left;
+
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+                &--center-left {
+                    @include medium {
+                        font: 2rem/2.5rem $sans-serif;
+                        width: 30rem;
+                        right: calc(3% + 17rem);
+                    }
+                    @include large {
+                        font: 2.5rem/3rem $sans-serif;
+                        width: 40rem;
+                        right: calc(3% + 20rem);
+                    }
+                    @include larger {
+                        font: 3rem/3.5rem $sans-serif;
+                        width: 60rem;
+                        right: calc(3% + 25rem);
+                    }
+                    top: 7rem;
+                    text-align: right;
+
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
             }
 
     }
@@ -293,7 +449,7 @@
                 }
 
                 &__submit {
-                    @include button(50%,3rem,1.5rem,1px solid $white);
+                    @include button(50%,3rem,1rem,1px solid $white);
                     text-transform: uppercase;
                     margin: 0 auto;
                     cursor: pointer;
