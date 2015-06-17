@@ -5,7 +5,7 @@
  * title              : String
  * dueAt              : DateTime
  * memberIds          : String[]
- *
+ * managerIds         : String[]
  */
 
 var props = [
@@ -46,8 +46,32 @@ Projects.helpers({
     return this.update({ $pullAll: { memberIds: userId } });
   },
 
-  tasks: function () {
-    return Tasks.find({ projectId: this._id });
+  managers: function () {
+    return Meteor.users.find({ _id: { $in: this.managerIds } });
+  },
+
+  fetchManagers: function () {
+    return this.managers().fetch();
+  },
+
+  addManager: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $addToSet: { managerIds: userId } });
+  },
+
+  removeManager: function (user) {
+    var userId;
+    if(typeof user === 'string') userId = user;
+    else                         userId = user._id;
+    return this.update({ $pullAll: { managerIds: userId } });
+  },
+
+  tasks: function (selector, options) {
+    selector           = selector || {};
+    selector.projectId = this._id;
+    return Tasks.find(selector, options);
   },
 
   fetchTasks: function () {
@@ -70,6 +94,25 @@ Projects.helpers({
 
   total: function () {
     return this.remaining() + this.spent();
+  },
+
+  inProgressTasks: function (selector, options) {
+    selector        = selector        || {};
+    selector.spent  = selector.spent  || { $gt: 0 };
+    selector.isDone = selector.isDone || { $ne: true };
+    return this.tasks(selector, options);
+  },
+
+  doneTasks: function (selector, options) {
+    selector        = selector        || {};
+    selector.isDone = selector.isDone || true;
+    return this.tasks(selector, options);
+  },
+
+  todos: function (selector, options) {
+    selector        = selector        || {};
+    selector.spent  = selector.spent  || 0;
+    selector.isDone = selector.isDone || { $ne: true };
   }
 
   // dueAtString
