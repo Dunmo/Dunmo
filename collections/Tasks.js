@@ -17,6 +17,7 @@
  * dependencyIds      : String[]
  * tags               : String[]
  * assigneeIds        : String[]
+ * recurrenceRule     : RRule
  *
  */
 
@@ -29,7 +30,8 @@ var props = [
   'spent',
   'snoozedUntil',
   'timeLastMarkedDone',
-  'description'
+  'description',
+  'recurrenceRule'
 ];
 
 var boolProps = [
