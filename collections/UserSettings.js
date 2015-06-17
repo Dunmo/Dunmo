@@ -14,6 +14,8 @@
  * maxTimePerTaskPerDay : Number<milliseconds>
  * taskBreakInterval    : Number<milliseconds>
  * taskGranularity      : Number<milliseconds>
+ * lastDayOfWeek        : Number<0-6>
+ * workWeek             : Number<0-6>[]
  *
  */
 

@@ -23,7 +23,8 @@ var settingsPropsAndDefaults = [
   ['maxTimePerTaskPerDay', 6*HOURS],
   ['taskBreakInterval', 30*MINUTES],
   ['taskGranularity', 5*MINUTES],
-  ['onboardingIndex', 0]
+  ['onboardingIndex', 0],
+  ['lastDayOfWeek', 'monday']
 ];
 
 var settingsGetters = {};
@@ -141,6 +142,21 @@ Meteor.users.helpers({
     if(!time) time = 0;
     time = _.bound(time, 0, 24*HOURS);
     return settings.update({ taskGranularity: time });
+  },
+
+  setLastDayOfWeek: function (number) {
+    var settings = this.settings();
+    if(!number) return 0;
+    number = _.bound(number, 0, 6);
+    return settings.update({ lastDayOfWeek: number });
+  },
+
+  setWorkWeek: function (numbers) {
+    var settings = this.settings();
+    if(!numbers) return 0;
+    numbers = numbers.map(_.bound(0, 6));
+    numbers = _.uniq(numbers);
+    return settings.update({ workWeek: numbers });
   },
 
   referred: function (bool) {
