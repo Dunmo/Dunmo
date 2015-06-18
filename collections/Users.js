@@ -306,7 +306,7 @@ Meteor.users.helpers({
   fetchTaskEventsInRange: function (start, end) {
     start = Number(new Date(start));
     end   = Number(new Date(end));
-    var selector = { $or: { start: { $lt: end }, end: { $gt: start } } };
+    var selector = { $or: [ {start: { $lt: end }}, {end: { $gt: start }} ] };
     return this.taskEvents(selector).fetch();
   },
 
@@ -366,7 +366,7 @@ Meteor.users.helpers({
     return this.taskTimeSpentInRange(start, end);
   },
 
-  prouctivityPercentage: function (start, end) {
+  productivityPercentage: function (start, end) {
     start = Number(new Date(start));
     end   = Number(new Date(end));
 
