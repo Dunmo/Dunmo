@@ -373,7 +373,7 @@ Meteor.users.helpers({
     var productiveTime = this.productiveTimeSpentInRange(start, end);
     var totalTime = this.workTimeInRange(start, end);
 
-    var percentage = timeSpent / totalTime;
+    var percentage = productiveTime / totalTime;
 
     return percentage;
   }
