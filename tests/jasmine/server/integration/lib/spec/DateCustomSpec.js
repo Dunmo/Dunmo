@@ -291,4 +291,18 @@ describe('Date', function () {
 
   });
 
+  describe('timeOfDay', function () {
+
+    describe('given a date', function () {
+
+      it('should return the time in milliseconds', function () {
+        var date = new Date(dateString);
+        var ret  = Date.timeOfDay(date);
+        expect(ret).toEqual(10*HOURS+23*MINUTES);
+      });
+
+    });
+
+  });
+
 });
