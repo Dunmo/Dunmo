@@ -62,8 +62,22 @@ describe('Date', function () {
 
   describe('toMilliseconds', function () {
 
-    it('should', function () {
-      pending();
+    describe('given a number of hours', function () {
+
+      it('should convert to milliseconds', function () {
+        var ret = Date.toMilliseconds('4', 'hours');
+        expect(ret).toEqual(4*HOURS);
+      });
+
+    });
+
+    describe('given a number of minutes', function () {
+
+      it('should convert to milliseconds', function () {
+        var ret = Date.toMilliseconds('4', 'minutes');
+        expect(ret).toEqual(4*MINUTES);
+      });
+
     });
 
   });
