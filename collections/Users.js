@@ -355,7 +355,7 @@ Meteor.users.helpers({
       endSegment = lengthOfWorkday;
     }
 
-    var numDays = Date.numberOfDaysInRange(Date.endOfDay(start), Date.startOfDay(end));
+    var numDays = Date.numberOfDaysInRangeInclusive(Date.endOfDay(start), Date.startOfDay(end));
 
     var workTime = beginningSegment + numDays*lengthOfWorkday + endSegment;
 
