@@ -43,8 +43,19 @@ describe('Date', function () {
 
   describe('ISOToMilliseconds', function () {
 
-    it('should', function () {
-      pending();
+    describe('when given an ISO string', function () {
+      var input, expected;
+
+      beforeEach(function () {
+        input    = isoString;
+        expected = Number(new Date(dateString));
+      });
+
+      it('should work', function () {
+        var ret = Date.ISOToMilliseconds(input);
+        expect(ret).toEqual(expected);
+      });
+
     });
 
   });
