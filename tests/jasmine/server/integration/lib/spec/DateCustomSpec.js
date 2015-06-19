@@ -2,10 +2,12 @@
 describe('Date', function () {
   var dateString, isoString, startOfDayString, endOfDayString;
 
-  dateString       = 'Fri Jun 19 2015 10:23:27 GMT-0400 (EDT)';
+  dateString       = 'Fri Jun 19 2015 10:23:00 GMT-0400 (EDT)';
   startOfDayString = 'Fri Jun 19 2015 00:00:00 GMT-0400 (EDT)';
   endOfDayString   = 'Fri Jun 19 2015 23:59:00 GMT-0400 (EDT)';
-  isoString        = '2015-06-19T14:23:27.000Z';
+  thursDateString  = 'Thu Jun 25 2015 10:23:00 GMT-0400 (EDT)';
+  saturDateString  = 'Sat Jun 20 2015 10:23:00 GMT-0400 (EDT)';
+  isoString        = '2015-06-19T14:23:00.000Z';
 
   describe('formatGoog', function () {
 
@@ -139,35 +141,39 @@ describe('Date', function () {
 
   });
 
-  describe('startOfToday', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
-  describe('endOfToday', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
-  describe('currentYear', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
   describe('create', function () {
+    var _startOfDay = Date.startOfDay
 
-    it('should', function () {
-      pending();
+    Date.startOfDay = function () { return new Date(startOfDayString); };
+
+    describe('given a day of the week in the past', function () {
+
+      it('should return the date for next week', function () {
+        var ret = Date.create('thursday at 10:23am');
+        expect(ret).toEqual(new Date(thursDateString));
+      });
+
     });
+
+    describe('given a day of the week in the future', function () {
+
+      it('should return the date for this week', function () {
+        var ret = Date.create('saturday at 10:23am');
+        expect(ret).toEqual(new Date(saturDateString));
+      });
+
+    });
+
+    describe('given today\'s day of the week', function () {
+
+      it('should return the date for this week', function () {
+        var ret = Date.create('friday at 10:23am');
+        expect(ret).toEqual(new Date(dateString));
+      });
+
+    });
+
+    Date.startOfDay = _startOfDay;
 
   });
 
