@@ -82,18 +82,15 @@ describe('Date', function () {
 
   });
 
-  describe('parseTime', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
   describe('timeString', function () {
 
-    it('should', function () {
-      pending();
+    describe('given a number of milliseconds', function () {
+
+      it('should return the correct time string', function () {
+        var ret = Date.timeString(14*HOURS + 4*MINUTES);
+        expect(ret).toEqual('14:04');
+      });
+
     });
 
   });
