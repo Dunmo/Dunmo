@@ -1,11 +1,11 @@
 
 describe('Date', function () {
-  var dateString, isoString;
+  var dateString, isoString, startOfDayString, endOfDayString;
 
-  beforeEach(function () {
-    dateString = 'Fri Jun 19 2015 10:23:27 GMT-0400 (EDT)';
-    isoString  = '2015-06-19T14:23:27.000Z';
-  });
+  dateString       = 'Fri Jun 19 2015 10:23:27 GMT-0400 (EDT)';
+  startOfDayString = 'Fri Jun 19 2015 00:00:00 GMT-0400 (EDT)';
+  endOfDayString   = 'Fri Jun 19 2015 23:59:00 GMT-0400 (EDT)';
+  isoString        = '2015-06-19T14:23:27.000Z';
 
   describe('formatGoog', function () {
 
@@ -97,8 +97,22 @@ describe('Date', function () {
 
   describe('startOfDay', function () {
 
-    it('should', function () {
-      pending();
+    describe('given a date in the middle of a day', function () {
+
+      it('should return the date for 12:00am on that day', function () {
+        var ret = Date.startOfDay(dateString);
+        expect(ret).toEqual(new Date(startOfDayString));
+      });
+
+    });
+
+    describe('given a date at 11:59pm of a day', function () {
+
+      it('should return the date for 12:00am on that day', function () {
+        var ret = Date.startOfDay(endOfDayString);
+        expect(ret).toEqual(new Date(startOfDayString));
+      });
+
     });
 
   });
