@@ -119,8 +119,22 @@ describe('Date', function () {
 
   describe('endOfDay', function () {
 
-    it('should', function () {
-      pending();
+    describe('given a date in the middle of a day', function () {
+
+      it('should return the date for 11:59pm on that day', function () {
+        var ret = Date.endOfDay(dateString);
+        expect(ret).toEqual(new Date(endOfDayString));
+      });
+
+    });
+
+    describe('given a date at 12:00am of a day', function () {
+
+      it('should return the date for 11:59pm on that day', function () {
+        var ret = Date.endOfDay(startOfDayString);
+        expect(ret).toEqual(new Date(endOfDayString));
+      });
+
     });
 
   });
