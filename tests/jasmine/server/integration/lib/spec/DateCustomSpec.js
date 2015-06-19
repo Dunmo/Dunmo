@@ -177,18 +177,50 @@ describe('Date', function () {
 
   });
 
-  describe('nearest', function () {
+  describe('floor', function () {
 
-    it('should', function () {
-      pending();
+    describe('given an uneven number of minutes', function () {
+
+      it('should floor it to the nearest minute', function () {
+        var ret = Date.floor(3659999, MINUTES);
+        expect(ret).toEqual(3600000);
+      });
+
     });
 
   });
 
-  describe('nearestMinute', function () {
+  describe('ceiling', function () {
 
-    it('should', function () {
-      pending();
+    describe('given an uneven number of minutes', function () {
+
+      it('should round up to the nearest minute', function () {
+        var ret = Date.ceiling(3600001, MINUTES);
+        expect(ret).toEqual(3660000);
+      });
+
+    });
+
+  });
+
+  describe('nearest', function () {
+
+    describe('given an uneven number of minutes close to the last minute', function () {
+
+      it('should round it down to the nearest minute', function () {
+        var ret = Date.nearest(3600001, MINUTES);
+        expect(ret).toEqual(3600000);
+      });
+
+    });
+
+    describe('given an uneven number of minutes close to the next minute', function () {
+
+      it('should round it up to the nearest minute', function () {
+        var ret = Date.nearest(3659999, MINUTES);
+        expect(ret).toEqual(3660000);
+      });
+
     });
 
   });
