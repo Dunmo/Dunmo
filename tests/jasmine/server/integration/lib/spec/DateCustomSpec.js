@@ -225,4 +225,44 @@ describe('Date', function () {
 
   });
 
+  describe('durationWithinRange', function () {
+
+    describe('given x1 > x2 && y1 > y2', function () {
+
+      it('should work', function () {
+        var ret = Date.durationWithinRange([100, 200], [50, 150]);
+        expect(ret).toEqual(50);
+      });
+
+    });
+
+    describe('given x1 < x2 && y1 > y2', function () {
+
+      it('should work', function () {
+        var ret = Date.durationWithinRange([50, 200], [100, 150]);
+        expect(ret).toEqual(50);
+      });
+
+    });
+
+    describe('given x1 > x2 && y1 < y2', function () {
+
+      it('should work', function () {
+        var ret = Date.durationWithinRange([100, 175], [50, 200]);
+        expect(ret).toEqual(75);
+      });
+
+    });
+
+    describe('given x1 < x2 && y1 < y2', function () {
+
+      it('should work', function () {
+        var ret = Date.durationWithinRange([50, 125], [100, 150]);
+        expect(ret).toEqual(25);
+      });
+
+    });
+
+  });
+
 });
