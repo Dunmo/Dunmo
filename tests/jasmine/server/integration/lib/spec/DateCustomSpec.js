@@ -142,9 +142,15 @@ describe('Date', function () {
   });
 
   describe('create', function () {
-    var _startOfDay = Date.startOfDay
+    var _startOfDay = Date.startOfDay;
 
-    Date.startOfDay = function () { return new Date(startOfDayString); };
+    beforeEach(function () {
+      Date.startOfDay = function () { return new Date(startOfDayString); };
+    });
+
+    afterEach(function () {
+      Date.startOfDay = _startOfDay;
+    });
 
     describe('given a day of the week in the past', function () {
 
@@ -172,8 +178,6 @@ describe('Date', function () {
       });
 
     });
-
-    Date.startOfDay = _startOfDay;
 
   });
 
