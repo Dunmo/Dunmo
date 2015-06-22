@@ -1,33 +1,38 @@
 
 describe('user', function () {
-
-  var _user, _userEmail;
+  var user;
 
   beforeEach(function () {
-    // var taskId = Users.create();
-    // _user      = Users.findOne(taskId);
-    // _userEmail = 'test.dunmo@gmail.com';
-    // _user = {
-    //   services: {
-    //     google: {
-    //       email: _userEmail
-    //     }
-    //   }
-    // };
+    user = TestHelpers.fakeUser();
   });
 
   describe('primaryEmailAddress', function () {
 
-    it('should return the gmail address', function () {
-      // var email = _user.primaryEmailAddress();
-      // expect(email).toEqual(_userEmail);
-      pending();
+    it('should work when there\'s no services property', function () {
+      user.services = null;
+      user.primaryEmailAddress(); // shouldn't throw an error
+
+      delete user.services;
+      user.primaryEmailAddress(); // shouldn't throw an error
     });
 
-    it('should return null when there is no gmail address', function () {
-      // TODO
-      pending();
+    it('should work when there\'s no services.google property', function () {
+      user.services = { google: null };
+      user.primaryEmailAddress(); // shouldn't throw an error
+
+      if(user.services && user.services.google) delete user.services.google;
+      user.primaryEmailAddress(); // shouldn't throw an error
     });
+
+    it('should return the gmail address by default', function () {
+      var expected = user.services.google.email;
+      var email    = user.primaryEmailAddress();
+      expect(email).toEqual(expected);
+    });
+
+  });
+
+  describe('createSettings', function () {
 
   });
 
@@ -97,13 +102,13 @@ describe('user', function () {
 
   describe('tasks', function () {
 
-    var _user;
+    var user;
 
     var pickId = function (task) { return task.id; };
 
     beforeEach(function () {
-      _user      = TestHelpers.fakeUser();
-      var userId = _user._id;
+      user      = TestHelpers.fakeUser();
+      var userId = user._id;
       var tasks  = [
         { id: 1, ownerId: userId,   isRemoved: false },
         { id: 2, ownerId: userId,   isRemoved: true  },
@@ -113,16 +118,16 @@ describe('user', function () {
     });
 
     it('should only return tasks owned by this user', function () {
-      var tasks = _user.tasks();
+      var tasks = user.tasks();
       tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
-        expect(task.ownerId).toEqual(_user._id);
+        expect(task.ownerId).toEqual(user._id);
       });
     });
 
     it('should only return tasks for which isRemoved is false', function () {
-      var tasks = _user.tasks();
+      var tasks = user.tasks();
       tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
@@ -134,11 +139,11 @@ describe('user', function () {
 
   describe('todos', function () {
 
-    var _user;
+    var user;
 
     beforeEach(function () {
-      _user      = TestHelpers.fakeUser();
-      var userId = _user._id;
+      user      = TestHelpers.fakeUser();
+      var userId = user._id;
       var tasks  = [
         { id: 1, ownerId: userId,   isDone: true,  isRemoved: false },
         { id: 2, ownerId: userId,   isDone: false, isRemoved: true  },
@@ -149,16 +154,16 @@ describe('user', function () {
     });
 
     it('should only return tasks owned by this user', function () {
-      var tasks = _user.todos();
+      var tasks = user.todos();
       tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
-        expect(task.ownerId).toEqual(_user._id);
+        expect(task.ownerId).toEqual(user._id);
       });
     });
 
     it('should only return tasks for which isRemoved is false', function () {
-      var tasks = _user.todos();
+      var tasks = user.todos();
       tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
@@ -167,7 +172,7 @@ describe('user', function () {
     });
 
     it('should only return tasks for which isDone is false', function () {
-      var tasks = _user.todos();
+      var tasks = user.todos();
       tasks     = tasks.fetch();
 
       tasks.forEach(function (task) {
@@ -179,11 +184,11 @@ describe('user', function () {
 
   describe('recentTodos', function () {
 
-    var _user;
+    var user;
 
     beforeEach(function () {
-      _user      = TestHelpers.fakeUser();
-      var userId = _user._id;
+      user      = TestHelpers.fakeUser();
+      var userId = user._id;
       var tasks  = [
         { id: 1, ownerId: userId },
         { id: 2, ownerId: userId }
@@ -197,16 +202,16 @@ describe('user', function () {
     });
 
     it('should only return tasks owned by this user', function () {
-      var tasks   = _user.todos();
+      var tasks   = user.todos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
-        expect(task.ownerId).toEqual(_user._id);
+        expect(task.ownerId).toEqual(user._id);
       });
     });
 
     it('should only return tasks for which isRemoved is false', function () {
-      var tasks   = _user.todos();
+      var tasks   = user.todos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
@@ -215,7 +220,7 @@ describe('user', function () {
     });
 
     it('should only return tasks for which isDone is false', function () {
-      var tasks   = _user.todos();
+      var tasks   = user.todos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
