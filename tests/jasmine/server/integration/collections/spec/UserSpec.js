@@ -78,33 +78,8 @@ describe('user', function () {
     });
 
     it('should be falsy when the given onboarding view doesn\'t exist', function () {
-      // user.setHasOnboarded('taskView', true);
       var onboardedObject = user.hasOnboarded('taskView');
       expect(onboardedObject).toBeFalsy();
-    });
-
-  });
-
-  describe('endOfDay', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
-  describe('startOfDay', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
-  describe('referred', function () {
-
-    it('should', function () {
-      pending();
     });
 
   });
