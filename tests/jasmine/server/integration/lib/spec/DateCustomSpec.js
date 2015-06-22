@@ -141,46 +141,6 @@ describe('Date', function () {
 
   });
 
-  describe('create', function () {
-    var _startOfDay = Date.startOfDay;
-
-    beforeEach(function () {
-      Date.startOfDay = function () { return new Date(startOfDayString); };
-    });
-
-    afterEach(function () {
-      Date.startOfDay = _startOfDay;
-    });
-
-    describe('given a day of the week in the past', function () {
-
-      it('should return the date for next week', function () {
-        var ret = Date.create('thursday at 10:23am');
-        expect(ret).toEqual(new Date(thursDateString));
-      });
-
-    });
-
-    describe('given a day of the week in the future', function () {
-
-      it('should return the date for this week', function () {
-        var ret = Date.create('saturday at 10:23am');
-        expect(ret).toEqual(new Date(saturDateString));
-      });
-
-    });
-
-    describe('given today\'s day of the week', function () {
-
-      it('should return the date for this week', function () {
-        var ret = Date.create('friday at 10:23am');
-        expect(ret).toEqual(new Date(dateString));
-      });
-
-    });
-
-  });
-
   describe('floor', function () {
 
     describe('given an uneven number of minutes', function () {
