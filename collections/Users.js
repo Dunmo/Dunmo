@@ -40,6 +40,70 @@ settingsPropsAndDefaults.forEach(function (pair) {
 
 Users.helpers(settingsGetters);
 
+var settingsSettersAndFilters = [
+  ['lastReviewed', function (time) { return Number(new Date(time)); }],
+  ['endOfDay', function (str, settings) {
+    if(!str || str === '') str = '22:00';
+    var time = Date.parseTime(str);
+    if(time < settings.startOfDay) {
+      Session.set('errorMessage', 'You can\'t end before you start!');
+      $('.message').show();
+      return { err: true };
+    }
+    return time;
+  }],
+  ['startOfDay', function (str, settings) {
+    if(!str || str === '') str = '08:00';
+    var time = Date.parseTime(str);
+    if(time > settings.endOfDay) {
+      Session.set('errorMessage', 'You can\'t start after you end!');
+      $('.message').show();
+      return { err: true };
+    }
+  }],
+  ['onboardingIndex', function (index) { return _.bound(index, 0, Infinity); }],
+  ['maxTaskInterval', function (time) {
+    if(!time) time = 24*HOURS;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['maxTimePerTaskPerDay', function (time) {
+    if(!time) time = 24*HOURS;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['taskBreakInterval', function (time) {
+    if(!time) time = 0;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['taskGranularity', function (time) {
+    if(!time) time = 0;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['lastDayOfWeek', function (number) {
+    return _.bound(number, 0, 6);
+  }],
+  ['workWeek', function (numbers) {
+    numbers = numbers.map(_.bound(0, 6));
+    return _.uniq(numbers);
+  }]
+];
+
+var settingsSetters = {};
+settingsSettersAndFilters.forEach(function (pair) {
+  var prop       = pair[0];
+  var filter     = pair[1];
+  var setterName = 'set' + prop.capitalize();
+  settingsSetters[setterName] = function (value) {
+    var settings = this.settings();
+    value = filter(value, settings);
+    if(value && value.err) return false;
+    var obj = {};
+    obj[prop] = value;
+    return settings.update(obj);
+  };
+});
+
+Users.helpers(settingsSetters);
+
 Users.helpers({
 
   primaryEmailAddress: function () {
@@ -57,43 +121,6 @@ Users.helpers({
     return settings;
   },
 
-  setRemoved: function (bool) {
-    this.settings().setRemoved(bool);
-    return this.update({ isRemoved: bool });
-  },
-
-  setEndOfDay: function (str) {
-    var defaultEndOfDay = '22:00';
-    var settings = this.settings();
-    if(!str || str === '') str = defaultEndOfDay;
-    var time = Date.parseTime(str);
-    if(time < settings.startOfDay) {
-      Session.set('errorMessage', "You can't end before you start!");
-      $('.message').show();
-      return false;
-    }
-    return settings.update({ endOfDay: time });
-  },
-
-  setStartOfDay: function (str) {
-    var defaultStartOfDay = '08:00';
-    var settings = this.settings();
-    if(!str || str === '') str = defaultStartOfDay;
-    var time = Date.parseTime(str);
-    if(time > settings.endOfDay) {
-      Session.set('errorMessage', "You can't start after you end!");
-      $('.message').show();
-      return false;
-    }
-    return settings.update({ startOfDay: time });
-  },
-
-  setLastReviewed: function (date) {
-    var settings = this.settings();
-    var time = Number(new Date(date));
-    return settings.update({ lastReviewed: time });
-  },
-
   hasOnboarded: function (key) {
     var settings = this.settings();
     if(!settings.hasOnboarded) settings.hasOnboarded = {};
@@ -102,61 +129,12 @@ Users.helpers({
   },
 
   setHasOnboarded: function (key, bool) {
-    if(bool === undefined || bool === null) bool = true;
     var settings = this.settings();
+    if(bool === undefined || bool === null) bool = true;
     key = 'hasOnboarded.' + key;
     var selector = {};
     selector[key] = bool;
     return settings.update(selector);
-  },
-
-  setOnboardingIndex: function (index) {
-    var settings = this.settings();
-    index = _.bound(index, 0, Infinity);
-    return settings.update({ onboardingIndex: index });
-  },
-
-  setMaxTaskInterval: function (time) {
-    var settings = this.settings();
-    if(!time) time = 24*HOURS;
-    time = _.bound(time, 0, 24*HOURS);
-    return settings.update({ maxTaskInterval: time });
-  },
-
-  setMaxTimePerTaskPerDay: function (time) {
-    var settings = this.settings();
-    if(!time) time = 24*HOURS;
-    time = _.bound(time, 0, 24*HOURS);
-    return settings.update({ maxTimePerTaskPerDay: time });
-  },
-
-  setTaskBreakInterval: function (time) {
-    var settings = this.settings();
-    if(!time) time = 0;
-    time = _.bound(time, 0, 24*HOURS);
-    return settings.update({ taskBreakInterval: time });
-  },
-
-  setTaskGranularity: function (time) {
-    var settings = this.settings();
-    if(!time) time = 0;
-    time = _.bound(time, 0, 24*HOURS);
-    return settings.update({ taskGranularity: time });
-  },
-
-  setLastDayOfWeek: function (number) {
-    var settings = this.settings();
-    if(!number) return 0;
-    number = _.bound(number, 0, 6);
-    return settings.update({ lastDayOfWeek: number });
-  },
-
-  setWorkWeek: function (numbers) {
-    var settings = this.settings();
-    if(!numbers) return 0;
-    numbers = numbers.map(_.bound(0, 6));
-    numbers = _.uniq(numbers);
-    return settings.update({ workWeek: numbers });
   },
 
   referred: function (bool) {
