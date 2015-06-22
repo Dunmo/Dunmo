@@ -50,8 +50,15 @@ describe('user', function () {
 
   describe('settings', function () {
 
-    it('should', function () {
-      pending();
+    it('should return the settings object', function () {
+      var expected = user.createSettings();
+      var settings = user.settings();
+      expect(settings).toEqual(expected);
+    });
+
+    it('should create one if there is no settings object', function () {
+      var settings = user.settings();
+      expect(settings).toBeTruthy();
     });
 
   });
