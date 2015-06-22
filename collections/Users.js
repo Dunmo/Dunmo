@@ -84,7 +84,8 @@ var settingsSettersAndFilters = [
   ['workWeek', function (numbers) {
     numbers = numbers.map(_.bound(0, 6));
     return _.uniq(numbers);
-  }]
+  }],
+  ['isReferred', function (bool) { return bool; }]
 ];
 
 var settingsSetters = {};
@@ -135,15 +136,6 @@ Users.helpers({
     var selector = {};
     selector[key] = bool;
     return settings.update(selector);
-  },
-
-  referred: function (bool) {
-    var settings = this.settings();
-    if(bool !== undefined && bool !== null) {
-      if(bool === settings.bool) return false;
-      return settings.update({ isReferred: bool });
-    }
-    return settings.isReferred;
   },
 
   addReferral: function (str) {
