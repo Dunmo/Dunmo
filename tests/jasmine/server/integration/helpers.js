@@ -5,7 +5,13 @@ TestHelpers = {
       email: faker.internet.email(),
       password: 'password'
     });
-    return Users.findOne(userId);
+    var user = Users.findOne(userId);
+    user.services = {
+      google: {
+        email: faker.internet.email()
+      }
+    };
+    return user;
   },
 
   sortObj: function (obj, type, caseSensitive) {
