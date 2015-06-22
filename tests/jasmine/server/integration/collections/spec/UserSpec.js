@@ -63,6 +63,28 @@ describe('user', function () {
 
   });
 
+  describe('hasOnboarded', function () {
+
+    it('should return the hasOnboarded object when no input is given', function () {
+      user.setHasOnboarded('taskView', true);
+      var onboardedObject = user.hasOnboarded();
+      expect(onboardedObject).toEqual({ taskView: true });
+    });
+
+    it('should return the value for the given onboarding view', function () {
+      user.setHasOnboarded('taskView', true);
+      var onboardedObject = user.hasOnboarded('taskView');
+      expect(onboardedObject).toBeTruthy();
+    });
+
+    it('should be falsy when the given onboarding view doesn\'t exist', function () {
+      // user.setHasOnboarded('taskView', true);
+      var onboardedObject = user.hasOnboarded('taskView');
+      expect(onboardedObject).toBeFalsy();
+    });
+
+  });
+
   describe('endOfDay', function () {
 
     it('should', function () {
