@@ -38,9 +38,9 @@ settingsPropsAndDefaults.forEach(function (pair) {
   };
 });
 
-Meteor.users.helpers(settingsGetters);
+Users.helpers(settingsGetters);
 
-Meteor.users.helpers({
+Users.helpers({
 
   primaryEmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
@@ -380,21 +380,21 @@ Meteor.users.helpers({
 
 });
 
-Meteor.users.findByEmail = function (email) {
-  return Meteor.users.findBy({ email: email });
+Users.findByEmail = function (email) {
+  return Users.findBy({ email: email });
 };
 
 // Requires email & password, could be an array of new users
-Meteor.users.create = function (obj) {
+Users.create = function (obj) {
   if(Array.isArray(obj)) {
     var ary = obj;
     ary.forEach(function(user) {
-      Meteor.users.create(user);
+      Users.create(user);
     });
   } else if(typeof(obj) === 'object') {
-    var user = Meteor.users.findByEmail(obj.email);
-    // if(!user) return Meteor.users.insert(user);
+    var user = Users.findByEmail(obj.email);
+    // if(!user) return Users.insert(user);
   } else {
-    console.error('type error, Meteor.users.create does not expect: ', typeof(obj));
+    console.error('type error, Users.create does not expect: ', typeof(obj));
   }
 };

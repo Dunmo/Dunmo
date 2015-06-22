@@ -5,7 +5,7 @@ TestHelpers = {
       email: faker.internet.email(),
       password: 'password'
     });
-    return Meteor.users.findOne(userId);
+    return Users.findOne(userId);
   },
 
   sortObj: function (obj, type, caseSensitive) {

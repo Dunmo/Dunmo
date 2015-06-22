@@ -27,7 +27,7 @@ Projects.helpers(setters);
 Projects.helpers({
 
   owner: function () {
-    return Meteor.users.findOne(this.ownerId);
+    return Users.findOne(this.ownerId);
   },
 
   task: function () {
@@ -35,7 +35,7 @@ Projects.helpers({
   },
 
   mentioned: function () {
-    return Meteor.users.find({ _id: { $in: this.mentionedIds } });
+    return Users.find({ _id: { $in: this.mentionedIds } });
   },
 
   fetchMentioned: function () {

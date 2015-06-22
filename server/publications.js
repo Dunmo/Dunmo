@@ -3,7 +3,7 @@
 var allClients = null;
 
 Meteor.publish(allClients, function () {
-  var currentUser  = Meteor.users.find({ _id:     this.userId });
+  var currentUser  = Users.find({ _id:     this.userId });
   var calendars    = Calendars   .find({ ownerId: this.userId });
   var events       = Events      .find({ ownerId: this.userId });
   var projects     = Projects    .find({ ownerId: this.userId });

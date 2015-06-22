@@ -4,8 +4,8 @@ describe('user', function () {
   var _user, _userEmail;
 
   beforeEach(function () {
-    // var taskId = Meteor.users.create();
-    // _user      = Meteor.users.findOne(taskId);
+    // var taskId = Users.create();
+    // _user      = Users.findOne(taskId);
     // _userEmail = 'test.dunmo@gmail.com';
     // _user = {
     //   services: {
@@ -275,7 +275,7 @@ describe('user', function () {
 
 });
 
-describe('Meteor.users', function () {
+describe('Users', function () {
 
   describe('findByEmail', function () {
 

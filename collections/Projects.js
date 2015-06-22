@@ -29,7 +29,7 @@ Projects.helpers({
     selector = selector || {};
     var memberIds = _.union(this.readerIds, this.writerIds, this.managerIds);
     selector._id = selector._id || { $in: memberIds };
-    return Meteor.users.find(selector, options);
+    return Users.find(selector, options);
   },
 
   fetchMembers: function (selector, options) {
@@ -109,7 +109,7 @@ Projects.helpers({
   },
 
   managers: function () {
-    return Meteor.users.find({ _id: { $in: this.managerIds } });
+    return Users.find({ _id: { $in: this.managerIds } });
   },
 
   fetchManagers: function () {
@@ -141,7 +141,7 @@ Projects.helpers({
   },
 
   owner: function () {
-    return Meteor.users.findOne(this.ownerId);
+    return Users.findOne(this.ownerId);
   },
 
   remaining: function () {

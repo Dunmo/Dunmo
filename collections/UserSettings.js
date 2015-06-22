@@ -22,7 +22,7 @@
 UserSettings.helpers({
 
   user: function () {
-    return Meteor.users.findOne(this.userId);
+    return Users.findOne(this.userId);
   }
 
 });

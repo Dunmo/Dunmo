@@ -5,7 +5,7 @@ Meteor.methods({
     var referrerEmail = data.referrerEmail;
     var userEmail     = data.userEmail;
 
-    var users = Meteor.users.find().fetch();
+    var users = Users.find().fetch();
 
     var referrer = lodash.find(users, function(user) {
       return user.primaryEmailAddress() === referrerEmail;

@@ -37,7 +37,7 @@ POST.route('/api/subscribers/:email', function (params, req, res, next) {
 // GET.route('/emails/receive', function (params, req, res, next) {
 //   var user_addr = req.body.Sender;
 //   var text = req.body['Text-part'];
-//   var user = Meteor.users.findOne({ 'services.google.email': user_addr });
+//   var user = Users.findOne({ 'services.google.email': user_addr });
 
 //   Tasks.create(text, { 'ownerId': user._id });
 //   res.end();

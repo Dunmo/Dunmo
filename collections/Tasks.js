@@ -143,7 +143,7 @@ Tasks.helpers({
   },
 
   assignees: function () {
-    return Meteor.users.find({ _id: { $in: this.assigneeIds } });
+    return Users.find({ _id: { $in: this.assigneeIds } });
   },
 
   fetchAssignees: function () {
@@ -225,7 +225,7 @@ Tasks.create = function (str, obj) {
   obj.isOnboardingTask = obj.isOnboardingTask || false;
   obj.lastUpdatedAt    = obj.lastUpdatedAt    || Date.now();
 
-  var granularity = Meteor.users.findOne(obj.ownerId).taskGranularity();
+  var granularity = Users.findOne(obj.ownerId).taskGranularity();
   obj.remaining   = Date.nearest(obj.remaining, granularity);
   if(obj.remaining == 0) obj.remaining = granularity;
 
