@@ -62,8 +62,8 @@ Freetimes._coalesceBusytimes = function (busytimes) {
     }
     else {
       newBusytimes.push({
-        start: _.min(last.start, next.start),
-        end:   _.max(last.end,   next.end)
+        start: _.min([last.start, next.start]),
+        end:   _.max([last.end,   next.end])
       });
     }
   });

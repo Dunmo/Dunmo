@@ -43,10 +43,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
 
   // does not include removed items
   collection.before.find(function(userId, selector, options) {
-    var prop = selector.isRemoved;
-    if(prop === null || prop === undefined) {
-      selector = _.extend({}, { isRemoved: { $ne: true } }, selector);
-    }
+    if(!selector.isRemoved) selector.isRemoved = { $ne: true };
   });
 
   collection.before.insert(function (userId, doc) {

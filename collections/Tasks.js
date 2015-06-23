@@ -258,8 +258,8 @@ Tasks.fetchSnoozed = function (selector, options) {
 Tasks.getDependencyEdges = function (tasks) {
   var taskIds = _.pluck(tasks, '_id');
   var edges = tasks.map(function (task) {
-    if(!task.dependencies) return [];
-    return task.dependencies.map(function (depId) {
+    if(!task.dependencyIds) return [];
+    return task.dependencyIds.map(function (depId) {
       if( ! taskIds.any(function (id) { return id === depId; }) ) return [];
       else return [task._id, depId];
     });
