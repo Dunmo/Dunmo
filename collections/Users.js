@@ -155,16 +155,16 @@ Users.helpers({
 
   sortedTasks: function () {
     var tasks = this.tasks().fetch();
-    tasks     = Tasks.basicSort(tasks);
+    tasks     = Tasks.advancedSort(tasks);
     return tasks;
   },
 
   todos: function (selector, options) {
     selector = selector || {};
     _.extend(selector, {
-      ownerId: this._id,
+      ownerId:   this._id,
       isRemoved: { $ne: true },
-      isDone: { $ne: true }
+      isDone:    { $ne: true }
     });
     return Tasks.find(selector, options);
   },

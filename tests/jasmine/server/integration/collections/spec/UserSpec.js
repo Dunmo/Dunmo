@@ -151,10 +151,7 @@ describe('user', function () {
 
   describe('todos', function () {
 
-    var user;
-
     beforeEach(function () {
-      user      = TestHelpers.fakeUser();
       var userId = user._id;
       var tasks  = [
         { id: 1, ownerId: userId,   isDone: true,  isRemoved: false },
@@ -196,47 +193,30 @@ describe('user', function () {
 
   describe('recentTodos', function () {
 
-    var user;
-
     beforeEach(function () {
-      user      = TestHelpers.fakeUser();
       var userId = user._id;
       var tasks  = [
-        { id: 1, ownerId: userId },
-        { id: 2, ownerId: userId }
+        { id: 1, ownerId: userId, needsReviewed: true  },
+        { id: 2, ownerId: userId, needsReviewed: false }
       ];
       tasks.forEach(function (task) { Tasks.insert(task); });
-      var recentTask = Tasks.findOne();
-
-      // Events.insert({
-      //   taskId:
-      // });
     });
 
-    it('should only return tasks owned by this user', function () {
+    it('should return the correct tasks', function () {
       var tasks   = user.todos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
-        expect(task.ownerId).toEqual(user._id);
+        expect(task.id).toEqual(1);
       });
     });
 
-    it('should only return tasks for which isRemoved is false', function () {
+    it('should only return tasks for which needsReviewed is true', function () {
       var tasks   = user.todos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
-        expect(task.isRemoved).toBeFalsy();
-      });
-    });
-
-    it('should only return tasks for which isDone is false', function () {
-      var tasks   = user.todos();
-      tasks       = tasks.fetch();
-
-      tasks.forEach(function (task) {
-        expect(task.isDone).toBeFalsy();
+        expect(task.needsReviewed).toBeTruthy();
       });
     });
 
