@@ -11,14 +11,13 @@
  */
 
 Calendars.before.insert(function(uid, doc) {
-  doc.ownerId = doc.ownerId || Meteor.userId();
+  doc.ownerId = doc.ownerId // Meteor.userId();
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
   doc.id      = undefined;
   doc.active  = true;
 
   return doc;
 });
-
 
 Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
   doc.googleCalendarId = doc.googleCalendarId || doc.id || null;

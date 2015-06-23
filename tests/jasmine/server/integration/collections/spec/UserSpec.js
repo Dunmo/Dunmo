@@ -326,10 +326,6 @@ describe('user', function () {
 
   describe('activeCalendars', function () {
 
-    it('should', function () {
-      pending();
-    });
-
   });
 
   describe('calendarIdObjects', function () {
