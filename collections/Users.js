@@ -236,10 +236,12 @@ Users.helpers({
     return Tags.fromTasks(tasks);
   },
 
+  _latestTodo: function () {
+    return _.max(this.fetchTodos(), 'dueAt');
+  },
+
   latestTodoTime: function () {
-    var latestTodo = lodash.max(this.fetchTodos(), 'dueAt');
-    var maxTime    = latestTodo.dueAt;
-    return maxTime;
+    return this._latestTodo().dueAt;
   },
 
   todoList: function (freetimes) {
