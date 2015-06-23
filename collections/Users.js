@@ -149,7 +149,12 @@ Users.helpers({
     else    return null;
   },
 
+  // TODO: create custom selectors, i.e. selectors.todo = { isDone: { $ne: true } }
   tasks: function () {
+    return Tasks.find({ ownerId: this._id });
+  },
+
+  fetchTasks: function () {
     return Tasks.find({ ownerId: this._id });
   },
 
@@ -201,8 +206,7 @@ Users.helpers({
   // },
 
   calendars: function (selector, options) {
-    selector = selector || {};
-    selector.ownerId = this._id;
+    selector = _.extend({}, { ownerId: this._id }, selector);
     return Calendars.find(selector, options);
   },
 
@@ -223,14 +227,16 @@ Users.helpers({
   },
 
   tags: function (selector, options) {
-    selector = _.extend({}, { ownerId: this._id }, selector);
-    return Tags.find(selector, options);
+    var tasks = this.fetchTasks(selector, options);
+    var tags  = tasks.map(function (task) { return task.tags; });
+    tags      = _.flatten(tags);
+    tags      = _.uniq(tags);
+    return tags;
   },
 
   activeTags: function (selector, options) {
-    selector = selector || {};
-    selector.isActive = true;
-    return this.tags(selector, options)
+    selector = _.extend({}, { isDone: { $ne: true } }, selector);
+    return this.tags(selector, options);
   },
 
   latestTodoTime: function () {
