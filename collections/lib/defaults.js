@@ -86,6 +86,11 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
     return collection.find({ _id: { $in: ids } });
   };
 
+  // includes removed items
+  collection.fetchAllById = function (ids) {
+    return collection.findAllById(ids).fetch();
+  };
+
   // does not include removed items
   collection.findBy = function (selector) {
     return collection.findOne(selector);

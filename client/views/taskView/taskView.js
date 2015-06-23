@@ -9,7 +9,7 @@ function setTime () {
     Session.set('currentMinute', time);
 
     var lastRendered = Number(Session.get('lastRendered'));
-    var tasks = Tasks.fetch({ snoozedUntil: { $gt: lastRendered } });
+    var tasks = Meteor.user().fetchTasks({ snoozedUntil: { $gt: lastRendered } });
     if(tasks.any(function (t) { return t.snoozedUntil < time; })) {
       Session.set('renderTasks', false);
       window.setTimeout(rerender, 1);

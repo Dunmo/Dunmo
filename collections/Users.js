@@ -206,6 +206,10 @@ Users.helpers({
     return Calendars.find(selector, options);
   },
 
+  fetchCalendars: function (selector, options) {
+    return this.calendars(selector, options).fetch();
+  },
+
   activeCalendars: function () {
     return this.calendars({ active: true });
   },
@@ -233,7 +237,7 @@ Users.helpers({
   },
 
   latestTodoTime: function () {
-    var latestTodo = lodash.max(this.todos().fetch(), 'dueAt');
+    var latestTodo = lodash.max(this.fetchTodos(), 'dueAt');
     var maxTime    = latestTodo.dueAt;
     return maxTime;
   },

@@ -90,8 +90,7 @@ Events.fetchTaskEvents = function (options, callback) {
   selector.start  = { $gt: options.start };
   selector.end    = { $lt: options.end };
   Events.syncTaskEventsWithGoogle(options, function () {
-    var ret = Events.find(selector);
-    ret     = ret.fetch();
+    var ret = Events.fetch(selector);
     callback(ret);
   });
 };
@@ -154,6 +153,6 @@ Events.recentTaskEvents = function (selector, options) {
 Events.getTasks = function (events) {
   var taskIds = events.map(function (e) { return e.taskId; });
   var taskIds = _.uniq(taskIds);
-  var tasks   = Tasks.findAllById(taskIds).fetch();
+  var tasks   = Tasks.fetchAllById(taskIds);
   return tasks;
 };

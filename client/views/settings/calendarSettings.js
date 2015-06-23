@@ -23,7 +23,7 @@ Template.calendarSettings.helpers({
   },
 
   calendars: function () {
-    var calendars = Meteor.user().calendars({ summary: { $not: 'Dunmo Tasks' } }).fetch();
+    var calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
     calendars = _.sortBy(calendars, function(cal) {
       return cal.summary.toLowerCase();
     });

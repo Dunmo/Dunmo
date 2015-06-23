@@ -88,7 +88,7 @@ POST.route('/api/subscribers/:email', function (params, req, res, next) {
 // });
 
 // GET.route('/calendarWatchMessages', function (params, req, res, next) {
-//   var ret = CalendarWatchMessages.find().fetch();
+//   var ret = CalendarWatchMessages.fetch();
 //   ret = JSON.stringify(ret);
 //   res.end(ret);
 // });

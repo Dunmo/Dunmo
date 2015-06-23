@@ -522,7 +522,7 @@ gapi.syncTasksWithCalendar = function () {
         // should not delete current task event
         gapi.deleteAllFutureFromCalendar(function () {
 
-          Meteor.user().todos().fetch().forEach(function (todo) {
+          Meteor.user().fetchTodos().forEach(function (todo) {
             todo.setWillBeOverdue(false);
           });
 
