@@ -51,6 +51,13 @@ Tags.createOrUpdate = function (obj) {
   }
 };
 
+Tags.fromTasks = function (tasks) {
+  var tags  = tasks.map(function (task) { return task.tags; });
+  tags      = _.flatten(tags);
+  tags      = _.uniq(tags);
+  return tags;
+};
+
 Tags.parseTagsFromString = function (str) {
   return str.match(/([\#][\w\-]+)/g);
 };
