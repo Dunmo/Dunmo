@@ -150,54 +150,50 @@ Users.helpers({
   },
 
   // TODO: create custom selectors, i.e. selectors.todo = { isDone: { $ne: true } }
-  tasks: function () {
-    return Tasks.find({ ownerId: this._id });
-  },
-
-  fetchTasks: function () {
-    return Tasks.find({ ownerId: this._id });
-  },
-
-  sortedTasks: function () {
-    var tasks = this.tasks().fetch();
-    tasks     = Tasks.advancedSort(tasks);
-    return tasks;
-  },
-
-  todos: function (selector, options) {
-    selector = selector || {};
-    _.extend(selector, {
-      ownerId:   this._id,
-      isDone:    { $ne: true }
-    });
+  tasks: function (selector, options) {
+    selector = _.extend({}, { ownerId: this._id }, selector);
     return Tasks.find(selector, options);
   },
 
-  sortedTodos: function (selector, options) {
-    var todos = this.todos(selector, options).fetch();
-    todos     = Tasks.advancedSort(todos);
-    return todos;
+  fetchTasks: function (selector, options) {
+    return this.tasks(selector, options).fetch();
   },
 
-  unsnoozedTodos: function (selector, options) {
-    selector = selector || {};
-    selector.snoozedUntil = { $lt: Date.now() };
+  sortedTasks: function (selector, options) {
+    return Tasks.advancedSort(this.fetchTasks(selector, options));
+  },
+
+  todos: function (selector, options) {
+    selector = _.extend({}, { isDone: { $ne: true } }, selector);
+    return this.tasks(selector, options);
+  },
+
+  fetchTodos: function (selector, options) {
+    return this.todos(selector, options).fetch();
+  },
+
+  sortedTodos: function (selector, options) {
+    return Tasks.advancedSort(this.fetchTodos(selector, options));
+  },
+
+  fetchUnsnoozedTodos: function (selector, options) {
+    selector = _.extend({}, { snoozedUntil: { $lt: Date.now() } }, selector);
     return this.sortedTodos(selector, options);
   },
 
-  recentTodos: function () {
-    var recentTodos = this.unsnoozedTodos({ needsReviewed: true });
-    return recentTodos;
+  recentTodos: function (selector, options) {
+    selector = _.extend({}, { needsReviewed: true }, selector);
+    return this.fetchUnsnoozedTodos(selector, options);
   },
 
-  upcomingTodos: function () {
-    var upcomingTodos = this.unsnoozedTodos({ needsReviewed: { $ne: true } });
-    return upcomingTodos;
+  upcomingTodos: function (selector, options) {
+    selector = _.extend({}, { needsReviewed: { $ne: true } }, selector);
+    return this.fetchUnsnoozedTodos(selector, options);
   },
 
-  onboardingTasks: function () {
-    var onboardingTasks = this.unsnoozedTodos({ isOnboardingTask: true });
-    return onboardingTasks;
+  onboardingTasks: function (selector, options) {
+    selector = _.extend({}, { isOnboardingTask: true }, selector);
+    return this.fetchUnsnoozedTodos(selector, options);
   },
 
   // TODO: implement Freetimes.find
@@ -228,15 +224,12 @@ Users.helpers({
 
   tags: function (selector, options) {
     var tasks = this.fetchTasks(selector, options);
-    var tags  = tasks.map(function (task) { return task.tags; });
-    tags      = _.flatten(tags);
-    tags      = _.uniq(tags);
-    return tags;
+    return Tags.fromTasks(tasks);
   },
 
   activeTags: function (selector, options) {
-    selector = _.extend({}, { isDone: { $ne: true } }, selector);
-    return this.tags(selector, options);
+    var tasks = this.fetchTodos(selector, options);
+    return Tags.fromTasks(tasks);
   },
 
   latestTodoTime: function () {
