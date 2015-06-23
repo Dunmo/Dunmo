@@ -117,22 +117,9 @@ describe('user', function () {
 
   });
 
-  describe('taskCalendarId', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
   describe('tasks', function () {
 
-    var user;
-
-    var pickId = function (task) { return task.id; };
-
     beforeEach(function () {
-      user      = TestHelpers.fakeUser();
       var userId = user._id;
       var tasks  = [
         { id: 1, ownerId: userId,   isRemoved: false },
