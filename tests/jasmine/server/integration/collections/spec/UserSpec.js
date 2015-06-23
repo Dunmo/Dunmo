@@ -308,14 +308,19 @@ describe('user', function () {
 
     beforeEach(function () {
       var calendars = [
-        { id: 1, active: true  },
-        { id: 2, active: false }
+        { id: 1, ownerId: user._id, active: true  },
+        { id: 2, ownerId: user._id, active: false }
       ];
       calendars.forEach(function (calendar) { Calendars.insert(calendar); });
     });
 
-    it('should only return calendars that are active', function () {
+    it('should return calendars', function () {
       var calendars = user.calendars();
+      expect(calendars.count()).toBeGreaterThan(0);
+    });
+
+    it('should only return calendars that are active', function () {
+      var calendars = user.calendars().fetch();
       calendars.forEach(function (calendar) {
         expect(calendar.active).toBeTruthy();
       });
@@ -327,7 +332,7 @@ describe('user', function () {
 
     beforeEach(function () {
       var calendars = [
-        { id: 1, googleCalendarId: 'gcalId'  }
+        { id: 1, googleCalendarId: 'gcalId' }
       ];
       calendars.forEach(function (calendar) { Calendars.insert(calendar); });
     });
@@ -338,6 +343,34 @@ describe('user', function () {
         expect(obj.id).not.toBeFalsy();
       });
     });
+
+  });
+
+  describe('tags', function () {
+
+    beforeEach(function () {
+      var userId = user._id;
+      var tasks = [
+        { id: 1, ownerId: userId, tags: []               },
+        { id: 2, ownerId: userId, tags: ['tag1']         },
+        { id: 3, ownerId: userId, tags: ['tag1', 'tag2'] }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
+    });
+
+    it('should return tags', function () {
+      var tags = user.tags();
+      expect(tags.count()).toBeGreaterThan(0);
+    });
+
+    it('should return the correct tags', function () {
+      var tags = user.tags();
+      expect(tags.sort()).toEqual(['tag1', 'tag2'].sort());
+    });
+
+  });
+
+  describe('activeTags', function () {
 
   });
 
