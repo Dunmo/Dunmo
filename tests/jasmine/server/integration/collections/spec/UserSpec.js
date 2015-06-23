@@ -372,6 +372,26 @@ describe('user', function () {
 
   describe('activeTags', function () {
 
+    beforeEach(function () {
+      var userId = user._id;
+      var tasks = [
+        { id: 1, ownerId: userId, isDone: true,  tags: ['tag1']         },
+        { id: 2, ownerId: userId, isDone: true,  tags: ['tag2']         },
+        { id: 3, ownerId: userId, isDone: false, tags: ['tag2', 'tag3'] }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
+    });
+
+    it('should return tags', function () {
+      var tags = user.activeTags();
+      expect(tags.count()).toBeGreaterThan(0);
+    });
+
+    it('should only return tags that are active', function () {
+      var tags = user.activeTags();
+      expect(tags.sort()).toEqual(['tag2', 'tag3'].sort());
+    });
+
   });
 
   describe('latestTodoTime', function () {
