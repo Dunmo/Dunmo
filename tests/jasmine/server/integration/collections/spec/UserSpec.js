@@ -106,18 +106,13 @@ describe('user', function () {
 
   });
 
-  describe('referrals', function () {
-
-    it('should', function () {
-      pending();
-    });
-
-  });
-
   describe('removeReferral', function () {
 
-    it('should', function () {
-      pending();
+    it('should work', function () {
+      var email = "test@example.com";
+      user.addReferral(email);
+      user.removeReferral(email);
+      expect(user.referrals()).not.toContain(email);
     });
 
   });
