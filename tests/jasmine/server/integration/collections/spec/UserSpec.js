@@ -204,8 +204,6 @@ describe('user', function () {
 
     it('should return the correct tasks', function () {
       var tasks   = user.recentTodos();
-      tasks       = tasks.fetch();
-
       tasks.forEach(function (task) {
         expect(task.id).toEqual(1);
       });
@@ -213,8 +211,6 @@ describe('user', function () {
 
     it('should only return tasks for which needsReviewed is true', function () {
       var tasks   = user.recentTodos();
-      tasks       = tasks.fetch();
-
       tasks.forEach(function (task) {
         expect(task.needsReviewed).toBeTruthy();
       });
