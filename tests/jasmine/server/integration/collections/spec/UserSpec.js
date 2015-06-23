@@ -86,8 +86,22 @@ describe('user', function () {
 
   describe('addReferral', function () {
 
-    it('should', function () {
-      pending();
+    it('should insert the email', function () {
+      var email = "test@example.com";
+      user.addReferral(email);
+      expect(user.referrals()).toContain(email);
+    });
+
+    it('shouldn\'t insert the email twice', function () {
+      var email = "test@example.com";
+
+      user.addReferral(email);
+      var expected = user.referrals();
+
+      user.addReferral(email);
+      var actual = user.referrals();
+
+      expect(actual.sort()).toEqual(expected.sort());
     });
 
   });

@@ -141,7 +141,6 @@ Users.helpers({
   addReferral: function (str) {
     var settings = this.settings();
     if(str) return settings.update({ $addToSet: { referrals: str } });
-    else    return null;
   },
 
   referrals: function () {
