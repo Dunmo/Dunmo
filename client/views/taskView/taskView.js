@@ -44,11 +44,11 @@ Template.taskView.onRendered(function () {
 
 Template.taskView.helpers({
   tasks: function () {
-    return Meteor.user().unsnoozedTodos();
+    return Meteor.user().fetchUnsnoozedTodos();
   },
 
   noTasks: function () {
-    return Meteor.user().unsnoozedTodos().count() == 0;
+    return Meteor.user().fetchUnsnoozedTodos().count() == 0;
   },
 
   recentTasks: function () {
