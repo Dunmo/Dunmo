@@ -326,6 +326,21 @@ describe('user', function () {
 
   describe('activeCalendars', function () {
 
+    beforeEach(function () {
+      var calendars = [
+        { id: 1, active: true  },
+        { id: 2, active: false }
+      ];
+      calendars.forEach(function (calendar) { Calendars.insert(calendar); });
+    });
+
+    it('should only return calendars that are active', function () {
+      var calendars = user.calendars();
+      calendars.forEach(function (calendar) {
+        expect(calendar.active).toBeTruthy();
+      });
+    });
+
   });
 
   describe('calendarIdObjects', function () {
