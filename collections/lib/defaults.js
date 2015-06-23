@@ -49,6 +49,16 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
     }
   });
 
+  collection.before.insert(function (userId, doc) {
+    if(Array.isArray(doc)) {
+      var ary = doc;
+      ary.forEach(function (doc) {
+        collection.insert(doc);
+      });
+    }
+    doc = {};
+  });
+
   // includes removed items
   collection.findAll = function(selector, options) {
     return collection.direct.find(selector, options);
