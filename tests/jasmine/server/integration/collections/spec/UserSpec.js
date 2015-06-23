@@ -396,8 +396,18 @@ describe('user', function () {
 
   describe('latestTodoTime', function () {
 
-    it('should', function () {
-      pending();
+    beforeEach(function () {
+      var userId = user._id;
+      var tasks = [
+        { id: 1, ownerId: userId, dueAt: 1 },
+        { id: 2, ownerId: userId, dueAt: 2 }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
+    });
+
+    it('should return the value of dueAt for the latest due task', function () {
+      var latestTodoTime = user.latestTodoTime();
+      expect(latestTodoTime).toEqual(2);
     });
 
   });
