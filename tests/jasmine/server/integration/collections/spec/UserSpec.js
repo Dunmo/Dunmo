@@ -345,8 +345,18 @@ describe('user', function () {
 
   describe('calendarIdObjects', function () {
 
-    it('should', function () {
-      pending();
+    beforeEach(function () {
+      var calendars = [
+        { id: 1, googleCalendarId: 'gcalId'  }
+      ];
+      calendars.forEach(function (calendar) { Calendars.insert(calendar); });
+    });
+
+    it('should return calendarIdObjects', function () {
+      var objects = user.calendarIdObjects();
+      objects.forEach(function (obj) {
+        expect(obj.id).not.toBeFalsy();
+      });
     });
 
   });

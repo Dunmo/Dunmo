@@ -211,8 +211,12 @@ Users.helpers({
     return this.calendars({ active: true });
   },
 
+  fetchActiveCalendars: function () {
+    return this.activeCalendars().fetch();
+  },
+
   calendarIdObjects: function () {
-    var calendars = this.activeCalendars();
+    var calendars = this.fetchActiveCalendars();
     var idObjects = calendars.map(function(calendar) {
       return { id: calendar.googleCalendarId };
     });
