@@ -203,7 +203,7 @@ describe('user', function () {
     });
 
     it('should return the correct tasks', function () {
-      var tasks   = user.todos();
+      var tasks   = user.recentTodos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
@@ -212,7 +212,7 @@ describe('user', function () {
     });
 
     it('should only return tasks for which needsReviewed is true', function () {
-      var tasks   = user.todos();
+      var tasks   = user.recentTodos();
       tasks       = tasks.fetch();
 
       tasks.forEach(function (task) {
