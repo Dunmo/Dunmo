@@ -201,13 +201,14 @@ Users.helpers({
   //   return Freetimes.find({ ownerId: this._id });
   // },
 
-  calendars: function () {
-    return Calendars.find({ ownerId: this._id });
+  calendars: function (selector, options) {
+    selector = selector || {};
+    selector.ownerId = this._id;
+    return Calendars.find(selector, options);
   },
 
   activeCalendars: function () {
-    var uid = this._id;
-    return Calendars.find({ ownerId: uid, active: true });
+    return this.calendars({ active: true });
   },
 
   calendarIdObjects: function () {

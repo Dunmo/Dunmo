@@ -300,6 +300,28 @@ describe('user', function () {
 
   describe('calendars', function () {
 
+    beforeEach(function () {
+      var userId    = user._id;
+      var calendars = [
+        { id: 1, ownerId: userId   },
+        { id: 2, ownerId: 'someId' }
+      ];
+      calendars.forEach(function (calendar) { Calendars.insert(calendar); });
+    });
+
+    it('should return calendars', function () {
+      var calendars = user.calendars();
+      expect(calendars.count()).toBeGreaterThan(0);
+    });
+
+    it('should only return calendars for this user', function () {
+      var userId = user._id;
+      var calendars = user.calendars();
+      calendars.forEach(function (calendar) {
+        expect(calendar.ownerId).toEqual(userId);
+      });
+    });
+
   });
 
   describe('activeCalendars', function () {
