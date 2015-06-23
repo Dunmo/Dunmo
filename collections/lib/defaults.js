@@ -31,7 +31,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
     update: function (data) {
       if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
         var self = this;
-        lodash.forOwn(data, function(value, key) {
+        _.forOwn(data, function(value, key) {
           self[key] = value;
         });
         data = { $set: data };
@@ -58,10 +58,12 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
     return result;
   };
 
+  // includes removed items
   collection.findAllById = function (ids) {
     return collection.find({ _id: { $in: ids } });
   };
 
+  // does not include removed items
   collection.findBy = function (selector) {
     return collection.findOne(selector);
   };

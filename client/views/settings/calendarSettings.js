@@ -23,11 +23,11 @@ Template.calendarSettings.helpers({
   },
 
   calendars: function () {
-    var calendars = Calendars.find({ ownerId: Meteor.userId(), summary: { $not: 'Dunmo Tasks' }, isRemoved: { $not: true } }).fetch();
-    calendars = lodash.sortBy(calendars, function(cal) {
+    var calendars = Meteor.user().calendars({ summary: { $not: 'Dunmo Tasks' } }).fetch();
+    calendars = _.sortBy(calendars, function(cal) {
       return cal.summary.toLowerCase();
     });
-    calendars = lodash.sortBy(calendars, function(cal) {
+    calendars = _.sortBy(calendars, function(cal) {
       return !cal.active;
     });
     return calendars;

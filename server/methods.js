@@ -7,11 +7,11 @@ Meteor.methods({
 
     var users = Users.find().fetch();
 
-    var referrer = lodash.find(users, function(user) {
+    var referrer = _.find(users, function(user) {
       return user.primaryEmailAddress() === referrerEmail;
     });
 
-    var user = lodash.find(users, function(user) {
+    var user = _.find(users, function(user) {
       return user.primaryEmailAddress() === userEmail;
     });
 

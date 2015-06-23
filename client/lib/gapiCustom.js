@@ -62,7 +62,7 @@ gapi.assignCalToCurrentUser = function (cal, callback) {
 gapi.findCalendar = function (selector, callback) {
   gapi.getCalendarList(function (calendarList) {
     var cals = calendarList.items;
-    var cal  = lodash.find(cals, selector);
+    var cal  = _.find(cals, selector);
     callback(cal);
   });
 };
@@ -104,7 +104,7 @@ gapi.getTaskCalendar = function (callback) {
 gapi.deleteTaskCalendar = function (callback) {
   gapi.getCalendarList(function (calendarList) {
     var calendars = calendarList.items;
-    calendars     = lodash.select(calendars, { summary: 'Dunmo Tasks' });
+    calendars     = _.select(calendars, { summary: 'Dunmo Tasks' });
     calendars.forEach(function (calendar) {
       gapi.deleteCalendar(calendar.id);
     });
@@ -127,15 +127,15 @@ gapi.getCalendarList = function (callback) {
 gapi.syncCalendars = function () {
   gapi.getCalendarList(function (calendarList) {
     var calendars = calendarList.items;
-    var calendarIds = lodash.pluck(calendars, 'id');
+    var calendarIds = _.pluck(calendars, 'id');
 
     // only creates if new
     Calendars.create(calendars);
 
     var userId = Meteor.userId();
     var allCalendars = Calendars.find({ ownerId: userId }).fetch();
-    var removedCalendars = lodash.reject(allCalendars, function(cal) {
-      return lodash.contains(calendarIds, cal.googleCalendarId);
+    var removedCalendars = _.reject(allCalendars, function(cal) {
+      return _.contains(calendarIds, cal.googleCalendarId);
     });
 
     removedCalendars.forEach(function (cal) { cal.setRemoved(); });
@@ -235,7 +235,7 @@ gapi.getCurrentTaskEvent = function (callback) {
 
       request.execute(function(res) {
         var items = res.items;
-        items     = lodash.filter(items, isHappeningNow);
+        items     = _.filter(items, isHappeningNow);
         // TODO: sort by date
 
         var item  = items[0];
@@ -417,7 +417,7 @@ gapi.setEndTime = function (e, newEndTime) {
 
 function getBusytimesFromCalendars (calendars) {
   var busytimes = [];
-  lodash.keys(calendars).forEach(function(k) {
+  _.keys(calendars).forEach(function(k) {
     var calendar = calendars[k];
     calendar.busy.forEach(function(busy) {
       busy.start = Date.ISOToMilliseconds(busy.start);
