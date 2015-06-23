@@ -196,13 +196,13 @@ Users.helpers({
     return onboardingTasks;
   },
 
-  freetimes: function () {
-    return Freetimes.find({ ownerId: this._id });
-  },
+  // TODO: implement Freetimes.find
+  // freetimes: function () {
+  //   return Freetimes.find({ ownerId: this._id });
+  // },
 
   calendars: function () {
-    var uid = this._id;
-    return Calendars.find({ ownerId: uid });
+    return Calendars.find({ ownerId: this._id });
   },
 
   activeCalendars: function () {

@@ -116,6 +116,8 @@ Freetimes._invertBusytimes = function (busytimes, options) {
   return freetimes;
 };
 
+// TODO: implement Freetimes.find
+
 // busytimes: [{start, end}]
 // options:   { granularity, minTime, maxTime, startOfDay, endOfDay, defaultProperties }
 Freetimes.fromBusytimes = function (busytimes, options) {

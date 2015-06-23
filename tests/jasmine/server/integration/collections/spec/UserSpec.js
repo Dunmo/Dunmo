@@ -272,32 +272,33 @@ describe('user', function () {
 
   });
 
-  describe('freetimes', function () {
+  // describe('freetimes', function () {
 
-    beforeEach(function () {
-      var userId = user._id;
-      var freetimes  = [
-        { id: 1, ownerId: userId },
-        { id: 2, ownerId: userId }
-      ];
-      freetimes.forEach(function (task) { Tasks.insert(task); });
-    });
+  //   beforeEach(function () {
+  //     var userId = user._id;
+  //     var freetimes  = [
+  //       { id: 1, ownerId: userId },
+  //       { id: 2, ownerId: userId }
+  //     ];
+  //     freetimes.forEach(function (task) { Freetimes.insert(task); });
+  //   });
 
-    it('should only return freetimes for this user', function () {
-      var userId = user._id;
-      var freetimes = user.freetimes();
-      freetimes.forEach(function (freetime) {
-        expect(freetime.ownerId).toEqual(userId);
-      });
-    });
+  //   it('should return freetimes', function () {
+  //     var freetimes = user.freetimes();
+  //     expect(freetime.length).toBeGreaterThan(0);
+  //   });
 
-  });
+  //   it('should only return freetimes for this user', function () {
+  //     var userId = user._id;
+  //     var freetimes = user.freetimes();
+  //     freetimes.forEach(function (freetime) {
+  //       expect(freetime.ownerId).toEqual(userId);
+  //     });
+  //   });
+
+  // });
 
   describe('calendars', function () {
-
-    it('should', function () {
-      pending();
-    });
 
   });
 
