@@ -245,6 +245,33 @@ describe('user', function () {
 
   });
 
+  describe('onboardingTasks', function () {
+
+    beforeEach(function () {
+      var userId = user._id;
+      var tasks  = [
+        { id: 1, ownerId: userId, isOnboardingTask: true  },
+        { id: 2, ownerId: userId, isOnboardingTask: false }
+      ];
+      tasks.forEach(function (task) { Tasks.insert(task); });
+    });
+
+    it('should return the correct tasks', function () {
+      var tasks   = user.onboardingTasks();
+      tasks.forEach(function (task) {
+        expect(task.id).toEqual(2);
+      });
+    });
+
+    it('should only return tasks for which isOnboardingTask is true', function () {
+      var tasks   = user.onboardingTasks();
+      tasks.forEach(function (task) {
+        expect(task.isOnboardingTask).toBeTruthy();
+      });
+    });
+
+  });
+
   describe('freetimes', function () {
 
     it('should', function () {
