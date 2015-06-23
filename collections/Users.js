@@ -150,7 +150,7 @@ Users.helpers({
   },
 
   tasks: function () {
-    return Tasks.find({ ownerId: this._id, isRemoved: { $ne: true } });
+    return Tasks.find({ ownerId: this._id });
   },
 
   sortedTasks: function () {
@@ -163,7 +163,6 @@ Users.helpers({
     selector = selector || {};
     _.extend(selector, {
       ownerId:   this._id,
-      isRemoved: { $ne: true },
       isDone:    { $ne: true }
     });
     return Tasks.find(selector, options);
@@ -224,8 +223,7 @@ Users.helpers({
   },
 
   tags: function (selector, options) {
-    var _selector = { ownerId: this._id, isRemoved: false };
-    selector = _.extend(_selector, selector);
+    selector = _.extend({}, { ownerId: this._id }, selector);
     return Tags.find(selector, options);
   },
 

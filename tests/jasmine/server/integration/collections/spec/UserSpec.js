@@ -122,9 +122,8 @@ describe('user', function () {
     beforeEach(function () {
       var userId = user._id;
       var tasks  = [
-        { id: 1, ownerId: userId,   isRemoved: false },
-        { id: 2, ownerId: userId,   isRemoved: true  },
-        { id: 3, ownerId: 'someId', isRemoved: false }
+        { id: 1, ownerId: userId   },
+        { id: 2, ownerId: 'someId' }
       ];
       tasks.forEach(function (task) { Tasks.insert(task); });
     });
@@ -135,15 +134,6 @@ describe('user', function () {
 
       tasks.forEach(function (task) {
         expect(task.ownerId).toEqual(user._id);
-      });
-    });
-
-    it('should only return tasks for which isRemoved is false', function () {
-      var tasks = user.tasks();
-      tasks     = tasks.fetch();
-
-      tasks.forEach(function (task) {
-        expect(task.isRemoved).toBeFalsy();
       });
     });
 
@@ -154,10 +144,9 @@ describe('user', function () {
     beforeEach(function () {
       var userId = user._id;
       var tasks  = [
-        { id: 1, ownerId: userId,   isDone: true,  isRemoved: false },
-        { id: 2, ownerId: userId,   isDone: false, isRemoved: true  },
-        { id: 3, ownerId: userId,   isDone: false, isRemoved: false },
-        { id: 4, ownerId: 'someId', isDone: false, isRemoved: false }
+        { id: 1, ownerId: userId,   isDone: true  },
+        { id: 2, ownerId: userId,   isDone: false },
+        { id: 3, ownerId: 'someId', isDone: false }
       ];
       tasks.forEach(function (task) { Tasks.insert(task); });
     });
@@ -168,15 +157,6 @@ describe('user', function () {
 
       tasks.forEach(function (task) {
         expect(task.ownerId).toEqual(user._id);
-      });
-    });
-
-    it('should only return tasks for which isRemoved is false', function () {
-      var tasks = user.todos();
-      tasks     = tasks.fetch();
-
-      tasks.forEach(function (task) {
-        expect(task.isRemoved).toBeFalsy();
       });
     });
 

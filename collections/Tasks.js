@@ -245,7 +245,6 @@ Tasks.create = function (str, obj) {
 Tasks.fetch = function (selector, options) {
   selector           = selector || {};
   selector.isDone    = { $ne: true };
-  selector.isRemoved = { $ne: true };
   var tasks          = Tasks.find(selector, options);
   return tasks.fetch();
 };

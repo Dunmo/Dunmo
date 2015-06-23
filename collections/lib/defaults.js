@@ -41,6 +41,19 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
 
   });
 
+  // does not include removed items
+  collection.before.find(function(userId, selector, options) {
+    var prop = selector.isRemoved;
+    if(prop === null || prop === undefined) {
+      selector = _.extend({}, { isRemoved: { $ne: true } }, selector);
+    }
+  });
+
+  // includes removed items
+  collection.findAll = function(selector, options) {
+    return collection.direct.find(selector, options);
+  };
+
   // includes removed items
   collection.fetchAll = function (selector, options) {
     selector   = selector || {};
