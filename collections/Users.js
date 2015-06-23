@@ -143,11 +143,6 @@ Users.helpers({
     if(str) return settings.update({ $addToSet: { referrals: str } });
   },
 
-  referrals: function () {
-    var settings = this.settings();
-    return settings.referrals;
-  },
-
   removeReferral: function (str) {
     var settings = this.settings();
     if(str) return settings.update({ $pull: { referrals: str } });
