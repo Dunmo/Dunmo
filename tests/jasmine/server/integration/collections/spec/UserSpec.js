@@ -274,8 +274,21 @@ describe('user', function () {
 
   describe('freetimes', function () {
 
-    it('should', function () {
-      pending();
+    beforeEach(function () {
+      var userId = user._id;
+      var freetimes  = [
+        { id: 1, ownerId: userId },
+        { id: 2, ownerId: userId }
+      ];
+      freetimes.forEach(function (task) { Tasks.insert(task); });
+    });
+
+    it('should only return freetimes for this user', function () {
+      var userId = user._id;
+      var freetimes = user.freetimes();
+      freetimes.forEach(function (freetime) {
+        expect(freetime.ownerId).toEqual(userId);
+      });
     });
 
   });
