@@ -290,38 +290,84 @@ Users.helpers({
   },
 
   lengthOfWorkday: function () {
-    return this.endOfDay() - this.startOfDay();
+    var startOfDay = this.startOfDay();
+    var endOfDay   = this.endOfDay();
+    if(startOfDay < endOfDay) return endOfDay - startOfDay;
+    else                      return endOfDay + (24*HOURS - startOfDay);
+  },
+
+  _isOutsideDay: function (date) {
+    date           = Number(new Date(date));
+    var startOfDay = this.startOfDay();
+    var endOfDay   = this.endOfDay();
+    var timeOfDay  = Date.timeOfDay(date);
+    if(startOfDay < endOfDay) return timeOfDay < startOfDay || timeOfDay > endOfDay;
+    else                      return timeOfDay > startOfDay || timeOfDay < endOfDay;
+  },
+
+  _nextStart: function (date) {
+    date           = Number(new Date(date));
+    var startOfDay = this.startOfDay();
+    var timeOfDay  = Date.timeOfDay(date);
+    if(timeOfDay < startOfDay) return date + (startOfDay - timeOfDay);
+    else                       return date - (timeOfDay - startOfDay) + 1*DAYS;
+  },
+
+  _lastEnd: function (date) {
+    date           = Number(new Date(date));
+    var endOfDay   = this.endOfDay();
+    var timeOfDay  = Date.timeOfDay(date);
+    if(timeOfDay > endOfDay) return date - (timeOfDay - endOfDay);
+    else                     return date + (endOfDay - timeOfDay) - 1*DAYS;
+  },
+
+  _isSameWorkday: function (dates) {
+    var firstStart = this._nextStart(dates[0]);
+    var self = this;
+    return dates.every(function (date) {
+      return self._nextStart(date) === firstStart;
+    });
+  },
+
+  _beginningSegment: function (date) {
+    date           = Number(new Date(date));
+    var endOfDay   = this.endOfDay();
+    var timeOfDay  = Date.timeOfDay(date);
+    if(timeOfDay < endOfDay) return endOfDay - timeOfDay;
+    else                     return endOfDay + (24*HOURS - timeOfDay);
+  },
+
+  _endSegment: function (date) {
+    date           = Number(new Date(date));
+    var startOfDay = this.startOfDay();
+    var timeOfDay  = Date.timeOfDay(date);
+    if(timeOfDay > startOfDay) return timeOfDay - startOfDay;
+    else                       return timeOfDay + (24*HOURS - startOfDay);
+  },
+
+  _numberOfWorkdaysInRangeInclusive: function (start, end) {
+    start = new Date(start).endOfDay();
+    end   = new Date(end).startOfDay();
+    var ret = Math.floor((end - start) / DAYS);
+    ret = _.bound(ret, 0, Infinity);
+    return ret;
   },
 
   workTimeInRange: function (start, end) {
     start = Number(new Date(start));
     end   = Number(new Date(end));
 
-    var beginningSegment = 0;
-    var endSegment       = 0;
-    var startTime = Date.timeOfDay(start);
-    var endTime   = Date.timeOfDay(end);
-    var lengthOfWorkday = this.lengthOfWorkday();
+    if(this._isOutsideDay(start)) start = this._nextStart(start);
+    if(this._isOutsideDay(end))   end   = this._lastEnd(end);
 
-    if(startTime > this.startOfDay() &&
-    startTime < this.endOfDay()) {
-      beginningSegment = this.endOfDay() - startTime;
-    }
-    else if(startTime < this.startOfDay()) {
-      beginningSegment = lengthOfWorkday;
-    }
+    if(this._isSameWorkday([start, end])) return end - start;
 
-    if(endTime > this.startOfDay() &&
-    endTime < this.endOfDay()) {
-      endSegment = endTime - this.startOfDay();
-    }
-    else if(endTime > this.endOfDay()) {
-      endSegment = lengthOfWorkday;
-    }
+    var numDays = this._numberOfWorkdaysInRangeInclusive(start, end);
+    var lengthOfWorkday  = this.lengthOfWorkday();
 
-    var numDays = Date.numberOfDaysInRangeInclusive(Date.endOfDay(start), Date.startOfDay(end));
-
-    var workTime = beginningSegment + numDays*lengthOfWorkday + endSegment;
+    var workTime = this._beginningSegment(start) +
+                   numDays*lengthOfWorkday +
+                   this._endSegment(end);
 
     return workTime;
   },
