@@ -449,14 +449,14 @@ describe('user', function () {
 
     beforeEach(function () {
       var userId = user._id;
-      var calendarEvents = [
+      var events = [
         { id: 1, ownerId: userId },
         { id: 2, ownerId: userId, taskId: null },
         { id: 3, ownerId: userId, taskId: undefined },
         { id: 4, ownerId: userId, taskId: false },
         { id: 5, ownerId: userId, taskId: 'someId' }
       ];
-      calendarEvents.forEach(function (event) { Events.insert(event); });
+      events.forEach(function (event) { Events.insert(event); });
     });
 
     it('should return calendarEvents', function () {
@@ -468,6 +468,33 @@ describe('user', function () {
       var calendarEvents   = user.calendarEvents().fetch();
       var calendarEventIds = _.pluck(calendarEvents, 'id');
       expect(calendarEventIds.sort()).toEqual([1, 2, 3, 4].sort());
+    });
+
+  });
+
+  describe('taskEvents', function () {
+
+    beforeEach(function () {
+      var userId = user._id;
+      var events = [
+        { id: 1, ownerId: userId },
+        { id: 2, ownerId: userId, taskId: null },
+        { id: 3, ownerId: userId, taskId: undefined },
+        { id: 4, ownerId: userId, taskId: false },
+        { id: 5, ownerId: userId, taskId: 'someId' }
+      ];
+      events.forEach(function (event) { Events.insert(event); });
+    });
+
+    it('should return taskEvents', function () {
+      var taskEvents = user.taskEvents();
+      expect(taskEvents.count()).toBeGreaterThan(0);
+    });
+
+    it('should return all taskEvents for which the taskId is not set', function () {
+      var taskEvents   = user.taskEvents().fetch();
+      var taskEventIds = _.pluck(taskEvents, 'id');
+      expect(taskEventIds).toEqual([5]);
     });
 
   });
