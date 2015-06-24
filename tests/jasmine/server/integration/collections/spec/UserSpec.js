@@ -470,13 +470,6 @@ describe('user', function () {
       expect(calendarEventIds.sort()).toEqual([1, 2, 3, 4].sort());
     });
 
-    it('should only return calendarEvents for which the taskId is null or undefined', function () {
-      var calendarEvents = user.calendarEvents();
-      calendarEvents.forEach(function (event) {
-        expect(event.taskId).toBeFalsy();
-      });
-    });
-
   });
 
 });
