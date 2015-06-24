@@ -412,10 +412,35 @@ describe('user', function () {
 
   });
 
-  describe('todoList', function () {
+  describe('events', function () {
 
-    it('should', function () {
-      pending();
+    beforeEach(function () {
+      var userId = user._id;
+      var events = [
+        { id: 1, ownerId: userId },
+        { id: 2, ownerId: userId, isRemoved: true },
+        { id: 2, ownerId: 'someId' }
+      ];
+      events.forEach(function (event) { Events.insert(event); });
+    });
+
+    it('should return events', function () {
+      var events = user.events();
+      expect(events.count()).toBeGreaterThan(0);
+    });
+
+    it('should return events owned by this user', function () {
+      var events = user.events();
+      events.forEach(function (event) {
+        expect(event.ownerId).toEqual(user._id);
+      });
+    });
+
+    it('should return events for which isRemoved is falsy', function () {
+      var events = user.events();
+      events.forEach(function (event) {
+        expect(event.isRemoved).toBeFalsy();
+      });
     });
 
   });
