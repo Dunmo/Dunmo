@@ -499,21 +499,50 @@ describe('user', function () {
 
   });
 
+  describe('fetchTaskEventsInRange', function () {
+
+    beforeEach(function () {
+      var userId = user._id;
+      var events = [
+        { id: 1, ownerId: userId, taskId: 'someId', start: -5,  end: 5   },
+        { id: 2, ownerId: userId, taskId: null,     start: 15,  end: 25  },
+        { id: 3, ownerId: userId, taskId: 'someId', start: 25,  end: 50  },
+        { id: 4, ownerId: userId, taskId: 'someId', start: 90,  end: 105 },
+        { id: 5, ownerId: userId, taskId: 'someId', start: 105, end: 115 }
+      ];
+      events.forEach(function (event) { Events.insert(event); });
+    });
+
+    it('should return task events', function () {
+      var fetchTaskEventsInRange = user.fetchTaskEventsInRange(0, 100);
+      expect(fetchTaskEventsInRange.count()).toBeGreaterThan(0);
+    });
+
+    it('should return all task events within the range', function () {
+      var taskEvents   = user.fetchTaskEventsInRange(0, 100);
+      var taskEventIds = _.pluck(taskEvents, 'id');
+      expect(taskEventIds.sort()).toEqual([1, 3, 4].sort());
+    });
+
+  });
+
   describe('productivityPercentage', function () {
 
     beforeEach(function () {
       var userId = user._id;
       var events = [
-        { id: 1, ownerId: userId, taskId: null,     start: 15, end: 25 },
-        { id: 1, ownerId: userId, taskId: 'someId', start: 25, end: 50 },
-        { id: 2, ownerId: userId, taskId: 'someId', start: 55, end: 80 }
+        { id: 1, ownerId: userId, taskId: 'someId', start: -5,  end: 5   },
+        { id: 2, ownerId: userId, taskId: null,     start: 15,  end: 25  },
+        { id: 3, ownerId: userId, taskId: 'someId', start: 25,  end: 50  },
+        { id: 4, ownerId: userId, taskId: 'someId', start: 90,  end: 105 },
+        { id: 5, ownerId: userId, taskId: 'someId', start: 105, end: 115 }
       ];
       events.forEach(function (event) { Events.insert(event); });
     });
 
     it('should return the correct value', function () {
       var actual   = user.productivityPercentage(0, 100);
-      var taskTime = (50-25)+(80-55);
+      var taskTime = (5-0)+(50-25)+(100-90);
       var expected = taskTime/100;
       expect(actual).toEqual(expected);
     });
