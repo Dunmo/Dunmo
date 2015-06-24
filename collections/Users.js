@@ -280,10 +280,11 @@ Users.helpers({
     return this.taskEvents(selector, options).fetch();
   },
 
+  // also retrieves events that overlap boundaries
   fetchTaskEventsInRange: function (start, end) {
     start = Number(new Date(start));
     end   = Number(new Date(end));
-    var selector = { $or: [ {start: { $lt: end }}, {end: { $gt: start }} ] };
+    var selector = { $and: [ {start: { $lt: end }}, {end: { $gt: start }} ] };
     return this.fetchTaskEvents(selector);
   },
 
