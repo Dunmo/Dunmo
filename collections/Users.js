@@ -313,6 +313,11 @@ Users.helpers({
     else                       return date - (timeOfDay - startOfDay) + 1*DAYS;
   },
 
+  _lastStart: function (date) {
+    if(Date.timeOfDay(date) === this.startOfDay()) return date - 1*DAYS;
+    else return this._nextStart(date) - 1*DAYS;
+  },
+
   _lastEnd: function (date) {
     date           = Number(new Date(date));
     var endOfDay   = this.endOfDay();
@@ -346,8 +351,8 @@ Users.helpers({
   },
 
   _numberOfWorkdaysInRangeInclusive: function (start, end) {
-    start = new Date(start).endOfDay();
-    end   = new Date(end).startOfDay();
+    start = this._nextStart(start);
+    end   = this._lastStart(start);
     var ret = Math.floor((end - start) / DAYS);
     ret = _.bound(ret, 0, Infinity);
     return ret;
