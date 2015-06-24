@@ -6,6 +6,8 @@ describe('user', function () {
     user = TestHelpers.fakeUser();
   });
 
+  // TODO: settings setters and filters
+
   describe('primaryEmailAddress', function () {
 
     it('should work when there\'s no services property', function () {
@@ -526,7 +528,21 @@ describe('user', function () {
 
   });
 
-  describe('productivityPercentage', function () {
+  describe('lengthOfWorkday', function () {
+
+    beforeEach(function () {
+      user.setStartOfDay('09:30');
+      user.setEndOfDay('17:30');
+    });
+
+    it('should work', function () {
+      var actual = user.lengthOfWorkday();
+      expect(actual).toEqual(8*HOURS);
+    });
+
+  });
+
+  xdescribe('productivityPercentage', function () {
 
     beforeEach(function () {
       var userId = user._id;
