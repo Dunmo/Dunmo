@@ -60,6 +60,7 @@ var settingsSettersAndFilters = [
       $('.message').show();
       return { err: true };
     }
+    return time;
   }],
   ['onboardingIndex', function (index) { return _.bound(index, 0, Infinity); }],
   ['maxTaskInterval', function (time) {
