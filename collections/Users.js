@@ -287,21 +287,6 @@ Users.helpers({
     return this.fetchTaskEvents(selector);
   },
 
-  taskTimeSpentInRange: function (start, end) {
-    start = Number(new Date(start));
-    end   = Number(new Date(end));
-
-    var taskEvents = this.fetchTaskEventsInRange(start, end);
-
-    var durations = taskEvents.map(function (taskEvent) {
-      return taskEvent.durationWithinRange(start, end);
-    });
-
-    var timeSpent = _.sum(durations);
-
-    return timeSpent;
-  },
-
   lengthOfWorkday: function () {
     return this.endOfDay() - this.startOfDay();
   },
@@ -337,6 +322,21 @@ Users.helpers({
     var workTime = beginningSegment + numDays*lengthOfWorkday + endSegment;
 
     return workTime;
+  },
+
+  taskTimeSpentInRange: function (start, end) {
+    start = Number(new Date(start));
+    end   = Number(new Date(end));
+
+    var taskEvents = this.fetchTaskEventsInRange(start, end);
+
+    var durations = taskEvents.map(function (taskEvent) {
+      return taskEvent.durationWithinRange(start, end);
+    });
+
+    var timeSpent = _.sum(durations);
+
+    return timeSpent;
   },
 
   productiveTimeSpentInRange: function (start, end) {
