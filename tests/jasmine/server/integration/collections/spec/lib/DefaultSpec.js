@@ -32,6 +32,24 @@ describe('Setters', function () {
 
   });
 
+  describe('setProp', function () {
+    var mock;
+
+    beforeEach(function () {
+      mock = {
+        update: function (selector) { this.status = selector.status; },
+        setStatus: Setters.setProp('status')
+      };
+    });
+
+    it('should set the property to the value', function () {
+      var expected = 'borked';
+      mock.setStatus(expected);
+      expect(mock.status).toEqual(expected);
+    });
+
+  });
+
 });
 
 describe('collection', function () {
