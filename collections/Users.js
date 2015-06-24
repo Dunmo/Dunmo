@@ -272,7 +272,7 @@ Users.helpers({
   },
 
   taskEvents: function (selector, options) {
-    selector = _.extend({}, { taskId: { $exists: true } }, selector);
+    selector = _.extend({}, { taskId: { $type: 2 /*String*/ } }, selector);
     return this.events(selector, options);
   },
 
