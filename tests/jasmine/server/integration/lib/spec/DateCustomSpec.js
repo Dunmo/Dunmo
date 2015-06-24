@@ -229,32 +229,6 @@ describe('Date', function () {
 
   });
 
-  describe('numberOfDaysInRangeInclusive', function () {
-
-    describe('given two dates on the same day', function () {
-
-      it('should return zero', function () {
-        var start = new Date(startOfDayString);
-        var end   = new Date(dateString);
-        var ret   = Date.numberOfDaysInRangeInclusive(start, end);
-        expect(ret).toEqual(0);
-      });
-
-    });
-
-    describe('given a range starting thursday and ending saturday', function () {
-
-      it('should return one', function () {
-        var start = new Date(Number(new Date(dateString)) - 1*DAYS);
-        var end   = new Date(saturDateString);
-        var ret   = Date.numberOfDaysInRangeInclusive(start, end);
-        expect(ret).toEqual(1);
-      });
-
-    });
-
-  });
-
   describe('timeOfDay', function () {
 
     describe('given a date', function () {
