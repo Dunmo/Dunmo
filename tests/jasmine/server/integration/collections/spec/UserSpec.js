@@ -542,6 +542,47 @@ describe('user', function () {
 
   });
 
+  describe('workTimeInRange', function () {
+
+    beforeEach(function () {
+      user.setStartOfDay('09:30');
+      user.setEndOfDay('17:30');
+    });
+
+    describe('for one workday', function () {
+
+      it('should work within a workday', function () {
+        var start  = new Date('Wed Jun 24 2015 12:30:00 GMT-0400 (EDT)');
+        var end    = new Date('Wed Jun 24 2015 15:30:00 GMT-0400 (EDT)');
+        var actual = user.workTimeInRange(start, end);
+        expect(actual).toEqual(3*HOURS);
+      });
+
+      xit('should work when start is outside the workday', function () {
+        var start  = new Date('Wed Jun 24 2015 7:30:00 GMT-0400 (EDT)');
+        var end    = new Date('Wed Jun 24 2015 10:30:00 GMT-0400 (EDT)');
+        var actual = user.workTimeInRange(start, end);
+        expect(actual).toEqual(3*HOURS);
+      });
+
+      xit('should work when end is outside the workday', function () {
+        var start  = new Date('Wed Jun 24 2015 15:30:00 GMT-0400 (EDT)');
+        var end    = new Date('Wed Jun 24 2015 18:30:00 GMT-0400 (EDT)');
+        var actual = user.workTimeInRange(start, end);
+        expect(actual).toEqual(3*HOURS);
+      });
+
+      xit('should work when start and end are outside the workday', function () {
+        var start  = new Date('Wed Jun 24 2015 8:30:00 GMT-0400 (EDT)');
+        var end    = new Date('Wed Jun 24 2015 18:30:00 GMT-0400 (EDT)');
+        var actual = user.workTimeInRange(start, end);
+        expect(actual).toEqual(8*HOURS);
+      });
+
+    });
+
+  });
+
   xdescribe('productivityPercentage', function () {
 
     beforeEach(function () {
