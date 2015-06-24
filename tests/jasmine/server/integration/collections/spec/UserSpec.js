@@ -499,6 +499,27 @@ describe('user', function () {
 
   });
 
+  describe('productivityPercentage', function () {
+
+    beforeEach(function () {
+      var userId = user._id;
+      var events = [
+        { id: 1, ownerId: userId, taskId: null,     start: 15, end: 25 },
+        { id: 1, ownerId: userId, taskId: 'someId', start: 25, end: 50 },
+        { id: 2, ownerId: userId, taskId: 'someId', start: 55, end: 80 }
+      ];
+      events.forEach(function (event) { Events.insert(event); });
+    });
+
+    it('should return the correct value', function () {
+      var actual   = user.productivityPercentage(0, 100);
+      var taskTime = (50-25)+(80-55);
+      var expected = taskTime/100;
+      expect(actual).toEqual(expected);
+    });
+
+  });
+
 });
 
 describe('Users', function () {
