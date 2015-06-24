@@ -258,28 +258,29 @@ Users.helpers({
   },
 
   events: function (selector, options) {
-    selector = selector || {};
-    selector.ownerId = this._id;
+    selector = _.extend({}, { ownerId: this._id }, selector);
     return Events.find(selector, options);
   },
 
   calendarEvents: function (selector, options) {
-    selector = selector || {};
-    selector.taskId = selector.taskId || { $ne: true };
+    selector = _.extend({}, { taskId: { $ne: true } }, selector);
     return this.events(selector, options);
   },
 
   taskEvents: function (selector, options) {
-    selector = selector || {};
-    selector.taskId = selector.taskId || { $exists: true };
+    selector = _.extend({}, { taskId: { $exists: true } }, selector);
     return this.events(selector, options);
+  },
+
+  fetchTaskEvents: function (selector, options) {
+    return this.taskEvents(selector, options).fetch();
   },
 
   fetchTaskEventsInRange: function (start, end) {
     start = Number(new Date(start));
     end   = Number(new Date(end));
     var selector = { $or: [ {start: { $lt: end }}, {end: { $gt: start }} ] };
-    return this.taskEvents(selector).fetch();
+    return this.fetchTaskEvents(selector);
   },
 
   taskTimeSpentInRange: function (start, end) {
