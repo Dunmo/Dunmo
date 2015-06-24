@@ -445,6 +445,40 @@ describe('user', function () {
 
   });
 
+  describe('calendarEvents', function () {
+
+    beforeEach(function () {
+      var userId = user._id;
+      var calendarEvents = [
+        { id: 1, ownerId: userId },
+        { id: 2, ownerId: userId, taskId: null },
+        { id: 3, ownerId: userId, taskId: undefined },
+        { id: 4, ownerId: userId, taskId: false },
+        { id: 5, ownerId: userId, taskId: 'someId' }
+      ];
+      calendarEvents.forEach(function (event) { Events.insert(event); });
+    });
+
+    it('should return calendarEvents', function () {
+      var calendarEvents = user.calendarEvents();
+      expect(calendarEvents.count()).toBeGreaterThan(0);
+    });
+
+    it('should return all calendarEvents for which the taskId is not set', function () {
+      var calendarEvents   = user.calendarEvents().fetch();
+      var calendarEventIds = _.pluck(calendarEvents, 'id');
+      expect(calendarEventIds.sort()).toEqual([1, 2, 3, 4].sort());
+    });
+
+    it('should only return calendarEvents for which the taskId is null or undefined', function () {
+      var calendarEvents = user.calendarEvents();
+      calendarEvents.forEach(function (event) {
+        expect(event.taskId).toBeFalsy();
+      });
+    });
+
+  });
+
 });
 
 describe('Users', function () {
