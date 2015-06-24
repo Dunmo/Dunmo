@@ -263,7 +263,11 @@ Users.helpers({
   },
 
   calendarEvents: function (selector, options) {
-    selector = _.extend({}, { taskId: { $ne: true } }, selector);
+    selector = _.extend({}, { $or: [
+      { taskId: null },
+      { taskId: false },
+      { taskId: { $exists: false } }
+    ] }, selector);
     return this.events(selector, options);
   },
 
