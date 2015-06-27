@@ -1,11 +1,5 @@
 // NAV
 
-$('.landing-splash__nav-container').waypoint(function () {
-    $('.landing-nav').toggleClass('sticky');
-    $('.landing-nav__logo').fadeToggle(200);
-    $('.landing-nav__action').fadeToggle(200);
-})
-
 $('.landing-story').waypoint(function () {
     $('.landing-nav__item--story').toggleClass('current');
 })
@@ -25,6 +19,23 @@ $('.landing-contact').waypoint(function () {
     $('.landing-nav__item--team').toggleClass('current');
     $('.landing-nav__item--contact').toggleClass('current');
 })
+
+// SMOOTH SCROLLING
+
+$(function () {
+    $('a[href*=#]:not([href=#])').click(function () {
+        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+            if (target.length) {
+                $('html,body').animate({
+                    scrollTop: target.offset().top
+                }, 1000);
+                return false;
+            }
+        }
+    });
+});
 
 // BOT
 

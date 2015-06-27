@@ -1,43 +1,27 @@
 .landing {
 
     &-nav {
-        //@include transition(all 0.25s ease-in-out);
-        @include block(4rem);
+        @include user-select(none);
+        @include block(3rem);
         @include medium {
-            font: 1.25rem/4rem $sans-serif;
+            font: 0.75rem/3rem $sans-serif;
         }
         @include large {
-            font: 1.5rem/4rem $sans-serif;
+            font: 1rem/3rem $sans-serif;
         }
         @include larger {
-            font: 1.75rem/4rem $sans-serif;
+            font: 1.25rem/3rem $sans-serif;
         }
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        //color: $black;
+        background: rgba($white,0.95);
         text-align: center;
-        color: $white;
         text-transform: uppercase;
+        border-bottom: 1px solid $green;
         z-index: 50;
-
-        &.sticky {
-            @include transition(all 0.25s ease-in-out);
-            @include medium {
-                font: 0.75rem/3rem $sans-serif;
-            }
-            @include large {
-                font: 1rem/3rem $sans-serif;
-            }
-            @include larger {
-                font: 1.25rem/3rem $sans-serif;
-            }
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3rem;
-            //font: 1rem/3rem $sans-serif;
-            color: $black;
-            background: rgba($white,0.85);
-            border-bottom: 1px solid $fern;
-        }
 
         &__item {
             @include transition(all 0.25s ease-in-out);
@@ -46,33 +30,38 @@
             margin: 0 0.5rem;
             padding: 0 1rem;
             cursor: pointer;
+            color: $black;
             &:hover {
                 color: $fern;
             }
 
             &.current {
-                color: $fern;
+                color: $green;
+                font-weight: bold;
                 //border-bottom: 3px solid $fern;
             }
         }
 
         &__logo {
-            display: none;
+            //display: none;
             position: absolute;
-            top: 0.5rem;
+            top: 0;
             left: 1rem;
-            width: 2rem;
-            height: 2rem;
+            //width: 2rem;
+            //height: 2rem;
             cursor: pointer;
+            font: 2rem/3rem $brand;
+            color: $green;
+            text-transform: lowercase;
         }
 
         &__action {
-            display: none;
+            //display: none;
             position: absolute;
             top: 0;
             right: 1rem;
             //font: 1rem/3rem $sans-serif;
-            color: $mantis;
+            color: $fern;
             text-transform: uppercase;
         }
 
@@ -93,17 +82,22 @@
 
         &__brand {
             @include medium {
-                width: 30rem;
+                //width: 30rem;
             }
             @include large {
-                width: 35rem;
+                //width: 35rem;
             }
             @include larger {
-                width: 50rem;
+                //width: 50rem;
             }
+            width: 100%;
             display: block;
             height: auto;
             margin: auto;
+            font: 10rem/10rem $brand;
+            color: $white;
+            text-align: center;
+            text-transform: lowercase;
         }
 
         &__tagline {
@@ -111,29 +105,25 @@
             text-align: center;
             color: $white;
             font: 2rem/3rem $sans-serif;
-            margin: 1rem auto;
+            margin: 0 auto;
         }
 
         &__action {
             @include medium {
-                @include button(15rem,3rem,1rem,1px solid $white);
+                @include button(20rem,4rem,1.25rem,1px solid $white);
             }
             @include large {
-                @include button(20rem,4rem,1.5rem,1px solid $white);
+                @include button(25rem,4rem,1.5rem,1px solid $white);
             }
             @include larger {
-                @include button(25rem,5rem,2.5rem,1px solid $white);
+                @include button(30rem,5rem,2.5rem,1px solid $white);
             }
             text-transform: uppercase;
-            margin: 1rem auto;
+            margin: 2rem auto;
             &:hover {
                 background: $white;
-                color: $mantis;
+                color: $green;
             }
-        }
-
-        &__nav-container {
-            @include block(4rem);
         }
 
     }
@@ -172,7 +162,7 @@
         @include block(600%);
         @include padding(3rem);
         min-height: 4000px;
-        background: $mantis;
+        background: $green;
         color: $white;
 
             &__heading {
@@ -464,7 +454,7 @@
     }
 
     &-subscribe {
-        background: $mantis;
+        background: $green;
 
         &__form__input {
             height: 3rem;
@@ -473,15 +463,40 @@
         }
 
         &__form__submit:hover {
-            color: $mantis;
+            color: $green;
         }
 
     }
 
     &-footer {
         @include block;
-        @include padding(5rem);
+        @include padding;
         background: $black;
+
+        &__company {
+            font: 1.25rem/5rem $sans-serif;
+            color: $white;
+        }
+
+        &__social {
+            position: absolute;
+            top: 0;
+            margin: 1.5rem 0.5rem;
+            display: block;
+            height: 2rem;
+            width: 2rem;
+            color: $white;
+            font-size: 1.5rem;
+            text-align: center;
+            line-height: 2rem;
+
+            &.fa-facebook {
+                right: 2rem;
+            }
+            &.fa-twitter {
+                right: 5rem;
+            }
+        }
     }
 
 }
