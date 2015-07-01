@@ -48,7 +48,7 @@
 </head>
 <body data-spy="scroll" data-offset="0" data-target="#theMenu">
 
-    <div class="landing-nav">
+    <div class="landing-nav display-none">
         <a href="#story" class="landing-nav__item landing-nav__item--story">Our Story</a>
         <a href="#meet" class="landing-nav__item landing-nav__item--meet">Meet Tara</a>
         <a href="#team" class="landing-nav__item landing-nav__item--team">The Team</a>
@@ -56,7 +56,7 @@
 
         <div class="landing-nav__logo">Tara</div>
 
-        <a href="" class="landing-nav__action">Try the Beta</a>
+        <a href="" class="landing-nav__action">Get the Beta</a>
     </div>
 
     <div class="landing-splash">
@@ -70,12 +70,21 @@
                 Productivity with a dash of sass.
             </div>
 
-            <a href="" class="landing-splash__action">Try the Beta</a>
+            <!--<a href="" class="landing-splash__action">Try the Beta</a>-->
+
+            <hr class="landing-splash__separator" />
+
+            <div class="landing-splash__text">
+                Hey there! Thanks for checking us out.<br />
+                We're still in development, but we'll soon ready to roll out a <a href="#">closed beta</a>!
+            </div>
+
+            <a href="#" class="landing-splash__indicator fa fa-angle-down"></a>
 
         </div>
     </div>
 
-    <div class="landing-story" id="story">
+    <div class="landing-story display-none" id="story">
 
         <div class="landing-story__heading">Our Story</div>
 

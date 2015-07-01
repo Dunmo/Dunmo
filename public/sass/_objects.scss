@@ -5,7 +5,7 @@
     width: $width;
 }
 
-@mixin button($width,$height,$font-size,$border:none,$background:none) {
+@mixin button($width,$height,$font-size,$color,$border:none,$background:none) {
     @include transition(all 0.25s ease-in-out);
     display: block;
     width: $width;
@@ -16,7 +16,7 @@
     font-size: $font-size;
     line-height: $height;
     font-family: $sans-serif;
-    color: white;
+    color: $color;
     text-align: center;
 }
 

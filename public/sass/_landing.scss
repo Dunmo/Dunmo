@@ -2,7 +2,7 @@
 
     &-nav {
         @include user-select(none);
-        @include block(3rem);
+        @include block(calc(3rem + 1px));
         @include medium {
             font: 0.75rem/3rem $sans-serif;
         }
@@ -57,20 +57,28 @@
 
         &__action {
             //display: none;
+            @include button(auto,2rem,0.75rem,$white,none,$green);
             position: absolute;
-            top: 0;
+            top: 0.5rem;
             right: 1rem;
+            padding: 0 1rem;
             //font: 1rem/3rem $sans-serif;
-            color: $fern;
-            text-transform: uppercase;
+            //color: $fern;
+            //font-size: 1rem;
+            //text-transform: uppercase;
+            &:hover {
+                background: $fern;
+            }
         }
 
     }
 
     &-splash {
+        @include user-select(none);
         @include block(100%);
-        @include background-image('../images/0b.jpg');
+        //@include background-image('../images/0b.jpg');
         display: table; // to vertically center content
+        background: $white;//darken($white,1%);
         //min-height: 40rem;
         //@include padding;
         color: $grey;
@@ -95,7 +103,7 @@
             height: auto;
             margin: auto;
             font: 10rem/10rem $brand;
-            color: $white;
+            color: $green;
             text-align: center;
             text-transform: lowercase;
         }
@@ -103,26 +111,89 @@
         &__tagline {
             width: 100%;
             text-align: center;
-            color: $white;
+            color: $grey;
             font: 2rem/3rem $sans-serif;
             margin: 0 auto;
         }
 
         &__action {
             @include medium {
-                @include button(20rem,4rem,1.25rem,1px solid $white);
+                @include button(20rem,4rem,1.25rem,$green,1px solid $green);
             }
             @include large {
-                @include button(25rem,4rem,1.5rem,1px solid $white);
+                @include button(25rem,4rem,1.5rem,$green,1px solid $green);
             }
             @include larger {
-                @include button(30rem,5rem,2.5rem,1px solid $white);
+                @include button(30rem,5rem,2.5rem,$green,1px solid $green);
             }
             text-transform: uppercase;
             margin: 2rem auto;
             &:hover {
-                background: $white;
-                color: $green;
+                background: $green;
+                color: $white;
+            }
+        }
+
+        &__separator {
+            @include small {
+                width: 80%;
+            }
+            @include medium {
+                width: 40rem;
+            }
+            @include large {
+                width: 50rem;
+            }
+            @include larger {
+                width: 60rem;
+            }
+            margin: 2rem auto;
+        }
+
+        &__text {
+            width: 100%;
+            text-align: center;
+            color: $grey;
+            font: 1rem/2rem $sans-serif;
+            margin: 0 auto;
+
+            a {
+                color: $coral;
+                &:hover {
+                    border-bottom: 1px solid $coral;
+                }
+            }
+
+        }
+
+        &__indicator {
+            @include transition(all 0.25s ease-in-out);
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translate(-50%,0);
+            width: 3rem;
+            height: 3rem;
+            font-size: 2.5rem;
+            line-height: 3rem;
+            text-align: center;
+            color: $grey;
+            &::after {
+                content: 'Scroll to learn more';
+                display: block;
+                position: absolute;
+                bottom: 3rem;
+                left: 50%;
+                transform: translate(-50%,0);
+                height: 2rem;
+                width: 500%;
+                font: 1rem/2rem $sans-serif;
+                color: $grey;
+                text-transform: uppercase;
+                text-align: center;
+            }
+            &:hover {
+                transform: translate(-50%,0.5rem);
             }
         }
 
@@ -439,7 +510,7 @@
                 }
 
                 &__submit {
-                    @include button(50%,3rem,1rem,1px solid $white);
+                    @include button(50%,3rem,1rem,$white,1px solid $white);
                     text-transform: uppercase;
                     margin: 0 auto;
                     cursor: pointer;
