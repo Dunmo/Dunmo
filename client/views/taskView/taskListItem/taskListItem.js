@@ -78,6 +78,10 @@ Template.taskListItem.events({
     Session.set('snoozeActive', this._id);
   },
 
+  'click .unsnooze.btn': function (e) {
+    this.unsnooze();
+  },
+
   'click .snooze-container .confirm, keydown .snooze-container input.snooze': function (e) {
     if( e.which && (e.which !== 13 && e.which !== 1 && e.which !== 27) ) return;
 
