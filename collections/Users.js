@@ -197,7 +197,13 @@ Meteor.users.helpers({
 
   unsnoozedTodos: function (selector, options) {
     selector = selector || {};
-    selector.snoozedUntil = { $lt: Date.now() };
+    selector.snoozedUntil = { $lte: Date.now() };
+    return this.sortedTodos(selector, options);
+  },
+
+  snoozedTodos: function (selector, options) {
+    selector = selector || {};
+    selector.snoozedUntil = { $gt: Date.now() };
     return this.sortedTodos(selector, options);
   },
 
