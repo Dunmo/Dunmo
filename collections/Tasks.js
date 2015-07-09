@@ -26,6 +26,14 @@ Tasks.helpers({
     return this.update(res);
   },
 
+  isSnoozed: function () {
+    return this.snoozedUntil >= Date.now();
+  },
+
+  unsnooze: function () {
+    return this.setSnoozedUntil(Date.now());
+  },
+
   setIsDone: function (bool) {
     if(bool === undefined || bool === null) bool = true;
     if(bool === this.isDone) return 1;
