@@ -497,7 +497,7 @@ h1 {
   width: 100%;
   text-align: center;
   font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 /* line 246, ../sass/_landing.scss */
 .landing-meet__bot-container {
@@ -846,7 +846,7 @@ h1 {
 }
 /* line 475, ../sass/_landing.scss */
 .landing-contact__form, .landing-subscribe__form {
-  margin: 0 auto;
+  margin: 3rem auto;
   text-align: center;
 }
 @media screen and (min-width: 801px) and (max-width: 1440px) {
@@ -911,7 +911,7 @@ h1 {
   color: #fafafa;
   text-align: center;
   text-transform: uppercase;
-  margin: 0 auto;
+  margin: 2rem auto;
   cursor: pointer;
 }
 /* line 517, ../sass/_landing.scss */
