@@ -90,10 +90,10 @@
 
         &__brand {
             @include medium {
-                //width: 30rem;
+                font: 8rem/8rem $sans-serif;
             }
             @include large {
-                //width: 35rem;
+                font: 10rem/10rem $sans-serif;
             }
             @include larger {
                 //width: 50rem;
@@ -102,10 +102,10 @@
             display: block;
             height: auto;
             margin: auto;
-            font: 10rem/10rem $brand;
+            font: 10rem/10rem $sans-serif;
             color: $green;
             text-align: center;
-            text-transform: lowercase;
+            text-transform: uppercase;
         }
 
         &__tagline {
@@ -179,7 +179,7 @@
             text-align: center;
             color: $grey;
             &::after {
-                content: 'Scroll to learn more';
+                content: 'learn more';
                 display: block;
                 position: absolute;
                 bottom: 3rem;
@@ -230,9 +230,9 @@
     }
 
     &-meet {
-        @include block(600%);
+        @include block(100%);
         @include padding(3rem);
-        min-height: 4000px;
+        //min-height: 4000px;
         background: $green;
         color: $white;
 
@@ -241,6 +241,29 @@
                 text-align: center;
                 font: 2.5rem/4rem $sans-serif;
                 text-transform: uppercase;
+            }
+
+            &__message {
+                //position: absolute;
+                width: auto;
+                max-width: 50%;
+                //min-width: 400px;
+                box-sizing: border-box;
+                padding: 0.5rem 1rem;
+                margin: 0.5rem 0;
+                font: 1.25rem/1.5rem $sans-serif;
+                border-radius: 0.5rem;
+                &:nth-of-type(odd) {
+                    color: $white;
+                    border: 1px solid $white;
+                }
+                &:nth-of-type(even) {
+                    color: $green;
+                    background: $white;
+                    border: 1px solid $white;
+                    //text-align: right;
+                    margin-left: 50%;
+                }
             }
 
             &__bot-container {
@@ -304,14 +327,14 @@
                     font: 1.75rem/2rem $sans-serif;
                     width: 30rem;
                 }
-                position: fixed;
-                top: 10rem;
+                //position: fixed;
+                //top: 10rem;
                 font: 1.25rem/1.5rem $sans-serif;
                 //background: $white;
-                display: none;
-                opacity: 0;
+                //display: none;
+                //opacity: 0;
                 &.abs {
-                    position: absolute !important;
+                    //position: absolute !important;
                 }
                 &--left {
                     @include medium {
@@ -462,8 +485,8 @@
     &-subscribe {
         @include block;
         @include padding(3rem);
-        background: $grey;
-        color: white;
+        background: $white;
+        color: $grey;
 
             &__heading {
                 width: 100%;
@@ -510,13 +533,13 @@
                 }
 
                 &__submit {
-                    @include button(50%,3rem,1rem,$white,1px solid $white);
+                    @include button(50%,3rem,1rem,$green,1px solid $green);
                     text-transform: uppercase;
                     margin: 0 auto;
                     cursor: pointer;
                     &:hover {
-                        color: $grey;
-                        background: $white;
+                        color: $white;
+                        background: $green;
                     }
                 }
 
@@ -525,16 +548,17 @@
     }
 
     &-subscribe {
-        background: $green;
+        background: $white;
 
         &__form__input {
             height: 3rem;
             font: 1rem/3rem $sans-serif;
             border-radius: 1.5rem;
+            border: 1px solid $green;
         }
 
         &__form__submit:hover {
-            color: $green;
+            //color: $green;
         }
 
     }

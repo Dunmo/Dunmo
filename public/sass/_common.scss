@@ -26,6 +26,13 @@ a {
     }
 }
 
+a {
+    color: $coral;
+    &:hover {
+        border-bottom: 1px solid $coral;
+    }
+}
+
 h1 {
     width: 100%;
     text-align: center;
