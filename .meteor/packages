@@ -30,3 +30,4 @@ sanjo:jasmine
 velocity:html-reporter
 velocity:console-reporter
 aramk:rrule
+aldeed:collection2
