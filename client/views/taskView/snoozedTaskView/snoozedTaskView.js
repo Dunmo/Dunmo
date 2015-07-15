@@ -35,11 +35,11 @@ Template.snoozedTaskView.onRendered(function () {
 
 Template.snoozedTaskView.helpers({
   snoozedTodos: function () {
-    return Meteor.user().snoozedTodos();
+    return Meteor.user().fetchSnoozedTodos();
   },
 
   anySnoozedTodos: function () {
-    return Meteor.user().snoozedTodos().count() > 0;
+    return Meteor.user().fetchSnoozedTodos().count() > 0;
   },
 
   syncTitle: function () {
