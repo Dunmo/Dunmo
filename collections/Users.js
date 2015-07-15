@@ -178,7 +178,12 @@ Users.helpers({
   },
 
   fetchUnsnoozedTodos: function (selector, options) {
-    selector = _.extend({}, { snoozedUntil: { $lt: Date.now() } }, selector);
+    selector = _.extend({}, { snoozedUntil: { $lte: Date.now() } }, selector);
+    return this.sortedTodos(selector, options);
+  },
+
+  fetchSnoozedTodos: function (selector, options) {
+    selector = _.extend({}, { snoozedUntil: { $gt: Date.now() } }, selector);
     return this.sortedTodos(selector, options);
   },
 
