@@ -21,6 +21,13 @@
             <div class="fa-wrapper pull-left"><i class="fa fa-calendar-o text"></i></div>
             <div class="text-wrapper pull-left"><span class="task-text">{{dueAtString}}</span></div>
           </div>
+          {{#if isSnoozed}}
+            <span class="pull-right action-btn-wrapper">
+              <a href="#" class="edit btn btn-default"><i class="fa fa-edit text-default"></i></a>
+              <a href="#" class="unsnooze btn btn-default"><i class="fa fa-moon-o text-default"></i></a>
+              <a href="#" class="remove btn btn-danger"><i class="fa fa-times text-default"></i></a>
+            </span>
+          {{else}}
             {{#unless snoozeActive}}
               <span class="pull-right action-btn-wrapper">
                 <a href="#" class="edit btn btn-default"><i class="fa fa-edit text-default"></i></a>
@@ -31,6 +38,7 @@
             {{#if snoozeActive}}
               {{> snoozeInput}}
             {{/if}}
+          {{/if}}
         {{/if}}
       </div>
     </div>

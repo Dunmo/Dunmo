@@ -9,6 +9,10 @@ Template.nav.events({
     location.href = '/taskView';
   },
 
+  'click .snoozedTaskView': function (e) {
+    location.href = '/snoozedTaskView';
+  },
+
   'click .calendarSettings': function (e) {
     location.href = '/calendarSettings';
   }
