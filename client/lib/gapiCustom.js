@@ -252,7 +252,7 @@ gapi.fixCurrentTaskEvent = function (startingFrom, callback) {
       var doc         = Events.findOne(Events.createOrUpdate(currEvent))
       var taskId      = doc.taskId;
       var user        = Meteor.user();
-      var firstTask   = user.sortedTodos()[0];
+      var firstTask   = user.fetchSortedTodos()[0];
       var granularity = user.taskGranularity();
 
       // current task is first task

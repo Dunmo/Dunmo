@@ -160,7 +160,7 @@ Users.helpers({
     return this.tasks(selector, options).fetch();
   },
 
-  sortedTasks: function (selector, options) {
+  fetchSortedTasks: function (selector, options) {
     return Tasks.advancedSort(this.fetchTasks(selector, options));
   },
 
@@ -173,22 +173,18 @@ Users.helpers({
     return this.todos(selector, options).fetch();
   },
 
-  sortedTodos: function (selector, options) {
+  fetchSortedTodos: function (selector, options) {
     return Tasks.advancedSort(this.fetchTodos(selector, options));
   },
 
   fetchUnsnoozedTodos: function (selector, options) {
-    return this.unsnoozedTodos(selector, options).fetch();
+    selector = _.extend({}, { snoozedUntil: { $lte: Date.now() } }, selector);
+    return this.fetchSortedTodos(selector, options);
   },
 
-  unsnoozedTodos: function (selector, options) {
-    selector = _.extend({}, { $lte: Date.now() }, selector);
-    return this.sortedTodos(selector, options);
-  },
-
-  snoozedTodos: function (selector, options) {
-    selector = _.extend({}, { $gt: Date.now() }, selector);
-    return this.sortedTodos(selector, options);
+  fetchSnoozedTodos: function (selector, options) {
+    selector = _.extend({}, { snoozedUntil: { $gt: Date.now() } }, selector);
+    return this.fetchSortedTodos(selector, options);
   },
 
   recentTodos: function (selector, options) {
@@ -256,7 +252,7 @@ Users.helpers({
 
   todoList: function (freetimes) {
     var todos, todoList;
-    todos     = this.sortedTodos();
+    todos     = this.fetchSortedTodos();
     freetimes = freetimes || this.freetimes();
     todoList  = Scheduler.generateTodoList(freetimes, todos, {
       algorithm:            'greedy',
