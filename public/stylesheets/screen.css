@@ -65,7 +65,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 /* line 3, ../sass/_common.scss */
 html, body {
-  font: 1em "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1em "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #969696;
   background: #fafafa;
   width: 100%;
@@ -103,7 +103,7 @@ a:hover {
 h1 {
   width: 100%;
   text-align: center;
-  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-transform: uppercase;
 }
 
@@ -142,19 +142,19 @@ h1 {
 @media screen and (min-width: 801px) and (max-width: 1440px) {
   /* line 3, ../sass/_landing.scss */
   .landing-nav {
-    font: 0.75rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font: 0.75rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   }
 }
 @media screen and (min-width: 1441px) and (max-width: 1920px) {
   /* line 3, ../sass/_landing.scss */
   .landing-nav {
-    font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   }
 }
 @media screen and (min-width: 1921px) {
   /* line 3, ../sass/_landing.scss */
   .landing-nav {
-    font: 1.25rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font: 1.25rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   }
 }
 /* line 26, ../sass/_landing.scss */
@@ -203,7 +203,7 @@ h1 {
   background: #5ada62;
   font-size: 0.75rem;
   line-height: 2rem;
-  font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font-family: "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #fafafa;
   text-align: center;
   position: absolute;
@@ -240,7 +240,7 @@ h1 {
   display: block;
   height: auto;
   margin: auto;
-  font: 10rem/10rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 10rem/10rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #5ada62;
   text-align: center;
   text-transform: uppercase;
@@ -248,13 +248,13 @@ h1 {
 @media screen and (min-width: 801px) and (max-width: 1440px) {
   /* line 91, ../sass/_landing.scss */
   .landing-splash__brand {
-    font: 8rem/8rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font: 8rem/8rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   }
 }
 @media screen and (min-width: 1441px) and (max-width: 1920px) {
   /* line 91, ../sass/_landing.scss */
   .landing-splash__brand {
-    font: 10rem/10rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font: 10rem/10rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   }
 }
 /* line 111, ../sass/_landing.scss */
@@ -262,7 +262,7 @@ h1 {
   width: 100%;
   text-align: center;
   color: #969696;
-  font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   margin: 0 auto;
 }
 /* line 119, ../sass/_landing.scss */
@@ -285,7 +285,7 @@ h1 {
     background: none;
     font-size: 1.25rem;
     line-height: 4rem;
-    font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font-family: "Cantarell", "Helvetica", "Tahoma", sans-serif;
     color: #5ada62;
     text-align: center;
   }
@@ -305,7 +305,7 @@ h1 {
     background: none;
     font-size: 1.5rem;
     line-height: 4rem;
-    font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font-family: "Cantarell", "Helvetica", "Tahoma", sans-serif;
     color: #5ada62;
     text-align: center;
   }
@@ -325,7 +325,7 @@ h1 {
     background: none;
     font-size: 2.5rem;
     line-height: 5rem;
-    font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+    font-family: "Cantarell", "Helvetica", "Tahoma", sans-serif;
     color: #5ada62;
     text-align: center;
   }
@@ -368,7 +368,7 @@ h1 {
   width: 100%;
   text-align: center;
   color: #969696;
-  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   margin: 0 auto;
 }
 /* line 160, ../sass/_landing.scss */
@@ -406,7 +406,7 @@ h1 {
   transform: translate(-50%, 0);
   height: 2rem;
   width: 500%;
-  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #969696;
   text-transform: uppercase;
   text-align: center;
@@ -452,7 +452,7 @@ h1 {
 .landing-story__heading {
   width: 100%;
   text-align: center;
-  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-transform: uppercase;
 }
 /* line 215, ../sass/_landing.scss */
@@ -492,7 +492,7 @@ h1 {
 .landing-features__heading {
   width: 100%;
   text-align: center;
-  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-transform: uppercase;
 }
 /* line 244, ../sass/_landing.scss */
@@ -518,13 +518,13 @@ h1 {
   padding: 0.5rem 1.5rem;
   margin: 1rem 0;
   float: left;
-  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: justify;
 }
 /* line 262, ../sass/_landing.scss */
 .landing-features__slide__item__catch {
   display: block;
-  font: bold 1rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: bold 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: left;
 }
 /* line 276, ../sass/_landing.scss */
@@ -563,7 +563,7 @@ h1 {
 .landing-team__heading {
   width: 100%;
   text-align: center;
-  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-transform: uppercase;
 }
 /* line 288, ../sass/_landing.scss */
@@ -624,13 +624,13 @@ h1 {
 /* line 324, ../sass/_landing.scss */
 .landing-team__profile__name {
   width: 100%;
-  font: 1.5rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1.5rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: center;
 }
 /* line 330, ../sass/_landing.scss */
 .landing-team__profile__position {
   width: 100%;
-  font: 0.75rem/1rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 0.75rem/1rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: center;
 }
 /* line 336, ../sass/_landing.scss */
@@ -675,7 +675,7 @@ h1 {
 .landing-contact__heading, .landing-subscribe__heading {
   width: 100%;
   text-align: center;
-  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-transform: uppercase;
 }
 /* line 359, ../sass/_landing.scss */
@@ -718,14 +718,14 @@ h1 {
 .landing-contact__form__input, .landing-subscribe__form__input {
   margin: 1rem auto;
   padding: 0 1rem;
-  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
 /* line 389, ../sass/_landing.scss */
 .landing-contact__form__textarea, .landing-subscribe__form__textarea {
   height: 5rem;
   margin: 1rem auto;
   padding: 0.5rem 1rem;
-  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
 /* line 396, ../sass/_landing.scss */
 .landing-contact__form__submit, .landing-subscribe__form__submit {
@@ -741,7 +741,7 @@ h1 {
   background: none;
   font-size: 1rem;
   line-height: 3rem;
-  font-family: "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font-family: "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #5ada62;
   text-align: center;
   text-transform: uppercase;
@@ -760,7 +760,7 @@ h1 {
 /* line 414, ../sass/_landing.scss */
 .landing-subscribe__form__input {
   height: 3rem;
-  font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   border-radius: 1.5rem;
   border: 1px solid #5ada62;
 }
@@ -798,7 +798,7 @@ h1 {
 }
 /* line 432, ../sass/_landing.scss */
 .landing-footer__company {
-  font: 1.25rem/5rem "Cantarell", "Helvetica", "Tahoma" sans-serif;
+  font: 1.25rem/5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #fafafa;
 }
 /* line 437, ../sass/_landing.scss */
@@ -842,3 +842,5 @@ h1 {
   width: auto;
   opacity: 0.5;
 }
+
+/*# sourceMappingURL=screen.css.map */
