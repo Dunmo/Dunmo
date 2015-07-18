@@ -1,4 +1,4 @@
-.app-top {
+.app-topbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,6 +9,7 @@
     margin: 0;
     background: $green;
     color: $white;
+    box-shadow: 0 0 0.25rem 0.125rem $grey;
 
     &__logo {
         @include user-select(none);
@@ -46,12 +47,13 @@
         box-sizing: border-box;
         position: absolute;
         top: 0;
-        width: 3rem;
-        height: 3rem;
-        margin: 0.5rem 0;
-        font: 1.5rem/2.875rem "FontAwesome";
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0.75rem 0;
+        font: 1.5rem/2.5rem "FontAwesome";
         color: $white;
-        border: 1px solid transparent !important;
+        //border: 1px solid transparent !important;
+        border: none !important;
         border-radius: 1.5rem;
         text-align: center;
         &:hover {
@@ -60,7 +62,7 @@
         }
 
         &--help {
-            right: 5rem;
+            right: 4.5rem;
         }
 
         &--settings {
