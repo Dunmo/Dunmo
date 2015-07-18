@@ -118,6 +118,7 @@ h1 {
 /* line 1, ../sass/app/_topbar.scss */
 .app-topbar {
   position: fixed;
+  z-index: 50;
   top: 0;
   left: 0;
   right: 0;
@@ -129,7 +130,7 @@ h1 {
   color: #fafafa;
   box-shadow: 0 0 0.25rem 0.125rem #969696;
 }
-/* line 14, ../sass/app/_topbar.scss */
+/* line 15, ../sass/app/_topbar.scss */
 .app-topbar__logo {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -144,8 +145,12 @@ h1 {
   text-transform: uppercase;
   border: none !important;
 }
-/* line 26, ../sass/app/_topbar.scss */
+/* line 27, ../sass/app/_topbar.scss */
 .app-topbar__search {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
   display: block;
   box-sizing: border-box;
   height: 2rem;
@@ -156,12 +161,12 @@ h1 {
   border-radius: 1rem;
   border: none;
 }
-/* line 36, ../sass/app/_topbar.scss */
+/* line 38, ../sass/app/_topbar.scss */
 .app-topbar__search:focus {
   outline: none;
   box-shadow: 0 0 0.25rem 0.125rem #ff8c89;
 }
-/* line 43, ../sass/app/_topbar.scss */
+/* line 45, ../sass/app/_topbar.scss */
 .app-topbar__button {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -184,17 +189,89 @@ h1 {
   border-radius: 1.5rem;
   text-align: center;
 }
-/* line 59, ../sass/app/_topbar.scss */
+/* line 61, ../sass/app/_topbar.scss */
 .app-topbar__button:hover {
   box-shadow: 0 0 0.25rem 0.125rem #fafafa;
 }
-/* line 64, ../sass/app/_topbar.scss */
+/* line 66, ../sass/app/_topbar.scss */
 .app-topbar__button--help {
   right: 4.5rem;
 }
-/* line 68, ../sass/app/_topbar.scss */
+/* line 70, ../sass/app/_topbar.scss */
 .app-topbar__button--settings {
   right: 1rem;
+}
+
+/* line 1, ../sass/app/_sidebar.scss */
+.app-sidebar {
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15rem;
+  height: 100%;
+  padding: 5rem 0.5rem 1rem 0.5rem;
+  margin: 0;
+}
+/* line 13, ../sass/app/_sidebar.scss */
+.app-sidebar__section {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0.25rem 0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: none !important;
+}
+/* line 22, ../sass/app/_sidebar.scss */
+.app-sidebar__section:hover {
+  background: #ffefef;
+}
+/* line 26, ../sass/app/_sidebar.scss */
+.app-sidebar__section--active {
+  background: #ededed;
+}
+/* line 28, ../sass/app/_sidebar.scss */
+.app-sidebar__section--active:hover {
+  background: #ededed;
+}
+/* line 33, ../sass/app/_sidebar.scss */
+.app-sidebar__section__heading {
+  display: block;
+  width: 100%;
+  font: bold 1.25rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+}
+/* line 40, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 0 0.5rem 0.5rem;
+}
+/* line 45, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  font: 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  border-radius: 0.25rem;
+}
+/* line 51, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item:hover {
+  background: #ffd7d5;
+}
+/* line 55, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--active {
+  color: #fafafa;
+  background: #bababa;
 }
 
 /* line 1, ../sass/dev/_experimental.scss */

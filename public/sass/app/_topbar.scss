@@ -1,5 +1,6 @@
 .app-topbar {
     position: fixed;
+    z-index: 50;
     top: 0;
     left: 0;
     right: 0;
@@ -24,6 +25,7 @@
     }
 
     &__search {
+        @include transition(all 0.25s ease-in-out);
         display: block;
         box-sizing: border-box;
         height: 2rem;
