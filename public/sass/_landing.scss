@@ -178,6 +178,7 @@
             line-height: 3rem;
             text-align: center;
             color: $grey;
+            border: none !important;
             &::after {
                 content: 'learn more';
                 display: block;
@@ -230,7 +231,9 @@
     }
 
     &-features {
-        @include block(100%);
+        @extend .group;
+        @include block;
+        padding: 2rem 0;
         background: $green;
         color: $white;
 

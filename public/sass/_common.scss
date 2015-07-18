@@ -14,20 +14,8 @@ html, body {
 b { font-weight: bold; }
 i { font-style: italic; }
 a {
-	//@include transition(color 0.25s ease-in-out);
-	//color: $color-secondary-1-2;
-	text-decoration: none;
-	//border-bottom: 1px solid transparent;
-	//box-sizing: border-box;
-    &:hover {
-        //border-bottom: 1px solid lighten($orange,5%);
-        //text-decoration: underline;
-        //color: $color-secondary-1-1;
-    }
-}
-
-a {
     color: $coral;
+	text-decoration: none;
     &:hover {
         border-bottom: 1px solid $coral;
     }
