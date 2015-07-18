@@ -164,13 +164,6 @@
             font: 1rem/2rem $sans-serif;
             margin: 0 auto;
 
-            a {
-                color: $coral;
-                &:hover {
-                    border-bottom: 1px solid $coral;
-                }
-            }
-
         }
 
         &__indicator {
