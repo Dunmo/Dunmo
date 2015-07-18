@@ -253,13 +253,18 @@
                 &__item {
                     box-sizing: border-box;
                     width: 25rem;
-                    padding: 0.5rem 1rem;
+                    padding: 0.5rem 1.5rem;
+                    margin: 1rem 0;
                     float: left;
                     font: 1rem/1.25rem $sans-serif;
+                    text-align: justify;
 
                     &__catch {
                         display: block;
-                        font: 1.5rem/2rem $sans-serif;
+                        font: bold 1rem/2rem $sans-serif;
+                        text-align: left;
+                        //text-align: center;
+                        //text-transform: uppercase;
                     }
 
                 }
