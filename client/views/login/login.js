@@ -37,17 +37,11 @@ Template.login.events({
     var $parent  = $('form.login');
     var email    = $parent.find('input.email').val();
     var password = $parent.find('input.password').val();
-    console.log('email: ', email);
-    console.log('password: ', password);
 
     if( !(email && password) ) return;
 
     Meteor.loginWithPassword(email, password, function (err) {
-      console.log('err: ', err);
-      if(err) {
-        console.log('err: ', err);
-        $('.notice').html(err.reason);
-      }
+      if(err) $('.notice').html(err.reason);
       else    location.href = '/taskView';
     });
   },
@@ -57,9 +51,6 @@ Template.login.events({
     var name     = $parent.find('input.name').val();
     var email    = $parent.find('input.email').val();
     var password = $parent.find('input.password').val();
-    console.log('name: ', name);
-    console.log('email: ', email);
-    console.log('password: ', password);
 
     if( !(name && email && password) ) return;
 
@@ -70,21 +61,28 @@ Template.login.events({
         name: name
       }
     }, function (err) {
-      console.log('err: ', err);
       if(err) $('.notice').html(err.reason);
       else    location.href = '/taskView';
     });
   },
 
   'click .btn-gplus': function (e) {
-    Meteor.loginWithGoogle({
+    var options = {
       requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
       requestOfflineToken: true,
       loginStyle: "popup"
-    }, function (err) {
+    };
+
+    var callback = function (err) {
       if (err) Session.set('errorMessage', err.reason || 'Unknown error');
       else     location.href = '/taskView';
-    });
+    }
+
+    if(Meteor.user()) {
+      Meteor.connectWith('google', options, callback);
+    } else {
+      Meteor.loginWithGoogle(options, callback);
+    }
   }
 
 });
