@@ -86,9 +86,13 @@
         &__container { // to vertically center content
             display: table-cell;
             vertical-align: middle;
+            padding: 1rem;
         }
 
         &__brand {
+            @include small {
+                font: 6rem/6rem $sans-serif;
+            }
             @include medium {
                 font: 8rem/8rem $sans-serif;
             }
@@ -109,6 +113,9 @@
         }
 
         &__tagline {
+            @include small {
+                font: 1.5rem/2rem $sans-serif;
+            }
             width: 100%;
             text-align: center;
             color: $grey;
@@ -358,13 +365,19 @@
         color: $grey;
 
             &__heading {
+                @include small {
+                    font: 2rem/3rem $sans-serif;
+                }
                 width: 100%;
                 text-align: center;
-                font: 2.5rem/4rem $sans-serif;
+                font: 2.25rem/4rem $sans-serif;
                 text-transform: uppercase;
             }
 
             &__form {
+                @include small {
+                    width: 90%;
+                }
                 @include medium {
                     width: 30rem;
                 }
@@ -393,6 +406,8 @@
                     margin: 1rem auto;
                     padding: 0 1rem;
                     font: 1rem/2rem $sans-serif;
+                    text-align: center;
+                    color: $green;
                 }
                 &__textarea {
                     height: 5rem;
@@ -403,6 +418,10 @@
 
                 &__submit {
                     @include button(50%,3rem,1rem,$green,1px solid $green);
+                    @include small {
+                        background: $green;
+                        color: $white;
+                    }
                     text-transform: uppercase;
                     margin: 0 auto;
                     cursor: pointer;
