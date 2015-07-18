@@ -7,24 +7,7 @@
  * active           : Boolean
  * isRemoved        : Boolean
  *
- * TODO: hash apple passwords
  */
-
-Calendars.before.insert(function(uid, doc) {
-  doc.ownerId = doc.ownerId // Meteor.userId();
-  doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
-  doc.id      = undefined;
-  doc.active  = true;
-
-  return doc;
-});
-
-Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
-  doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
-  doc.id = undefined;
-
-  return doc;
-});
 
 // GET https://www.googleapis.com/calendar/v3/users/me/calendarList?key=185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com
 
@@ -39,33 +22,26 @@ Calendars.before.update(function(uid, doc, fieldNames, modifier, options) {
 
 Calendars.updateOrCreate = function(obj) {
   if(Array.isArray(obj)) {
-    var ary = obj;
-    ary.forEach(function(cal) {
-      Calendars.updateOrCreate(cal);
+    var ary = _.cloneDeep(obj);
+    return ary.map(function(cal) {
+      return Calendars.updateOrCreate(cal);
     });
   } else if(typeof(obj) === 'object') {
-    var calendar = Calendars.findOne({ googleCalendarId: obj.id });
+    var doc = _.cloneDeep(obj);
+    doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
+    delete doc.id;
+
+    if(doc.googleCalendarId === null) throw new Meteor.error('Invalid googleCalendarId');
+
+    var calendar = Calendars.findOne({ googleCalendarId: doc.googleCalendarId });
     if(calendar) {
-      Calendars.update(calendar._id, obj);
+      return calendar.update(doc);
     } else {
-      Calendars.insert(obj);
+      return Calendars.insert(doc);
     }
   } else {
     console.error('type error, Calendar.updateOrCreate does not expect: ', typeof(obj));
-  }
-};
-
-Calendars.create = function(obj) {
-  if(Array.isArray(obj)) {
-    var ary = obj;
-    ary.forEach(function(cal) {
-      Calendars.create(cal);
-    });
-  } else if(typeof(obj) === 'object') {
-    var calendar = Calendars.findOne({ googleCalendarId: obj.id });
-    if(!calendar) return Calendars.insert(obj);
-  } else {
-    console.error('type error, Calendar.create does not expect: ', typeof(obj));
+    return false;
   }
 };
 
