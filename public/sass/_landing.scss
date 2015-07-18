@@ -250,21 +250,26 @@
                     width: 100%;
                     padding: 1rem;
                 }
-                width: 50rem;
+                width: 46rem;
                 margin: 0 auto;
 
                 &__item {
+                    @include small {
+                        width: 95%;
+                        //margin: 1rem auto;
+                        float: none;
+                    }
                     box-sizing: border-box;
-                    width: 25rem;
+                    width: 23rem;
                     padding: 0.5rem 1.5rem;
-                    margin: 1rem 0;
+                    margin: 1rem auto;
                     float: left;
                     font: 1rem/1.25rem $sans-serif;
                     text-align: justify;
 
                     &__catch {
                         display: block;
-                        font: bold 1rem/2rem $sans-serif;
+                        font: bold 1.25rem/2rem $sans-serif;
                         text-align: left;
                         //text-align: center;
                         //text-transform: uppercase;
