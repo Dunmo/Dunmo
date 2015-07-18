@@ -126,18 +126,20 @@ gapi.getCalendarList = function (callback) {
 
 gapi.syncCalendars = function () {
   gapi.getCalendarList(function (calendarList) {
-    var calendars = calendarList.items;
+    var calendars   = calendarList.items;
     var calendarIds = _.pluck(calendars, 'id');
 
-    // only creates if new
-    Calendars.create(calendars);
+    var user   = Meteor.user();
+    var userId = user._id;
 
-    var userId = Meteor.userId();
-    var allCalendars = Calendars.find({ ownerId: userId }).fetch();
+    calendars = calendars.map(function (cal) { cal.ownerId = userId; return cal; });
+
+    Calendars.updateOrCreate(calendars);
+
+    var allCalendars     = user.fetchCalendars();
     var removedCalendars = _.reject(allCalendars, function(cal) {
       return _.contains(calendarIds, cal.googleCalendarId);
     });
-
     removedCalendars.forEach(function (cal) { cal.setRemoved(); });
   });
 };
