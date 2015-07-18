@@ -135,7 +135,7 @@ h1 {
   border-bottom: 1px solid #5ada62;
   z-index: 50;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 3, ../sass/landing/_landing.scss */
   .landing-nav {
     font: 0.75rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
@@ -242,13 +242,13 @@ h1 {
   text-align: center;
   text-transform: uppercase;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 92, ../sass/landing/_landing.scss */
   .landing-splash__brand {
     font: 6rem/6rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 92, ../sass/landing/_landing.scss */
   .landing-splash__brand {
     font: 8rem/8rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
@@ -268,7 +268,7 @@ h1 {
   font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   margin: 0 auto;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 115, ../sass/landing/_landing.scss */
   .landing-splash__tagline {
     font: 1.5rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
@@ -279,7 +279,7 @@ h1 {
   text-transform: uppercase;
   margin: 2rem auto;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 126, ../sass/landing/_landing.scss */
   .landing-splash__action {
     -moz-transition: all 0.25s ease-in-out;
@@ -348,13 +348,13 @@ h1 {
 .landing-splash__separator {
   margin: 2rem auto;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 144, ../sass/landing/_landing.scss */
   .landing-splash__separator {
     width: 80%;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 144, ../sass/landing/_landing.scss */
   .landing-splash__separator {
     width: 40rem;
@@ -426,13 +426,13 @@ h1 {
   background: #fafafa;
   color: #969696;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 203, ../sass/landing/_landing.scss */
   .landing-story {
     padding: 3rem 1rem;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 203, ../sass/landing/_landing.scss */
   .landing-story {
     padding: 3rem 2rem;
@@ -463,7 +463,7 @@ h1 {
   margin: 1rem auto;
   text-align: justify;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 216, ../sass/landing/_landing.scss */
   .landing-story__text {
     width: 30rem;
@@ -507,7 +507,7 @@ h1 {
   width: 46rem;
   margin: 0 auto;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 247, ../sass/landing/_landing.scss */
   .landing-features__slide {
     width: 100%;
@@ -524,7 +524,7 @@ h1 {
   font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: justify;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 256, ../sass/landing/_landing.scss */
   .landing-features__slide__item {
     width: 95%;
@@ -545,13 +545,13 @@ h1 {
   width: 100%;
   background: #fafafa;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 284, ../sass/landing/_landing.scss */
   .landing-team {
     padding: 3rem 1rem;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 284, ../sass/landing/_landing.scss */
   .landing-team {
     padding: 3rem 2rem;
@@ -580,7 +580,7 @@ h1 {
 .landing-team__container {
   margin: 1rem auto;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 296, ../sass/landing/_landing.scss */
   .landing-team__container {
     width: 45rem;
@@ -602,7 +602,7 @@ h1 {
 .landing-team__profile {
   float: left;
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 309, ../sass/landing/_landing.scss */
   .landing-team__profile {
     width: 13rem;
@@ -657,13 +657,13 @@ h1 {
   background: #fafafa;
   color: #969696;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 353, ../sass/landing/_landing.scss */
   .landing-contact, .landing-subscribe {
     padding: 3rem 1rem;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 353, ../sass/landing/_landing.scss */
   .landing-contact, .landing-subscribe {
     padding: 3rem 2rem;
@@ -688,7 +688,7 @@ h1 {
   font: 2.25rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-transform: uppercase;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 360, ../sass/landing/_landing.scss */
   .landing-contact__heading, .landing-subscribe__heading {
     font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
@@ -699,13 +699,13 @@ h1 {
   margin: 0 auto;
   text-align: center;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 370, ../sass/landing/_landing.scss */
   .landing-contact__form, .landing-subscribe__form {
     width: 90%;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 370, ../sass/landing/_landing.scss */
   .landing-contact__form, .landing-subscribe__form {
     width: 30rem;
@@ -772,7 +772,7 @@ h1 {
   margin: 0 auto;
   cursor: pointer;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 412, ../sass/landing/_landing.scss */
   .landing-contact__form__submit, .landing-subscribe__form__submit {
     background: #5ada62;
@@ -803,13 +803,13 @@ h1 {
   width: 100%;
   background: #141414;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 960px) {
   /* line 447, ../sass/landing/_landing.scss */
   .landing-footer {
     padding: 0 1rem;
   }
 }
-@media screen and (min-width: 801px) and (max-width: 1440px) {
+@media screen and (min-width: 961px) and (max-width: 1440px) {
   /* line 447, ../sass/landing/_landing.scss */
   .landing-footer {
     padding: 0 2rem;
