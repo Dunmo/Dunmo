@@ -22,6 +22,19 @@ Template.calendarSettings.helpers({
     return Session.get('errorMessage');
   },
 
+  disabledClass: function () {
+    return Meteor.user().isGoogleAuthed() ? 'disabled' : '';
+  },
+
+  isGoogleAuthed: function () {
+    return Meteor.user().isGoogleAuthed();
+  },
+
+  hasCalendars: function () {
+    var calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
+    return calendars.length > 0;
+  },
+
   calendars: function () {
     var calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
     calendars = _.sortBy(calendars, function(cal) {
@@ -171,5 +184,17 @@ Template.calendarSettings.events({
 
     var ret   = Meteor.user()['set' + prop](val);
     if(ret) gapi.syncTasksWithCalendar();
+  },
+
+  'click .btn-gplus': function (e) {
+    Meteor.connectWith('google', {
+      requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
+      requestOfflineToken: true,
+      loginStyle: "popup"
+    }, function (err) {
+      if (err) Session.set('errorMessage', err.reason || 'Unknown error');
+      else     location.reload();
+    });
   }
+
 });

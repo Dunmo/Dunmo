@@ -221,29 +221,46 @@
         </div>
       </div>
 
-      <div class="row rules">
-        <div class="col-lg-12">
-          <p class="text">
-            We won't schedule tasks during events on the highlighted calendars.
-          </p>
-        </div>
+      <div class="auth-container">
+        <a href="#" class="{{disabledClass}} btn btn-gplus btn-block">
+          <i class="fa fa-google-plus"></i>
+          {{#if isGoogleAuthed}}
+            Signed in with Google
+          {{else}}
+            Sign in with Google
+          {{/if}}
+        </a>
+        {{#unless isGoogleAuthed}}
+          <p class="lead"> Use Google, and we can plan around your events. </p>
+        {{/unless}}
       </div>
 
-      <div class="row">
-        <div class="col-lg-12">
-          <section class="panel calendar-panel">
-            <header class="panel-heading bg bg-primary">
-              <a class="btn btn-link pull-right nav"></a>
-              Active Calendars
-            </header>
-            <ul class="list-group">
-            {{#each calendars}}
-              {{> calendarListItem}}
-            {{/each}}
-            </ul>
-          </section>
+      {{#if hasCalendars}}
+        <div class="row rules">
+          <div class="col-lg-12">
+            <p class="text">
+              Click a calendar to highlight. <br>
+              We won't schedule tasks during events on the highlighted calendars.
+            </p>
+          </div>
         </div>
-      </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <section class="panel calendar-panel">
+              <header class="panel-heading bg bg-primary">
+                <a class="btn btn-link pull-right nav"></a>
+                Active Calendars
+              </header>
+              <ul class="list-group">
+              {{#each calendars}}
+                {{> calendarListItem}}
+              {{/each}}
+              </ul>
+            </section>
+          </div>
+        </div>
+      {{/if}}
 
     </section>
   </section>
