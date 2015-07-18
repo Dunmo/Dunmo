@@ -29,14 +29,51 @@ Template.login.events({
     synchronize('.signup', '.login');
   },
 
-  'click form.login button.login': function (e) {
-    console.log('e: ', e);
-
+  'submit form': function (e) {
+    e.preventDefault();
   },
 
-  'click form.signup button.signup': function (e) {
-    console.log('e: ', e);
+  'submit form.login, click form.login button.login': function (e) {
+    var $parent  = $('form.login');
+    var email    = $parent.find('input.email').val();
+    var password = $parent.find('input.password').val();
+    console.log('email: ', email);
+    console.log('password: ', password);
 
+    if( !(email && password) ) return;
+
+    Meteor.loginWithPassword(email, password, function (err) {
+      console.log('err: ', err);
+      if(err) {
+        console.log('err: ', err);
+        $('.notice').html(err.reason);
+      }
+      else    location.href = '/taskView';
+    });
+  },
+
+  'submit form.signup, click form.signup button.signup': function (e) {
+    var $parent  = $('form.signup');
+    var name     = $parent.find('input.name').val();
+    var email    = $parent.find('input.email').val();
+    var password = $parent.find('input.password').val();
+    console.log('name: ', name);
+    console.log('email: ', email);
+    console.log('password: ', password);
+
+    if( !(name && email && password) ) return;
+
+    Accounts.createUser({
+      password: password,
+      email: email,
+      profile: {
+        name: name
+      }
+    }, function (err) {
+      console.log('err: ', err);
+      if(err) $('.notice').html(err.reason);
+      else    location.href = '/taskView';
+    });
   },
 
   'click .btn-gplus': function (e) {

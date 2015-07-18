@@ -5,26 +5,27 @@
         <div class="login-container">
           <ul class="nav nav-tabs">
             <li class="signup-link">
-              <a href="#">Sign Up</a>
+              <a href="#signup">Sign Up</a>
             </li>
             <li class="login-link active">
-              <a href="#">Log In</a>
+              <a href="#login">Log In</a>
             </li>
           </ul>
           <div class="panel panel-default tab-panel">
             <div class="panel-body">
               <a href="#" class="btn btn-gplus btn-block"><i class="fa fa-google-plus"></i>Sign in with Google</a>
+              <p class="lead">Use Google, and we'll plan around your events.</p>
               <hr>
               <p class="notice"></p>
               <form role="form" hidden="hidden" class="form signup">
                 <div class="form-group">
-                  <input type="text" placeholder="Name" class="form-control name"/>
+                  <input type="text" placeholder="Name" class="form-control name" required/>
                 </div>
                 <div class="form-group">
-                  <input type="email" placeholder="Email" class="form-control email"/>
+                  <input type="email" placeholder="Email" class="form-control email" required/>
                 </div>
                 <div class="form-group">
-                  <input type="password" placeholder="Password" class="form-control password"/>
+                  <input type="password" placeholder="Password" class="form-control password" required/>
                 </div>
                 <div class="actions">
                   <button class="btn btn-default signup">Sign Up</button>
@@ -32,10 +33,10 @@
               </form>
               <form class="form login">
                 <div class="form-group">
-                  <input type="email" placeholder="Email" class="form-control email"/>
+                  <input type="email" placeholder="Email" class="form-control email" required/>
                 </div>
                 <div class="form-group">
-                  <input type="password" placeholder="Password" class="form-control password"/>
+                  <input type="password" placeholder="Password" class="form-control password" required/>
                 </div>
                 <div class="actions">
                   <button class="btn btn-default login">Log In</button>
