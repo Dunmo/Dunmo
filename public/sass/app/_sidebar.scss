@@ -20,7 +20,7 @@
         cursor: pointer;
         border: none !important;
         &:hover {
-            background: lighten($coral,20%);//darken($white,2%);
+            background: lighten($lime,20%);//darken($white,2%);
         }
 
         &--active {
@@ -49,12 +49,19 @@
             font: 1rem/1.5rem $sans-serif;
             border-radius: 0.25rem;
             &:hover {
-                background: lighten($coral,15%);//darken($white,2%);
+                background: lighten($lime,15%);//darken($white,2%);
             }
 
             &--active {
                 color: $white;
                 background: darken($white,25%);
+                &:hover {
+                    background: darken($white,25%);
+                }
+            }
+
+            &--add-project {
+                font-style: italic;
             }
         }
 

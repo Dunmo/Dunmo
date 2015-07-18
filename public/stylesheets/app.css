@@ -231,7 +231,7 @@ h1 {
 }
 /* line 22, ../sass/app/_sidebar.scss */
 .app-sidebar__section:hover {
-  background: #ffefef;
+  background: #e3fece;
 }
 /* line 26, ../sass/app/_sidebar.scss */
 .app-sidebar__section--active {
@@ -266,12 +266,20 @@ h1 {
 }
 /* line 51, ../sass/app/_sidebar.scss */
 .app-sidebar__subsection__item:hover {
-  background: #ffd7d5;
+  background: #d4fdb5;
 }
 /* line 55, ../sass/app/_sidebar.scss */
 .app-sidebar__subsection__item--active {
   color: #fafafa;
   background: #bababa;
+}
+/* line 58, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--active:hover {
+  background: #bababa;
+}
+/* line 63, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--add-project {
+  font-style: italic;
 }
 
 /* line 1, ../sass/dev/_experimental.scss */
