@@ -115,6 +115,87 @@ h1 {
   clear: both;
 }
 
+/* line 1, ../sass/app/_topbar.scss */
+.app-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #5ada62;
+  color: #fafafa;
+}
+/* line 13, ../sass/app/_topbar.scss */
+.app-top__logo {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  font: 2rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  color: #fafafa;
+  text-transform: uppercase;
+  border: none !important;
+}
+/* line 25, ../sass/app/_topbar.scss */
+.app-top__search {
+  display: block;
+  box-sizing: border-box;
+  height: 2rem;
+  width: 30rem;
+  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  margin: 1rem auto;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  border: none;
+}
+/* line 35, ../sass/app/_topbar.scss */
+.app-top__search:focus {
+  outline: none;
+  box-shadow: 0 0 0.25rem 0.125rem #ff8c89;
+}
+/* line 42, ../sass/app/_topbar.scss */
+.app-top__button {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  width: 3rem;
+  height: 3rem;
+  margin: 0.5rem 0;
+  font: 1.5rem/2.875rem "FontAwesome";
+  color: #fafafa;
+  border: 1px solid transparent !important;
+  border-radius: 1.5rem;
+  text-align: center;
+}
+/* line 57, ../sass/app/_topbar.scss */
+.app-top__button:hover {
+  box-shadow: 0 0 0.25rem 0.125rem #fafafa;
+}
+/* line 62, ../sass/app/_topbar.scss */
+.app-top__button--help {
+  right: 5rem;
+}
+/* line 66, ../sass/app/_topbar.scss */
+.app-top__button--settings {
+  right: 1rem;
+}
+
 /* line 1, ../sass/dev/_experimental.scss */
 .purdue-login {
   display: block;
