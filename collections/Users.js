@@ -108,8 +108,21 @@ Users.helpers(settingsSetters);
 
 Users.helpers({
 
-  primaryEmailAddress: function () {
+  gmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
+  },
+
+  primaryEmailAddress: function () {
+    var email = this.gmailAddress();
+    if(email) return email;
+    else      return this.emails && this.emails[0] && this.emails[0].address;
+  },
+
+  allEmails: function () {
+    var emails = this.emails && _.pluck(this.emails, 'address');
+    var gmail  = this.gmailAddress();
+    if(gmail) emails.push(gmail);
+    return emails;
   },
 
   createSettings: function () {
@@ -121,6 +134,10 @@ Users.helpers({
     var settings = UserSettings.findOne({ userId: this._id });
     if(!settings) settings = this.createSettings();
     return settings;
+  },
+
+  isGoogleAuthed: function () {
+    return !!this.gmailAddress();
   },
 
   hasOnboarded: function (key) {
