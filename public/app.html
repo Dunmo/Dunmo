@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Cantarell|Expletus+Sans' rel='stylesheet' type='text/css'>
+
+    <link rel="icon" href="favicon.ico">
+
+    <title>Dunmo</title>
+
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="stylesheets/app.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="app-topbar">
+
+        <a href="" class="app-topbar__logo">Dunmo</a>
+
+        <input class="app-topbar__search" type="text" placeholder="Search" />
+
+        <a href="" class="app-topbar__button app-topbar__button--help fa fa-question"></a>
+
+        <a href="" class="app-topbar__button app-topbar__button--settings fa fa-cog"></a>
+
+    </div>
+
+    <div class="app-sidebar">
+
+        <div class="app-sidebar__section app-sidebar__section--active">
+            <span class="app-sidebar__section__heading">Agenda</span>
+        </div>
+
+        <div class="app-sidebar__section">
+            <span class="app-sidebar__section__heading">Tasks</span>
+            <ul class="app-sidebar__subsection">
+                <li class="app-sidebar__subsection__item">All</li>
+                <li class="app-sidebar__subsection__item">Completed</li>
+                <li class="app-sidebar__subsection__item">Trash</li>
+            </ul>
+        </div>
+
+        <div class="app-sidebar__section">
+            <span class="app-sidebar__section__heading">Projects</span>
+            <ul class="app-sidebar__subsection">
+                <li class="app-sidebar__subsection__item app-sidebar__subsection__item--add-project">+ Add New</li>
+                <li class="app-sidebar__subsection__item">Archive</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Javascript -->
+    <script src="js/jquery.min.js"></script>
+
+    <script>
+        $('.app-sidebar__section__heading').click(function () {
+            $('.app-sidebar__section').removeClass('app-sidebar__section--active');
+            $('.app-sidebar__subsection__item--active').removeClass('app-sidebar__subsection__item--active');
+            $(this).parent().addClass('app-sidebar__section--active');
+            $(this).parent().children('ul').children(':first-child').addClass('app-sidebar__subsection__item--active');
+        })
+        $('.app-sidebar__subsection__item').click(function () {
+            $('.app-sidebar__section').removeClass('app-sidebar__section--active');
+            $('.app-sidebar__subsection__item--active').removeClass('app-sidebar__subsection__item--active');
+            $(this).parent().parent().addClass('app-sidebar__section--active');
+            $(this).addClass('app-sidebar__subsection__item--active');
+        })
+
+
+    </script>
+
+</body>
+</html>
+
