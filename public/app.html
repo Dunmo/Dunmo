@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -15,6 +15,7 @@
     <title>Dunmo</title>
 
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/ionicons.min.css" rel="stylesheet">
     <link href="stylesheets/app.css" rel="stylesheet">
 
 </head>
@@ -26,33 +27,99 @@
 
         <input class="app-topbar__search" type="text" placeholder="Search" />
 
-        <a href="" class="app-topbar__button app-topbar__button--help fa fa-question"></a>
+        <a href="" class="app-topbar__button app-topbar__button--help ion-help"></a>
 
-        <a href="" class="app-topbar__button app-topbar__button--settings fa fa-cog"></a>
+        <a href="" class="app-topbar__button app-topbar__button--settings ion-gear-a"></a>
 
     </div>
 
     <div class="app-sidebar">
 
-        <div class="app-sidebar__section app-sidebar__section--active">
+        <div class="app-sidebar__section app-sidebar__section--active display-none">
             <span class="app-sidebar__section__heading">Agenda</span>
         </div>
 
-        <div class="app-sidebar__section">
+        <div class="app-sidebar__section app-sidebar__section--active">
             <span class="app-sidebar__section__heading">Tasks</span>
             <ul class="app-sidebar__subsection">
-                <li class="app-sidebar__subsection__item">All</li>
+                <li class="app-sidebar__subsection__item app-sidebar__subsection__item--active">All</li>
                 <li class="app-sidebar__subsection__item">Completed</li>
                 <li class="app-sidebar__subsection__item">Trash</li>
             </ul>
         </div>
 
-        <div class="app-sidebar__section">
+        <div class="app-sidebar__section display-none">
             <span class="app-sidebar__section__heading">Projects</span>
             <ul class="app-sidebar__subsection">
                 <li class="app-sidebar__subsection__item app-sidebar__subsection__item--add-project">+ Add New</li>
                 <li class="app-sidebar__subsection__item">Archive</li>
             </ul>
+        </div>
+
+    </div>
+
+    <div class="app-mainview">
+
+        <div class="app-mainview__tab-container display-none">
+
+            <div class="app-mainview__tab">Backlog</div>
+            <div class="app-mainview__tab">This Week</div>
+            <div class="app-mainview__tab">Tomorrow</div>
+            <div class="app-mainview__tab app-mainview__tab--active">Today</div>
+            <div class="app-mainview__tab">Done</div>
+
+        </div>
+
+        <div class="app-mainview__task-container">
+
+            <div class="app-taskitem">
+
+                <div class="app-taskitem__quick-actions">
+                    <div class="app-taskitem__quick-actions__button ion-checkmark"></div>
+                    <div class="app-taskitem__quick-actions__button ion-play"></div>
+                    <div class="app-taskitem__quick-actions__button ion-clock"></div>
+                </div>
+
+                <div class="app-taskitem__importance app-taskitem__importance--rankzero"></div>
+                
+                <div class="app-taskitem__container">
+
+                    <div class="app-taskitem__head">
+                        <div class="app-taskitem__head__title">The grumpy wizard made toxic brew for the evil Queen and Jack.</div>
+                        <div class="app-taskitem__head__description">The grumpy wizard made toxic brew for the evil Queen and Jack.</div>
+
+                    </div>
+
+                </div>
+
+                <div class="app-taskitem__chevron ion-chevron-down"></div>
+
+            </div>
+
+            <div class="app-taskitem">
+
+                <div class="app-taskitem__quick-actions">
+                    <div class="app-taskitem__quick-actions__button ion-checkmark"></div>
+                    <div class="app-taskitem__quick-actions__button ion-play"></div>
+                    <div class="app-taskitem__quick-actions__button ion-clock"></div>
+                </div>
+
+                <div class="app-taskitem__importance app-taskitem__importance--rankthree"></div>
+
+                <div class="app-taskitem__container">
+
+                    <div class="app-taskitem__head">
+                        <div class="app-taskitem__head__title">The grumpy wizard made toxic brew for the evil Queen and Jack.</div>
+                        <div class="app-taskitem__head__description">The grumpy wizard made toxic brew for the evil Queen and Jack.</div>
+
+                    </div>
+
+                </div>
+
+                <div class="app-taskitem__chevron ion-chevron-down"></div>
+
+            </div>
+
         </div>
 
     </div>
@@ -72,6 +139,16 @@
             $('.app-sidebar__subsection__item--active').removeClass('app-sidebar__subsection__item--active');
             $(this).parent().parent().addClass('app-sidebar__section--active');
             $(this).addClass('app-sidebar__subsection__item--active');
+        })
+
+        $('.app-mainview__tab').click(function () {
+            $('.app-mainview__tab').not(this).removeClass('app-mainview__tab--active');
+            $(this).addClass('app-mainview__tab--active');
+            //alert(this);
+        })
+
+        $('.app-taskitem__chevron').click(function () {
+            $(this).toggleClass('ion-chevron-up ion-chevron-down');
         })
 
 

@@ -1,0 +1,128 @@
+.app-taskitem {
+    @include transition(all 0.25s ease-in-out);
+    @include block;
+    //border: 1px solid $grey;
+    margin: 0.5rem auto;
+    border-radius: 0.25rem;
+    background: $white;
+
+    &__container {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.5rem 4rem;
+        margin: 0;
+    }
+
+    &__head {
+        width: 100%;
+        height: 4rem;
+
+        &__title {
+            height: 2rem;
+            font: 1.5rem/2rem $sans-serif;
+        }
+
+        &__description {
+            height: 2rem;
+            font: 1rem/2rem $sans-serif;
+        }
+
+    }
+
+    &__importance {
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        width: 3rem;
+        height: 3rem;
+        margin: 1rem 0.5rem;
+        font: 2rem/3rem $sans-serif;
+        text-align: center;
+        
+        &--rankzero::before {
+            content: '-';
+        }
+        
+        &--rankone::before {
+            content: '!';
+            color: $coral;
+        }
+        
+        &--ranktwo::before {
+            content: '!!';
+            color: $coral;
+        }
+        
+        &--rankthree::before {
+            content: '!!!';
+            color: $coral;
+        }
+
+    }
+
+    &__chevron {
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        right: 0;
+        box-sizing: border-box;
+        width: 3rem;
+        height: 3rem;
+        margin: 1rem 0.5rem;
+        font: 1.5rem/3rem $icons;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    &__quick-actions {
+        @include transition(all 0.25s ease-in-out);
+        @include clearfix;
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        left: 4rem;
+        right: 4rem;
+        //width: calc(100% - 8rem);
+        padding: 0 calc((50% - 10rem));
+        //padding-left: 50%;
+        height: 5rem;
+        background: $white;//rgba($grey,0.75);
+        opacity: 0;
+
+        &__button {
+            @include transition(all 0.25s ease-in-out);
+            box-sizing: border-box;
+            width: 3rem;
+            height: 3rem;
+            margin: 1rem 0.5rem;
+            float: left;
+            font: 1.5rem/3rem $icons;
+            text-align: center;
+            border: none !important;
+            cursor: pointer;
+            &:hover {
+                color: lighten($grey,15%);
+            }
+        }
+
+    }
+    &:hover &__quick-actions {
+        opacity: 1;
+    }
+
+    &--expanded {
+
+        &__containter {
+
+        }
+
+        &__controls {
+
+        }
+
+    }
+
+}
