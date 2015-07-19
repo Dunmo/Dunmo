@@ -317,12 +317,12 @@ describe('user', function () {
     });
 
     it('should return calendars', function () {
-      var calendars = user.calendars();
+      var calendars = user.activeCalendars();
       expect(calendars.count()).toBeGreaterThan(0);
     });
 
     it('should only return calendars that are active', function () {
-      var calendars = user.calendars().fetch();
+      var calendars = user.activeCalendars().fetch();
       calendars.forEach(function (calendar) {
         expect(calendar.active).toBeTruthy();
       });
