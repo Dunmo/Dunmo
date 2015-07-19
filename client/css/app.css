@@ -1,0 +1,303 @@
+/* line 5, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, C:/Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 3, ../sass/core/_common.scss */
+html, body {
+  font: 16px "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  color: #969696;
+  background: #fafafa;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0px;
+}
+
+/* line 14, ../sass/core/_common.scss */
+b {
+  font-weight: bold;
+}
+
+/* line 15, ../sass/core/_common.scss */
+i {
+  font-style: italic;
+}
+
+/* line 16, ../sass/core/_common.scss */
+a {
+  color: #ff8c89;
+  text-decoration: none;
+}
+/* line 19, ../sass/core/_common.scss */
+a:hover {
+  border-bottom: 1px solid #ff8c89;
+}
+
+/* line 24, ../sass/core/_common.scss */
+h1 {
+  width: 100%;
+  text-align: center;
+  font: 2.5rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  text-transform: uppercase;
+}
+
+/* line 34, ../sass/core/_common.scss */
+.display-none {
+  display: none;
+}
+
+/* line 36, ../sass/core/_common.scss */
+.group:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* line 1, ../sass/app/_topbar.scss */
+.app-topbar {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #5ada62;
+  color: #fafafa;
+  box-shadow: 0 0 0.25rem 0.125rem #969696;
+}
+/* line 15, ../sass/app/_topbar.scss */
+.app-topbar__logo {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  font: 2rem/4rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  color: #fafafa;
+  text-transform: uppercase;
+  border: none !important;
+}
+/* line 27, ../sass/app/_topbar.scss */
+.app-topbar__search {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  display: block;
+  box-sizing: border-box;
+  height: 2rem;
+  width: 30rem;
+  font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  margin: 1rem auto;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  border: none;
+}
+/* line 38, ../sass/app/_topbar.scss */
+.app-topbar__search:focus {
+  outline: none;
+  box-shadow: 0 0 0.25rem 0.125rem #ff8c89;
+}
+/* line 45, ../sass/app/_topbar.scss */
+.app-topbar__button {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.75rem 0;
+  font: 1.5rem/2.5rem "FontAwesome";
+  color: #fafafa;
+  border: none !important;
+  border-radius: 1.5rem;
+  text-align: center;
+}
+/* line 61, ../sass/app/_topbar.scss */
+.app-topbar__button:hover {
+  box-shadow: 0 0 0.25rem 0.125rem #fafafa;
+}
+/* line 66, ../sass/app/_topbar.scss */
+.app-topbar__button--help {
+  right: 4.5rem;
+}
+/* line 70, ../sass/app/_topbar.scss */
+.app-topbar__button--settings {
+  right: 1rem;
+}
+
+/* line 1, ../sass/app/_sidebar.scss */
+.app-sidebar {
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15rem;
+  height: 100%;
+  padding: 5rem 0.5rem 1rem 0.5rem;
+  margin: 0;
+}
+/* line 13, ../sass/app/_sidebar.scss */
+.app-sidebar__section {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0.25rem 0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: none !important;
+}
+/* line 22, ../sass/app/_sidebar.scss */
+.app-sidebar__section:hover {
+  background: #e3fece;
+}
+/* line 26, ../sass/app/_sidebar.scss */
+.app-sidebar__section--active {
+  background: #ededed;
+}
+/* line 28, ../sass/app/_sidebar.scss */
+.app-sidebar__section--active:hover {
+  background: #ededed;
+}
+/* line 33, ../sass/app/_sidebar.scss */
+.app-sidebar__section__heading {
+  display: block;
+  width: 100%;
+  font: bold 1.25rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+}
+/* line 40, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 0 0.5rem 0.5rem;
+}
+/* line 45, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  font: 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  border-radius: 0.25rem;
+}
+/* line 51, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item:hover {
+  background: #d4fdb5;
+}
+/* line 55, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--active {
+  color: #fafafa;
+  background: #bababa;
+}
+/* line 58, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--active:hover {
+  background: #bababa;
+}
+/* line 63, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--add-project {
+  font-style: italic;
+}
+
+/* line 1, ../sass/dev/_experimental.scss */
+.purdue-login {
+  display: block;
+  box-sizing: border-box;
+  width: 20rem;
+  height: 7rem;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  background: #c7c7c7;
+  border: 3px solid #adadad;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+/* line 13, ../sass/dev/_experimental.scss */
+.purdue-login img {
+  height: 100%;
+  width: auto;
+  opacity: 0.5;
+}
