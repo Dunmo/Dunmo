@@ -1,0 +1,80 @@
+
+/* line 1, ../sass/app/_sidebar.scss */
+.app-sidebar {
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15rem;
+  height: 100%;
+  padding: 5rem 0.5rem 1rem 0.5rem;
+  margin: 0;
+}
+/* line 13, ../sass/app/_sidebar.scss */
+.app-sidebar__section {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0.25rem 0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: none !important;
+}
+/* line 22, ../sass/app/_sidebar.scss */
+.app-sidebar__section:hover {
+  background: #e3fece;
+}
+/* line 26, ../sass/app/_sidebar.scss */
+.app-sidebar__section--active {
+  background: #ededed;
+}
+/* line 28, ../sass/app/_sidebar.scss */
+.app-sidebar__section--active:hover {
+  background: #ededed;
+}
+/* line 33, ../sass/app/_sidebar.scss */
+.app-sidebar__section__heading {
+  display: block;
+  width: 100%;
+  font: bold 1.25rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+}
+/* line 40, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 0 0.5rem 0.5rem;
+}
+/* line 45, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  font: 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  border-radius: 0.25rem;
+}
+/* line 51, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item:hover {
+  background: #d4fdb5;
+}
+/* line 55, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--active {
+  color: #fafafa;
+  background: #bababa;
+}
+/* line 58, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--active:hover {
+  background: #bababa;
+}
+/* line 63, ../sass/app/_sidebar.scss */
+.app-sidebar__subsection__item--add-project {
+  font-style: italic;
+}
