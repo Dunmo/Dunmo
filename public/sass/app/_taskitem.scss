@@ -29,7 +29,60 @@
 
     }
 
-    &__importance {
+    &__body {
+        width: 100%;
+
+        &__section {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.25rem 0;
+
+            &--duration {
+                width: 25%;
+            }
+        }
+
+        &__heading {
+            font: bold 1rem/1.5rem $sans-serif;
+        }
+
+        &__content {
+            box-sizing: border-box;
+            width: 100%;
+            font: 1rem/1.25rem $sans-serif;
+            color: $grey;
+            padding: 0 0.5rem;
+            &[disabled] {
+                background: $white;
+                color: $grey;
+                border: none;
+            }
+        }
+
+        &__description {
+            width: 100%;
+            padding: 0.5rem 0;
+        }
+
+        &__duration {
+
+        }
+
+        &__due {
+
+        }
+
+        &__importance {
+
+        }
+
+        &__tags {
+
+        }
+
+    }
+
+    &__priority {
         position: absolute;
         z-index: 5;
         top: 0;

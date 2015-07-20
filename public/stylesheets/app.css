@@ -104,11 +104,16 @@ h1 {
 }
 
 /* line 34, ../sass/core/_common.scss */
+textarea {
+  resize: none;
+}
+
+/* line 38, ../sass/core/_common.scss */
 .display-none {
   display: none;
 }
 
-/* line 36, ../sass/core/_common.scss */
+/* line 40, ../sass/core/_common.scss */
 .group:after {
   content: '';
   display: table;
@@ -375,7 +380,44 @@ h1 {
   font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
 /* line 32, ../sass/app/_taskitem.scss */
-.app-taskitem__importance {
+.app-taskitem__body {
+  width: 100%;
+}
+/* line 35, ../sass/app/_taskitem.scss */
+.app-taskitem__body__section {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.25rem 0;
+}
+/* line 40, ../sass/app/_taskitem.scss */
+.app-taskitem__body__section--duration {
+  width: 25%;
+}
+/* line 45, ../sass/app/_taskitem.scss */
+.app-taskitem__body__heading {
+  font: bold 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+}
+/* line 49, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content {
+  box-sizing: border-box;
+  width: 100%;
+  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  color: #969696;
+  padding: 0 0.5rem;
+}
+/* line 55, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content[disabled] {
+  background: #fafafa;
+  color: #969696;
+  border: none;
+}
+/* line 62, ../sass/app/_taskitem.scss */
+.app-taskitem__body__description {
+  width: 100%;
+  padding: 0.5rem 0;
+}
+/* line 85, ../sass/app/_taskitem.scss */
+.app-taskitem__priority {
   position: absolute;
   z-index: 5;
   top: 0;
@@ -387,26 +429,26 @@ h1 {
   font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: center;
 }
-/* line 44, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--rankzero::before {
+/* line 97, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--rankzero::before {
   content: '-';
 }
-/* line 48, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--rankone::before {
+/* line 101, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--rankone::before {
   content: '!';
   color: #ff8c89;
 }
-/* line 53, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--ranktwo::before {
+/* line 106, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--ranktwo::before {
   content: '!!';
   color: #ff8c89;
 }
-/* line 58, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--rankthree::before {
+/* line 111, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--rankthree::before {
   content: '!!!';
   color: #ff8c89;
 }
-/* line 65, ../sass/app/_taskitem.scss */
+/* line 118, ../sass/app/_taskitem.scss */
 .app-taskitem__chevron {
   position: absolute;
   z-index: 5;
@@ -420,7 +462,7 @@ h1 {
   text-align: center;
   cursor: pointer;
 }
-/* line 79, ../sass/app/_taskitem.scss */
+/* line 132, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -443,7 +485,7 @@ h1 {
   display: table;
   clear: both;
 }
-/* line 95, ../sass/app/_taskitem.scss */
+/* line 148, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -459,11 +501,11 @@ h1 {
   border: none !important;
   cursor: pointer;
 }
-/* line 106, ../sass/app/_taskitem.scss */
+/* line 159, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button:hover {
   color: #bcbcbc;
 }
-/* line 112, ../sass/app/_taskitem.scss */
+/* line 165, ../sass/app/_taskitem.scss */
 .app-taskitem:hover .app-taskitem__quick-actions {
   opacity: 1;
 }
