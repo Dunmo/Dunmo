@@ -30,6 +30,7 @@
     }
 
     &__body {
+        @include clearfix;
         width: 100%;
 
         &__section {
@@ -47,16 +48,34 @@
         }
 
         &__content {
+            @include clearfix;
             box-sizing: border-box;
             width: 100%;
             font: 1rem/1.25rem $sans-serif;
             color: $grey;
-            padding: 0 0.5rem;
+            padding: 0 0.25rem;
             &[disabled] {
                 background: $white;
                 color: $grey;
                 border: none;
             }
+
+            &--duration-hour,
+            &--duration-minute {
+                width: 2rem;
+                text-align: right;
+                float: left;
+                    display: inline-block;
+                    vertical-align: bottom;
+                &-label {
+                    display: inline-block;
+                    vertical-align: bottom;
+                    width: 1rem;
+                    padding: 0;
+                    float: left;
+                }
+            }
+
         }
 
         &__description {
