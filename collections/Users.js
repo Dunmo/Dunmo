@@ -280,6 +280,33 @@ Users.helpers({
     return todoList;
   },
 
+  projects: function (selector, options) {
+    selector = _.extend({}, { ownerId: this._id }, selector);
+    return Projects.find(selector, options);
+  },
+
+  fetchProjects: function (selector, options) {
+    return this.projects(selector, options).fetch();
+  },
+
+  currentProjects: function (selector, options) {
+    selector = _.extend({}, { isArchived: { $ne: true } }, selector);
+    return this.projects(selector, options);
+  },
+
+  fetchCurrentProjects: function (selector, options) {
+    return this.currentProjects(selector, options).fetch();
+  },
+
+  archivedProjects: function (selector, options) {
+    selector = _.extend({}, { isArchived: true }, selector);
+    return this.projects(selector, options);
+  },
+
+  fetchArchivedProjects: function (selector, options) {
+    return this.fetchArchivedProjects(selector, options).fetch();
+  },
+
   events: function (selector, options) {
     selector = _.extend({}, { ownerId: this._id }, selector);
     return Events.find(selector, options);
