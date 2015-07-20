@@ -3,7 +3,7 @@
 html, body {
 	font: 16px $sans-serif;
 	color: $grey;
-	background: $white;
+	background: darken($white,3%);
 	width: 100%;
 	height: 100%;
 	margin: 0;
