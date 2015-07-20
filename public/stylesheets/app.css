@@ -104,11 +104,23 @@ h1 {
 }
 
 /* line 34, ../sass/core/_common.scss */
+textarea {
+  resize: none;
+}
+
+/* line 37, ../sass/core/_common.scss */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* line 43, ../sass/core/_common.scss */
 .display-none {
   display: none;
 }
 
-/* line 36, ../sass/core/_common.scss */
+/* line 45, ../sass/core/_common.scss */
 .group:after {
   content: '';
   display: table;
@@ -375,7 +387,72 @@ h1 {
   font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
 /* line 32, ../sass/app/_taskitem.scss */
-.app-taskitem__importance {
+.app-taskitem__body {
+  width: 100%;
+}
+/* line 61, ../sass/core/_objects.scss */
+.app-taskitem__body::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+/* line 36, ../sass/app/_taskitem.scss */
+.app-taskitem__body__section {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.25rem 0;
+}
+/* line 41, ../sass/app/_taskitem.scss */
+.app-taskitem__body__section--duration {
+  width: 25%;
+}
+/* line 46, ../sass/app/_taskitem.scss */
+.app-taskitem__body__heading {
+  font: bold 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+}
+/* line 50, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content {
+  box-sizing: border-box;
+  width: 100%;
+  font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  color: #969696;
+  padding: 0 0.25rem;
+}
+/* line 61, ../sass/core/_objects.scss */
+.app-taskitem__body__content::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+/* line 57, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content[disabled] {
+  background: #fafafa;
+  color: #969696;
+  border: none;
+}
+/* line 63, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--duration-hour, .app-taskitem__body__content--duration-minute {
+  width: 2rem;
+  text-align: right;
+  float: left;
+  display: inline-block;
+  vertical-align: bottom;
+}
+/* line 70, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--duration-hour-label, .app-taskitem__body__content--duration-minute-label {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 1rem;
+  padding: 0;
+  float: left;
+}
+/* line 81, ../sass/app/_taskitem.scss */
+.app-taskitem__body__description {
+  width: 100%;
+  padding: 0.5rem 0;
+}
+/* line 104, ../sass/app/_taskitem.scss */
+.app-taskitem__priority {
   position: absolute;
   z-index: 5;
   top: 0;
@@ -387,26 +464,26 @@ h1 {
   font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: center;
 }
-/* line 44, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--rankzero::before {
+/* line 116, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--rankzero::before {
   content: '-';
 }
-/* line 48, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--rankone::before {
+/* line 120, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--rankone::before {
   content: '!';
   color: #ff8c89;
 }
-/* line 53, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--ranktwo::before {
+/* line 125, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--ranktwo::before {
   content: '!!';
   color: #ff8c89;
 }
-/* line 58, ../sass/app/_taskitem.scss */
-.app-taskitem__importance--rankthree::before {
+/* line 130, ../sass/app/_taskitem.scss */
+.app-taskitem__priority--rankthree::before {
   content: '!!!';
   color: #ff8c89;
 }
-/* line 65, ../sass/app/_taskitem.scss */
+/* line 137, ../sass/app/_taskitem.scss */
 .app-taskitem__chevron {
   position: absolute;
   z-index: 5;
@@ -420,7 +497,7 @@ h1 {
   text-align: center;
   cursor: pointer;
 }
-/* line 79, ../sass/app/_taskitem.scss */
+/* line 151, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -443,7 +520,7 @@ h1 {
   display: table;
   clear: both;
 }
-/* line 95, ../sass/app/_taskitem.scss */
+/* line 167, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -459,11 +536,11 @@ h1 {
   border: none !important;
   cursor: pointer;
 }
-/* line 106, ../sass/app/_taskitem.scss */
+/* line 178, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button:hover {
   color: #bcbcbc;
 }
-/* line 112, ../sass/app/_taskitem.scss */
+/* line 184, ../sass/app/_taskitem.scss */
 .app-taskitem:hover .app-taskitem__quick-actions {
   opacity: 1;
 }
