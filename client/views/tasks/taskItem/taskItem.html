@@ -1,0 +1,44 @@
+<template name="taskItem">
+
+  <div class="app-taskitem" data-id="{{_id}}">
+    <div class="app-taskitem__quick-actions">
+      <div data-active="{{isDone}}"
+           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--done ion-checkmark"></div>
+      <div data-active="{{isInProgress}}"
+           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--start ion-play"></div>
+      <div data-active="{{isDelayed}}"
+           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--delay ion-clock"></div>
+    </div>
+
+    <div class="app-taskitem__priority app-taskitem__priority--{{rank}}"></div>
+
+    <div class="app-taskitem__container">
+
+      <div class="app-taskitem__head">
+        <div class="app-taskitem__head__title">{{title}}</div>
+        <div class="app-taskitem__head__description">{{shortDescription}}</div>
+      </div>
+
+      {{#if expanded}}
+        <div class="app-taskitem__body">
+          <div class="app-taskitem__body__section app-taskitem__body__section--description">
+            <div class="app-taskitem__body__heading">Description</div>
+            <textarea class="app-taskitem__body__content" rows="3" disabled>{{description}}</textarea>
+          </div>
+
+          <div class="app-taskitem__body__section app-taskitem__body__section--duration">
+            <div class="app-taskitem__body__heading">Duration</div>
+            <input class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="{{hoursRemaining}}" disabled />
+            <span class="app-taskitem__body__content app-taskitem__body__content--duration-hour-label">h</span>
+            <input class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="{{minutesRemaining}}" disabled />
+            <span class="app-taskitem__body__content app-taskitem__body__content--duration-minute-label">m</span>
+          </div>
+        </div>
+      {{/if}}
+
+    </div>
+
+    <div class="app-taskitem__chevron ion-chevron-down"></div>
+  </div>
+
+</template>
