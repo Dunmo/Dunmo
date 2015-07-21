@@ -181,6 +181,24 @@ Users.helpers({
     return Tasks.advancedSort(this.fetchTasks(selector, options));
   },
 
+  doneTasks: function (selector, options) {
+    selector = _.extend({}, { isDone: true }, selector);
+    return this.tasks(selector, options);
+  },
+
+  fetchDoneTasks: function (selector, options) {
+    return this.doneTasks(selector, options).fetch();
+  },
+
+  removedTasks: function (selector, options) {
+    selector = _.extend({}, { isRemoved: true }, selector);
+    return this.tasks(selector, options);
+  },
+
+  fetchRemovedTasks: function (selector, options) {
+    return this.removedTasks(selector, options).fetch();
+  },
+
   todos: function (selector, options) {
     selector = _.extend({}, { isDone: { $ne: true } }, selector);
     return this.tasks(selector, options);
