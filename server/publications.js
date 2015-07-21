@@ -3,12 +3,11 @@
 var allClients = null;
 
 Meteor.publish(allClients, function () {
-  var currentUser  = Users.find({ _id:     this.userId });
-  var calendars    = Calendars   .find({ ownerId: this.userId });
-  var events       = Events      .find({ ownerId: this.userId });
-  var projects     = Projects    .find({ ownerId: this.userId });
-  var tasks        = Tasks       .find({ ownerId: this.userId });
-  var taskComments = TaskComments.find({ ownerId: this.userId });
-  var userSettings = UserSettings.find({ userId:  this.userId });
-  return [currentUser, calendars, events, projects, tasks, userSettings];
+  var userId = this.userId;
+  var publications = [];
+  publications.push(Users.find({ _id:     this.userId }));
+  [Calendars, Events, Projects, Tasks, TaskComments, UserSettings].forEach(function (collection) {
+    publications.push(collection.find({ ownerId: userId }));
+  });
+  return publications;
 });
