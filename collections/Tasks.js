@@ -58,6 +58,19 @@ Tasks.helpers(setters);
 
 Tasks.helpers({
 
+  hoursRemaining: function () {
+    return Date.hours(this.remaining);
+  },
+
+  minutesRemaining: function () {
+    return Date.minutes(this.remaining - Date.hours(this.remaining)*HOURS);
+  },
+
+  toggleDone: function (val) {
+    if(val) return this.markDone(val);
+    else    return this.markDone(!this.isDone);
+  },
+
   reParse: function (str) {
     var res = Natural.parseTask(str);
     res.inputString = str;
