@@ -12,19 +12,22 @@ Template.taskItem.helpers({
 
 Template.taskItem.events({
 
-  'click .app-taskitem__quick-actions__button--done': function () {
+  'click .app-taskitem__quick-actions__button--done': function (e) {
+    e.stopPropagation()
     this.toggleDone();
   },
 
-  'click .app-taskitem__quick-actions__button--start': function () {
+  'click .app-taskitem__quick-actions__button--start': function (e) {
+    e.stopPropagation()
     // start the timer
   },
 
-  'click .app-taskitem__quick-actions__button--delay': function () {
+  'click .app-taskitem__quick-actions__button--delay': function (e) {
+    e.stopPropagation()
     // show delay options popup
   },
 
-  'click .app-taskitem__quick-actions': function () {
+  'click .app-taskitem__quick-actions, click .app-taskitem__chevron': function () {
     if(Session.get('currently-expanded-task') === this._id) {
       Session.set('currently-expanded-task', '');
     } else {
