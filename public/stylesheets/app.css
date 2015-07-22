@@ -115,12 +115,17 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* line 43, ../sass/core/_common.scss */
+/* line 42, ../sass/core/_common.scss */
+input[type=date]::-webkit-inner-spin-button {
+  display: none;
+}
+
+/* line 46, ../sass/core/_common.scss */
 .display-none {
   display: none;
 }
 
-/* line 45, ../sass/core/_common.scss */
+/* line 48, ../sass/core/_common.scss */
 .group:after {
   content: '';
   display: table;
@@ -388,31 +393,43 @@ input[type=number]::-webkit-outer-spin-button {
 }
 /* line 32, ../sass/app/_taskitem.scss */
 .app-taskitem__body {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
   width: 100%;
-}
-/* line 61, ../sass/core/_objects.scss */
-.app-taskitem__body::after {
-  content: '';
-  display: table;
-  clear: both;
 }
 /* line 36, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section {
+  position: relative;
   box-sizing: border-box;
   width: 100%;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.5rem;
+  float: none;
 }
-/* line 41, ../sass/app/_taskitem.scss */
+/* line 43, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section--duration {
   width: 25%;
+  min-width: 8rem;
+  float: left;
 }
-/* line 46, ../sass/app/_taskitem.scss */
+/* line 49, ../sass/app/_taskitem.scss */
+.app-taskitem__body__section--due {
+  width: 30%;
+  float: left;
+}
+/* line 54, ../sass/app/_taskitem.scss */
+.app-taskitem__body__section--importance {
+  width: 45%;
+  float: left;
+}
+/* line 60, ../sass/app/_taskitem.scss */
 .app-taskitem__body__heading {
   font: bold 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
-/* line 50, ../sass/app/_taskitem.scss */
+/* line 64, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content {
-  box-sizing: border-box;
+  position: relative;
+  box-sizing: border-box !important;
   width: 100%;
   font: 1rem/1.25rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   color: #969696;
@@ -424,35 +441,91 @@ input[type=number]::-webkit-outer-spin-button {
   display: table;
   clear: both;
 }
-/* line 57, ../sass/app/_taskitem.scss */
+/* line 72, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content[disabled] {
   background: #fafafa;
   color: #969696;
   border: none;
 }
-/* line 63, ../sass/app/_taskitem.scss */
+/* line 78, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--duration-hour, .app-taskitem__body__content--duration-minute {
+  height: 1.5rem;
   width: 2rem;
   text-align: right;
-  float: left;
   display: inline-block;
-  vertical-align: bottom;
 }
-/* line 70, ../sass/app/_taskitem.scss */
+/* line 86, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--duration-hour-label, .app-taskitem__body__content--duration-minute-label {
   display: inline-block;
-  vertical-align: bottom;
-  width: 1rem;
-  padding: 0;
-  float: left;
+  width: 1.5rem;
+  line-height: 1.5rem;
 }
-/* line 81, ../sass/app/_taskitem.scss */
+/* line 96, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--due {
+  height: 1.5rem;
+}
+/* line 101, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance label {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  height: 1.5rem;
+  width: 25%;
+  float: left;
+  font: 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
+  text-align: center;
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #e1e1e1;
+}
+/* line 114, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance label:nth-of-type(2n) {
+  border: 1px solid #e1e1e1;
+}
+/* line 117, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance label:first-of-type {
+  border-radius: 0.25rem 0 0 0.25rem;
+  border-left: 1px solid #e1e1e1;
+}
+/* line 121, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance label:last-of-type {
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+/* line 124, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance label.active {
+  font-weight: bold;
+  background: #969696;
+  color: #fafafa;
+}
+/* line 130, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance .group {
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 0.25rem;
+  opacity: 0 !important;
+}
+/* line 139, ../sass/app/_taskitem.scss */
+.app-taskitem__body__content--importance input {
+  width: 25%;
+  float: left;
+  margin: 0;
+  padding: 0;
+  height: 1.5rem;
+  cursor: pointer;
+}
+/* line 151, ../sass/app/_taskitem.scss */
 .app-taskitem__body__description {
   width: 100%;
   padding: 0.5rem 0;
 }
-/* line 104, ../sass/app/_taskitem.scss */
-.app-taskitem__priority {
+/* line 174, ../sass/app/_taskitem.scss */
+.app-taskitem__importance {
   position: absolute;
   z-index: 5;
   top: 0;
@@ -464,26 +537,26 @@ input[type=number]::-webkit-outer-spin-button {
   font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: center;
 }
-/* line 116, ../sass/app/_taskitem.scss */
-.app-taskitem__priority--rankzero::before {
+/* line 186, ../sass/app/_taskitem.scss */
+.app-taskitem__importance--rankzero::before {
   content: '-';
 }
-/* line 120, ../sass/app/_taskitem.scss */
-.app-taskitem__priority--rankone::before {
+/* line 190, ../sass/app/_taskitem.scss */
+.app-taskitem__importance--rankone::before {
   content: '!';
   color: #ff8c89;
 }
-/* line 125, ../sass/app/_taskitem.scss */
-.app-taskitem__priority--ranktwo::before {
+/* line 195, ../sass/app/_taskitem.scss */
+.app-taskitem__importance--ranktwo::before {
   content: '!!';
   color: #ff8c89;
 }
-/* line 130, ../sass/app/_taskitem.scss */
-.app-taskitem__priority--rankthree::before {
+/* line 200, ../sass/app/_taskitem.scss */
+.app-taskitem__importance--rankthree::before {
   content: '!!!';
   color: #ff8c89;
 }
-/* line 137, ../sass/app/_taskitem.scss */
+/* line 207, ../sass/app/_taskitem.scss */
 .app-taskitem__chevron {
   position: absolute;
   z-index: 5;
@@ -497,7 +570,7 @@ input[type=number]::-webkit-outer-spin-button {
   text-align: center;
   cursor: pointer;
 }
-/* line 151, ../sass/app/_taskitem.scss */
+/* line 221, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -520,7 +593,7 @@ input[type=number]::-webkit-outer-spin-button {
   display: table;
   clear: both;
 }
-/* line 167, ../sass/app/_taskitem.scss */
+/* line 237, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -536,11 +609,11 @@ input[type=number]::-webkit-outer-spin-button {
   border: none !important;
   cursor: pointer;
 }
-/* line 178, ../sass/app/_taskitem.scss */
+/* line 248, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button:hover {
   color: #bcbcbc;
 }
-/* line 184, ../sass/app/_taskitem.scss */
+/* line 254, ../sass/app/_taskitem.scss */
 .app-taskitem:hover .app-taskitem__quick-actions {
   opacity: 1;
 }

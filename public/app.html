@@ -80,7 +80,7 @@
                     <div class="app-taskitem__quick-actions__button ion-clock"></div>
                 </div>
 
-                <div class="app-taskitem__priority app-taskitem__priority--rankzero"></div>
+                <div class="app-taskitem__importance app-taskitem__importance--rankzero"></div>
                 
                 <div class="app-taskitem__container">
 
@@ -97,12 +97,37 @@
                             <textarea class="app-taskitem__body__content" rows="3" disabled>Odd Future flannel heirloom forage hella, chillwave Vice roof party. Godard disrupt aesthetic next level biodiesel. Trust fund blog PBR kale chips YOLO. Odd Future meditation McSweeney's street art blog organic, heirloom VHS tilde fixie YOLO Wes Anderson keytar Godard.</textarea>
                         </div>
 
-                        <div class="app-taskitem__body__section app-taskitem__body__section--duration">
-                            <div class="app-taskitem__body__heading">Duration</div>
-                            <input class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="1" disabled />
-                            <span class="app-taskitem__body__content app-taskitem__body__content--duration-hour-label">h</span>
-                            <input class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="1" disabled />
-                            <span class="app-taskitem__body__content app-taskitem__body__content--duration-minute-label">m</span>
+                        <div class="group">
+                            <div class="app-taskitem__body__section app-taskitem__body__section--duration">
+                                <div class="app-taskitem__body__heading">Duration</div>
+                                <input class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="1" disabled /><label class="app-taskitem__body__content app-taskitem__body__content--duration-hour-label">h</label><!--
+                                --><input class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="30" disabled /><label class="app-taskitem__body__content app-taskitem__body__content--duration-minute-label">m</label>
+                            </div>
+
+                            <div class="app-taskitem__body__section app-taskitem__body__section--due">
+                                <div class="app-taskitem__body__heading">Due</div>
+                                <input class="app-taskitem__body__content app-taskitem__body__content--due" type="date" />
+                            </div>
+
+                            <div class="app-taskitem__body__section app-taskitem__body__section--importance">
+                                <div class="app-taskitem__body__heading">Importance</div>
+                                <div class="app-taskitem__body__content app-taskitem__body__content--importance">
+                                    <label class="active">-</label>
+                                    <label>!</label>
+                                    <label>!!</label>
+                                    <label>!!!</label>
+                                    <div class="group">
+                                        <input class="input-importance" type="radio" value="0" name="importance" data-importance="0" />
+                                        <input class="input-importance" type="radio" value="1" name="importance" data-importance="1" />
+                                        <input class="input-importance" type="radio" value="2" name="importance" data-importance="2" />
+                                        <input class="input-importance" type="radio" value="3" name="importance" data-importance="3" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="app-taskitem__body__section app-taskitem__body__section--tags">
+                            <div class="app-taskitem__body__heading">Tags</div>
                         </div>
 
                     </div>
@@ -121,7 +146,7 @@
                     <div class="app-taskitem__quick-actions__button ion-clock"></div>
                 </div>
 
-                <div class="app-taskitem__priority app-taskitem__priority--rankthree"></div>
+                <div class="app-taskitem__importance app-taskitem__importance--rankthree"></div>
 
                 <div class="app-taskitem__container">
 
@@ -166,6 +191,12 @@
 
         $('.app-taskitem__chevron').click(function () {
             $(this).toggleClass('ion-chevron-up ion-chevron-down');
+        })
+
+        $('.input-importance').click(function () {
+            var rank = $(this).data('importance');
+            $(this).parent().parent().children('label').removeClass('active');
+            $(this).parent().parent().children('label').eq(rank).addClass('active');
         })
 
 

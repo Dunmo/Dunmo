@@ -30,16 +30,30 @@
     }
 
     &__body {
-        @include clearfix;
-        width: 100%;
+        //@include clearfix;
+        @include block;
 
         &__section {
+            position: relative;
             box-sizing: border-box;
             width: 100%;
-            padding: 0.25rem 0;
+            padding: 0.25rem 0.5rem;
+            float: none;
 
             &--duration {
                 width: 25%;
+                min-width: 8rem;
+                float: left;
+            }
+
+            &--due {
+                width: 30%;
+                float: left;
+            }
+
+            &--importance {
+                width: 45%;
+                float: left;
             }
         }
 
@@ -49,7 +63,8 @@
 
         &__content {
             @include clearfix;
-            box-sizing: border-box;
+            position: relative;
+            box-sizing: border-box !important;
             width: 100%;
             font: 1rem/1.25rem $sans-serif;
             color: $grey;
@@ -62,17 +77,72 @@
 
             &--duration-hour,
             &--duration-minute {
+                height: 1.5rem;
                 width: 2rem;
                 text-align: right;
-                float: left;
-                    display: inline-block;
-                    vertical-align: bottom;
+                //float: left;
+                display: inline-block;
+                    //vertical-align: bottom;
                 &-label {
                     display: inline-block;
-                    vertical-align: bottom;
-                    width: 1rem;
+                    //vertical-align: bottom;
+                    width: 1.5rem;
+                    line-height: 1.5rem;
+                    //padding: 0 0.25rem;
+                    //float: left;
+                }
+            }
+
+            &--due {
+                height: 1.5rem;
+            }
+
+            &--importance {
+                label {
+                    $importance-label-border-color: darken($white,10%);
+                    @include transition(all 0.25s ease-in-out);
+                    box-sizing: border-box;
+                    margin: 0;
                     padding: 0;
+                    height: 1.5rem;
+                    width: 25%;
                     float: left;
+                    font: 1rem/1.5rem $sans-serif;
+                    text-align: center;
+                    border-top: 1px solid $importance-label-border-color;
+                    border-bottom: 1px solid $importance-label-border-color;
+                    &:nth-of-type(2n) {
+                        border: 1px solid $importance-label-border-color;
+                    }
+                    &:first-of-type {
+                        border-radius: 0.25rem 0 0 0.25rem;
+                        border-left: 1px solid $importance-label-border-color;
+                    }
+                    &:last-of-type {
+                        border-radius: 0 0.25rem 0.25rem 0;
+                    }
+                    &.active {
+                        font-weight: bold;
+                        background: $grey;
+                        color: $white;
+                    }
+                }
+                .group {
+                    box-sizing: border-box;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 0 0.25rem;
+                    opacity: 0 !important;
+                }
+                input {
+                    width: 25%;
+                    float: left;
+                    margin: 0;
+                    padding: 0;
+                    height: 1.5rem;
+                    cursor: pointer;
                 }
             }
 
@@ -101,7 +171,7 @@
 
     }
 
-    &__priority {
+    &__importance {
         position: absolute;
         z-index: 5;
         top: 0;
