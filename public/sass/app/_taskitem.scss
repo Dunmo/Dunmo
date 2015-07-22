@@ -32,12 +32,13 @@
     &__body {
         //@include clearfix;
         @include block;
+        min-height: 16rem;
 
         &__section {
             position: relative;
             box-sizing: border-box;
             width: 100%;
-            padding: 0.25rem 0.5rem;
+            padding: 0.5rem 0.5rem;
             float: none;
 
             &--duration {
@@ -148,25 +149,31 @@
 
         }
 
-        &__description {
-            width: 100%;
-            padding: 0.5rem 0;
-        }
+    }
 
-        &__duration {
+    &__actions {
+        position: absolute;
+        top: 0;
+        left: -4rem;
+        box-sizing: border-box;
+        width: 3rem;
+        margin: 0 0.5rem;
+        //font: 1rem/3rem $icons;
 
-        }
-
-        &__due {
-
-        }
-
-        &__importance {
-
-        }
-
-        &__tags {
-
+        &__button {
+            @include transition(all 0.25s ease-in-out);
+            box-sizing: border-box;
+            width: 3rem;
+            height: 3rem;
+            margin: 0.25rem 0;
+            //float: left;
+            font: 1.5rem/3rem $icons;
+            text-align: center;
+            border: none !important;
+            cursor: pointer;
+            &:hover {
+                color: lighten($grey,15%);
+            }
         }
 
     }
