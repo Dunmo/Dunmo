@@ -18,8 +18,14 @@
         height: 4rem;
 
         &__title {
+            @include transition(all 0.25s ease-in-out);
             height: 2rem;
             font: 1.5rem/2rem $sans-serif;
+
+            &.expanded {
+                line-height: 4rem;
+            }
+
         }
 
         &__description {
@@ -33,6 +39,7 @@
         //@include clearfix;
         @include block;
         min-height: 16rem;
+        display: none;
 
         &__section {
             position: relative;
@@ -241,6 +248,10 @@
         background: $white;//rgba($grey,0.75);
         opacity: 0;
 
+        &:hover {
+            opacity: 1;
+        }
+
         &__button {
             @include transition(all 0.25s ease-in-out);
             box-sizing: border-box;
@@ -259,7 +270,7 @@
 
     }
     &:hover &__quick-actions {
-        opacity: 1;
+        //opacity: 1;
     }
 
     &--expanded {

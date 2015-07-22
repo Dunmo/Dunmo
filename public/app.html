@@ -199,13 +199,21 @@
         })
 
         $('.app-taskitem__chevron').click(function () {
-            $(this).toggleClass('ion-chevron-up ion-chevron-down');
+            //$(this).toggleClass('ion-chevron-up ion-chevron-down');
         })
 
         $('.input-importance').click(function () {
             var rank = $(this).data('importance');
             $(this).parent().parent().children('label').removeClass('active');
             $(this).parent().parent().children('label').eq(rank).addClass('active');
+        })
+
+        $('.app-taskitem__chevron').click(function () {
+            $(this).parent().children('.app-taskitem__container').children('.app-taskitem__body').fadeToggle();
+            $(this).parent().children('.app-taskitem__container').children('.app-taskitem__head').children('.app-taskitem__head__title').toggleClass('expanded');
+            $(this).parent().children('.app-taskitem__container').children('.app-taskitem__head').children('.app-taskitem__head__description').fadeToggle();
+            $(this).parent().children('.app-taskitem__quick-actions').toggle();
+            $(this).toggleClass('ion-chevron-up ion-chevron-down');
         })
 
 

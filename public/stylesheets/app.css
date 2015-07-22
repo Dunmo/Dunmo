@@ -383,23 +383,32 @@ input[type=date]::-webkit-inner-spin-button {
 }
 /* line 20, ../sass/app/_taskitem.scss */
 .app-taskitem__head__title {
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
   height: 2rem;
   font: 1.5rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
 /* line 25, ../sass/app/_taskitem.scss */
+.app-taskitem__head__title.expanded {
+  line-height: 4rem;
+}
+/* line 31, ../sass/app/_taskitem.scss */
 .app-taskitem__head__description {
   height: 2rem;
   font: 1rem/2rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
-/* line 32, ../sass/app/_taskitem.scss */
+/* line 38, ../sass/app/_taskitem.scss */
 .app-taskitem__body {
   position: relative;
   box-sizing: border-box;
   height: auto;
   width: 100%;
   min-height: 16rem;
+  display: none;
 }
-/* line 37, ../sass/app/_taskitem.scss */
+/* line 44, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section {
   position: relative;
   box-sizing: border-box;
@@ -407,27 +416,27 @@ input[type=date]::-webkit-inner-spin-button {
   padding: 0.5rem 0.5rem;
   float: none;
 }
-/* line 44, ../sass/app/_taskitem.scss */
+/* line 51, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section--duration {
   width: 25%;
   min-width: 8rem;
   float: left;
 }
-/* line 50, ../sass/app/_taskitem.scss */
+/* line 57, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section--due {
   width: 30%;
   float: left;
 }
-/* line 55, ../sass/app/_taskitem.scss */
+/* line 62, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section--importance {
   width: 45%;
   float: left;
 }
-/* line 61, ../sass/app/_taskitem.scss */
+/* line 68, ../sass/app/_taskitem.scss */
 .app-taskitem__body__heading {
   font: bold 1rem/1.5rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
 }
-/* line 65, ../sass/app/_taskitem.scss */
+/* line 72, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content {
   position: relative;
   box-sizing: border-box !important;
@@ -442,30 +451,30 @@ input[type=date]::-webkit-inner-spin-button {
   display: table;
   clear: both;
 }
-/* line 73, ../sass/app/_taskitem.scss */
+/* line 80, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content[disabled] {
   background: #fafafa;
   color: #969696;
   border: none;
 }
-/* line 79, ../sass/app/_taskitem.scss */
+/* line 86, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--duration-hour, .app-taskitem__body__content--duration-minute {
   height: 1.5rem;
   width: 2rem;
   text-align: right;
   display: inline-block;
 }
-/* line 87, ../sass/app/_taskitem.scss */
+/* line 94, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--duration-hour-label, .app-taskitem__body__content--duration-minute-label {
   display: inline-block;
   width: 1.5rem;
   line-height: 1.5rem;
 }
-/* line 97, ../sass/app/_taskitem.scss */
+/* line 104, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--due {
   height: 1.5rem;
 }
-/* line 102, ../sass/app/_taskitem.scss */
+/* line 109, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance label {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -482,26 +491,26 @@ input[type=date]::-webkit-inner-spin-button {
   border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #e1e1e1;
 }
-/* line 115, ../sass/app/_taskitem.scss */
+/* line 122, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance label:nth-of-type(2n) {
   border: 1px solid #e1e1e1;
 }
-/* line 118, ../sass/app/_taskitem.scss */
+/* line 125, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance label:first-of-type {
   border-radius: 0.25rem 0 0 0.25rem;
   border-left: 1px solid #e1e1e1;
 }
-/* line 122, ../sass/app/_taskitem.scss */
+/* line 129, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance label:last-of-type {
   border-radius: 0 0.25rem 0.25rem 0;
 }
-/* line 125, ../sass/app/_taskitem.scss */
+/* line 132, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance label.active {
   font-weight: bold;
   background: #969696;
   color: #fafafa;
 }
-/* line 131, ../sass/app/_taskitem.scss */
+/* line 138, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance .group {
   box-sizing: border-box;
   width: 100%;
@@ -511,7 +520,7 @@ input[type=date]::-webkit-inner-spin-button {
   padding: 0 0.25rem;
   opacity: 0 !important;
 }
-/* line 140, ../sass/app/_taskitem.scss */
+/* line 147, ../sass/app/_taskitem.scss */
 .app-taskitem__body__content--importance input {
   width: 25%;
   float: left;
@@ -520,7 +529,7 @@ input[type=date]::-webkit-inner-spin-button {
   height: 1.5rem;
   cursor: pointer;
 }
-/* line 154, ../sass/app/_taskitem.scss */
+/* line 161, ../sass/app/_taskitem.scss */
 .app-taskitem__actions {
   position: absolute;
   top: 0;
@@ -529,7 +538,7 @@ input[type=date]::-webkit-inner-spin-button {
   width: 3rem;
   margin: 0 0.5rem;
 }
-/* line 163, ../sass/app/_taskitem.scss */
+/* line 170, ../sass/app/_taskitem.scss */
 .app-taskitem__actions__button {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -544,11 +553,11 @@ input[type=date]::-webkit-inner-spin-button {
   border: none !important;
   cursor: pointer;
 }
-/* line 174, ../sass/app/_taskitem.scss */
+/* line 181, ../sass/app/_taskitem.scss */
 .app-taskitem__actions__button:hover {
   color: #bcbcbc;
 }
-/* line 181, ../sass/app/_taskitem.scss */
+/* line 188, ../sass/app/_taskitem.scss */
 .app-taskitem__importance {
   position: absolute;
   z-index: 5;
@@ -561,26 +570,26 @@ input[type=date]::-webkit-inner-spin-button {
   font: 2rem/3rem "Cantarell", "Helvetica", "Tahoma", sans-serif;
   text-align: center;
 }
-/* line 193, ../sass/app/_taskitem.scss */
+/* line 200, ../sass/app/_taskitem.scss */
 .app-taskitem__importance--rankzero::before {
   content: '-';
 }
-/* line 197, ../sass/app/_taskitem.scss */
+/* line 204, ../sass/app/_taskitem.scss */
 .app-taskitem__importance--rankone::before {
   content: '!';
   color: #ff8c89;
 }
-/* line 202, ../sass/app/_taskitem.scss */
+/* line 209, ../sass/app/_taskitem.scss */
 .app-taskitem__importance--ranktwo::before {
   content: '!!';
   color: #ff8c89;
 }
-/* line 207, ../sass/app/_taskitem.scss */
+/* line 214, ../sass/app/_taskitem.scss */
 .app-taskitem__importance--rankthree::before {
   content: '!!!';
   color: #ff8c89;
 }
-/* line 214, ../sass/app/_taskitem.scss */
+/* line 221, ../sass/app/_taskitem.scss */
 .app-taskitem__chevron {
   position: absolute;
   z-index: 5;
@@ -594,7 +603,7 @@ input[type=date]::-webkit-inner-spin-button {
   text-align: center;
   cursor: pointer;
 }
-/* line 228, ../sass/app/_taskitem.scss */
+/* line 235, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -617,7 +626,11 @@ input[type=date]::-webkit-inner-spin-button {
   display: table;
   clear: both;
 }
-/* line 244, ../sass/app/_taskitem.scss */
+/* line 251, ../sass/app/_taskitem.scss */
+.app-taskitem__quick-actions:hover {
+  opacity: 1;
+}
+/* line 255, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button {
   -moz-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
@@ -633,13 +646,9 @@ input[type=date]::-webkit-inner-spin-button {
   border: none !important;
   cursor: pointer;
 }
-/* line 255, ../sass/app/_taskitem.scss */
+/* line 266, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button:hover {
   color: #bcbcbc;
-}
-/* line 261, ../sass/app/_taskitem.scss */
-.app-taskitem:hover .app-taskitem__quick-actions {
-  opacity: 1;
 }
 
 /* line 1, ../sass/dev/_experimental.scss */
