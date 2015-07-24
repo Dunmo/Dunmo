@@ -18,8 +18,14 @@
         height: 4rem;
 
         &__title {
+            @include transition(all 0.25s ease-in-out);
             height: 2rem;
             font: 1.5rem/2rem $sans-serif;
+
+            &.expanded {
+                line-height: 4rem;
+            }
+
         }
 
         &__description {
@@ -30,16 +36,32 @@
     }
 
     &__body {
-        @include clearfix;
-        width: 100%;
+        //@include clearfix;
+        @include block;
+        min-height: 16rem;
+        display: none;
 
         &__section {
+            position: relative;
             box-sizing: border-box;
             width: 100%;
-            padding: 0.25rem 0;
+            padding: 0.5rem 0.5rem;
+            float: none;
 
             &--duration {
                 width: 25%;
+                min-width: 8rem;
+                float: left;
+            }
+
+            &--due {
+                width: 30%;
+                float: left;
+            }
+
+            &--importance {
+                width: 45%;
+                float: left;
             }
         }
 
@@ -49,7 +71,8 @@
 
         &__content {
             @include clearfix;
-            box-sizing: border-box;
+            position: relative;
+            box-sizing: border-box !important;
             width: 100%;
             font: 1rem/1.25rem $sans-serif;
             color: $grey;
@@ -62,46 +85,107 @@
 
             &--duration-hour,
             &--duration-minute {
+                height: 1.5rem;
                 width: 2rem;
                 text-align: right;
-                float: left;
-                    display: inline-block;
-                    vertical-align: bottom;
+                //float: left;
+                display: inline-block;
+                    //vertical-align: bottom;
                 &-label {
                     display: inline-block;
-                    vertical-align: bottom;
-                    width: 1rem;
+                    //vertical-align: bottom;
+                    width: 1.5rem;
+                    line-height: 1.5rem;
+                    //padding: 0 0.25rem;
+                    //float: left;
+                }
+            }
+
+            &--due {
+                height: 1.5rem;
+            }
+
+            &--importance {
+                label {
+                    $importance-label-border-color: darken($white,10%);
+                    @include transition(all 0.25s ease-in-out);
+                    box-sizing: border-box;
+                    margin: 0;
                     padding: 0;
+                    height: 1.5rem;
+                    width: 25%;
                     float: left;
+                    font: 1rem/1.5rem $sans-serif;
+                    text-align: center;
+                    border-top: 1px solid $importance-label-border-color;
+                    border-bottom: 1px solid $importance-label-border-color;
+                    &:nth-of-type(2n) {
+                        border: 1px solid $importance-label-border-color;
+                    }
+                    &:first-of-type {
+                        border-radius: 0.25rem 0 0 0.25rem;
+                        border-left: 1px solid $importance-label-border-color;
+                    }
+                    &:last-of-type {
+                        border-radius: 0 0.25rem 0.25rem 0;
+                    }
+                    &.active {
+                        font-weight: bold;
+                        background: $grey;
+                        color: $white;
+                    }
+                }
+                .group {
+                    box-sizing: border-box;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 0 0.25rem;
+                    opacity: 0 !important;
+                }
+                input {
+                    width: 25%;
+                    float: left;
+                    margin: 0;
+                    padding: 0;
+                    height: 1.5rem;
+                    cursor: pointer;
                 }
             }
 
         }
 
-        &__description {
-            width: 100%;
-            padding: 0.5rem 0;
-        }
+    }
 
-        &__duration {
+    &__actions {
+        position: absolute;
+        top: 0;
+        left: -4rem;
+        box-sizing: border-box;
+        width: 3rem;
+        margin: 0 0.5rem;
+        //font: 1rem/3rem $icons;
 
-        }
-
-        &__due {
-
-        }
-
-        &__importance {
-
-        }
-
-        &__tags {
-
+        &__button {
+            @include transition(all 0.25s ease-in-out);
+            box-sizing: border-box;
+            width: 3rem;
+            height: 3rem;
+            margin: 0.25rem 0;
+            //float: left;
+            font: 1.5rem/3rem $icons;
+            text-align: center;
+            border: none !important;
+            cursor: pointer;
+            &:hover {
+                color: lighten($grey,15%);
+            }
         }
 
     }
 
-    &__priority {
+    &__importance {
         position: absolute;
         z-index: 5;
         top: 0;
@@ -164,6 +248,10 @@
         background: $white;//rgba($grey,0.75);
         opacity: 0;
 
+        &:hover {
+            opacity: 1;
+        }
+
         &__button {
             @include transition(all 0.25s ease-in-out);
             box-sizing: border-box;
@@ -182,7 +270,7 @@
 
     }
     &:hover &__quick-actions {
-        opacity: 1;
+        //opacity: 1;
     }
 
     &--expanded {

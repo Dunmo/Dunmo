@@ -115,12 +115,17 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* line 43, ../sass/core/_common.scss */
+/* line 42, ../sass/core/_common.scss */
+input[type=date]::-webkit-inner-spin-button {
+  display: none;
+}
+
+/* line 46, ../sass/core/_common.scss */
 .display-none {
   display: none;
 }
 
-/* line 45, ../sass/core/_common.scss */
+/* line 48, ../sass/core/_common.scss */
 .group:after, .landing-features:after {
   content: '';
   display: table;

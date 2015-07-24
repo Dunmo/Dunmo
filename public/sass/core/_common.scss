@@ -39,6 +39,9 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none; 
     margin: 0; 
 }
+input[type=date]::-webkit-inner-spin-button {
+    display: none;
+}
 
 .display-none { display: none; }
 
