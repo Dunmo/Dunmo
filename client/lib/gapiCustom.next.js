@@ -10,27 +10,51 @@ gapi.AUTH_PARAMS = {
   immediate: true
 };
 
-gapi.onAuth = function (callback) {
-  if(gapi.isAuthed && gapi.client.calendarIsLoaded) {
-    callback();
-  } else if(gapi.isAuthed) {
-    gapi.client.load('calendar', 'v3', callback);
-  } else {
-    _onauth = function () {
-      if(!gapi.auth) window.setTimeout(_onauth, 1);
-      else {
-        gapi.auth.authorize(gapi.AUTH_PARAMS, function(authResult) {
-          if(authResult) {
-            gapi.isAuthed = true;
-            gapi.client.load('calendar', 'v3', callback);
-            gapi.client.calendarIsLoaded = true;
-          }
-        });
-      }
-    };
-    _onauth();
-  }
+gapi.loadClient = (module, version) => {
+  return new Promise((resolve, reject) => {
+    if(gapi.client.calendarIsLoaded) resolve();
+    else {
+      gapi.client.load(module, version, () => {
+        gapi.client.calendarIsLoaded = true;
+        resolve();
+      });
+    }
+  });
 };
+
+gapi.authorize = (params) => {
+  return new Promise((resolve, reject) => {
+    gapi.auth.authorize(params, (authResult) => {
+      if(authResult) {
+        gapi.isAuthed = true;
+        resolve(authResult);
+      }
+      else reject({ err: true, msg: 'gapi: auth error' });
+    });
+  });
+};
+
+gapi.authenticate = () => {
+  return new Promise((resolve, reject) => {
+    if(gapi.isAuthed && gapi.client.calendarIsLoaded) {
+      resolve();
+    } else if(gapi.isAuthed) {
+      return gapi.loadClient('calendar', 'v3');
+    } else {
+      const _onauth = function () {
+        if(!gapi.auth) window.setTimeout(_onauth, 1);
+        else {
+          return gapi.authorize(gapi.AUTH_PARAMS).then(function resolve (authResult) {
+            return gapi.loadClient('calendar', 'v3');
+          });
+        }
+      };
+      _onauth();
+    }
+  });
+};
+
+// gapi.authenticate().then(success, error);
 
 gapi.normalizeEvents = function (obj) {
   if(Array.isArray(obj)) {
@@ -68,7 +92,7 @@ gapi.findCalendar = function (selector, callback) {
 };
 
 gapi.createTaskCalendar = function (callback) {
-  gapi.onAuth(function () {
+  gapi.authenticate().then( () => {
     var request = gapi.client.calendar.calendars.insert({
       'summary': gapi.TASK_CALENDAR_NAME
     });
@@ -113,7 +137,7 @@ gapi.deleteTaskCalendar = function (callback) {
 };
 
 gapi.getCalendarList = function (callback) {
-  gapi.onAuth(function () {
+  gapi.authenticate().then( () => {
     var request = gapi.client.calendar.calendarList.list({
       'showHidden': true
     });
@@ -147,7 +171,7 @@ gapi.syncCalendars = function () {
 gapi.deleteCalendar = function (id) {
   var cal = Calendars.findOne({ googleCalendarId: id });
 
-  gapi.onAuth(function () {
+  gapi.authenticate().then( () => {
     var request = gapi.client.calendar.calendars.delete({
       'calendarId': id
     });
@@ -177,7 +201,7 @@ gapi.getEvents = function (options, callback) {
 
     events = [];
 
-    gapi.onAuth(function () {
+    gapi.authenticate().then( () => {
       var _callback = function(res) {
         if(res.items) events = events.concat(res.items);
         if(res.nextPageToken) {
@@ -228,7 +252,7 @@ gapi.getCurrentTaskEvent = function (callback) {
   max = Date.formatGoog(max);
 
   gapi.getTaskCalendar(function (cal) {
-    gapi.onAuth(function () {
+    gapi.authenticate().then( () => {
       var request = gapi.client.calendar.events.list({
         'calendarId' : cal.id,
         'timeMin'    : min,
@@ -324,7 +348,7 @@ gapi.addEventToCalendar = function (doc) {
   end = Date.formatGoog(new Date(end));
 
   gapi.getTaskCalendar(function (cal) {
-    gapi.onAuth(function () {
+    gapi.authenticate().then( () => {
       var request = gapi.client.calendar.events.insert({
         'calendarId': cal.id,
         'start': {
@@ -354,7 +378,7 @@ gapi.addEventToCalendar = function (doc) {
 
 gapi.removeEventFromCalendar = function (eventId) {
   gapi.getTaskCalendar(function (cal) {
-    gapi.onAuth(function () {
+    gapi.authenticate().then( () => {
       var request = gapi.client.calendar.events.delete({
         'calendarId' : cal.id,
         'eventId'    : eventId
@@ -380,7 +404,7 @@ gapi.getEvent = function (event, callback) {
     if(typeof event === 'object') eventId = event.googleEventId;
     else                          eventId = event;
 
-    gapi.onAuth(function () {
+    gapi.authenticate().then( () => {
       var request = gapi.client.calendar.events.get({
         'calendarId' : cal.id,
         'eventId'    : eventId
@@ -462,7 +486,7 @@ gapi.getBusytimes = function (startingFrom, callback) {
   timeMin = Date.formatGoog(new Date(timeMin));
   timeMax = Date.formatGoog(new Date(timeMax));
 
-  gapi.onAuth(function () {
+  gapi.authenticate().then( () => {
     var request = gapi.client.calendar.freebusy.query({
       'timeMin' : timeMin,
       'timeMax' : timeMax,
@@ -562,7 +586,7 @@ gapi.syncTasksWithCalendar = function () {
 
 gapi.createChannel = function () {
   gapi.getTaskCalendar(function (cal) {
-    gapi.onAuth(function () {
+    gapi.authenticate().then( () => {
       var request = gapi.client.calendar.events.watch({
         'calendarId'  : cal.id,
         'showDeleted' : true,
