@@ -58,6 +58,10 @@ Tasks.helpers(setters);
 
 Tasks.helpers({
 
+  setRemainingHrsMins: function (hrs, mins) {
+    return this.setRemaining(hrs*HOURS + mins*MINUTES);
+  },
+
   hoursRemaining: function () {
     return Date.hours(this.remaining);
   },
@@ -69,6 +73,11 @@ Tasks.helpers({
   toggleDone: function (val) {
     if(val) return this.markDone(val);
     else    return this.markDone(!this.isDone);
+  },
+
+  toggleRemoved: function (val) {
+    if(val) return this.setRemoved(val);
+    else    return this.setRemoved(!this.isRemoved);
   },
 
   reParse: function (str) {

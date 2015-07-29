@@ -21,26 +21,25 @@
       {{#if expanded}}
         <div class="app-taskitem__body">
           <div class="app-taskitem__actions">
-            <div class="app-taskitem__actions__button ion-checkmark"></div>
-            <div class="app-taskitem__actions__button ion-play"></div>
-            <div class="app-taskitem__actions__button ion-clock"></div>
-            <div class="app-taskitem__actions__button ion-edit"></div>
-            <div class="app-taskitem__actions__button ion-trash-b"></div>
+            <div class="app-taskitem__actions__button app-taskitem__actions__button--done ion-checkmark"></div>
+            <div class="app-taskitem__actions__button app-taskitem__actions__button--start ion-play"></div>
+            <div class="app-taskitem__actions__button app-taskitem__actions__button--delay ion-clock"></div>
+            <div class="app-taskitem__actions__button app-taskitem__actions__button--remove ion-trash-b"></div>
           </div>
 
           <div class="app-taskitem__body__section app-taskitem__body__section--description">
             <div class="app-taskitem__body__heading">Description</div>
-            <textarea class="app-taskitem__body__content" rows="3" disabled>{{description}}</textarea>
+            <textarea class="app-taskitem__body__content textarea-description" rows="3">{{description}}</textarea>
           </div>
 
           <div class="group">
             <div class="app-taskitem__body__section app-taskitem__body__section--duration">
               <div class="app-taskitem__body__heading">Duration</div>
 
-              <input class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="{{hoursRemaining}}" disabled />
+              <input data-field_name="hours_remaining" class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="{{hoursRemaining}}" />
               <label class="app-taskitem__body__content app-taskitem__body__content--duration-hour-label">h</label>
 
-              <input class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="{{minutesRemaining}}" disabled />
+              <input data-field_name="minutes_remaining" class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="{{minutesRemaining}}" />
               <label class="app-taskitem__body__content app-taskitem__body__content--duration-minute-label">m</label>
             </div>
 
