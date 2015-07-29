@@ -10,10 +10,9 @@
            class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--delay ion-clock"></div>
     </div>
 
-    <div class="app-taskitem__priority app-taskitem__priority--{{rank}}"></div>
+    <div class="app-taskitem__importance app-taskitem__importance--{{rank}}"></div>
 
     <div class="app-taskitem__container">
-
       <div class="app-taskitem__head">
         <div class="app-taskitem__head__title">{{title}}</div>
         <div class="app-taskitem__head__description">{{shortDescription}}</div>
@@ -21,21 +20,58 @@
 
       {{#if expanded}}
         <div class="app-taskitem__body">
+          <div class="app-taskitem__actions">
+            <div class="app-taskitem__actions__button ion-checkmark"></div>
+            <div class="app-taskitem__actions__button ion-play"></div>
+            <div class="app-taskitem__actions__button ion-clock"></div>
+            <div class="app-taskitem__actions__button ion-edit"></div>
+            <div class="app-taskitem__actions__button ion-trash-b"></div>
+          </div>
+
           <div class="app-taskitem__body__section app-taskitem__body__section--description">
             <div class="app-taskitem__body__heading">Description</div>
             <textarea class="app-taskitem__body__content" rows="3" disabled>{{description}}</textarea>
           </div>
 
-          <div class="app-taskitem__body__section app-taskitem__body__section--duration">
-            <div class="app-taskitem__body__heading">Duration</div>
-            <input class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="{{hoursRemaining}}" disabled />
-            <span class="app-taskitem__body__content app-taskitem__body__content--duration-hour-label">h</span>
-            <input class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="{{minutesRemaining}}" disabled />
-            <span class="app-taskitem__body__content app-taskitem__body__content--duration-minute-label">m</span>
-          </div>
-        </div>
-      {{/if}}
+          <div class="group">
+            <div class="app-taskitem__body__section app-taskitem__body__section--duration">
+              <div class="app-taskitem__body__heading">Duration</div>
 
+              <input class="app-taskitem__body__content app-taskitem__body__content--duration-hour" type="number" min="0" value="{{hoursRemaining}}" disabled />
+              <label class="app-taskitem__body__content app-taskitem__body__content--duration-hour-label">h</label>
+
+              <input class="app-taskitem__body__content app-taskitem__body__content--duration-minute" type="number" min="0" value="{{minutesRemaining}}" disabled />
+              <label class="app-taskitem__body__content app-taskitem__body__content--duration-minute-label">m</label>
+            </div>
+
+            <div class="app-taskitem__body__section app-taskitem__body__section--due">
+              <div class="app-taskitem__body__heading">Due</div>
+              <input class="app-taskitem__body__content app-taskitem__body__content--due" type="date" />
+            </div>
+
+            <div class="app-taskitem__body__section app-taskitem__body__section--importance">
+              <div class="app-taskitem__body__heading">Importance</div>
+              <div class="app-taskitem__body__content app-taskitem__body__content--importance">
+                <label {{impFields "0"}}>-</label>
+                <label {{impFields "1"}}>!</label>
+                <label {{impFields "2"}}>!!</label>
+                <label {{impFields "3"}}>!!!</label>
+                <div class="group">
+                  <input class="input-importance" type="radio" value="0" name="importance" data-importance="0" />
+                  <input class="input-importance" type="radio" value="1" name="importance" data-importance="1" />
+                  <input class="input-importance" type="radio" value="2" name="importance" data-importance="2" />
+                  <input class="input-importance" type="radio" value="3" name="importance" data-importance="3" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="app-taskitem__body__section app-taskitem__body__section--tags">
+            <div class="app-taskitem__body__heading">Tags</div>
+            <input class="app-taskitem__body__content" type="text" placeholder="Tags like #shopping, #homework, #cool-project" />
+          </div>
+        </div> <!-- app-taskitem__body -->
+      {{/if}}
     </div>
 
     <div class="app-taskitem__chevron ion-chevron-down"></div>

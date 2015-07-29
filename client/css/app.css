@@ -406,7 +406,6 @@ input[type=date]::-webkit-inner-spin-button {
   height: auto;
   width: 100%;
   min-height: 16rem;
-  display: none;
 }
 /* line 44, ../sass/app/_taskitem.scss */
 .app-taskitem__body__section {

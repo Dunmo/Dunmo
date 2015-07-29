@@ -6,7 +6,7 @@ Template.tasks.helpers({
       case 'completed':
         return Meteor.user().doneTasks();
       case 'trash':
-        return Meteor.user().fetchRemoved();
+        return Meteor.user().fetchRemovedTasks();
       case 'all':
       default:
         return Meteor.user().fetchSortedTodos();
