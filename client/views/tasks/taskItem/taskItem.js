@@ -73,4 +73,10 @@ Template.taskItem.events({
     this.setRemainingHrsMins(hours_remaining, minutes_remaining);
   },
 
+  'focusout .app-taskitem__body__content--due': function (e) {
+    var due_at = $(e.target).val();
+    due_at = moment(due_at)._d;
+    if(due_at.toString() !== 'Invalid Date') this.setDueAt(due_at);
+  },
+
 });

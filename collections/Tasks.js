@@ -204,10 +204,12 @@ Tasks.helpers({
 
   hasProject: function () {
     return !!this.projectId;
-  }
+  },
 
-  // dueAtString
   // needs to handle relative dates
+  dueAtString: function () {
+    return moment(this.dueAt).format('YYYY-MM-DD');
+  },
 
 });
 
