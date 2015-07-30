@@ -17,3 +17,4 @@ dunmo.sln
 *.scssc
 *.sln
 *.suo
+packages/npm-container
