@@ -191,8 +191,8 @@ Users.helpers({
   },
 
   removedTasks: function (selector, options) {
-    selector = _.extend({}, { isRemoved: true }, selector);
-    return this.tasks(selector, options);
+    selector = _.extend({}, { ownerId: this._id, isRemoved: true }, selector);
+    return Tasks.direct.find(selector, options);
   },
 
   fetchRemovedTasks: function (selector, options) {

@@ -7,7 +7,7 @@ Meteor.publish(allClients, function () {
   var publications = [];
   publications.push(Users.find({ _id:     this.userId }));
   [Calendars, Events, Projects, Tasks, TaskComments, UserSettings].forEach(function (collection) {
-    publications.push(collection.find({ ownerId: userId }));
+    publications.push(collection.findAll({ ownerId: userId }));
   });
   return publications;
 });

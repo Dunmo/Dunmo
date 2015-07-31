@@ -58,6 +58,17 @@ Tasks.helpers(setters);
 
 Tasks.helpers({
 
+  update: function (data) {
+    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
+      var self = this;
+      _.forOwn(data, function(value, key) {
+        self[key] = value;
+      });
+      data = { $set: data };
+    }
+    return Meteor.call('updateTask', this._id, data);
+  },
+
   setRemainingHrsMins: function (hrs, mins) {
     return this.setRemaining(hrs*HOURS + mins*MINUTES);
   },
@@ -76,8 +87,8 @@ Tasks.helpers({
   },
 
   toggleRemoved: function (val) {
-    if(val) return this.setRemoved(val);
-    else    return this.setRemoved(!this.isRemoved);
+    if(val !== undefined && val !== null) return this.setRemoved(val);
+    else return this.setRemoved(!this.isRemoved);
   },
 
   reParse: function (str) {
