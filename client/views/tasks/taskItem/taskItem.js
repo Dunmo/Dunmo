@@ -1,5 +1,12 @@
 
 Template.taskItem.helpers({
+  shortDescription: function () {
+    if(Session.get('currently-expanded-task') === this._id) return '';
+    if(!this.description) return ''
+    if(this.description.length < 140) return this.description;
+    else return this.description.substring(0, 140) + '...';
+  },
+
   expanded: function () {
     return Session.get('currently-expanded-task') === this._id;
   },
@@ -21,6 +28,11 @@ Template.taskItem.helpers({
     var importance = this.importance || 0;
     var isActive = (Number(imp) === importance);
     return { class: (isActive ? 'active' : '') + ' imp-label ' + 'imp-' + imp };
+  },
+
+  quickActionFields: function () {
+    var isExpanded = (Session.get('currently-expanded-task') === this._id);
+    return { style: isExpanded ? 'display: none;' : '' };
   },
 });
 
@@ -46,7 +58,7 @@ Template.taskItem.events({
     this.toggleRemoved();
   },
 
-  'click .app-taskitem__quick-actions, click .app-taskitem__chevron': function (e) {
+  'click .app-taskitem__quick-actions, click .app-taskitem__head, click .app-taskitem__chevron': function (e) {
     if(Session.get('currently-expanded-task') === this._id) {
       Session.set('currently-expanded-task', '');
     } else {
