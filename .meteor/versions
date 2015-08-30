@@ -49,6 +49,8 @@ meteorhacks:fast-render@2.9.0
 meteorhacks:flow-layout@1.4.2
 meteorhacks:flow-router@1.19.0
 meteorhacks:inject-data@1.4.0
+meteorhacks:kadira@2.23.1
+meteorhacks:meteorx@1.3.1
 meteorhacks:picker@1.0.3
 meteortoys:toykit@0.8.7
 minifiers@1.1.5
@@ -57,6 +59,7 @@ mobile-status-bar@1.0.3
 momentjs:moment@2.10.6
 mondora:connect-with@0.1.3
 mongo@1.1.0
+mongo-livedata@1.0.8
 msavin:jetsetter@1.0.20
 nemo64:bootstrap@3.3.5_2
 nemo64:bootstrap-data@3.3.5
