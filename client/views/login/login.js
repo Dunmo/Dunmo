@@ -42,7 +42,7 @@ Template.login.events({
 
     Meteor.loginWithPassword(email, password, function (err) {
       if(err) $('.notice').html(err.reason);
-      else    location.href = '/taskView';
+      else    Router.go('app');
     });
   },
 
