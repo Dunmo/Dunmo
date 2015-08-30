@@ -18,3 +18,4 @@ dunmo.sln
 *.sln
 *.suo
 packages/npm-container
+bin/dunmo
