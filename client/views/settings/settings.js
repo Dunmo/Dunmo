@@ -25,11 +25,13 @@ View.helpers({
   },
 
   disabledClass: function () {
-    return Meteor.user().isGoogleAuthed() ? 'disabled' : '';
+    var user = Meteor.user();
+    return user && user.isGoogleAuthed() ? 'disabled' : '';
   },
 
   isGoogleAuthed: function () {
-    return Meteor.user().isGoogleAuthed();
+    var user = Meteor.user();
+    return user && user.isGoogleAuthed();
   },
 
   hasCalendars: function () {
@@ -186,6 +188,13 @@ View.events({
 
     var ret   = Meteor.user()['set' + prop](val);
     if(ret) gapi.syncTasksWithCalendar();
+  },
+
+  'click .btn-logout': function (e) {
+    Meteor.logout(function (err) {
+      if(err) console.log('err: ', err);
+      else    Router.go('login');
+    });
   },
 
   'click .btn-gplus': function (e) {

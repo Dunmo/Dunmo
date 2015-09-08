@@ -3,264 +3,30 @@
   <section id="content">
     <section class="main padder settings-container">
 
-      <div class="row message">
-        <div class="col-lg-12">
-          <p class="text text-danger">{{errorMessage}}</p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="time-header col-lg-12">
-          <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip" data-placement="top"
-                   title="We'll only schedule tasks after {{startTime}}.">
-              Start of Work Day
-            </a></h4>
-          </section>
-          <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip"
-                            data-placement="top"
-                            title="We'll only schedule tasks before {{endTime}}.">
-              End of Work Day
-            </a></h4>
-          </section>
-          <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip"
-                            data-placement="top"
-                            title="Rather than scheduling down to the minute, we'll work with {{taskGranularity}} units.">
-              Task Granularity
-            </a></h4>
-          </section>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-12">
-
-          <section class="comment-list block col-lg-3 col-lg-offset-1">
-            <article class="comment-item media" id="comment-form">
-              <section class="media-body">
-                <form action="" class="m-b-none form-inline">
-                  <div class="input-group">
-                    <input type="time" value="{{startTime}}" class="form-control input-sm start-time">
-                    <span class="input-group-btn">
-                      <button class="btn btn-sm btn-primary start-time" type="button">SAVE</button>
-                    </span>
-                  </div>
-                </form>
-              </section>
-            </article>
-          </section>
-
-          <section class="comment-list block col-lg-3 col-lg-offset-1">
-            <article class="comment-item media" id="comment-form">
-              <section class="media-body">
-                <form action="" class="m-b-none form-inline">
-                  <div class="input-group ">
-                    <input type="time" value="{{endTime}}" class="form-control input-sm end-time">
-                    <span class="input-group-btn">
-                      <button class="btn btn-sm btn-primary end-time" type="button">SAVE</button>
-                    </span>
-                  </div>
-                </form>
-              </section>
-            </article>
-          </section>
-
-          <section class="comment-list block col-lg-3 col-lg-offset-1">
-            <article class="comment-item media" id="comment-form">
-              <section class="media-body">
-                <form id="taskGranularityForm" class="m-b-none form-inline inline-mins">
-                  <div class="form-group">
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="minutes form-control input-sm task-input-sm"
-                             id="taskGranularityMinutes"
-                             placeholder="-"
-                             min="0"
-                             value="{{taskGranularityMinutes}}">
-                      <div class="input-group-addon">min</div>
-                    </div>
-                    <div class="input-group-btn inline">
-                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
-                    </div>
-                  </div>
-                </form>
-              </section>
-            </article>
-          </section>
-
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="time-header col-lg-12">
-          <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip"
-                            data-placement="top"
-                            data-original-title="We won't tell you to work on the same thing for more than {{maxTaskInterval}} at a time.">
-              Max Task Duration
-            </a></h4>
-          </section>
-          <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip"
-                            data-placement="top"
-                            title="We'll only tell you to work on the same thing for a total of {{maxTimePerTaskPerDay}} per day.">
-              Max Day Total per Task
-            </a></h4>
-          </section>
-          <section class="col-lg-4">
-            <h4><a href="#" data-toggle="tooltip"
-                            data-placement="top"
-                            title="When you have to do the same thing for longer than {{maxTaskInterval}}, we'll schedule a break of {{taskBreakInterval}} in between sessions.">
-              Break Duration
-            </a></h4>
-          </section>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-12">
-
-          <section class="comment-list block col-lg-3 col-lg-offset-1">
-            <article class="comment-item media" id="comment-form">
-              <section class="media-body">
-                <form id="maxTaskIntervalForm" class="m-b-none form-inline inline-hrs-mins">
-                  <div class="form-group">
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="hours form-control input-sm task-input-sm"
-                             id="maxTaskIntervalHours"
-                             placeholder="-"
-                             hour="0"
-                             value="{{maxTaskIntervalHours}}">
-                      <div class="input-group-addon">hr</div>
-                    </div>
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="minutes form-control input-sm task-input-sm"
-                             id="maxTaskIntervalMinutes"
-                             placeholder="-"
-                             min="0"
-                             value="{{maxTaskIntervalMinutes}}">
-                      <div class="input-group-addon">min</div>
-                    </div>
-                    <div class="input-group-btn inline">
-                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
-                    </div>
-                  </div>
-                </form>
-              </section>
-            </article>
-          </section>
-
-          <section class="comment-list block col-lg-3 col-lg-offset-1">
-            <article class="comment-item media" id="comment-form">
-              <section class="media-body">
-                <form id="maxTimePerTaskPerDayForm" class="m-b-none form-inline inline-hrs-mins">
-                  <div class="form-group">
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="hours form-control input-sm task-input-sm"
-                             id="maxTimePerTaskPerDayHours"
-                             placeholder="-"
-                             hour="0"
-                             value="{{maxTimePerTaskPerDayHours}}">
-                      <div class="input-group-addon">hr</div>
-                    </div>
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="minutes form-control input-sm task-input-sm"
-                             id="maxTimePerTaskPerDayMinutes"
-                             placeholder="-"
-                             min="0"
-                             value="{{maxTimePerTaskPerDayMinutes}}">
-                      <div class="input-group-addon">min</div>
-                    </div>
-                    <div class="input-group-btn inline">
-                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
-                    </div>
-                  </div>
-                </form>
-              </section>
-            </article>
-          </section>
-
-          <section class="comment-list block col-lg-3 col-lg-offset-1">
-            <article class="comment-item media" id="comment-form">
-              <section class="media-body">
-                <form id="taskBreakIntervalForm" class="m-b-none form-inline inline-hrs-mins">
-                  <div class="form-group">
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="hours form-control input-sm task-input-sm"
-                             id="taskBreakIntervalHours"
-                             placeholder="-"
-                             hour="0"
-                             value="{{taskBreakIntervalHours}}">
-                      <div class="input-group-addon">hr</div>
-                    </div>
-                    <div class="input-group inline">
-                      <input type="number"
-                             class="minutes form-control input-sm task-input-sm"
-                             id="taskBreakIntervalMinutes"
-                             placeholder="-"
-                             min="0"
-                             value="{{taskBreakIntervalMinutes}}">
-                      <div class="input-group-addon">min</div>
-                    </div>
-                    <div class="input-group-btn inline">
-                      <button class="btn btn-primary btn-sm save" type="button">SAVE</button>
-                    </div>
-                  </div>
-                </form>
-              </section>
-            </article>
-          </section>
-
-        </div>
+      <div class="logout-container">
       </div>
 
       <div class="auth-container">
-        <a href="#" class="{{disabledClass}} btn btn-gplus btn-block">
-          <i class="fa fa-google-plus"></i>
-          {{#if isGoogleAuthed}}
-            Signed in with Google
-          {{else}}
-            Sign in with Google
-          {{/if}}
-        </a>
-        {{#unless isGoogleAuthed}}
-          <p class="lead"> Use Google, and we can plan around your events. </p>
-        {{/unless}}
-      </div>
-
-      {{#if hasCalendars}}
-        <div class="row rules">
-          <div class="col-lg-12">
-            <p class="text">
-              Click a calendar to highlight. <br>
-              We won't schedule tasks during events on the highlighted calendars.
-            </p>
-          </div>
-        </div>
-
         <div class="row">
-          <div class="col-lg-12">
-            <section class="panel calendar-panel">
-              <header class="panel-heading bg bg-primary">
-                <a class="btn btn-link pull-right nav"></a>
-                Active Calendars
-              </header>
-              <ul class="list-group">
-              {{#each calendars}}
-                {{> calendarListItem}}
-              {{/each}}
-              </ul>
-            </section>
-          </div>
+          <button href="#" class="btn btn-logout btn-block">
+            <i class="fa fa-logout"></i>
+            Logout
+          </button>
         </div>
-      {{/if}}
+        <div class="row">
+          <button href="#" class="{{disabledClass}} btn btn-gplus btn-block">
+            <i class="fa fa-google-plus"></i>
+            {{#if isGoogleAuthed}}
+              Connected with Google
+            {{else}}
+              Connect with Google
+            {{/if}}
+          </button>
+          {{#unless isGoogleAuthed}}
+            <p class="lead"> Use Google, and we can plan around your events. </p>
+          {{/unless}}
+        </div>
+      </div>
 
     </section>
   </section>

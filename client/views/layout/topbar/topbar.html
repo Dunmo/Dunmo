@@ -1,8 +1,9 @@
 <template name="topbar">
   <div class="app-topbar">
-    <a href="/landing" class="app-topbar__logo">Dunmo</a>
-    <input class="app-topbar__search" type="text" placeholder="Search" />
-    <a href="/help" class="app-topbar__button app-topbar__button--help ion-help"></a>
-    <a href="/settings" class="app-topbar__button app-topbar__button--settings ion-gear-a"></a>
+    <a href="{{pathFor 'landing'}}" class="app-topbar__logo">Dunmo</a>
+    {{#if currentUser}}
+      {{!-- <a href="{{pathFor 'help'}}" class="app-topbar__button app-topbar__button--help ion-help"></a> --}}
+      <a href="{{pathFor 'settings'}}" class="app-topbar__button app-topbar__button--settings ion-gear-a"></a>
+    {{/if}}
   </div>
 </template>
