@@ -11,7 +11,7 @@ function synchronize(src, dest) {
   var $dest = $('form' + dest);
   $dest.find('input.email').val(email);
   $dest.find('input.password').val(password);
-};
+}
 
 Template.login.helpers({
   'loggedIn': function() {
@@ -62,20 +62,20 @@ Template.login.events({
       }
     }, function (err) {
       if(err) $('.notice').html(err.reason);
-      else    location.href = '/taskView';
+      else    Router.go('app');
     });
   },
 
   'click .btn-gplus': function (e) {
     var options = {
-      requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
+      requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
       requestOfflineToken: true,
-      loginStyle: "popup"
+      loginStyle: 'popup'
     };
 
-    var callback = function (err) {
+    function callback(err) {
       if (err) Session.set('errorMessage', err.reason || 'Unknown error');
-      else     location.href = '/taskView';
+      else     Router.go('app');
     }
 
     if(Meteor.user()) {

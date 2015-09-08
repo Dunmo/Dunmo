@@ -1,5 +1,5 @@
 
-var view = Template.referralView;
+var view = Template.referrals;
 
 view.helpers({
   referred: function () {
