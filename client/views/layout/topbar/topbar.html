@@ -1,7 +1,7 @@
 <template name="topbar">
   <div class="app-topbar">
     <a href="{{pathFor 'landing'}}" class="app-topbar__logo">Dunmo</a>
-    {{#if loggedIn}}
+    {{#if currentUser}}
       {{!-- <a href="{{pathFor 'help'}}" class="app-topbar__button app-topbar__button--help ion-help"></a> --}}
       <a href="{{pathFor 'settings'}}" class="app-topbar__button app-topbar__button--settings ion-gear-a"></a>
     {{/if}}
