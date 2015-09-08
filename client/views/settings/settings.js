@@ -188,6 +188,13 @@ View.events({
     if(ret) gapi.syncTasksWithCalendar();
   },
 
+  'click .btn-logout': function (e) {
+    Meteor.logout(function (err) {
+      if(err) console.log('err: ', err);
+      else    Router.go('login');
+    });
+  },
+
   'click .btn-gplus': function (e) {
     Meteor.connectWith('google', {
       requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
