@@ -12,7 +12,7 @@ var onboardingTitles = [
 
 function onboardingTask (title) {
   return title + ' for 5 minutes due someday no importance';
-};
+}
 
 setOnboardingTasks = function () {
   var user = Meteor.user();
