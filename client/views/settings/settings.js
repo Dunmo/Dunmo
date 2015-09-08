@@ -25,11 +25,13 @@ View.helpers({
   },
 
   disabledClass: function () {
-    return Meteor.user().isGoogleAuthed() ? 'disabled' : '';
+    var user = Meteor.user();
+    return user && user.isGoogleAuthed() ? 'disabled' : '';
   },
 
   isGoogleAuthed: function () {
-    return Meteor.user().isGoogleAuthed();
+    var user = Meteor.user();
+    return user && user.isGoogleAuthed();
   },
 
   hasCalendars: function () {
