@@ -36,8 +36,6 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
         });
         data = { $set: data };
       }
-      console.log('collection._name: ', collection._name);
-      console.log('collection.name: ', collection.name);
       return collection.update({_id: this._id}, data);
     }
 
