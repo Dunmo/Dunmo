@@ -34,6 +34,7 @@ Template.login.events({
   },
 
   'submit form.login, click form.login button.login': function (e, t) {
+    if(Meteor.userId() || Meteor.loggingIn()) return false;
     console.log('logging in...');
     var $parent  = $('form.login');
     var email    = $parent.find('input.email').val();
@@ -51,6 +52,8 @@ Template.login.events({
   },
 
   'submit form.signup, click form.signup button.signup': function (e, t) {
+    if(Meteor.userId() || Meteor.loggingIn()) return false;
+
     var $parent  = $('form.signup');
     var name     = $parent.find('input.name').val();
     var email    = $parent.find('input.email').val();
