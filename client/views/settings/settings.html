@@ -1,0 +1,33 @@
+
+<template name="settings">
+  <section id="content">
+    <section class="main padder settings-container">
+
+      <div class="logout-container">
+      </div>
+
+      <div class="auth-container">
+        <div class="row">
+          <button href="#" class="btn btn-logout btn-block">
+            <i class="fa fa-logout"></i>
+            Logout
+          </button>
+        </div>
+        <div class="row">
+          <button href="#" class="{{disabledClass}} btn btn-gplus btn-block">
+            <i class="fa fa-google-plus"></i>
+            {{#if isGoogleAuthed}}
+              Connected with Google
+            {{else}}
+              Connect with Google
+            {{/if}}
+          </button>
+          {{#unless isGoogleAuthed}}
+            <p class="lead"> Use Google, and we can plan around your events. </p>
+          {{/unless}}
+        </div>
+      </div>
+
+    </section>
+  </section>
+</template>

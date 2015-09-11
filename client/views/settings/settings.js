@@ -8,26 +8,30 @@ function hoursAndMinutes(milliseconds) {
   if(hours > 0 && mins > 0) str += ' and ';
   if(mins  > 0) str += mins + ' minutes';
   return str;
-};
+}
 
-Template.calendarSettings.rendered = function () {
+var View = Template.settings;
+
+View.rendered = function () {
   $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
   });
   gapi.syncCalendars();
 };
 
-Template.calendarSettings.helpers({
+View.helpers({
   errorMessage: function () {
     return Session.get('errorMessage');
   },
 
   disabledClass: function () {
-    return Meteor.user().isGoogleAuthed() ? 'disabled' : '';
+    var user = Meteor.user();
+    return user && user.isGoogleAuthed() ? 'disabled' : '';
   },
 
   isGoogleAuthed: function () {
-    return Meteor.user().isGoogleAuthed();
+    var user = Meteor.user();
+    return user && user.isGoogleAuthed();
   },
 
   hasCalendars: function () {
@@ -117,20 +121,20 @@ Template.calendarSettings.helpers({
 
 });
 
-Template.calendarSettings.events({
+View.events({
   'keydown input[type="number"]': function (event) {
-    if (!(!event.shiftKey //Disallow: any Shift+digit combination
-        && !(event.keyCode < 48 || event.keyCode > 57) //Disallow: everything but digits
-        || !(event.keyCode < 96 || event.keyCode > 105) //Allow: numeric pad digits
-        || event.keyCode == 46 // Allow: delete
-        || event.keyCode == 8  // Allow: backspace
-        || event.keyCode == 9  // Allow: tab
-        || event.keyCode == 27 // Allow: escape
-        || (event.keyCode == 65 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+A
-        || (event.keyCode == 67 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+C
-        //Uncommenting the next line allows Ctrl+V usage, but requires additional code from you to disallow pasting non-numeric symbols
-        //|| (event.keyCode == 86 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+Vpasting
-        || (event.keyCode >= 35 && event.keyCode <= 40) // Allow: Home, End, arrow keys
+    if (!(!event.shiftKey && //Disallow: any Shift+digit combination
+      !(event.keyCode < 48 || event.keyCode > 57) || //Disallow: everything but digits
+      !(event.keyCode < 96 || event.keyCode > 105) || //Allow: numeric pad digits
+      event.keyCode == 46 || // Allow: delete
+      event.keyCode == 8 || // Allow: backspace
+      event.keyCode == 9 || // Allow: tab
+      event.keyCode == 27 || // Allow: escape
+      (event.keyCode == 65 && (event.ctrlKey === true || event.metaKey === true)) || // Allow: Ctrl+A
+      (event.keyCode == 67 && (event.ctrlKey === true || event.metaKey === true)) || // Allow: Ctrl+C
+      //Uncommenting the next line allows Ctrl+V usage, but requires additional code from you to disallow pasting non-numeric symbols
+      //|| (event.keyCode == 86 && (event.ctrlKey === true || event.metaKey === true)) // Allow: Ctrl+Vpasting
+      (event.keyCode >= 35 && event.keyCode <= 40) // Allow: Home, End, arrow keys
     )) {
       event.preventDefault();
     }
@@ -184,6 +188,13 @@ Template.calendarSettings.events({
 
     var ret   = Meteor.user()['set' + prop](val);
     if(ret) gapi.syncTasksWithCalendar();
+  },
+
+  'click .btn-logout': function (e) {
+    Meteor.logout(function (err) {
+      if(err) console.log('err: ', err);
+      else    Router.go('login');
+    });
   },
 
   'click .btn-gplus': function (e) {

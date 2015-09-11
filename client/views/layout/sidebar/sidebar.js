@@ -1,8 +1,12 @@
 
-function isActive (val) { return Session.get('task-filter')    === val ||
-                                 Session.get('project-filter') === val }
+function isActive (val) {
+  return Session.get('task-filter')    === val ||
+         Session.get('project-filter') === val;
+}
 
-Template.sidebar.helpers({
+var View = Template.sidebar;
+
+View.helpers({
   user: function () { return Meteor.user(); },
   activeClass: function (filter) {
     if(Session.get('active-sidebar-section') === filter) return 'app-sidebar__section--active';
@@ -10,7 +14,7 @@ Template.sidebar.helpers({
   }
 });
 
-Template.sidebar.events({
+View.events({
 
   'click .app-sidebar__section__heading': function (e) {
     var slug = $(e.target).parents('.app-sidebar__section').data('section');

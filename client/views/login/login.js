@@ -11,7 +11,7 @@ function synchronize(src, dest) {
   var $dest = $('form' + dest);
   $dest.find('input.email').val(email);
   $dest.find('input.password').val(password);
-};
+}
 
 Template.login.helpers({
   'loggedIn': function() {
@@ -33,12 +33,16 @@ Template.login.events({
     e.preventDefault();
   },
 
-  'submit form.login, click form.login button.login': function (e) {
+  'submit form.login, click form.login button.login': function (e, t) {
+    console.log('logging in...');
     var $parent  = $('form.login');
     var email    = $parent.find('input.email').val();
     var password = $parent.find('input.password').val();
 
-    if( !(email && password) ) return;
+    if( !(email && password) ) {
+      $('.notice').html('Email and Password are both required.');
+      return;
+    }
 
     Meteor.loginWithPassword(email, password, function (err) {
       if(err) $('.notice').html(err.reason);
@@ -46,7 +50,7 @@ Template.login.events({
     });
   },
 
-  'submit form.signup, click form.signup button.signup': function (e) {
+  'submit form.signup, click form.signup button.signup': function (e, t) {
     var $parent  = $('form.signup');
     var name     = $parent.find('input.name').val();
     var email    = $parent.find('input.email').val();
@@ -62,20 +66,20 @@ Template.login.events({
       }
     }, function (err) {
       if(err) $('.notice').html(err.reason);
-      else    location.href = '/taskView';
+      else    Router.go('app');
     });
   },
 
   'click .btn-gplus': function (e) {
     var options = {
-      requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
+      requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
       requestOfflineToken: true,
-      loginStyle: "popup"
+      loginStyle: 'popup'
     };
 
-    var callback = function (err) {
+    function callback(err) {
       if (err) Session.set('errorMessage', err.reason || 'Unknown error');
-      else     location.href = '/taskView';
+      else     Router.go('app');
     }
 
     if(Meteor.user()) {
