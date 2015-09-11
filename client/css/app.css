@@ -627,7 +627,8 @@ input[type=date]::-webkit-inner-spin-button {
 }
 /* line 251, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions:hover {
-  opacity: 1;
+  /*opacity: 1;*/
+  cursor: pointer;
 }
 /* line 255, ../sass/app/_taskitem.scss */
 .app-taskitem__quick-actions__button {

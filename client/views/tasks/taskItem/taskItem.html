@@ -2,12 +2,12 @@
 
   <div class="app-taskitem" data-id="{{_id}}">
     <div class="app-taskitem__quick-actions" {{quickActionFields}}>
-      <div data-active="{{isDone}}"
-           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--done ion-checkmark"></div>
-      <div data-active="{{isInProgress}}"
-           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--start ion-play"></div>
-      <div data-active="{{isDelayed}}"
-           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--delay ion-clock"></div>
+      {{!-- <div data-active="{{isDone}}"
+           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--done ion-checkmark"></div> --}}
+      {{!-- <div data-active="{{isInProgress}}"
+           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--start ion-play"></div> --}}
+      {{!-- <div data-active="{{isDelayed}}"
+           class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--delay ion-clock"></div> --}}
     </div>
 
     <div class="app-taskitem__importance app-taskitem__importance--{{rank}}"></div>
@@ -22,8 +22,8 @@
         <div class="app-taskitem__body">
           <div class="app-taskitem__actions">
             <div class="app-taskitem__actions__button app-taskitem__actions__button--done ion-checkmark"></div>
-            <div class="app-taskitem__actions__button app-taskitem__actions__button--start ion-play"></div>
-            <div class="app-taskitem__actions__button app-taskitem__actions__button--delay ion-clock"></div>
+            {{!-- <div class="app-taskitem__actions__button app-taskitem__actions__button--start ion-play"></div> --}}
+            {{!-- <div class="app-taskitem__actions__button app-taskitem__actions__button--delay ion-clock"></div> --}}
             <div class="app-taskitem__actions__button app-taskitem__actions__button--remove ion-trash-b"></div>
           </div>
 
@@ -65,10 +65,10 @@
             </div>
           </div>
 
-          <div class="app-taskitem__body__section app-taskitem__body__section--tags">
+          {{!-- <div class="app-taskitem__body__section app-taskitem__body__section--tags">
             <div class="app-taskitem__body__heading">Tags</div>
             <input class="app-taskitem__body__content" type="text" placeholder="Tags like #shopping, #homework, #cool-project" />
-          </div>
+          </div> --}}
         </div> <!-- app-taskitem__body -->
       {{/if}}
     </div>
