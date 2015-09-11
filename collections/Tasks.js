@@ -87,8 +87,21 @@ Tasks.helpers({
   },
 
   toggleRemoved: function (val) {
-    if(val !== undefined && val !== null) return this.setRemoved(val);
-    else return this.setRemoved(!this.isRemoved);
+    if(val !== undefined) return this.setIsRemoved(val);
+    else                  return this.setIsRemoved(!this.isRemoved());
+  },
+
+  setIsRemoved: function (val) {
+    if(val === true) this.setRemoved('removed');
+    else             this.setRemoved('not removed');
+  },
+
+  setRemoved: function (val) {
+    this.update({ _removed: val });
+  },
+
+  isRemoved: function () {
+    return this._removed === 'removed';
   },
 
   reParse: function (str) {
