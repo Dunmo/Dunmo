@@ -556,6 +556,13 @@ input[type=date]::-webkit-inner-spin-button {
 .app-taskitem__actions__button:hover {
   color: #bcbcbc;
 }
+/* custom */
+.app-taskitem__actions__button--done[data-active="true"] {
+  color: #5ada62;
+}
+.app-taskitem__actions__button--remove[data-active="true"] {
+  color: #ea5e4d;
+}
 /* line 188, ../sass/app/_taskitem.scss */
 .app-taskitem__importance {
   position: absolute;

@@ -21,10 +21,12 @@
       {{#if expanded}}
         <div class="app-taskitem__body">
           <div class="app-taskitem__actions">
-            <div class="app-taskitem__actions__button app-taskitem__actions__button--done ion-checkmark"></div>
+            <div data-active="{{isDone}}"
+                 class="app-taskitem__actions__button app-taskitem__actions__button--done ion-checkmark"></div>
             {{!-- <div class="app-taskitem__actions__button app-taskitem__actions__button--start ion-play"></div> --}}
             {{!-- <div class="app-taskitem__actions__button app-taskitem__actions__button--delay ion-clock"></div> --}}
-            <div class="app-taskitem__actions__button app-taskitem__actions__button--remove ion-trash-b"></div>
+            <div data-active="{{isRemoved}}"
+                 class="app-taskitem__actions__button app-taskitem__actions__button--remove ion-trash-b"></div>
           </div>
 
           <div class="app-taskitem__body__section app-taskitem__body__section--description">
