@@ -1,5 +1,6 @@
 
-if(Meteor.users.find().count() === 0) {
+var user = Meteor.users.findOne({ 'emails.address': 'test@example.com' });
+if(! user) {
 
   var userId = Accounts.createUser({
     email: 'test@example.com',
@@ -13,7 +14,7 @@ if(Meteor.users.find().count() === 0) {
 
 }
 
-var user = Meteor.users.findOne({ 'emails.address': 'test@example.com' });
+if(!user) user = Meteor.users.findOne({ 'emails.address': 'test@example.com' });
 var userId = user._id
 if(Tasks.find({ ownerId: userId }).count() === 0) {
 
