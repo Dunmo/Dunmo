@@ -552,16 +552,18 @@ input[type=date]::-webkit-inner-spin-button {
   border: none !important;
   cursor: pointer;
 }
-/* line 181, ../sass/app/_taskitem.scss */
-.app-taskitem__actions__button:hover {
-  color: #bcbcbc;
-}
 /* custom */
-.app-taskitem__actions__button--done[data-active="true"] {
+.app-taskitem__actions__button--done[data-active="true"],
+.app-taskitem__actions__button--done:hover {
   color: #5ada62;
 }
-.app-taskitem__actions__button--remove[data-active="true"] {
+.app-taskitem__actions__button--remove[data-active="true"],
+.app-taskitem__actions__button--remove:hover {
   color: #ea5e4d;
+}
+/* line 181, ../sass/app/_taskitem.scss */
+.app-taskitem__actions__button[data-active="true"]:hover {
+  color: #bcbcbc;
 }
 /* line 188, ../sass/app/_taskitem.scss */
 .app-taskitem__importance {
