@@ -1,4 +1,7 @@
 
+var btnLoading = new ReactiveVar();
+var googleBtnLoading = new ReactiveVar();
+
 function hoursAndMinutes(milliseconds) {
   var hours     = Date.hours(milliseconds);
   milliseconds -= hours*HOURS;
@@ -12,14 +15,27 @@ function hoursAndMinutes(milliseconds) {
 
 var View = Template.settings;
 
-View.rendered = function () {
+View.onCreated(function () {
+  btnLoading.set(false);
+  googleBtnLoading.set(false);
+});
+
+View.onRendered(function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
   gapi.syncCalendars();
-};
+});
 
 View.helpers({
+  btnLoading: function () {
+    return btnLoading.get();
+  },
+
+  googleBtnLoading: function () {
+    return googleBtnLoading.get();
+  },
+
   errorMessage: function () {
     return Session.get('errorMessage');
   },
@@ -191,21 +207,40 @@ View.events({
   },
 
   'click .btn-logout': function (e) {
-    Meteor.logout(function (err) {
-      if(err) console.log('err: ', err);
-      else    Router.go('login');
-    });
+    btnLoading.set(true);
+
+    var delay = 500;
+    Meteor.setTimeout(function () {
+      Meteor.logout(function (err) {
+        if(err) {
+          console.log('err: ', err);
+          btnLoading.set(false);
+        } else {
+          Router.go('login');
+        }
+      });
+    }, delay);
   },
 
   'click .btn-gplus': function (e) {
-    Meteor.connectWith('google', {
-      requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
-      requestOfflineToken: true,
-      loginStyle: "popup"
-    }, function (err) {
-      if (err) Session.set('errorMessage', err.reason || 'Unknown error');
-      else     location.reload();
-    });
+    googleBtnLoading.set(true);
+
+    var delay = 500;
+    Meteor.setTimeout(function () {
+      Meteor.connectWith('google', {
+        requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
+        requestOfflineToken: true,
+        loginStyle: "popup"
+      }, function (err) {
+        if(err) {
+          Session.set('errorMessage', err.reason || 'Unknown error');
+          console.log('err: ', err);
+          googleBtnLoading.set(false);
+        } else {
+          location.reload();
+        }
+      });
+    }, delay);
   }
 
 });

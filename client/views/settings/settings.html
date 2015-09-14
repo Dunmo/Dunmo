@@ -8,20 +8,19 @@
 
       <div class="auth-container">
         <div class="row">
-          <button href="#" class="btn btn-logout btn-block">
-            <i class="fa fa-logout"></i>
-            Logout
-          </button>
+          {{#spinnerButton class="btn btn-logout btn-block" waitOn=btnLoading}}
+            <i class="fa fa-logout"></i> Logout
+          {{/spinnerButton}}
         </div>
         <div class="row">
-          <button href="#" class="{{disabledClass}} btn btn-gplus btn-block">
+          {{#spinnerButton disabled=disabledClass class="{{disabledClass}} btn btn-gplus btn-block" waitOn=googleBtnLoading}}
             <i class="fa fa-google-plus"></i>
             {{#if isGoogleAuthed}}
               Connected with Google
             {{else}}
               Connect with Google
             {{/if}}
-          </button>
+          {{/spinnerButton}}
           {{#unless isGoogleAuthed}}
             <p class="lead"> Use Google, and we can plan around your events. </p>
           {{/unless}}
