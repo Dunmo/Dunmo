@@ -1,4 +1,7 @@
 
+var btnLoading = new ReactiveVar();
+var googleBtnLoading = new ReactiveVar();
+
 function synchronize(src, dest) {
   $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
@@ -13,9 +16,22 @@ function synchronize(src, dest) {
   $dest.find('input.password').val(password);
 }
 
+Template.login.onCreated(function () {
+  btnLoading.set(false);
+  googleBtnLoading.set(false);
+});
+
 Template.login.helpers({
-  'loggedIn': function() {
+  loggedIn: function () {
     return Meteor.userId();
+  },
+
+  googleBtnLoading: function () {
+    return googleBtnLoading.get();
+  },
+
+  btnLoading: function () {
+    return btnLoading.get();
   }
 });
 
@@ -34,46 +50,76 @@ Template.login.events({
   },
 
   'submit form.login, click form.login button.login': function (e, t) {
-    if(Meteor.userId() || Meteor.loggingIn()) return false;
-    console.log('logging in...');
-    var $parent  = $('form.login');
-    var email    = $parent.find('input.email').val();
-    var password = $parent.find('input.password').val();
+    btnLoading.set(true);
 
-    if( !(email && password) ) {
-      $('.notice').html('Email and Password are both required.');
-      return;
-    }
+    var delay = 500;
+    Meteor.setTimeout(function () {
+      if(Meteor.userId() || Meteor.loggingIn()) {
+        btnLoading.set(false);
+        return false;
+      }
 
-    Meteor.loginWithPassword(email, password, function (err) {
-      if(err) $('.notice').html(err.reason);
-      else    Router.go('app');
-    });
+      var $parent  = $('form.login');
+      var email    = $parent.find('input.email').val();
+      var password = $parent.find('input.password').val();
+
+      if( !(email && password) ) {
+        $('.notice').html('Email and Password are both required.');
+        btnLoading.set(false);
+        return;
+      }
+
+      Meteor.loginWithPassword(email, password, function (err) {
+        if(err) {
+          $('.notice').html(err.reason);
+          btnLoading.set(false);
+        } else {
+          Router.go('app');
+        }
+      });
+    }, delay);
   },
 
   'submit form.signup, click form.signup button.signup': function (e, t) {
-    if(Meteor.userId() || Meteor.loggingIn()) return false;
+    btnLoading.set(true);
 
-    var $parent  = $('form.signup');
-    var name     = $parent.find('input.name').val();
-    var email    = $parent.find('input.email').val();
-    var password = $parent.find('input.password').val();
-
-    if( !(name && email && password) ) return;
-
-    Accounts.createUser({
-      password: password,
-      email: email,
-      profile: {
-        name: name
+    var delay = 500;
+    Meteor.setTimeout(function () {
+      if(Meteor.userId() || Meteor.loggingIn()) {
+        btnLoading.set(false);
+        return false;
       }
-    }, function (err) {
-      if(err) $('.notice').html(err.reason);
-      else    Router.go('app');
-    });
+
+      var $parent  = $('form.signup');
+      var name     = $parent.find('input.name').val();
+      var email    = $parent.find('input.email').val();
+      var password = $parent.find('input.password').val();
+
+      if( !(name && email && password) ) {
+        btnLoading.set(false);
+        return;
+      }
+
+      Accounts.createUser({
+        password: password,
+        email: email,
+        profile: {
+          name: name
+        }
+      }, function (err) {
+        if(err) {
+          $('.notice').html(err.reason);
+          btnLoading.set(false);
+        } else {
+          Router.go('app');
+        }
+      });
+    }, delay);
   },
 
   'click .btn-gplus': function (e) {
+    googleBtnLoading.set(true);
+
     var options = {
       requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
       requestOfflineToken: true,
@@ -81,8 +127,12 @@ Template.login.events({
     };
 
     function callback(err) {
-      if (err) Session.set('errorMessage', err.reason || 'Unknown error');
-      else     Router.go('app');
+      if(err) {
+        $('.notice').html(err.reason);
+        googleBtnLoading.set(false);
+      } else {
+        Router.go('app');
+      }
     }
 
     if(Meteor.user()) {
