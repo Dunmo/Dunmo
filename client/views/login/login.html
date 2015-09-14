@@ -13,11 +13,13 @@
           </ul>
           <div class="panel panel-default tab-panel">
             <div class="panel-body">
-              <a href="#" class="btn btn-gplus btn-block"><i class="fa fa-google-plus"></i>Sign in with Google</a>
+              {{#spinnerButton class="btn btn-gplus btn-block" waitOn=googleBtnLoading}}
+                <i class="fa fa-google-plus"></i> Sign in with Google
+              {{/spinnerButton}}
               <p class="lead">Use Google, and we can plan around your events.</p>
               <hr>
               <p class="notice"></p>
-              <form role="form" hidden="hidden" class="form signup">
+              <form role="form" hidden="hidden" class="form signup" novalidate>
                 <div class="form-group">
                   <input type="text" placeholder="Name" class="form-control name" required/>
                 </div>
@@ -28,10 +30,12 @@
                   <input type="password" placeholder="Password" class="form-control password" required/>
                 </div>
                 <div class="actions">
-                  <button class="btn btn-default signup">Sign Up</button>
+                  {{#spinnerButton class="btn btn-default login" waitOn=btnLoading}}
+                    Sign Up
+                  {{/spinnerButton}}
                 </div>
               </form>
-              <form role="form" class="form login">
+              <form role="form" class="form login" novalidate>
                 <div class="form-group">
                   <input type="email" placeholder="Email" class="form-control email" required/>
                 </div>
@@ -39,7 +43,9 @@
                   <input type="password" placeholder="Password" class="form-control password" required/>
                 </div>
                 <div class="actions">
-                  <button class="btn btn-default login">Log In</button>
+                  {{#spinnerButton class="btn btn-default login" waitOn=btnLoading}}
+                    Log In
+                  {{/spinnerButton}}
                 </div>
               </form>
             </div>
