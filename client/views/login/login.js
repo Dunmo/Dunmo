@@ -45,11 +45,8 @@ Template.login.events({
     synchronize('.signup', '.login');
   },
 
-  'submit form': function (e) {
-    e.preventDefault();
-  },
-
   'submit form.login, click form.login button.login': function (e, t) {
+    e.preventDefault();
     btnLoading.set(true);
 
     var delay = 500;
@@ -69,6 +66,12 @@ Template.login.events({
         return;
       }
 
+      if( ! RFC5322.isValidAddress(email) ) {
+        $('.notice').html('Please enter a valid email address.');
+        btnLoading.set(false);
+        return;
+      }
+
       Meteor.loginWithPassword(email, password, function (err) {
         if(err) {
           $('.notice').html(err.reason);
@@ -81,6 +84,7 @@ Template.login.events({
   },
 
   'submit form.signup, click form.signup button.signup': function (e, t) {
+    e.preventDefault();
     btnLoading.set(true);
 
     var delay = 500;
@@ -96,6 +100,13 @@ Template.login.events({
       var password = $parent.find('input.password').val();
 
       if( !(name && email && password) ) {
+        $('.notice').html('All fields are required.');
+        btnLoading.set(false);
+        return;
+      }
+
+      if( ! RFC5322.isValidAddress(email) ) {
+        $('.notice').html('Please enter a valid email address.');
         btnLoading.set(false);
         return;
       }
