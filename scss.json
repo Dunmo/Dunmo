@@ -1,0 +1,7 @@
+{
+  "useIndex" : true,
+  "indexFilePath" : "client/stylesheets/main.scss",
+  "includePaths": [
+    ".meteor/local/build/programs/server/assets/packages/francocatena_compass"
+  ]
+}
