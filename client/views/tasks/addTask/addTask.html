@@ -1,0 +1,45 @@
+<template name="addTask">
+  <div class="app-addtask">
+    <div class="app-addtask__headericon app-addtask__headericon--{{itemType}}"></div>
+
+    <div class="app-addtask__form">
+      <div class="app-addtask__form__section app-addtask__form__section--importance">
+        <div class="app-addtask__form__icon app-addtask__form__icon--importance">
+          <i class="fa fa-calendar"></i>
+        </div>
+      </div>
+
+      <div class="app-addtask__form__section app-addtask__form__section--title">
+        <input class="app-addtask__form__content" placeholder="Task title" />
+      </div>
+
+      <div class="app-addtask__form__section app-addtask__form__section--duration">
+        <div class="app-addtask__form__icon app-addtask__form__icon--duration">
+          <i class="fa fa-clock"></i>
+        </div>
+
+        <div class="app-addtask__form__inputgroup">
+          <input class="app-addtask__form__content app-addtask__form__content--duration-hour" type="number" min="0" />
+          <label class="app-addtask__form__content app-addtask__form__content--duration-hour-label">h</label>
+        </div>
+
+        <div class="app-addtask__form__inputgroup">
+          <input class="app-addtask__form__content app-addtask__form__content--duration-minute" type="number" min="0" />
+          <label class="app-addtask__form__content app-addtask__form__content--duration-minute-label">m</label>
+        </div>
+      </div>
+
+      <div class="app-addtask__form__section app-addtask__form__section--due">
+        <div class="app-addtask__form__icon app-addtask__form__icon--due">
+          <i class="fa fa-calendar"></i>
+        </div>
+      </div>
+
+      <div class="app-addtask__form__section app-addtask__form__section--save">
+        <button class="app-addtask__form__button">
+          Add {{itemName}}
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
