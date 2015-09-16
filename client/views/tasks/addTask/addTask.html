@@ -1,4 +1,5 @@
 <template name="addTask">
+  {{#if addTaskIsActive}}
   <div class="app-addtask">
     <div class="app-addtask__headericon app-addtask__headericon--{{itemType}}"></div>
 
@@ -42,4 +43,5 @@
       </div>
     </div>
   </div>
+  {{/if}}
 </template>
