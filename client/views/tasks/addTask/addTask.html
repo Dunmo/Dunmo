@@ -1,7 +1,11 @@
 <template name="addTask">
   {{#if addTaskIsActive}}
   <div class="app-addtask">
-    <div class="app-addtask__headericon app-addtask__headericon--{{itemType}}"></div>
+    <div class="app-addtask__headericon app-addtask__headericon--{{itemType}}">
+      {{#if isTask}}
+        <i class="fa fa-check-circle-o"></i>
+      {{/if}}
+    </div>
 
     <div class="app-addtask__form">
       <div class="app-addtask__form__section app-addtask__form__section--importance">

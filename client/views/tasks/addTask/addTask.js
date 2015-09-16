@@ -14,5 +14,8 @@ View.helpers({
   },
   itemName: function () {
     return itemType().capitalize();
+  },
+  isTask: function () {
+    return itemType() === 'task';
   }
 });
