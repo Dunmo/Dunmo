@@ -16,6 +16,7 @@
     &__head {
         width: 100%;
         height: 4rem;
+        cursor: pointer;
 
         &__title {
             @include transition(all 0.25s ease-in-out);
@@ -39,7 +40,6 @@
         //@include clearfix;
         @include block;
         min-height: 16rem;
-        display: none;
 
         &__section {
             position: relative;
@@ -178,9 +178,27 @@
             text-align: center;
             border: none !important;
             cursor: pointer;
-            &:hover {
+            &:hover,
+            &[data-active="true"]:hover {
                 color: lighten($grey,15%);
             }
+
+            &--done {
+                &[data-active="true"],
+                &:hover {
+                    color: $green;
+                }
+
+            }
+
+            &--remove {
+                &[data-active="true"],
+                &:hover {
+                    color: $coral;
+                }
+
+            }
+
         }
 
     }
@@ -196,21 +214,22 @@
         margin: 1rem 0.5rem;
         font: 2rem/3rem $sans-serif;
         text-align: center;
-        
+        cursor: pointer;
+
         &--rankzero::before {
             content: '-';
         }
-        
+
         &--rankone::before {
             content: '!';
             color: $coral;
         }
-        
+
         &--ranktwo::before {
             content: '!!';
             color: $coral;
         }
-        
+
         &--rankthree::before {
             content: '!!!';
             color: $coral;
@@ -249,7 +268,7 @@
         opacity: 0;
 
         &:hover {
-            opacity: 1;
+            cursor: pointer;
         }
 
         &__button {
