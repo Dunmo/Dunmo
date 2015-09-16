@@ -1,4 +1,8 @@
 <template name="layout">
+  {{#if modalActive}}
+    <div class="app-dimmer"></div>
+  {{/if}}
+
   {{> Template.dynamic template=header}}
   {{> Template.dynamic template=nav}}
 
