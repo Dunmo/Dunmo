@@ -1,8 +1,15 @@
+
+var rankVar = new ReactiveVar();
+
 var View = Template.addTask;
 
 function itemType () {
   return 'task';
 }
+
+View.onCreated(function () {
+  rankVar.set(1);
+});
 
 View.helpers({
   addTaskIsActive: function () {
@@ -17,5 +24,10 @@ View.helpers({
   },
   isTask: function () {
     return itemType() === 'task';
+  },
+  rank: function () {
+    var rankMap = { 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
+    var rank = rankVar.get();
+    return rankMap[rank];
   }
 });

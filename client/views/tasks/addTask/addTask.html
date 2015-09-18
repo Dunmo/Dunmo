@@ -3,17 +3,17 @@
   <div class="app-addtask">
     <div class="app-addtask__headericon app-addtask__headericon--{{itemType}}">
       {{#if isTask}}
-        <i class="fa fa-check-circle-o"></i>
+        <i class="app-addtask__headericon__icon ion-ios-checkmark-outline"></i>
       {{/if}}
     </div>
 
     <div class="app-addtask__form">
       <div class="app-addtask__form__section app-addtask__form__section--importance">
-        <div class="app-addtask__form__icon app-addtask__form__icon--importance"></div>
+        <div class="app-addtask__form__icon app-addtask__form__icon--importance app-taskitem__importance--{{rank}}"></div>
       </div>
 
       <div class="app-addtask__form__section app-addtask__form__section--title">
-        <input class="app-addtask__form__content" placeholder="Task title" />
+        <input class="app-addtask__form__content app-addtask__form__content--title" placeholder="Task title" />
       </div>
 
       <div class="app-addtask__form__section app-addtask__form__section--duration">
@@ -22,13 +22,13 @@
         </div>
 
         <div class="app-addtask__form__inputgroup">
-          <input class="app-addtask__form__content app-addtask__form__content--duration-hour" type="number" min="0" />
-          <label class="app-addtask__form__content app-addtask__form__content--duration-hour-label">h</label>
+          <input class="app-addtask__form__content app-addtask__form__section__content--duration-hour" type="number" min="0" />
+          <label class="app-addtask__form__label app-addtask__form__section__label--duration-hour-label">h</label>
         </div>
 
         <div class="app-addtask__form__inputgroup">
-          <input class="app-addtask__form__content app-addtask__form__content--duration-minute" type="number" min="0" />
-          <label class="app-addtask__form__content app-addtask__form__content--duration-minute-label">m</label>
+          <input class="app-addtask__form__content app-addtask__form__section__content--duration-minute" type="number" min="0" />
+          <label class="app-addtask__form__label app-addtask__form__section__label--duration-minute-label">m</label>
         </div>
       </div>
 
@@ -39,7 +39,7 @@
       </div>
 
       <div class="app-addtask__form__section app-addtask__form__section--save">
-        <button class="app-addtask__form__button">
+        <button class="btn btn-block">
           Add {{itemName}}
         </button>
       </div>
