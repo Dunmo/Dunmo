@@ -1,9 +1,14 @@
 <template name="layout">
+  {{#if modalActive}}
+    <div class="app-dimmer"></div>
+  {{/if}}
+
+  {{> addTask}}
+
   {{> Template.dynamic template=header}}
   {{> Template.dynamic template=nav}}
 
   <div class="app-mainview">
-
     <div class="app-mainview__tab-container display-none">
 
         <div class="app-mainview__tab">Backlog</div>
@@ -15,6 +20,8 @@
     </div>
 
     {{> Template.dynamic template=main}}
+
+    {{> addTaskButton}}
 
   </div>
 </template>

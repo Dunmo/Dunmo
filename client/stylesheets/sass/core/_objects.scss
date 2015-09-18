@@ -20,6 +20,12 @@
     text-align: center;
 }
 
+@mixin flexbox($justify-content,$align-items) {
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+
 @mixin padding($padding:0) {
 
     @include small {
