@@ -1,46 +1,44 @@
 <template name="addTask">
   {{#if addTaskIsActive}}
   <div class="app-addtask">
-    <div class="app-addtask__form">
-      <div class="app-addtask__form__section app-addtask__form__section--importance">
-        <div class="app-addtask__form__icon app-addtask__form__icon--importance app-taskitem__importance--{{rank}}"></div>
+    <div class="app-addtask__section app-addtask__section--importance">
+      <div class="app-addtask__icon app-addtask__icon--importance app-taskitem__importance--{{rank}}"></div>
+    </div>
+
+    <div class="app-addtask__section app-addtask__section--title">
+      <input class="app-addtask__content app-addtask__content--title" placeholder="Task title" />
+    </div>
+
+    <div class="app-addtask__section app-addtask__section--duration">
+      <div class="app-addtask__icon app-addtask__icon--duration">
+        <i class="fa fa-clock-o"></i>
       </div>
 
-      <div class="app-addtask__form__section app-addtask__form__section--title">
-        <input class="app-addtask__form__content app-addtask__form__content--title" placeholder="Task title" />
+      <div class="app-addtask__inputgroup">
+        <input class="app-addtask__content app-addtask__section__content--duration-hour" type="number" min="0" />
+        <label class="app-addtask__label app-addtask__section__label--duration-hour-label">h</label>
       </div>
 
-      <div class="app-addtask__form__section app-addtask__form__section--duration">
-        <div class="app-addtask__form__icon app-addtask__form__icon--duration">
-          <i class="fa fa-clock-o"></i>
-        </div>
+      <div class="app-addtask__inputgroup">
+        <input class="app-addtask__content app-addtask__section__content--duration-minute" type="number" min="0" />
+        <label class="app-addtask__label app-addtask__section__label--duration-minute-label">m</label>
+      </div>
+    </div>
 
-        <div class="app-addtask__form__inputgroup">
-          <input class="app-addtask__form__content app-addtask__form__section__content--duration-hour" type="number" min="0" />
-          <label class="app-addtask__form__label app-addtask__form__section__label--duration-hour-label">h</label>
-        </div>
-
-        <div class="app-addtask__form__inputgroup">
-          <input class="app-addtask__form__content app-addtask__form__section__content--duration-minute" type="number" min="0" />
-          <label class="app-addtask__form__label app-addtask__form__section__label--duration-minute-label">m</label>
-        </div>
+    <div class="app-addtask__section app-addtask__section--due">
+      <div class="app-addtask__icon app-addtask__icon--due">
+        <i class="fa fa-calendar"></i>
       </div>
 
-      <div class="app-addtask__form__section app-addtask__form__section--due">
-        <div class="app-addtask__form__icon app-addtask__form__icon--due">
-          <i class="fa fa-calendar"></i>
-        </div>
-
-        <div class="app-addtask__form__inputgroup">
-          <input class="app-addtask__form__content app-addtask__form__section__content--due" type="date" />
-        </div>
+      <div class="app-addtask__inputgroup">
+        <input class="app-addtask__content app-addtask__section__content--due" type="date" />
       </div>
+    </div>
 
-      <div class="app-addtask__form__section app-addtask__form__section--save">
-        <button class="btn btn-block">
-          Add {{itemName}}
-        </button>
-      </div>
+    <div class="app-addtask__section app-addtask__section--save">
+      <button class="btn btn-block">
+        Add {{itemName}}
+      </button>
     </div>
   </div>
   {{/if}}
