@@ -1,0 +1,83 @@
+.app-addtask {
+  @include block(4rem,60%,fixed);
+  @include flexbox(space-around,center);
+  margin: 5rem 20% 0;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  background: $white;
+  z-index: 70;
+
+  input {
+    border: none;
+    border-bottom: 2px solid $grey;
+    background-color: $white;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  &__icon {
+
+    &--importance {
+      font-size: 2rem;
+    }
+
+    &--duration {
+      font-size: 1.5rem;
+    }
+
+    &--due {
+      font-size: 1.4rem;
+    }
+  }
+
+  &__section {
+    @include flexbox(space-around,center);
+    padding: 0 0.4rem;
+
+    &--importance {
+      height: rem;
+      flex: 1;
+    }
+
+    &--title {
+      flex: 10;
+    }
+
+    &--duration {
+      @include flexbox(space-around,center);
+      flex: 5;
+    }
+
+    &--due {
+      @include flexbox(space-around,center);
+      flex: 7;
+      padding: 0 0.75rem;
+    }
+
+    &--save {
+      flex: 4;
+    }
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  &__inputgroup {
+    @include flexbox(space-around,center);
+    margin-left: 0.4rem;
+
+    &--duration {
+
+      &-hour {
+        flex: 2;
+      }
+
+      &-minute {
+        flex: 3;
+      }
+    }
+  }
+}
