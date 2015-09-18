@@ -1,12 +1,6 @@
 <template name="addTask">
   {{#if addTaskIsActive}}
   <div class="app-addtask">
-    <div class="app-addtask__headericon app-addtask__headericon--{{itemType}}">
-      {{#if isTask}}
-        <i class="app-addtask__headericon__icon ion-ios-checkmark-outline"></i>
-      {{/if}}
-    </div>
-
     <div class="app-addtask__form">
       <div class="app-addtask__form__section app-addtask__form__section--importance">
         <div class="app-addtask__form__icon app-addtask__form__icon--importance app-taskitem__importance--{{rank}}"></div>
