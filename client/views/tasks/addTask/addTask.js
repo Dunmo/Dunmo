@@ -29,5 +29,8 @@ View.helpers({
     var rankMap = { 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
     var rank = rankVar.get();
     return rankMap[rank];
+  },
+  now: function () {
+    return new Date();
   }
 });
