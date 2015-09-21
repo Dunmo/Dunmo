@@ -38,6 +38,7 @@ View.helpers({
 View.events({
   'submit form.app-addtask': function (e, t) {
     e.preventDefault();
+    $('.warning').removeClass('warning');
 
     var $parent = $('.app-addtask');
 
@@ -51,6 +52,11 @@ View.events({
 
     var duedate = $parent.find('input.app-addtask__content--due').val();
     var dueAt = moment(duedate).toDate();
+
+    if(!duration || duration <= 0) {
+      $('.app-addtask__section--duration').addClass('warning');
+      return false;
+    }
 
     console.log('importance, title, duration, dueAt: ', importance, title, duration, dueAt);
 
