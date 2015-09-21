@@ -48,6 +48,14 @@
     &--duration {
       @include flexbox(space-around,center);
       flex: 5;
+
+      &.warning {
+        color: $coral;
+
+        input {
+          border-color: $coral;
+        }
+      }
     }
 
     &--due {
