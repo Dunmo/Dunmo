@@ -1,5 +1,22 @@
 
-Template.taskItem.helpers({
+var View = Template.taskItem;
+
+var isEditingTitle = {};
+
+View.onCreated(function () {
+  var task = this.data;
+  isEditingTitle[task._id] = new ReactiveVar();
+  isEditingTitle[task._id].set(false);
+});
+
+View.onRendered(function () {
+  var task = this.data;
+  if (isEditingTitle[task._id].get()) {
+    $('.app-taskitem__head__title--input').focus();
+  }
+});
+
+View.helpers({
   shortDescription: function () {
     if(Session.get('currently-expanded-task') === this._id) return '';
     if(!this.description) return '';
@@ -34,6 +51,10 @@ Template.taskItem.helpers({
     var isExpanded = (Session.get('currently-expanded-task') === this._id);
     return { style: isExpanded ? 'display: none;' : '' };
   },
+
+  isEditingTitle: function () {
+    return isEditingTitle[this._id] && isEditingTitle[this._id].get();
+  }
 });
 
 Template.taskItem.events({
@@ -64,6 +85,27 @@ Template.taskItem.events({
     } else {
       Session.set('currently-expanded-task', this._id);
     }
+  },
+
+  'click .app-taskitem__head__title': function (e, t) {
+    e.stopPropagation();
+    isEditingTitle[this._id].set(true);
+    Meteor.setTimeout(function () {
+      $('.app-taskitem__head__title--input').focus();
+    }, 0);
+  },
+
+  'click .app-taskitem__head__title--input': function (e, t) {
+    e.stopPropagation();
+  },
+
+  'blur .app-taskitem__head__title--input': function (e, t) {
+    e.stopPropagation();
+    var title = t.find('.app-taskitem__head__title--input').value;
+    title = _.trim(title);
+    if(title.length === 0) title = this.title
+    this.setTitle(title);
+    isEditingTitle[this._id].set(false);
   },
 
   'click .input-importance': function (e) {
