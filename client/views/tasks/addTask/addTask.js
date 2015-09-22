@@ -30,8 +30,8 @@ View.helpers({
     var rank = rankVar.get();
     return rankMap[rank];
   },
-  now: function () {
-    return new Date();
+  today: function () {
+    return moment().format('YYYY-MM-DD');
   }
 });
 
