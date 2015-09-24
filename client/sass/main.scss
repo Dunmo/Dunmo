@@ -3,8 +3,7 @@
 // Existing content in the file will not be touched
 // When deleting a .scss or .sass file you must manually delete it from here
 
-@import "client/sass/app.scss";
+@import "app";
 
-@import "client/sass/ie.scss";
-@import "client/sass/landing.scss";
-@import "client/sass/main.scss";
+@import "ie";
+@import "landing";
