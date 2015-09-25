@@ -14,7 +14,11 @@
 
     <div class="app-taskitem__container">
       <div class="app-taskitem__head">
-        <div class="app-taskitem__head__title">{{title}}</div>
+        {{#if isEditingTitle}}
+          <input class="app-taskitem__head__title--input" value="{{title}}" autofocus/>
+        {{else}}
+          <div class="app-taskitem__head__title">{{title}}</div>
+        {{/if}}
         <div class="app-taskitem__head__description">{{shortDescription}}</div>
       </div>
 
