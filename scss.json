@@ -2,6 +2,7 @@
   "useIndex" : true,
   "indexFilePath" : "client/sass/main.scss",
   "includePaths": [
-    ".meteor/local/build/programs/server/assets/packages/francocatena_compass"
+      "client/sass",
+      ".meteor/local/build/programs/server/assets/packages/francocatena_compass"
   ]
 }
