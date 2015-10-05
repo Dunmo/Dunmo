@@ -45,7 +45,7 @@
             display: table-cell;
             vertical-align: middle;
             box-sizing: border-box;
-            padding: 1rem 30% 1rem 0;
+            padding: 1rem 30% 1rem 1rem;
             width: 100%;
         }
         
@@ -89,7 +89,7 @@
         &__content {
             display: table-cell;
             vertical-align: middle;
-            padding: 1rem;
+            padding: 1.5rem;
             font: 1.75rem/2rem $sans-serif;
             color: $white;
             text-align: right;
@@ -110,10 +110,17 @@
         padding: 0 1rem;
         margin: 0.5rem 0.25rem;
         cursor: pointer;
+        @include medium {
+            height: 2rem;
+            font: 1rem/2rem $sans-serif;
+        }
     }
     &__learn {
         background: $white;
         color: $green;
+        &:hover {
+            background: rgba($white,0.9);
+        }
     }
     &__action {
         background: $coral;
