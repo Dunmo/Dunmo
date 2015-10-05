@@ -89,7 +89,7 @@
             display: table-cell;
             vertical-align: middle;
             padding: 1rem;
-            font: 1.25rem/1.5rem $sans-serif;
+            font: 1.75rem/2rem $sans-serif;
             color: $white;
             text-align: right;
             @include medium {
@@ -97,6 +97,30 @@
             }
         }
         
+    }
+    
+    &__learn,
+    &__action {
+        @include transition(all 0.25s ease-in-out);
+        display: inline-block;
+        height: 2.5rem;
+        border-radius: 0.25rem;
+        font: 1.5rem/2.5rem $sans-serif;
+        padding: 0 1rem;
+        margin: 0.5rem 0.25rem;
+        cursor: pointer;
+    }
+    &__learn {
+        background: $white;
+        color: $green;
+    }
+    &__action {
+        background: $coral;
+        color: $white;
+        &:hover {
+            background: darken($coral,5%);
+            //color: $coral;
+        }
     }
     
 }
