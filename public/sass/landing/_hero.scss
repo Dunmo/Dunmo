@@ -102,11 +102,11 @@
             display: table-cell;
             vertical-align: middle;
             padding: 1.5rem;
-            font: 1.75rem/2rem $sans-serif;
+            font: 1.75rem/2.25rem $sans-serif;
             color: $white;
             text-align: right;
             @include medium {
-                font: 1rem/1.25rem $sans-serif;
+                font: 1.25rem/1.5rem $sans-serif;
             }
             @include small {
                 
@@ -120,10 +120,11 @@
         @include transition(all 0.25s ease-in-out);
         display: inline-block;
         height: 2.5rem;
-        border-radius: 0.25rem;
         font: 1.5rem/2.5rem $sans-serif;
         padding: 0 1rem;
         margin: 0.5rem 0.25rem;
+        border-radius: 0.25rem;
+        border: none !important;
         cursor: pointer;
         @include medium {
             height: 2rem;
