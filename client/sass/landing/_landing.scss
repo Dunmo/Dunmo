@@ -350,99 +350,99 @@
 
     }
 
-    &-contact,
-    &-subscribe {
-        @include block;
-        @include padding(3rem);
-        background: $white;
-        color: $grey;
+//    &-contact,
+//    &-subscribe {
+//        @include block;
+//        @include padding(3rem);
+//        background: $white;
+//        color: $grey;
+//
+//            &__heading {
+//                @include small {
+//                    font: 2rem/3rem $sans-serif;
+//                }
+//                width: 100%;
+//                text-align: center;
+//                font: 2.25rem/4rem $sans-serif;
+//                text-transform: uppercase;
+//            }
+//
+//            &__form {
+//                @include small {
+//                    width: 90%;
+//                }
+//                @include medium {
+//                    width: 30rem;
+//                }
+//                @include large {
+//                    width: 35rem;
+//                }
+//                @include larger {
+//                    width: 50rem;
+//                }
+//                margin: 0 auto;
+//                text-align: center;
+//
+//                &__input,
+//                &__textarea {
+//                    display: block;
+//                    box-sizing: border-box;
+//                    width: 100%;
+//                    height: 2rem;
+//                    border-radius: 1rem;
+//                    border: none;
+//                    &:focus {
+//                        outline: none;
+//                    }
+//                }
+//                &__input {
+//                    margin: 1rem auto;
+//                    padding: 0 1rem;
+//                    font: 1rem/2rem $sans-serif;
+//                    text-align: center;
+//                    color: $green;
+//                }
+//                &__textarea {
+//                    height: 5rem;
+//                    margin: 1rem auto;
+//                    padding: 0.5rem 1rem;
+//                    font: 1rem/1.25rem $sans-serif;
+//                }
+//
+//                &__submit {
+//                    @include button(50%,3rem,1rem,$green,1px solid $green);
+//                    @include small {
+//                        background: $green;
+//                        color: $white;
+//                    }
+//                    text-transform: uppercase;
+//                    margin: 0 auto;
+//                    cursor: pointer;
+//                    &:hover {
+//                        color: $white;
+//                        background: $green;
+//                    }
+//                }
+//
+//            }
+//
+//    }
 
-            &__heading {
-                @include small {
-                    font: 2rem/3rem $sans-serif;
-                }
-                width: 100%;
-                text-align: center;
-                font: 2.25rem/4rem $sans-serif;
-                text-transform: uppercase;
-            }
-
-            &__form {
-                @include small {
-                    width: 90%;
-                }
-                @include medium {
-                    width: 30rem;
-                }
-                @include large {
-                    width: 35rem;
-                }
-                @include larger {
-                    width: 50rem;
-                }
-                margin: 0 auto;
-                text-align: center;
-
-                &__input,
-                &__textarea {
-                    display: block;
-                    box-sizing: border-box;
-                    width: 100%;
-                    height: 2rem;
-                    border-radius: 1rem;
-                    border: none;
-                    &:focus {
-                        outline: none;
-                    }
-                }
-                &__input {
-                    margin: 1rem auto;
-                    padding: 0 1rem;
-                    font: 1rem/2rem $sans-serif;
-                    text-align: center;
-                    color: $green;
-                }
-                &__textarea {
-                    height: 5rem;
-                    margin: 1rem auto;
-                    padding: 0.5rem 1rem;
-                    font: 1rem/1.25rem $sans-serif;
-                }
-
-                &__submit {
-                    @include button(50%,3rem,1rem,$green,1px solid $green);
-                    @include small {
-                        background: $green;
-                        color: $white;
-                    }
-                    text-transform: uppercase;
-                    margin: 0 auto;
-                    cursor: pointer;
-                    &:hover {
-                        color: $white;
-                        background: $green;
-                    }
-                }
-
-            }
-
-    }
-
-    &-subscribe {
-        background: $white;
-
-        &__form__input {
-            height: 3rem;
-            font: 1rem/3rem $sans-serif;
-            border-radius: 1.5rem;
-            border: 1px solid $green;
-        }
-
-        &__form__submit:hover {
-            //color: $green;
-        }
-
-    }
+//    &-subscribe {
+//        background: $white;
+//
+//        &__form__input {
+//            height: 3rem;
+//            font: 1rem/3rem $sans-serif;
+//            border-radius: 1.5rem;
+//            border: 1px solid $green;
+//        }
+//
+//        &__form__submit:hover {
+//            //color: $green;
+//        }
+//
+//    }
 
     &-footer {
         @include block;

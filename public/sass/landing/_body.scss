@@ -1,0 +1,48 @@
+.landing-features {
+    @include block;
+    min-height: 100%;
+    padding: 2rem 0;
+    background: $white;
+    color: $grey;
+    
+    &__header {
+        width: 100%;
+        font: bold 2.5rem/4rem $sans-serif;
+        text-transform: uppercase;
+        text-align:center;
+    }
+    
+    &__subheading {
+        width: 100%;
+        font: italic 1.75rem/3rem $sans-serif;
+        text-align: center;
+        
+    }
+    
+    &__slide {
+        @include block(100%);
+        margin: 0 auto;
+        
+        &__item {
+            box-sizing: border-box;
+            width: calc((100% - 8rem)/2);
+            padding: 1rem 2rem;
+            margin: 1rem 2rem;
+            float: left;
+            font: 1.25rem/2rem $sans-serif;
+            text-align: left;
+            @include small {
+                float: none;
+                margin: 1rem auto;
+            }
+            
+            &__catch {
+                display: block;
+                font: bold 1.5rem/2.5rem $sans-serif;
+                text-align: left;
+            }
+        }
+        
+    }
+    
+}
