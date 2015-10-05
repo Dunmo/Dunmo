@@ -2,6 +2,7 @@
     //@include user-select(none);
     @include block(100%);
     @include background-image('../images/0b.jpg');
+    @include background-tint(rgba($grey,0.25));
     color: $grey;
     overflow: hidden;
     

@@ -50,7 +50,7 @@
     background: url($url) $position / $size $repeat;
 }
 
-@mixin background-image-tint($color) {
+@mixin background-tint($color) {
     &::before {
         content: '';
         display: block;
