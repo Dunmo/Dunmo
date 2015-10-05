@@ -84,12 +84,17 @@
         right: 0;
         width: 40%;
         height: 100%;
-        color: $white;
         
         &__content {
             display: table-cell;
             vertical-align: middle;
             padding: 1rem;
+            font: 1.25rem/1.5rem $sans-serif;
+            color: $white;
+            text-align: right;
+            @include medium {
+                font: 1rem/1.25rem $sans-serif;
+            }
         }
         
     }
