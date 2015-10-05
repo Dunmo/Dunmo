@@ -35,7 +35,6 @@ kadira:flow-router
 reactive-var
 jjman505:rfc5322
 fourseven:scss
-francocatena:compass
 standard-minifiers
 meteor-base
 mobile-experience
@@ -50,3 +49,4 @@ random
 ejson
 spacebars
 check
+francocatena:compass

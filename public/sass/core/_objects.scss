@@ -1,0 +1,72 @@
+@mixin block($height:auto,$width:100%,$position:relative) {
+    position: $position;
+    box-sizing: border-box;
+    height: $height;
+    width: $width;
+}
+
+@mixin button($width,$height,$font-size,$color,$border:none,$background:none) {
+    @include transition(all 0.25s ease-in-out);
+    display: block;
+    width: $width;
+    height: $height;
+    border-radius: $height / 2;
+    border: $border;
+    background: $background;
+    font-size: $font-size;
+    line-height: $height;
+    font-family: $sans-serif;
+    color: $color;
+    text-align: center;
+}
+
+@mixin flexbox($justify-content,$align-items) {
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+
+@mixin padding($padding:0) {
+
+    @include small {
+        padding: $padding 1rem;
+    }
+
+    @include medium {
+        padding: $padding 2rem;
+    }
+
+    @include large {
+        padding: $padding 4rem;
+    }
+
+    @include larger {
+        padding: $padding 6rem;
+    }
+
+}
+
+@mixin background-image($url,$position:center center,$size:cover,$repeat:no-repeat) {
+    background: url($url) $position / $size $repeat;
+}
+
+@mixin background-image-tint($color) {
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: $color;
+    }
+}
+
+@mixin clearfix() {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
