@@ -10,7 +10,7 @@ dburles:collection-helpers
 fastclick
 # less
 matb33:collection-hooks
-# nemo64:bootstrap
+nemo64:bootstrap
 stevezhu:lodash
 service-configuration
 jaywon:meteor-node-uuid
