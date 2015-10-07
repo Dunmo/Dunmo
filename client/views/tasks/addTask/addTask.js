@@ -70,6 +70,8 @@ View.events({
 
     Session.set('add-task-is-active', false);
 
+    gapi.syncTasksWithCalendar();
+
     return false;
   }
 });
