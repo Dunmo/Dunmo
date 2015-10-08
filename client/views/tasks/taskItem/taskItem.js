@@ -14,6 +14,7 @@ View.onRendered(function () {
   if (isEditingTitle[task._id].get()) {
     $('.app-taskitem__head__title--input').focus();
   }
+  task.editTitleIsCanceled = false;
 });
 
 View.helpers({
@@ -101,12 +102,18 @@ Template.taskItem.events({
     e.stopPropagation();
   },
 
-  'blur .app-taskitem__head__title--input': function (e, t) {
+  'blur .app-taskitem__head__title--input, keydown .app-taskitem__head__title--input': function (e, t) {
+    if(this.editTitleIsCanceled) return this.editTitleIsCanceled = false;
+    if(e.type === 'keydown' && e.which !== 13 && e.which !== 27) return;
+    if(e.which === 27) {
+      isEditingTitle[this._id].set(false);
+      return this.editTitleIsCanceled = true;
+    }
     e.stopPropagation();
     var prevTitle = this.title;
     var title = t.find('.app-taskitem__head__title--input').value;
     title = _.trim(title);
-    if(title.length === 0) title = prevTitle;
+    if(e.which === 27 || title.length === 0) title = prevTitle;
     this.setTitle(title);
     isEditingTitle[this._id].set(false);
     if(title !== prevTitle) gapi.syncTasksWithCalendar();
