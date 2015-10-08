@@ -62,6 +62,7 @@ Template.taskItem.events({
   'click .app-taskitem__quick-actions__button--done, click .app-taskitem__actions__button--done': function (e) {
     e.stopPropagation();
     this.toggleDone();
+    gapi.syncTasksWithCalendar();
   },
 
   'click .app-taskitem__quick-actions__button--start, click .app-taskitem__actions__button--start': function (e) {
@@ -77,6 +78,7 @@ Template.taskItem.events({
   'click .app-taskitem__actions__button--remove': function (e) {
     e.stopPropagation();
     this.toggleRemoved();
+    gapi.syncTasksWithCalendar();
   },
 
   'click .app-taskitem__importance, click .app-taskitem__head, click .app-taskitem__chevron': function (e) {
@@ -101,11 +103,13 @@ Template.taskItem.events({
 
   'blur .app-taskitem__head__title--input': function (e, t) {
     e.stopPropagation();
+    var prevTitle = this.title;
     var title = t.find('.app-taskitem__head__title--input').value;
     title = _.trim(title);
-    if(title.length === 0) title = this.title
+    if(title.length === 0) title = prevTitle;
     this.setTitle(title);
     isEditingTitle[this._id].set(false);
+    if(title !== prevTitle) gapi.syncTasksWithCalendar();
   },
 
   'click .input-importance': function (e) {
@@ -113,6 +117,7 @@ Template.taskItem.events({
     $(e.target).parent().parent().children('label').removeClass('active');
     $(e.target).parent().parent().children('label').eq(rank).addClass('active');
     this.setImportance(Number(rank));
+    gapi.syncTasksWithCalendar();
   },
 
   'change .textarea-description': function (e) {
@@ -125,12 +130,14 @@ Template.taskItem.events({
     var hours_remaining = $(task_container).find('[data-field_name="hours_remaining"]').val();
     var minutes_remaining = $(task_container).find('[data-field_name="minutes_remaining"]').val();
     this.setRemainingHrsMins(hours_remaining, minutes_remaining);
+    gapi.syncTasksWithCalendar();
   },
 
   'focusout .app-taskitem__body__content--due': function (e) {
     var due_at = $(e.target).val();
     due_at = moment(due_at)._d;
     if(due_at.toString() !== 'Invalid Date') this.setDueAt(due_at);
+    gapi.syncTasksWithCalendar();
   },
 
 });

@@ -1,7 +1,6 @@
 
 var clientId = '185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com';
 var scopes   = 'https://www.googleapis.com/auth/calendar';
-var apiKey   = 'AtwQ5-FSiXOk72t0L0QCzQux';
 
 gapi.TASK_CALENDAR_NAME = 'Dunmo Tasks';
 gapi.AUTH_PARAMS = {
@@ -130,6 +129,10 @@ gapi.syncCalendars = function () {
     var calendarIds = _.pluck(calendars, 'id');
 
     var user   = Meteor.user();
+    if(! user) {
+      console.log('[syncCalendars]', 'No user logged in.');
+      return;
+    }
     var userId = user._id;
 
     calendars = calendars.map(function (cal) { cal.ownerId = userId; return cal; });
@@ -503,6 +506,7 @@ gapi.getFreetimes = function (startingFrom, callback) {
 ////////////////
 
 gapi.syncTasksWithCalendar = function () {
+  console.log('syncing tasks with calendar...');
   if(gapi.isSyncing && gapi.isQueued) return;
 
   if(gapi.isSyncing) gapi.isQueued = true;
