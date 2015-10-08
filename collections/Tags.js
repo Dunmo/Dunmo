@@ -40,7 +40,7 @@ Tags.createOrUpdate = function (obj) {
     obj.inputString     = obj.inputString;
     obj.title           = obj.title         || obj.inputString.substring(1);
     obj.type            = obj.type          || Tags.tagTypeFromString(obj.inputString);
-    obj.isRemoved       = obj.isRemoved     || false;
+    obj._removed        = obj._removed      || 'not removed';
     obj.lastUpdatedAt   = obj.lastUpdatedAt || Date.now();
 
     if(!title) return false;

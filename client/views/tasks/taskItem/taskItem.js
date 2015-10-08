@@ -125,7 +125,7 @@ Template.taskItem.events({
     this.setDescription(description);
   },
 
-  'change .app-taskitem__body__content--duration-hour, change .app-taskitem__body__content--duration-hour': function (e) {
+  'change .app-taskitem__body__content--duration-hour, change .app-taskitem__body__content--duration-minute': function (e) {
     var task_container = $(e.target).parents('.app-taskitem');
     var hours_remaining = $(task_container).find('[data-field_name="hours_remaining"]').val();
     var minutes_remaining = $(task_container).find('[data-field_name="minutes_remaining"]').val();

@@ -5,7 +5,6 @@
  * googleCalendarId : String
  * title            : String
  * active           : Boolean
- * isRemoved        : Boolean
  *
  */
 
