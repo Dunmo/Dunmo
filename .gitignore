@@ -19,3 +19,4 @@ dunmo.sln
 *.suo
 packages/npm-container
 bin/dunmo
+*.map
