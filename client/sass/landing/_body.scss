@@ -22,6 +22,7 @@
         width: 100%;
         font: italic 1.75rem/2.5rem $sans-serif;
         text-align: center;
+        float: none !important;
         @include small {
             font: italic 1.5rem/2rem $sans-serif;
         }
@@ -32,6 +33,7 @@
     }
     
     &__slide {
+        @extend .group;
         @include block(100%);
         margin: 0 auto;
         
@@ -50,6 +52,7 @@
                 font: 1rem/1.5rem $sans-serif;
             }
             @include medium {
+                width: calc((100% - 8rem)/2);
                 margin: 1rem 2rem;
                 font: 1rem/1.5rem $sans-serif;
             }

@@ -8,7 +8,6 @@ insecure
 accounts-google
 dburles:collection-helpers
 fastclick
-# less
 matb33:collection-hooks
 nemo64:bootstrap
 stevezhu:lodash
@@ -21,7 +20,7 @@ meteorhacks:fast-render
 msavin:jetsetter
 accounts-password
 digilord:faker
-# tsega:bootstrap3-datetimepicker
+tsega:bootstrap3-datetimepicker
 sanjo:jasmine
 velocity:html-reporter
 velocity:console-reporter
