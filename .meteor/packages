@@ -9,7 +9,6 @@ accounts-google
 dburles:collection-helpers
 fastclick
 matb33:collection-hooks
-nemo64:bootstrap
 stevezhu:lodash
 service-configuration
 jaywon:meteor-node-uuid
@@ -48,3 +47,5 @@ ejson
 spacebars
 check
 fourseven:scss
+twbs:bootstrap
+less
