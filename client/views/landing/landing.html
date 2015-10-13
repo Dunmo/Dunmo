@@ -11,7 +11,7 @@
     <a href="" class="landing-nav__action">Get the Beta</a>
   </div>
 
-    <div class="landing-hero">
+    <div class="landing-hero" id="hero">
         
         <div class="landing-hero__slash">
         
@@ -186,22 +186,5 @@
         <a href="https://twitter.com/dunmoapp" class="landing-footer__social fa fa-twitter"></a>
 
     </div>
-    
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('a[href*=#]:not([href=#])').click(function () {
-              if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                  $('html,body').animate({
-                    scrollTop: target.offset().top
-                  }, 750);
-                  return false;
-                }
-              }
-            });
-        });
-    </script>
     
 </template>

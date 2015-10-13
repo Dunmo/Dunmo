@@ -133,14 +133,15 @@
     }
     &__learn {
         background: $white;
-        color: $green;
+        color: $green !important;
         &:hover {
+            //color: $green;
             background: rgba($white,0.9);
         }
     }
     &__action {
         background: $coral;
-        color: $white;
+        color: $white !important;
         &:hover {
             background: darken($coral,5%);
             //color: $coral;
