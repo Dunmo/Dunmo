@@ -7,8 +7,9 @@ function itemType () {
   return 'task';
 }
 
-View.onCreated(function () {
+View.onRendered(function () {
   rankVar.set(1);
+  $('.app-addtask__content--title').focus();
 });
 
 View.helpers({
