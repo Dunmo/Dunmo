@@ -46,7 +46,7 @@ random
 ejson
 spacebars
 check
-fourseven:scss
+fourseven:scss@=3.2.0
 twbs:bootstrap
 less
 raix:handlebar-helpers
