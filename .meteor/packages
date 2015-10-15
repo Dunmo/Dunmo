@@ -8,9 +8,7 @@ insecure
 accounts-google
 dburles:collection-helpers
 fastclick
-less
 matb33:collection-hooks
-nemo64:bootstrap
 stevezhu:lodash
 service-configuration
 jaywon:meteor-node-uuid
@@ -48,4 +46,7 @@ random
 ejson
 spacebars
 check
+fourseven:scss
+twbs:bootstrap
+less
 raix:handlebar-helpers

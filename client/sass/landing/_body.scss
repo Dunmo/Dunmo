@@ -1,0 +1,75 @@
+.landing-features {
+    @include block;
+    min-height: 100%;
+    padding: 2rem 0;
+    background: $white;
+    color: $grey;
+    
+    &__heading {
+        width: 100%;
+        font: bold 2.5rem/4rem $sans-serif;
+        text-transform: uppercase;
+        text-align:center;
+        @include small {
+            font: bold 2rem/4rem $sans-serif;
+        }
+        @include medium {
+            font: bold 2rem/4rem $sans-serif;
+        }
+    }
+    
+    &__subheading {
+        width: 100%;
+        font: italic 1.75rem/2.5rem $sans-serif;
+        text-align: center;
+        float: none !important;
+        @include small {
+            font: italic 1.5rem/2rem $sans-serif;
+        }
+        @include medium {
+            font: italic 1.5rem/2rem $sans-serif;
+        }
+        
+    }
+    
+    &__slide {
+        @extend .group;
+        @include block(100%);
+        margin: 0 auto;
+        
+        &__item {
+            box-sizing: border-box;
+            width: calc((100% - 16rem)/2);
+            padding: 1rem 2rem;
+            margin: 3rem 4rem;
+            float: left;
+            font: 1.25rem/2rem $sans-serif;
+            text-align: left;
+            @include small {
+                float: none;
+                width: 100%;
+                margin: 1rem auto;
+                font: 1rem/1.5rem $sans-serif;
+            }
+            @include medium {
+                width: calc((100% - 8rem)/2);
+                margin: 1rem 2rem;
+                font: 1rem/1.5rem $sans-serif;
+            }
+            
+            &__catch {
+                display: block;
+                font: bold 1.5rem/3rem $sans-serif;
+                text-align: left;
+                @include small {
+                    font: bold 1.25rem/2.25rem $sans-serif;
+                }
+                @include medium {
+                    font: bold 1.25rem/2.25rem $sans-serif;
+                }
+            }
+        }
+        
+    }
+    
+}

@@ -1,8 +1,16 @@
+@import 'bourbon/bourbon';
+
 @import 'core/base';
 @import 'core/objects';
 @import 'core/common';
 
-@import 'landing/landing';
+@import 'landing/general';
+@import 'landing/navigation';
+@import 'landing/subscribe';
+@import 'landing/hero';
+@import 'landing/body';
+@import 'landing/footer';
+@import 'landing/action';
 
 @import 'dev/experimental';
 @import 'dev/shame';

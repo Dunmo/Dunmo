@@ -1,4 +1,3 @@
-
 ENV
 tests/jasmine/server/unit/package-stubs.js
 tests/jasmine/server/unit/packageMocksSpec.js
@@ -17,3 +16,5 @@ dunmo.sln
 *.sln
 *.suo
 packages/npm-container
+bin/dunmo
+*.map
