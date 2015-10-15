@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIR=$PWD
+. "$DIR/ENV"
+
+meteor

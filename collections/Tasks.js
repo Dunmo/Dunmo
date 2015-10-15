@@ -87,8 +87,8 @@ Tasks.helpers({
   },
 
   toggleRemoved: function (val) {
-    if(val !== undefined) return this.setIsRemoved(val);
-    else                  return this.setIsRemoved(!this.isRemoved());
+    if(typeof val === 'undefined') val = !this.isRemoved();
+    return this.setIsRemoved(val);
   },
 
   setIsRemoved: function (val) {
@@ -277,7 +277,7 @@ Tasks.create = function (str, obj) {
   obj.snoozedUntil     = obj.snoozedUntil     || 0;
   obj.dependencies     = obj.dependencies     || [];
   obj.isDone           = obj.isDone           || false;
-  obj.isRemoved        = obj.isRemoved        || false;
+  obj._removed         = obj._removed         || 'not removed';
   obj.isOnboardingTask = obj.isOnboardingTask || false;
   obj.lastUpdatedAt    = obj.lastUpdatedAt    || Date.now();
 

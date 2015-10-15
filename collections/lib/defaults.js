@@ -22,8 +22,6 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
 
   collection.helpers({
 
-    setRemoved: Setters.setBool('isRemoved'),
-
     remove: function () {
       return this.setRemoved(true);
     },
@@ -42,9 +40,9 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
   });
 
   // does not include removed items
-  collection.before.find(function(userId, selector, options) {
-    if(!selector.isRemoved) selector.isRemoved = { $ne: true };
-  });
+  // collection.before.find(function(userId, selector, options) {
+  //   if(!selector._removed) selector._removed = { $ne: 'removed' };
+  // });
 
   collection.before.insert(function (userId, doc) {
     if(Array.isArray(doc)) {
@@ -72,7 +70,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
   // does not include removed items
   collection.fetch = function (selector, options) {
     selector   = selector || {};
-    selector.isRemoved = { $ne: true };
+    selector._removed = { $ne: 'removed' };
     var result = collection.find(selector, options);
     result     = result.fetch();
     return result;
