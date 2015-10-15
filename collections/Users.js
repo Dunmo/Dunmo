@@ -169,7 +169,7 @@ Users.helpers({
 
   // TODO: create custom selectors, i.e. selectors.todo = { isDone: { $ne: true } }
   tasks: function (selector, options) {
-    var defaults = { ownerId: this._id, _removed: { $ne: 'removed' } };
+    var defaults = { ownerId: this._id, isRemoved: false };
     selector = _.extend({}, defaults, selector);
     return Tasks.find(selector, options);
   },
@@ -192,7 +192,7 @@ Users.helpers({
   },
 
   removedTasks: function (selector, options) {
-    selector = _.extend({}, { ownerId: this._id, _removed: 'removed' }, selector);
+    selector = _.extend({}, { ownerId: this._id, isRemoved: true }, selector);
     return Tasks.direct.find(selector, options);
   },
 

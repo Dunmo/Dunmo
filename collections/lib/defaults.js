@@ -22,8 +22,15 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
 
   collection.helpers({
 
-    remove: function () {
-      return this.setRemoved(true);
+    setIsRemoved: Setters.setBool('isRemoved'),
+
+    setRemoved: function (bool) { return this.setIsRemoved(bool); },
+
+    remove: function () { return this.setIsRemoved(true); },
+
+    toggleRemoved: function (bool) {
+      if(bool === undefined) bool = !this.isRemoved;
+      return this.setIsRemoved(bool);
     },
 
     update: function (data) {
@@ -41,7 +48,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
 
   // does not include removed items
   // collection.before.find(function(userId, selector, options) {
-  //   if(!selector._removed) selector._removed = { $ne: 'removed' };
+  //   if(selector.isRemoved === undefined) selector.isRemoved = false;
   // });
 
   collection.before.insert(function (userId, doc) {
@@ -51,7 +58,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
         collection.insert(doc);
       });
     }
-    doc = {};
+    doc.isRemoved = doc.isRemoved || false;
   });
 
   // includes removed items
@@ -70,7 +77,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
   // does not include removed items
   collection.fetch = function (selector, options) {
     selector   = selector || {};
-    selector._removed = { $ne: 'removed' };
+    if(selector.isRemoved === undefined) selector.isRemoved = false;
     var result = collection.find(selector, options);
     result     = result.fetch();
     return result;
