@@ -83,6 +83,7 @@ oauth2@1.1.5
 observe-sequence@1.0.7
 ordered-dict@1.0.4
 package-version-parser@3.0.4
+percolate:migrations@0.9.6
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2
 promise@0.5.0
