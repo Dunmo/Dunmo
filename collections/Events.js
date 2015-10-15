@@ -39,7 +39,7 @@ Events.createOrUpdate = function (obj) {
   } else if(typeof(obj) === 'object') {
     obj = _.cloneDeep(obj);
     obj.googleEventId = obj.googleEventId || obj.id;
-    obj._removed      = obj._removed      || obj.status === 'cancelled' ? 'removed' : 'not removed';
+    obj.isRemoved     = obj.isRemoved     || obj.status === 'cancelled';
     ['start', 'end', 'created', 'updated'].forEach(function (prop) {
       obj[prop] = Number(new Date(obj[prop]));
     });

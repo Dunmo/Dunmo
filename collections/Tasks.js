@@ -86,24 +86,6 @@ Tasks.helpers({
     else    return this.markDone(!this.isDone);
   },
 
-  toggleRemoved: function (val) {
-    if(typeof val === 'undefined') val = !this.isRemoved();
-    return this.setIsRemoved(val);
-  },
-
-  setIsRemoved: function (val) {
-    if(val === true) this.setRemoved('removed');
-    else             this.setRemoved('not removed');
-  },
-
-  setRemoved: function (val) {
-    this.update({ _removed: val });
-  },
-
-  isRemoved: function () {
-    return this._removed === 'removed';
-  },
-
   reParse: function (str) {
     var res = Natural.parseTask(str);
     res.inputString = str;
@@ -277,7 +259,6 @@ Tasks.create = function (str, obj) {
   obj.snoozedUntil     = obj.snoozedUntil     || 0;
   obj.dependencies     = obj.dependencies     || [];
   obj.isDone           = obj.isDone           || false;
-  obj._removed         = obj._removed         || 'not removed';
   obj.isOnboardingTask = obj.isOnboardingTask || false;
   obj.lastUpdatedAt    = obj.lastUpdatedAt    || Date.now();
 

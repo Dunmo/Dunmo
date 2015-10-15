@@ -420,7 +420,7 @@ describe('user', function () {
       var userId = user._id;
       var events = [
         { id: 1, ownerId: userId },
-        { id: 2, ownerId: userId, _removed: 'removed' },
+        { id: 2, ownerId: userId, isRemoved: true },
         { id: 2, ownerId: 'someId' }
       ];
       events.forEach(function (event) { Events.insert(event); });
