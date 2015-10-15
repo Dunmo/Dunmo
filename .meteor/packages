@@ -49,3 +49,4 @@ check
 fourseven:scss
 twbs:bootstrap
 less
+raix:handlebar-helpers

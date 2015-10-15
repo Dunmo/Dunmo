@@ -1,23 +1,42 @@
 
 var btnLoading = new ReactiveVar();
+var resetBtnDone = new ReactiveVar();
+var usedGmailForReset = new ReactiveVar();
 var googleBtnLoading = new ReactiveVar();
+var savedPassword = '';
+
+function isGmailAddress(email) {
+  return email.substring(email.length-10, email.length) === '@gmail.com';
+}
 
 function synchronize(src, dest) {
   $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
   $(dest + '-link').addClass('active');
   $('form' + src).hide();
+  if(dest === '.reset') {
+    $('.social-login').hide();
+    $('.reset-header').show();
+  }
+  else if(src === '.reset') {
+    $('.social-login').show();
+    $('.reset-header').hide();
+  }
   $('form' + dest).show();
   var $src = $('form' + src);
+  var $dest = $('form' + dest);
   var email = $src.find('input.email').val();
   var password = $src.find('input.password').val();
-  var $dest = $('form' + dest);
+  if(password === undefined) password = savedPassword;
+  else                       savedPassword = password;
   $dest.find('input.email').val(email);
   $dest.find('input.password').val(password);
 }
 
 Template.login.onCreated(function () {
   btnLoading.set(false);
+  resetBtnDone.set(false);
+  usedGmailForReset.set(false);
   googleBtnLoading.set(false);
 });
 
@@ -32,17 +51,33 @@ Template.login.helpers({
 
   btnLoading: function () {
     return btnLoading.get();
+  },
+
+  resetBtnDone: function () {
+    return resetBtnDone.get();
+  },
+
+  usedGmailForReset: function () {
+    return usedGmailForReset.get();
   }
 });
 
 Template.login.events({
 
   'click .signup-link': function (e) {
-    synchronize('.login', '.signup');
+    if( $('.signup-link').hasClass('active') ) return false;
+    else if( $('.login-link').hasClass('active') ) synchronize('.login', '.signup');
+    else synchronize('.reset', '.signup');
   },
 
   'click .login-link': function (e) {
-    synchronize('.signup', '.login');
+    if( $('.login-link').hasClass('active') ) return false;
+    else if( $('.signup-link').hasClass('active') ) synchronize('.signup', '.login');
+    else synchronize('.reset', '.login');
+  },
+
+  'click .reset-link': function (e) {
+    synchronize('.login', '.reset');
   },
 
   'submit form.login, click form.login button.login': function (e, t) {
@@ -123,6 +158,33 @@ Template.login.events({
           btnLoading.set(false);
         } else {
           Router.go('app');
+        }
+      });
+    }, delay);
+  },
+
+  'submit form.reset, click form.reset button.reset': function (e, t) {
+    e.preventDefault();
+    btnLoading.set(true);
+
+    var delay = 500;
+    Meteor.setTimeout(function () {
+      var email = $('form.reset').find('input.email').val();
+
+      if( ! RFC5322.isValidAddress(email) ) {
+        $('.notice').html('Please enter a valid email address.');
+        btnLoading.set(false);
+        return;
+      }
+
+      Accounts.forgotPassword({ email: email }, function (err) {
+        btnLoading.set(false);
+        if(err) {
+          $('.notice').html(err.reason);
+        } else {
+          $('.notice').html('');
+          resetBtnDone.set(true);
+          if(isGmailAddress(email)) usedGmailForReset.set(true);
         }
       });
     }, delay);
