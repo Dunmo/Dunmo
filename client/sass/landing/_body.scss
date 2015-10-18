@@ -34,8 +34,9 @@
     
     &__slide {
         @include block;
-        padding: 2rem 0;
+        padding: 5rem 0;
         text-align: right;
+        overflow: hidden;
         //margin: 0 auto;
         
         &__content {
@@ -88,12 +89,15 @@
             //position: absolute;
             //right: 0;
             //top: 50%;
+            position: relative;
+            right: -50%;
             display: inline-block;
             width: 60%;
             //vertical-align: center;
             height: auto;
             //float: right;
             border: none;
+            opacity: 0;
         }
             
         
