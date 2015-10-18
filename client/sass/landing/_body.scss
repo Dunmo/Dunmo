@@ -33,11 +33,9 @@
     }
     
     &__slide {
-        display: table;
-        height: 80vh;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0;
+        @include block;
+        padding: 2rem 0;
+        text-align: right;
         //margin: 0 auto;
         
         &__content {
@@ -55,12 +53,15 @@
         }
         
         &__copy {
-            @include block(auto,40%);
-            display: block;
-            width: 40%;
+            @include block(auto,40%,absolute);
+            @include transform(translateY(-50%));
+            top: 50%;
+            left: 0;
+            //width: 40%;
             //float: left;
             //vertical-align: center;
             font: 1.25rem/2rem $sans-serif;
+            text-align: left;
             padding: 0 3rem;
             @include small {
                 font: 1rem/1.5rem $sans-serif;
@@ -83,11 +84,11 @@
         }
         
         &__screen {
-            @include transform(translateY(-50%));
-            position: absolute;
-            right: 0;
-            top: 50%;
-            display: block;
+            //@include transform(translateY(-50%));
+            //position: absolute;
+            //right: 0;
+            //top: 50%;
+            display: inline-block;
             width: 60%;
             //vertical-align: center;
             height: auto;
