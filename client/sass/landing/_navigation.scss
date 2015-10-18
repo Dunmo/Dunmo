@@ -1,0 +1,101 @@
+.landing-navigation {
+    @include user-select(none);
+    @include transition(all 0.25s);
+    @include block(4rem, 100%, absolute);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    //overflow: hidden;
+    //vertical-align: top !important;
+    //padding: 0 1rem;
+    
+    &__logo {
+        display: inline-block;
+        height: 3rem;
+        width: 3rem;
+        margin: 0.5rem 1rem;
+        border: none;
+        vertical-align: top !important;
+    }
+    
+    &__link {
+        @include transition(all 0.25s);
+        display: inline-block;
+        position: relative;
+        height: 4rem;
+        padding: 0 0.5rem;
+        margin: 0 1rem;
+        font: 1.25rem/4rem $sans-serif;
+        color: $white;
+        text-decoration: none !important;
+        border: none !important;
+        &::after {
+            @include transition(all 0.25s);
+            @include block(100%,0%,absolute);
+            @include transform(translateX(-50%));
+            content: '';
+            top: 0;
+            left: 50%;
+            //background: $coral;
+            border-bottom: 1px solid $white;
+        }
+        &:hover {
+            color: $white;
+            
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+    
+    &__login {
+        @include transition(all 0.25s);
+        @include block(4rem, auto, absolute);
+        top: 0;
+        right: 0;
+        padding: 0 0.5rem;
+        margin: 0 1rem;
+        font: 1.25rem/4rem $sans-serif;
+        color: $white;
+        text-decoration: none !important;
+        border: none !important;
+        &::after {
+            @include transition(all 0.25s);
+            @include block(100%,0%,absolute);
+            @include transform(translateX(-50%));
+            content: '';
+            top: 0;
+            left: 50%;
+            //background: $coral;
+            border-bottom: 1px solid $white;
+        }
+        &:hover {
+            color: $white;
+            
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+    
+    &--fixed {
+        position: fixed;
+        background: $white;
+    }
+    
+    &--fixed &__link,
+    &--fixed &__login {
+        color: $green;
+        &:hover {
+            color: $green;
+        }
+        &::after {
+            border-color: $green;
+            border-width: 4px;
+        }
+    }
+        
+    
+}
+    
