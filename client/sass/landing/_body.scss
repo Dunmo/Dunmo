@@ -33,9 +33,68 @@
     }
     
     &__slide {
-        @extend .group;
-        @include block(100%);
-        margin: 0 auto;
+        display: table;
+        height: 80vh;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0;
+        //margin: 0 auto;
+        
+        &__content {
+            @extend .group;
+            position: relative;
+            //left: 0;
+            display: table-cell;
+            vertical-align: middle;
+            box-sizing: border-box;
+            padding: 1rem;
+            width: 100%;
+            @include small {
+                //padding: 1rem;
+            }
+        }
+        
+        &__copy {
+            @include block(auto,40%);
+            display: block;
+            width: 40%;
+            //float: left;
+            //vertical-align: center;
+            font: 1.25rem/2rem $sans-serif;
+            padding: 0 3rem;
+            @include small {
+                font: 1rem/1.5rem $sans-serif;
+            }
+            @include medium {
+                font: 1rem/1.5rem $sans-serif;
+            }
+            
+            &__catch {
+                //display: block;
+                font: bold 1.5rem/3rem $sans-serif;
+                text-align: left;
+                @include small {
+                    font: bold 1.25rem/2.25rem $sans-serif;
+                }
+                @include medium {
+                    font: bold 1.25rem/2.25rem $sans-serif;
+                }
+            }
+        }
+        
+        &__screen {
+            @include transform(translateY(-50%));
+            position: absolute;
+            right: 0;
+            top: 50%;
+            display: block;
+            width: 60%;
+            //vertical-align: center;
+            height: auto;
+            //float: right;
+            border: none;
+        }
+            
         
         &__item {
             box-sizing: border-box;
@@ -57,17 +116,7 @@
                 font: 1rem/1.5rem $sans-serif;
             }
             
-            &__catch {
-                display: block;
-                font: bold 1.5rem/3rem $sans-serif;
-                text-align: left;
-                @include small {
-                    font: bold 1.25rem/2.25rem $sans-serif;
-                }
-                @include medium {
-                    font: bold 1.25rem/2.25rem $sans-serif;
-                }
-            }
+            
         }
         
     }
