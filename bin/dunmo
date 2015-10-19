@@ -3,4 +3,4 @@
 DIR=$PWD
 . "$DIR/ENV"
 
-meteor
+meteor $@
