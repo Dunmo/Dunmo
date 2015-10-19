@@ -9,6 +9,7 @@
     }
 
     &__social {
+        @include transition(all 0.25s);
         position: absolute;
         top: 0;
         margin: 1.5rem 0.5rem;
@@ -19,11 +20,15 @@
         font-size: 1.5rem;
         text-align: center;
         line-height: 2rem;
+        text-decoration: none !important;
+        border: none !important;
 
         &.fa-facebook {
+            color: $facebook;
             right: 2rem;
         }
         &.fa-twitter {
+            color: $twitter;
             right: 5rem;
         }
     }
