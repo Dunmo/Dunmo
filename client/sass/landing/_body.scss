@@ -38,31 +38,17 @@
         text-align: right;
         overflow: hidden;
         //margin: 0 auto;
-        
-        &__content {
-            @extend .group;
-            position: relative;
-            //left: 0;
-            display: table-cell;
-            vertical-align: middle;
-            box-sizing: border-box;
-            padding: 1rem;
-            width: 100%;
-            @include small {
-                //padding: 1rem;
-            }
+        &--left {
+            text-align: left;
         }
         
         &__copy {
             @include block(auto,50%,absolute);
             @include transform(translateY(-50%));
             top: 50%;
-            left: 0;
-            //width: 40%;
-            //float: left;
-            //vertical-align: center;
+            //left: 0;
             font: 1.25rem/2rem $sans-serif;
-            text-align: left;
+            //text-align: left;
             padding: 0 5rem;
             @include small {
                 font: 1rem/1.5rem $sans-serif;
@@ -70,11 +56,19 @@
             @include medium {
                 font: 1rem/1.5rem $sans-serif;
             }
+            &--left {
+                left: 0;
+                text-align: left;
+            }
+            &--right {
+                right: 0;
+                text-align: right;
+            }
             
             &__catch {
                 //display: block;
                 font: bold 1.5rem/3rem $sans-serif;
-                text-align: left;
+                //text-align: left;
                 @include small {
                     font: bold 1.25rem/2.25rem $sans-serif;
                 }
@@ -98,6 +92,12 @@
             //float: right;
             border: none;
             opacity: 0;
+            &--left {
+                left: -50%;
+            }
+            &--right {
+                right: -50%;
+            }
         }
             
         

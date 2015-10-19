@@ -13,23 +13,41 @@ View.onRendered(function () {
         offset: -10
     })
     
-    var slide = {
+    var slideLeft = {
         opacity: 1,
         right: 0
     };
     
-    var slideR = {
+    var slideLeftReturn = {
         opacity: 0,
         right: '-50%'
     };
-        
-    var duration = 500;
     
-    var featureAnimate = function(id, direction) {
-        if (direction == 'down') {
-            $('#features' + id).animate(slide, duration);
-        } else if (direction == 'up') {
-            $('#features' + id).animate(slideR, duration);
+    var slideRight = {
+        opacity: 1,
+        left: 0
+    };
+    
+    var slideRightReturn = {
+        opacity: 0,
+        left: '-50%'
+    };
+        
+    var duration = 350;
+    
+    var featureAnimate = function(id, direction, side) {
+        if (side == 'left') {
+            if (direction == 'down') {
+                $('#features' + id).animate(slideRight, duration);
+            } else if (direction == 'up') {
+                $('#features' + id).animate(slideRightReturn, duration);
+            }
+        } else if (side == 'right') {
+            if (direction == 'down') {
+                $('#features' + id).animate(slideLeft, duration);
+            } else if (direction == 'up') {
+                $('#features' + id).animate(slideLeftReturn, duration);
+            }
         }
     }
     
@@ -38,7 +56,7 @@ View.onRendered(function () {
     var features1 = new Waypoint({
         element: document.getElementById('features1'),
         handler: function(direction) {
-            featureAnimate(1, direction);
+            featureAnimate(1, direction, 'right');
         },
         offset: featureOffset
     })
@@ -46,7 +64,7 @@ View.onRendered(function () {
     var features2 = new Waypoint({
         element: document.getElementById('features2'),
         handler: function(direction) {
-            featureAnimate(2, direction);
+            featureAnimate(2, direction, 'left');
         },
         offset: featureOffset
     })
@@ -54,7 +72,7 @@ View.onRendered(function () {
     var features3 = new Waypoint({
         element: document.getElementById('features3'),
         handler: function(direction) {
-            featureAnimate(3, direction);
+            featureAnimate(3, direction, 'right');
         },
         offset: featureOffset
     })
@@ -62,7 +80,7 @@ View.onRendered(function () {
     var features4 = new Waypoint({
         element: document.getElementById('features4'),
         handler: function(direction) {
-            featureAnimate(4, direction);
+            featureAnimate(4, direction, 'left');
         },
         offset: featureOffset
     })
