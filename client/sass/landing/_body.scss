@@ -9,27 +9,13 @@
         width: 100%;
         font: bold 2.5rem/4rem $sans-serif;
         text-transform: uppercase;
-        text-align:center;
-        @include small {
-            font: bold 2rem/4rem $sans-serif;
-        }
-        @include medium {
-            font: bold 2rem/4rem $sans-serif;
-        }
-    }
-    
-    &__subheading {
-        width: 100%;
-        font: italic 1.75rem/2.5rem $sans-serif;
         text-align: center;
-        float: none !important;
         @include small {
-            font: italic 1.5rem/2rem $sans-serif;
+            font: bold 2rem/4rem $sans-serif;
         }
         @include medium {
-            font: italic 1.5rem/2rem $sans-serif;
+            font: bold 2rem/4rem $sans-serif;
         }
-        
     }
     
     &__slide {
@@ -37,7 +23,6 @@
         padding: 5rem 0;
         text-align: right;
         overflow: hidden;
-        //margin: 0 auto;
         &--left {
             text-align: left;
         }
@@ -79,17 +64,11 @@
         }
         
         &__screen {
-            //@include transform(translateY(-50%));
-            //position: absolute;
-            //right: 0;
-            //top: 50%;
             position: relative;
             right: -50%;
             display: inline-block;
             width: 50%;
-            //vertical-align: center;
             height: auto;
-            //float: right;
             border: none;
             opacity: 0;
             &--left {
@@ -99,31 +78,65 @@
                 right: -50%;
             }
         }
-            
         
-        &__item {
-            box-sizing: border-box;
-            width: calc((100% - 16rem)/2);
-            padding: 1rem 2rem;
-            margin: 3rem 4rem;
-            float: left;
-            font: 1.25rem/2rem $sans-serif;
+    }
+    
+}
+
+.landing-comingsoon {
+    @extend .group;
+    @include block;
+    padding: 2rem 0;
+    background: $white;
+    color: $grey;
+    &::before {
+        content: 'Coming Soon';
+        display: block;
+        width: 100%;
+        font: italic 1.75rem/2.5rem $sans-serif;
+        text-align: center;
+        text-transform: uppercase;
+        float: none !important;
+        @include small {
+            font: italic 1.5rem/2rem $sans-serif;
+        }
+        @include medium {
+            font: italic 1.5rem/2rem $sans-serif;
+        }
+    }
+        
+    &__item {
+        box-sizing: border-box;
+        width: calc((100% - 16rem)/2);
+        padding: 1rem 2rem;
+        margin: 3rem 4rem;
+        float: left;
+        font: 1.25rem/2rem $sans-serif;
+        text-align: left;
+        @include small {
+            float: none;
+            width: 100%;
+            margin: 1rem auto;
+            font: 1rem/1.5rem $sans-serif;
+        }
+        @include medium {
+            width: calc((100% - 8rem)/2);
+            margin: 1rem 2rem;
+            font: 1rem/1.5rem $sans-serif;
+        }
+
+        &__catch {
+            display: block;
+            font: bold 1.5rem/3rem $sans-serif;
             text-align: left;
             @include small {
-                float: none;
-                width: 100%;
-                margin: 1rem auto;
-                font: 1rem/1.5rem $sans-serif;
+                font: bold 1.25rem/2.25rem $sans-serif;
             }
             @include medium {
-                width: calc((100% - 8rem)/2);
-                margin: 1rem 2rem;
-                font: 1rem/1.5rem $sans-serif;
+                font: bold 1.25rem/2.25rem $sans-serif;
             }
-            
-            
         }
-        
+
     }
     
 }
