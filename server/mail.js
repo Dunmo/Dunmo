@@ -4,11 +4,15 @@ var mailChimp = new MailChimp(process.env.SECRETS_MAILCHIMP);
 var mailingListId = 'a2015f3903';
 
 Meteor.methods({
-  'mailing-list/subscribe': function (email) {
+  'mailing-list/subscribe': function (options) {
     var res = mailChimp.call('lists', 'subscribe', {
       id: mailingListId,
       email: {
-        email: email
+        email: options.email
+      },
+      merge_vars: {
+        FNAME: options.firstname,
+        LNAME: options.lastname
       },
       double_optin: false,
       send_welcome: true
