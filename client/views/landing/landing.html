@@ -1,43 +1,43 @@
 <template name="landing">
 
-  <div class="landing-nav display-none">
-    <a href="#story" class="landing-nav__item landing-nav__item--story">Our Story</a>
-    <a href="#meet" class="landing-nav__item landing-nav__item--meet">Features</a>
-    <a href="#team" class="landing-nav__item landing-nav__item--team">The Team</a>
-    <a href="#contact" class="landing-nav__item landing-nav__item--contact">Contact Us</a>
+    <div class="landing-nav display-none">
+        <a href="#story" class="landing-nav__item landing-nav__item--story">Our Story</a>
+        <a href="#meet" class="landing-nav__item landing-nav__item--meet">Features</a>
+        <a href="#team" class="landing-nav__item landing-nav__item--team">The Team</a>
+        <a href="#contact" class="landing-nav__item landing-nav__item--contact">Contact Us</a>
 
-    <div class="landing-nav__logo">Dunmo</div>
+        <div class="landing-nav__logo">Dunmo</div>
 
-    <a href="" class="landing-nav__action">Get the Beta</a>
-  </div>
+        <a href="" class="landing-nav__action">Get the Beta</a>
+    </div>
 
     <div class="landing-hero" id="hero">
-        
+
         <div class="landing-hero__slash">
-        
+
             <div class="landing-hero__slash__content">
-            
+
                 <div class="landing-hero__slash__brand">Dunmo</div>
                 <div class="landing-hero__slash__tagline">Productivity with intelligence.</div>
-                
+
             </div>
-            
+
         </div>
-        
+
         <div class="landing-hero__copy">
-        
+
             <div class="landing-hero__copy__content">
-            
+
                 You've got a lot to manage.<br />Let's change that.<br />
                 <a href="#features" class="landing-hero__learn">Learn More</a>
                 <a href="#subscribe" class="landing-hero__action">Sign Up</a>
-            
+
             </div>
-        
+
         </div>
 
-            <a href="#features" class="landing-splash__indicator fa fa-angle-down display-none"></a>
-            
+        <a href="#features" class="landing-splash__indicator fa fa-angle-down display-none"></a>
+
     </div>
 
     <div class="landing-story display-none" id="story">
@@ -159,10 +159,8 @@
     </div>
 
     <div class="landing-subscribe" id="subscribe">
-        
+
         <div class="landing-subscribe__content">
-        
-            
 
             <div class="landing-subscribe__heading">Get early access!</div>
 
@@ -170,10 +168,16 @@
 
                 <input class="landing-subscribe__form__input" name="email" type="text" placeholder="your.email@domain.com" />
 
-                <input type="submit" value="Sign Me Up!" class="landing-subscribe__form__submit">
+                <button type="submit" class="landing-subscribe__form__submit">
+                    {{#if subscribeLoading}}
+                        <i class="fa fa-spinner fa-spin"></i>
+                    {{else}}
+                        {{subscribeBtnText}}
+                    {{/if}}
+                </button>
 
             </form>
-        
+
         </div>
 
     </div>
@@ -186,5 +190,5 @@
         <a href="https://twitter.com/dunmoapp" class="landing-footer__social fa fa-twitter"></a>
 
     </div>
-    
+
 </template>
