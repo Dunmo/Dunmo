@@ -1,4 +1,5 @@
 @mixin block($height:auto,$width:100%,$position:relative) {
+    display: block;
     position: $position;
     box-sizing: border-box;
     height: $height;
