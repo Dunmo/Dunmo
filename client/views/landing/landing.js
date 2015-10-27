@@ -115,11 +115,19 @@ View.events({
     e.preventDefault();
     subscribeLoading.set(true);
 
-    var firstname = $('.landing-subscribe__form__input[name="name"]').val();
+    var name = $('.landing-subscribe__form__input[name="name"]').val();
     var email = $('.landing-subscribe__form__input[name="email"]').val();
 
+    var names = name.trim().split(/\s+/);
+
+    // only capture first and last name
+    if(names.length > 2) names[1] = _.last(names);
     Meteor.setTimeout(function () {
-      Meteor.call('mailing-list/subscribe', { firstname: firstname, email: email }, function (err, res) {
+      Meteor.call('mailing-list/subscribe', {
+        firstname: names[0],
+        lastname: names[1],
+        email: email
+      }, function (err, res) {
         if(err) {
           console.error('[subscribe] Error:', err);
         } else {
