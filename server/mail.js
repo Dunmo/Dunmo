@@ -54,6 +54,18 @@ Meteor.methods({
     return res;
   },
 
+  'mailing-list/send/welcome-to-dunmo': function (options) {
+    var defaults = {
+      message: {
+        subject: options.firstname + ', ready to 10x your productivity?',
+      }
+    };
+
+    options = lodash.defaultsDeep({}, options, defaults);
+
+    return Meteor.call('mailing-list/send', 'welcome-to-dunmo', options);
+  },
+
   'mailing-list/send': function (template_name, options) {
     options.message.to = [ { email: options.email } ];
 
