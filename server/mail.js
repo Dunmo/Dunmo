@@ -52,5 +52,56 @@ Meteor.methods({
     }
 
     return res;
+  },
+
+  'mailing-list/send': function (template_name, options) {
+    options.message.to = [ { email: options.email } ];
+
+    var defaults = {
+      template_name: template_name,
+      template_content: [],
+      message: {
+        from_email: 'michael@dunmoapp.com',
+        from_name: 'Michael from Dunmo',
+        // important: false,
+        track_opens: true,
+        track_clicks: true,
+        // auto_text: true,
+        // auto_html: true,
+        // inline_css: true,
+        // url_strip_qs: false,
+        // preserve_recipients: false,
+        // view_content_link: null,
+        // tracking_domain: null,
+        // signing_domain: null,
+        // return_path_domain: null,
+        merge_language: 'mailchimp',
+        global_merge_vars: [
+          { name: 'COMPANY', content: 'Team Dunmo' },
+          { name: 'DESCRIPTION', content: 'You\'re part of Dunmo' },
+          { name: 'LIST_ADDRESS_HTML', content: 'Team Dunmo<br>320 North Street<br>West Lafayette, IN 47906' },
+          { name: 'UNSUB', content: 'https://dunmoapp.com/api/mailing-list/unsubscribe?email=' + options.email }
+        ],
+        // merge_vars: [],
+        // tags: [],
+        // subaccount: null,
+        // google_analytics_domains: [],
+        // metadata: [],
+        // recipient_metadata: [],
+        // attachments: [],
+        // images: [],
+      }
+    };
+
+    options = lodash.defaultsDeep({}, options, defaults);
+
+    var res = mandrill.messages.sendTemplate(options);
+
+    if(res.status === 'error') {
+      // TODO: if(res.name === 'List_DoesNotExist') Meteor.call('notify/sys-admin');
+      throw new Meteor.Error(500, res.error);
+    }
+
+    return res;
   }
 });
