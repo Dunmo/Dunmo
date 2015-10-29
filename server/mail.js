@@ -15,7 +15,7 @@ Meteor.methods({
         LNAME: options.lastname
       },
       double_optin: false,
-      send_welcome: true
+      send_welcome: false
     });
 
     if(res.status === 'error') {
