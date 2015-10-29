@@ -15,6 +15,9 @@ View.onRendered(function () {
     $('.app-taskitem__head__title--input').focus();
   }
   task.editTitleIsCanceled = false;
+    $('.app-taskitem__chevron').click(function () {
+        $(this).toggleClass('ion-chevron-down ion-chevron-up')
+    })
 });
 
 View.helpers({
@@ -88,6 +91,8 @@ Template.taskItem.events({
     } else {
       Session.set('currently-expanded-task', this._id);
     }
+      console.log(this);
+      console.log(this._id);
   },
 
   'click .app-taskitem__head__title': function (e, t) {
