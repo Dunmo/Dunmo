@@ -3,6 +3,16 @@ check(process.env.SECRETS_MAILCHIMP, String);
 var mailChimp = new MailChimp(process.env.SECRETS_MAILCHIMP);
 var mailingListId = 'a2015f3903';
 
+var mandrill = Mandrill;
+
+mandrill.config({
+  username: 'dunmo@dunmoapp.com',
+  key: process.env.SECRETS_MANDRILL,
+  // port: 587, // defaults to 465 for SMTP over TLS
+  // host: 'smtp.mandrillapp.com', // the SMTP host
+  // baseUrl: 'https://mandrillapp.com/api/1.0/' // update this in case Mandrill changes its API endpoint URL or version
+});
+
 Meteor.methods({
   'mailing-list/subscribe': function (options) {
     var res = mailChimp.call('lists', 'subscribe', {
