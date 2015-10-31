@@ -33,6 +33,36 @@ function synchronize(src, dest) {
   $dest.find('input.password').val(password);
 }
 
+var options = {
+  requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
+  requestOfflineToken: true
+};
+
+function callback(err) {
+  if(err) {
+    $('.notice').html(err.reason);
+    googleBtnLoading.set(false);
+  } else {
+    Router.go('app');
+  }
+}
+
+function connectWithGoogle () {
+  Meteor.connectWith('google', options, callback);
+}
+
+function loginWithGoogle () {
+  Meteor.loginWithGoogle(options, callback);
+}
+
+function authWithGoogle () {
+  if(Meteor.user()) {
+    connectWithGoogle();
+  } else {
+    loginWithGoogle();
+  }
+}
+
 Template.login.onCreated(function () {
   btnLoading.set(false);
   resetBtnDone.set(false);
@@ -109,7 +139,13 @@ Template.login.events({
 
       Meteor.loginWithPassword(email, password, function (err) {
         if(err) {
-          $('.notice').html(err.reason);
+          var reason = err.reason;
+          if(reason === 'User has no password set') {
+            reason = 'You used this address to authenticate with Google.' +
+              ' Please log in with Google, or, if you create a password in' +
+              ' the signup tab, the accounts will be linked automatically.';
+          }
+          $('.notice').html(reason);
           btnLoading.set(false);
         } else {
           Router.go('app');
@@ -207,11 +243,7 @@ Template.login.events({
       }
     }
 
-    if(Meteor.user()) {
-      Meteor.connectWith('google', options, callback);
-    } else {
-      Meteor.loginWithGoogle(options, callback);
-    }
+    authWithGoogle();
   }
 
 });
