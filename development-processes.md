@@ -13,7 +13,7 @@ We are using [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflo
 The basic procedure for feature development is as follows:
 
 - If there isn't a Github issue for this feature yet, create one using [Waffle](https://waffle.io/Dunmo/Dunmo)
-- Move the card on [Waffle](https://waffle.io/Dunmo/Dunmo) to the "In Progress" list
+- Move the card on [Waffle](https://waffle.io/Dunmo/Dunmo) to the "In Progress" list, and assign it to yourself if necessary
 - If you're using [Toggl](https://toggl.com), start your timer now
 - Create a new git branch off of the `develop` branch using the convention `feature/123-short-name` where the number should match the github issue number
 - If you're using TDD or BDD, write the spec first and consider edge cases
