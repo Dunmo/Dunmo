@@ -1,15 +1,16 @@
 .app-addtask {
-	@include block(4rem,60%,fixed);
+	@include block(4rem,80%,fixed);
 	@include flexbox(space-around,center);
     @include transform(translateX(-50%));
-    //@extend .group;
-    min-width: 40rem;
     top: 5rem;
     left: 50%;
 	padding: 0 0.5rem;
 	border-radius: 0.25rem;
 	background: $white;
 	z-index: 70;
+    @include small {
+        width: 95% !important;
+    }
 
 	input {
 		border: none;
