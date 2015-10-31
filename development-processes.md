@@ -3,6 +3,7 @@
 This document should contain all the information necessary to get started developing for Dunmo.
 
 - [Feature Development](#feature-development)
+- [Deployment](#deployment)
 - [Tools](#tools)
 
 ## Feature Development
@@ -24,6 +25,27 @@ The basic procedure for feature development is as follows:
 - Send a message to another developer to review your code
 - Refactor as necessary, continuing to push new commits to the remote, and track your time on [Toggl](https://toggl.com) if desired
 - When the feature looks good, your reviewer will merge the pull request and delete the remote branch
+
+## Deployment
+
+If you're on an Ubuntu machine, deployment is simple. Just run `bin/deploy` from the command line if you're in the project root.
+
+For other operating systems, you'll need to build on the server.
+
+The manual deployment process is as follows:
+
+- Connect to the production server: `ssh root@dunmoapp.com`
+- Navigate to the git repository: `cd /home/dunmo/source`
+- Update the remote git references: `git remote update -p`
+- Checkout the branch you'd like to deploy, i.e. `git checkout origin/master`
+- Build the bundle: `meteor build . --debug`
+- Move the tar file: `mv -f dunmo.tar.gz /home/dunmo/`
+- Remove the backup bundle: `rm -rf /home/dunmo/archive/bundle`
+- Move the current bundle to the archive: `mv /home/dunmo/bundle /home/dunmo/archive/`
+- Navigate to the dunmo home directory `cd /home/dunmo/`
+- Unpack the new bundle: `tar -zxf /home/dunmo/dunmo.tar.gz`
+- Install the npm packages: `cd /home/dunmo/bundle/programs/server && npm install`
+- Restart the server instance: `stop dunmo; start dunmo`
 
 ## Tools
 
