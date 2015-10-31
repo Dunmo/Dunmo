@@ -39,7 +39,7 @@
             outline: none;
             box-shadow: 0 0 0.25rem 0.125rem $coral;
         }
-
+        
     }
 
     &__button {
@@ -53,7 +53,7 @@
         height: 2.5rem;
         margin: 0.75rem 0;
         font: 1.5rem/2.5rem "Ionicons";
-        color: $white !important;
+        color: $white;
         //border: 1px solid transparent !important;
         border: none !important;
         border-radius: 1.5rem;
@@ -63,29 +63,9 @@
             box-shadow: 0 0 0.25rem 0.125rem $white;
         }
 
-        &--sync {
-            right: 4.5rem; // 8rem;
-
-            &.spin {
-                -webkit-animation-name: spin;
-                -webkit-animation-duration: 1250ms;
-                -webkit-animation-iteration-count: infinite;
-                -webkit-animation-timing-function: linear;
-                -moz-animation-name: spin;
-                -moz-animation-duration: 1250ms;
-                -moz-animation-iteration-count: infinite;
-                -moz-animation-timing-function: linear;
-                -ms-animation-name: spin;
-                -ms-animation-duration: 1250ms;
-                -ms-animation-iteration-count: infinite;
-                -ms-animation-timing-function: linear;
-                -o-transition: rotate(360deg);
-            }
+        &--help {
+            right: 4.5rem;
         }
-
-        // &--help {
-        //     right: 4.5rem;
-        // }
 
         &--settings {
             right: 1rem;

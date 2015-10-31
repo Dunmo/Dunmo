@@ -1,11 +1,17 @@
 .app-addtaskbutton {
   position: fixed;
   z-index: 50;
-  right: 3rem;
+  right: 0.75rem;
   bottom: 1rem;
 
   &__body {
-    @include button(3rem,3rem,1.25rem,$white,none,$green);
+      @include transition(all 0.25s);
+    @include button(2.5rem,2.5rem,1rem,$white,none,$green);
     cursor: pointer;
+    box-shadow: 0 0 0.25rem 0.125rem $grey;//mix($grey,$green);
+      
+      &:hover {
+          box-shadow: 0 0 0.5rem 0.25rem $grey;
+      }
   }
 }
