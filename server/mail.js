@@ -33,6 +33,8 @@ Meteor.methods({
       throw new Meteor.Error(500, res.error);
     }
 
+    Meteor.call('mailing-list/send/welcome-to-dunmo', options);
+
     return res;
   },
 
