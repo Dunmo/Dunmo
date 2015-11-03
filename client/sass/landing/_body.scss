@@ -64,18 +64,23 @@
         }
         
         &__screen {
+            box-sizing: border-box;
+            border-top: 0.25rem solid $grey;
+            border-bottom: 0.25rem solid $grey;
             position: relative;
             right: -50%;
             display: inline-block;
             width: 50%;
             height: auto;
-            border: none;
+            //border: none;
             opacity: 0;
             &--left {
                 left: -50%;
+            border-right: 0.25rem solid $grey;
             }
             &--right {
                 right: -50%;
+            border-left: 0.25rem solid $grey;
             }
         }
         
