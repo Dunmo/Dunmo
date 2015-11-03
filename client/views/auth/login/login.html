@@ -1,0 +1,82 @@
+<template name="login">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="auth-container">
+          <ul class="nav nav-tabs">
+            <li class="login-link active">
+              <a href="#login">Log In</a>
+            </li>
+          </ul>
+          <div class="panel panel-default tab-panel">
+            <div class="panel-body">
+              <div class="social-login">
+                {{#spinnerButton class="btn btn-gplus btn-block" waitOn=googleBtnLoading}}
+                  <i class="fa fa-google-plus"></i> Sign in with Google
+                {{/spinnerButton}}
+
+                <p class="lead">Use Google, and we can plan around your events.</p>
+                <hr>
+              </div>
+
+              <div hidden="hidden" class="reset-header">
+                <p class="lead">
+                  {{#if resetBtnDone}}
+                    All set! Check your email for a reset link.
+                    {{#if usedGmailForReset}}
+                      If you're using your Gmail address with Dunmo, you can always login with Google instead.
+                      {{#spinnerButton class="btn btn-gplus btn-block" waitOn=googleBtnLoading}}
+                        <i class="fa fa-google-plus"></i> Sign in with Google
+                      {{/spinnerButton}}
+                    {{/if}}
+                  {{else}}
+                    Reset your password.
+                  {{/if}}
+                </p>
+                <hr>
+              </div>
+
+              <p class="notice"></p>
+
+              <form role="form" class="form login" novalidate>
+                <div class="form-group">
+                  <input type="email" placeholder="Email" class="form-control email" required/>
+                </div>
+                <div class="form-group">
+                  <input type="password" placeholder="Password" class="form-control password" required/>
+                </div>
+                <div class="actions">
+                  {{#spinnerButton class="btn btn-default login" waitOn=btnLoading}}
+                    Log In
+                  {{/spinnerButton}}
+                </div>
+                <div class="reset">
+                  <a class="reset-link" href="#reset"> Forgot your password? </a>
+                </div>
+              </form>
+
+              <form role="form" hidden="hidden" class="form reset" novalidate>
+                <div class="form-group">
+                  <input type="email"
+                         placeholder="Which email did you sign up with?"
+                         class="form-control email"
+                         disabled={{resetBtnDone}}
+                         required/>
+                </div>
+                <div class="actions">
+                  {{#spinnerButton class="btn btn-default reset" waitOn=btnLoading done=resetBtnDone}}
+                    {{#if resetBtnDone}}
+                      Email Sent!
+                    {{else}}
+                      Send Reset Email
+                    {{/if}}
+                  {{/spinnerButton}}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,46 @@
+<template name="signup">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="auth-container">
+          <ul class="nav nav-tabs">
+            <li class="signup-link active">
+              <a href="#signup">Sign Up</a>
+            </li>
+          </ul>
+          <div class="panel panel-default tab-panel">
+            <div class="panel-body">
+              <div class="social-login">
+                {{#spinnerButton class="btn btn-gplus btn-block" waitOn=googleBtnLoading}}
+                  <i class="fa fa-google-plus"></i> Sign in with Google
+                {{/spinnerButton}}
+
+                <p class="lead">Use Google, and we can plan around your events.</p>
+                <hr>
+              </div>
+
+              <p class="notice"></p>
+
+              <form role="form" class="form signup" novalidate>
+                <div class="form-group">
+                  <input type="text" placeholder="Name" class="form-control name" required/>
+                </div>
+                <div class="form-group">
+                  <input type="email" placeholder="Email" class="form-control email" required/>
+                </div>
+                <div class="form-group">
+                  <input type="password" placeholder="Password" class="form-control password" required/>
+                </div>
+                <div class="actions">
+                  {{#spinnerButton class="btn btn-default login" waitOn=btnLoading}}
+                    Sign Up
+                  {{/spinnerButton}}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
