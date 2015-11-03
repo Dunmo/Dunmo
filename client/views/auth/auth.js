@@ -63,14 +63,14 @@ function authWithGoogle () {
   }
 }
 
-Template.login.onCreated(function () {
+Template.auth.onCreated(function () {
   btnLoading.set(false);
   resetBtnDone.set(false);
   usedGmailForReset.set(false);
   googleBtnLoading.set(false);
 });
 
-Template.login.helpers({
+Template.auth.helpers({
   loggedIn: function () {
     return Meteor.userId();
   },
@@ -92,7 +92,7 @@ Template.login.helpers({
   }
 });
 
-Template.login.events({
+Template.auth.events({
 
   'click .signup-link': function (e) {
     if( $('.signup-link').hasClass('active') ) return false;
