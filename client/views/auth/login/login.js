@@ -176,21 +176,6 @@ Template.login.events({
 
   'click .btn-gplus': function (e) {
     googleBtnLoading.set(true);
-
-    var options = {
-      requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
-      requestOfflineToken: true
-    };
-
-    function callback(err) {
-      if(err) {
-        $('.notice').html(err.reason);
-        googleBtnLoading.set(false);
-      } else {
-        Router.go('app');
-      }
-    }
-
     authWithGoogle();
   }
 
