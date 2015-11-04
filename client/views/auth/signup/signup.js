@@ -1,53 +1,17 @@
 
 var btnLoading = new ReactiveVar();
-var googleBtnLoading = new ReactiveVar();
 
 function isGmailAddress(email) {
   return email.substring(email.length-10, email.length) === '@gmail.com';
 }
 
-var options = {
-  requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
-  requestOfflineToken: true
-};
-
-function callback(err) {
-  if(err) {
-    $('.notice').html(err.reason);
-    googleBtnLoading.set(false);
-  } else {
-    Router.go('app');
-  }
-}
-
-function connectWithGoogle () {
-  Meteor.connectWith('google', options, callback);
-}
-
-function loginWithGoogle () {
-  Meteor.loginWithGoogle(options, callback);
-}
-
-function authWithGoogle () {
-  if(Meteor.user()) {
-    connectWithGoogle();
-  } else {
-    loginWithGoogle();
-  }
-}
-
 Template.signup.onCreated(function () {
   btnLoading.set(false);
-  googleBtnLoading.set(false);
 });
 
 Template.signup.helpers({
   loggedIn: function () {
     return Meteor.userId();
-  },
-
-  googleBtnLoading: function () {
-    return googleBtnLoading.get();
   },
 
   btnLoading: function () {
@@ -100,11 +64,5 @@ Template.signup.events({
         }
       });
     }, delay);
-  },
-
-  'click .btn-gplus': function (e) {
-    googleBtnLoading.set(true);
-    authWithGoogle();
   }
-
 });
