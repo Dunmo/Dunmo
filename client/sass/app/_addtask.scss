@@ -1,91 +1,97 @@
 .app-addtask {
-  @include block(4rem,60%,fixed);
-  @include flexbox(space-around,center);
-  margin: 5rem 20% 0;
-  padding: 0 0.5rem;
-  border-radius: 0.25rem;
-  background: $white;
-  z-index: 70;
-
-  input {
-    border: none;
-    border-bottom: 2px solid $grey;
-    background-color: $white;
-
-    &:focus {
-      outline: 0;
-    }
-  }
-
-  &__icon {
-
-    &--importance {
-      font-size: 2rem;
+	@include block(4rem,80%,fixed);
+	@include flexbox(space-around,center);
+    @include transform(translateX(-50%));
+    top: 5rem;
+    left: 50%;
+	padding: 0 0.5rem;
+	border-radius: 0.25rem;
+	background: $white;
+	z-index: 70;
+    @include small {
+        width: 95% !important;
     }
 
-    &--duration {
-      font-size: 1.5rem;
-    }
+	input {
+		border: none;
+		border-bottom: 2px solid $grey;
+		background-color: $white;
 
-    &--due {
-      font-size: 1.4rem;
-    }
-  }
+		&:focus {
+			outline: 0;
+		}
+	}
 
-  &__section {
-    @include flexbox(space-around,center);
-    padding: 0 0.4rem;
+	&__icon {
 
-    &--importance {
-      height: rem;
-      flex: 1;
-    }
+		&--importance {
+			font-size: 2rem;
+		}
 
-    &--title {
-      flex: 10;
-    }
+		&--duration {
+			font-size: 1.5rem;
+		}
 
-    &--duration {
-      @include flexbox(space-around,center);
-      flex: 5;
+		&--due {
+			font-size: 1.4rem;
+		}
+	}
 
-      &.warning {
-        color: $coral;
+	&__section {
+		@include flexbox(space-around,center);
+			float: left;
+		padding: 0 0.4rem;
 
-        input {
-          border-color: $coral;
-        }
-      }
-    }
+		&--importance {
+			height: rem;
+			flex: 1;
+		}
 
-    &--due {
-      @include flexbox(space-around,center);
-      flex: 7;
-      padding: 0 0.75rem;
-    }
+		&--title {
+			flex: 10;
+		}
 
-    &--save {
-      flex: 4;
-    }
-  }
+		&--duration {
+			@include flexbox(space-around,center);
+			flex: 5;
 
-  &__content {
-    width: 100%;
-  }
+			&.warning {
+				color: $coral;
 
-  &__inputgroup {
-    @include flexbox(space-around,center);
-    margin-left: 0.4rem;
+				input {
+					border-color: $coral;
+				}
+			}
+		}
 
-    &--duration {
+		&--due {
+			@include flexbox(space-around,center);
+			flex: 7;
+			padding: 0 0.75rem;
+		}
 
-      &-hour {
-        flex: 2;
-      }
+		&--save {
+			//flex: 4;
+		}
+	}
 
-      &-minute {
-        flex: 3;
-      }
-    }
-  }
+	&__content {
+		width: 100%;
+	}
+
+	&__inputgroup {
+		@include flexbox(space-around,center);
+		margin-left: 0.4rem;
+
+		&--duration {
+
+			&-hour {
+				flex: 2;
+			}
+
+			&-minute {
+				flex: 3;
+			}
+		}
+	}
 }

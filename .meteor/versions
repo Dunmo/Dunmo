@@ -137,4 +137,5 @@ velocity:shim@0.1.0
 velocity:source-map-support@0.3.2_1
 webapp@1.2.2
 webapp-hashing@1.0.5
+wylio:mandrill@1.0.1
 zimme:active-route@2.3.2
