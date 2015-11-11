@@ -45,6 +45,10 @@
 		&--importance {
 			height: rem;
 			flex: 1;
+
+			&:hover {
+				cursor: pointer;
+			}
 		}
 
 		&--title {
