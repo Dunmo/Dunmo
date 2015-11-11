@@ -533,10 +533,10 @@ gapi.syncTasksWithCalendar = function () {
           });
 
           gapi.getFreetimes(startingFrom, function(freetimes) {
-            todos = Meteor.user().todoList(freetimes);
+            var todos = Meteor.user().todoList(freetimes);
             gapi.pendingEvents = todos.length;
             todos.forEach(function(todo) {
-              if(todo.isOverdue) {
+              if(todo.willBeOverdue) {
                 todo.setWillBeOverdue(true);
                 if(!todo.start || !todo.end) {
                   gapi.pendingEvents--;
