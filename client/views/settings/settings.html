@@ -13,7 +13,7 @@
           {{/spinnerButton}}
         </div>
         <div class="row">
-          {{#spinnerButton disabled=disabledClass class="{{disabledClass}} btn btn-gplus btn-block" waitOn=googleBtnLoading}}
+          {{#spinnerButton done=isGoogleAuthed class="btn btn-gplus btn-block" waitOn=googleBtnLoading}}
             <i class="fa fa-google-plus"></i>
             {{#if isGoogleAuthed}}
               Connected with Google

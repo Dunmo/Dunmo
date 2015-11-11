@@ -40,11 +40,6 @@ View.helpers({
     return Session.get('errorMessage');
   },
 
-  disabledClass: function () {
-    var user = Meteor.user();
-    return user && user.isGoogleAuthed() ? 'disabled' : '';
-  },
-
   isGoogleAuthed: function () {
     var user = Meteor.user();
     return user && user.isGoogleAuthed();
