@@ -5,6 +5,17 @@
     margin: 0.5rem auto;
     border-radius: 0.25rem;
     background: $white;
+    
+    &--warning {
+        background: $yellow !important;
+    }
+    &--overdue {
+        background: $coral !important;
+        color: $white !important;
+    }
+    &--overdue &__importance::before {
+        color: $white !important;
+    }
 
     &__container {
         box-sizing: border-box;
@@ -23,7 +34,7 @@
             @include transition(all 0.25s ease-in-out);
             height: 2rem;
             font: 1.5rem/2rem $sans-serif;
-            border: 2px solid $white;
+            //border: 2px solid $white;
 
             &--input {
                 width: 100%;
