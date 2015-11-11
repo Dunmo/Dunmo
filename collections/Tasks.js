@@ -166,6 +166,10 @@ Tasks.helpers({
     return !this.isDone;
   },
 
+  isPastDue: function () {
+    return this.dueAt < Date.now();
+  },
+
   addTag: function (tag) {
     if(tag.charAt(0) === '#') tag = tag.slice(1);
     if(tag.length === 0) return 0;
