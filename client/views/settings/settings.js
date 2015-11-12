@@ -209,6 +209,8 @@ View.events({
       Meteor.logout(function (err) {
         if(err) {
           console.log('err: ', err);
+          var reason = err.reason || err.error || 'Unknown error';
+          Session.set('errorMessage', reason);
           btnLoading.set(false);
         } else {
           Router.go('login');
