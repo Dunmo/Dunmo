@@ -49,6 +49,11 @@ Template.signup.events({
         return;
       }
 
+      var user = Meteor.users.findOne({ 'emails.address': email });
+      if(user) {
+        console.log('user already exists: ', user);
+      }
+
       Accounts.createUser({
         password: password,
         email: email,
@@ -57,7 +62,12 @@ Template.signup.events({
         }
       }, function (err) {
         if(err) {
-          $('.notice').html(err.reason);
+          var reason = err.reason
+          if(reason === 'Email already exists.' && isGmailAddress(email)) {
+            Router.go('signupGoogleAuth');
+          } else {
+            $('.notice').html(reason);
+          }
           btnLoading.set(false);
         } else {
           Router.go('app');
