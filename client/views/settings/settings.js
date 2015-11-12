@@ -13,6 +13,11 @@ function hoursAndMinutes(milliseconds) {
   return str;
 }
 
+function isGoogleAuthed () {
+  var user = Meteor.user();
+  return user && user.isGoogleAuthed();
+}
+
 var View = Template.settings;
 
 View.onCreated(function () {
@@ -36,14 +41,15 @@ View.helpers({
     return googleBtnLoading.get();
   },
 
+  googleBtnDisabledClass: function () {
+    return isGoogleAuthed() ? 'disabled' : '';
+  },
+
   errorMessage: function () {
     return Session.get('errorMessage');
   },
 
-  isGoogleAuthed: function () {
-    var user = Meteor.user();
-    return user && user.isGoogleAuthed();
-  },
+  isGoogleAuthed: isGoogleAuthed,
 
   hasCalendars: function () {
     var calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
@@ -226,6 +232,13 @@ View.events({
 
     var delay = 500;
     Meteor.setTimeout(function () {
+      if(isGoogleAuthed()) {
+        Meteor.call('accounts/disconnect', 'google', function (err, res) {
+          googleBtnLoading.set(false);
+        });
+        return;
+      }
+
       Meteor.connectWith('google', {
         requestPermissions: ["email", "profile", "https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/tasks"],
         requestOfflineToken: true,
