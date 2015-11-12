@@ -8,6 +8,15 @@
           <p class="notice text-center">{{errorMessage}}</p>
         </div>
         <div class="row">
+          {{#spinnerButton class="btn btn-reset btn-block" waitOn=resetBtnLoading done=resetBtnDone}}
+            {{#if resetBtnDone}}
+              Email Sent!
+            {{else}}
+              Send Password Reset Email
+            {{/if}}
+          {{/spinnerButton}}
+        </div>
+        <div class="row">
           {{#spinnerButton class="btn btn-logout btn-block" waitOn=btnLoading}}
             <i class="fa fa-logout"></i> Logout
           {{/spinnerButton}}
