@@ -202,6 +202,7 @@ View.events({
   },
 
   'click .btn-logout': function (e) {
+    Session.set('errorMessage', '');
     btnLoading.set(true);
 
     var delay = 500;
@@ -220,6 +221,7 @@ View.events({
   },
 
   'click .btn-gplus': function (e) {
+    Session.set('errorMessage', '');
     googleBtnLoading.set(true);
 
     var delay = 500;
