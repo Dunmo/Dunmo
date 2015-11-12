@@ -202,6 +202,7 @@ View.events({
   },
 
   'click .btn-logout': function (e) {
+    Session.set('errorMessage', '');
     btnLoading.set(true);
 
     var delay = 500;
@@ -209,6 +210,8 @@ View.events({
       Meteor.logout(function (err) {
         if(err) {
           console.log('err: ', err);
+          var reason = err.reason || err.error || 'Unknown error';
+          Session.set('errorMessage', reason);
           btnLoading.set(false);
         } else {
           Router.go('login');
@@ -218,6 +221,7 @@ View.events({
   },
 
   'click .btn-gplus': function (e) {
+    Session.set('errorMessage', '');
     googleBtnLoading.set(true);
 
     var delay = 500;
@@ -228,8 +232,11 @@ View.events({
         loginStyle: "popup"
       }, function (err) {
         if(err) {
-          Session.set('errorMessage', err.reason || 'Unknown error');
           console.log('err: ', err);
+          var reason = err.reason || err.error || 'Unknown error';
+          if(reason === 'User already exists') reason = 'Google account has already been linked to a different Dunmo account.';
+          if(reason === 'No matching login attempt found') reason = '';
+          Session.set('errorMessage', reason);
           googleBtnLoading.set(false);
         } else {
           location.reload();

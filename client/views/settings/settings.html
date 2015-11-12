@@ -3,10 +3,10 @@
   <section id="content">
     <section class="main padder settings-container">
 
-      <div class="logout-container">
-      </div>
-
       <div class="auth-container">
+        <div class="row">
+          <p class="notice text-center">{{errorMessage}}</p>
+        </div>
         <div class="row">
           {{#spinnerButton class="btn btn-logout btn-block" waitOn=btnLoading}}
             <i class="fa fa-logout"></i> Logout
