@@ -228,8 +228,10 @@ View.events({
         loginStyle: "popup"
       }, function (err) {
         if(err) {
-          Session.set('errorMessage', err.reason || 'Unknown error');
           console.log('err: ', err);
+          var reason = err.reason || err.error || 'Unknown error';
+          if(reason === 'User already exists') reason = 'Google account has already been linked to a different Dunmo account.';
+          Session.set('errorMessage', reason);
           googleBtnLoading.set(false);
         } else {
           location.reload();
