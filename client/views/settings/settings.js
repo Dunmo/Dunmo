@@ -1,6 +1,8 @@
 
 var btnLoading = new ReactiveVar();
 var googleBtnLoading = new ReactiveVar();
+var resetBtnLoading = new ReactiveVar();
+var resetBtnDone = new ReactiveVar();
 
 function hoursAndMinutes(milliseconds) {
   var hours     = Date.hours(milliseconds);
@@ -23,6 +25,8 @@ var View = Template.settings;
 View.onCreated(function () {
   btnLoading.set(false);
   googleBtnLoading.set(false);
+  resetBtnLoading.set(false);
+  resetBtnDone.set(false);
 });
 
 View.onRendered(function () {
@@ -43,6 +47,14 @@ View.helpers({
 
   googleBtnDisabledClass: function () {
     return isGoogleAuthed() ? 'disabled' : '';
+  },
+
+  resetBtnLoading: function () {
+    return resetBtnLoading.get();
+  },
+
+  resetBtnDone: function () {
+    return resetBtnDone.get();
   },
 
   errorMessage: function () {
@@ -139,6 +151,27 @@ View.helpers({
 });
 
 View.events({
+  'click .btn-reset': function (e, t) {
+    e.preventDefault();
+    resetBtnLoading.set(true);
+
+    var delay = 500;
+    Meteor.setTimeout(function () {
+      var user = Meteor.user();
+      var email = user.primaryEmailAddress();
+
+      Accounts.forgotPassword({ email: email }, function (err) {
+        resetBtnLoading.set(false);
+        if(err) {
+          $('.notice').html(err.reason);
+        } else {
+          $('.notice').html('');
+          resetBtnDone.set(true);
+        }
+      });
+    }, delay);
+  },
+
   'keydown input[type="number"]': function (event) {
     if (!(!event.shiftKey && //Disallow: any Shift+digit combination
       !(event.keyCode < 48 || event.keyCode > 57) || //Disallow: everything but digits
