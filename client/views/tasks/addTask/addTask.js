@@ -31,8 +31,8 @@ View.helpers({
     var rank = rankVar.get();
     return rankMap[rank];
   },
-  today: function () {
-    return moment().format('YYYY-MM-DD');
+  endOfDay: function () {
+    return moment().endOf('day').format('YYYY-MM-DDTHH:mm');
   }
 });
 
