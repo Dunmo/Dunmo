@@ -40,6 +40,10 @@ View.onCreated(function () {
   usedGmailForReset.set(false);
 });
 
+View.onRendered(function () {
+  if(window.location.hash === '#reset') synchronize('.login', '.reset');
+});
+
 View.helpers({
   loggedIn: function () {
     return Meteor.userId();
