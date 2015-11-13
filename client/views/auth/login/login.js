@@ -1,4 +1,6 @@
 
+var View = Template.login;
+
 var btnLoading = new ReactiveVar();
 var resetBtnDone = new ReactiveVar();
 var usedGmailForReset = new ReactiveVar();
@@ -32,13 +34,13 @@ function synchronize(src, dest) {
   $dest.find('input.password').val(password);
 }
 
-Template.login.onCreated(function () {
+View.onCreated(function () {
   btnLoading.set(false);
   resetBtnDone.set(false);
   usedGmailForReset.set(false);
 });
 
-Template.login.helpers({
+View.helpers({
   loggedIn: function () {
     return Meteor.userId();
   },
@@ -56,7 +58,7 @@ Template.login.helpers({
   }
 });
 
-Template.login.events({
+View.events({
 
   'click .login-link': function (e) {
     if( $('.login-link').hasClass('active') ) return false;
