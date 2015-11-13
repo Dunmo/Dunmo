@@ -63,6 +63,11 @@ View.helpers({
 
   isEditingTitle: function () {
     return isEditingTitle[this._id] && isEditingTitle[this._id].get();
+  },
+
+  chevronDirection: function () {
+    var isExpanded = (Session.get('currently-expanded-task') === this._id);
+    return isExpanded ? 'up' : 'down';
   }
 });
 
