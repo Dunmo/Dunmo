@@ -36,6 +36,43 @@
         </div>
       </div>
 
+      <div class="calendar-container">
+        <div class="setting col-lg-4 col-sm-6">
+          <label for="start-of-workday">Start of Workday</label><br>
+          <input name="start-of-workday" type="time">
+        </div>
+        <div class="setting col-lg-4 col-sm-6">
+          <label for="end-of-workday">End of Workday</label> <br>
+          <input name="end-of-workday" type="time">
+        </div>
+        <div class="setting col-lg-4 col-sm-6">
+          <label for="task-granularity">Task Granularity</label> <br>
+          <input name="task-granularity" type="number" min="0" max="60" value="{{taskGranularity}}">
+          <label class="task-granularity-label">m</label>
+        </div>
+        <div class="setting col-lg-4 col-sm-6">
+          <label for="max-task-interval">Max Task Interval</label> <br>
+          <input name="max-task-interval" type="number" min="0" max="24" value="{{maxTaskIntervalHours}}">
+          <label class="max-task-interval-label">h</label>
+          <input name="max-task-interval" type="number" min="0" max="60" value="{{maxTaskIntervalMinutes}}">
+          <label class="max-task-interval-label">m</label>
+        </div>
+        <div class="setting col-lg-4 col-sm-6">
+          <label for="max-time-per-task-per-day">Max Time Per Task Per Day</label> <br>
+          <input name="max-time-per-task-per-day" type="number" min="0" max="24" value="{{maxTimePerTaskPerDayHours}}">
+          <label class="max-time-per-task-per-day-label">h</label>
+          <input name="max-time-per-task-per-day" type="number" min="0" max="60" value="{{maxTimePerTaskPerDayMinutes}}">
+          <label class="max-time-per-task-per-day-label">m</label>
+        </div>
+        <div class="setting col-lg-4 col-sm-6">
+          <label for="task-break-interval">Task Break Interval</label> <br>
+          <input name="task-break-interval" type="number" min="0" max="24" value="{{taskBreakIntervalHours}}">
+          <label class="task-break-interval-label">h</label>
+          <input name="task-break-interval" type="number" min="0" max="60" value="{{taskBreakIntervalMinutes}}">
+          <label class="task-break-interval-label">m</label>
+        </div>
+      </div>
+
     </section>
   </section>
 </template>
