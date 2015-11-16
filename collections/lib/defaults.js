@@ -41,7 +41,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], f
         });
         data = { $set: data };
       }
-      return collection.update({_id: this._id}, data);
+      return collection.update(self._id, data);
     }
 
   });
