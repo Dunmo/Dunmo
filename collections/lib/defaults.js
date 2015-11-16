@@ -18,7 +18,7 @@ Setters.setProp = function (prop) {
   };
 };
 
-_.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSettings, Users], function (collection) {
+_.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], function (collection) {
 
   collection.helpers({
 
@@ -41,7 +41,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSetti
         });
         data = { $set: data };
       }
-      return collection.update({_id: this._id}, data);
+      return collection.update(self._id, data);
     }
 
   });
