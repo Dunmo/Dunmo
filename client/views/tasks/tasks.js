@@ -20,7 +20,7 @@ Template.tasks.helpers({
         return Meteor.user().doneTasks();
       case 'trash':
         return Meteor.user().fetchRemovedTasks();
-      case 'all':
+      case 'todo':
       default:
         return Meteor.user().fetchSortedTodos();
     }
