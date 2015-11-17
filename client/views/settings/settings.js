@@ -15,6 +15,39 @@ function hoursAndMinutes(milliseconds) {
   return str;
 }
 
+function minutesPortion (total) {
+  total -= Date.hours(total)*HOURS;
+  return Date.minutes(total);
+}
+
+function setTimeSetting (target, setterName) {
+  Meteor.setTimeout(function () {
+    var user = Meteor.user();
+    Session.set('errorMessage', '');
+    var newTimeSetting = $(target).val();
+    var ret = user[setterName](newTimeSetting);
+    if(ret) gapi.syncTasksWithCalendar();
+  }, 0);
+}
+
+function setDurationSetting (target, inputNamePrefix, setterName) {
+  Meteor.setTimeout(function () {
+    var user = Meteor.user();
+    Session.set('errorMessage', '');
+    var $parent = $(target).parents('.setting');
+    var numHoursStr = $parent.find('input[name="'+inputNamePrefix+'-hours"]').val();
+    var numHours = Number(numHoursStr);
+    console.log('numHours: ', numHours);
+    var numMinutesStr = $parent.find('input[name="'+inputNamePrefix+'-minutes"]').val();
+    var numMinutes = Number(numMinutesStr);
+    console.log('numMinutes: ', numMinutes);
+    var newDurationSetting = numHours*HOURS + numMinutes*MINUTES;
+    console.log('newDurationSetting: ', newDurationSetting);
+    var ret = user[setterName](newDurationSetting);
+    if(ret) gapi.syncTasksWithCalendar();
+  }, 0);
+}
+
 function isGoogleAuthed () {
   var user = Meteor.user();
   return user && user.isGoogleAuthed();
@@ -33,6 +66,18 @@ View.onRendered(function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
+
+  var user = Meteor.user();
+  $('input[name="start-of-workday"]').val(Date.timeString(user.startOfDay()));
+  $('input[name="end-of-workday"]').val(Date.timeString(user.endOfDay()));
+  $('input[name="task-granularity"]').val(Date.minutes(user.taskGranularity()));
+  $('input[name="max-task-interval-hours"]').val(Date.hours(user.maxTaskInterval()));
+  $('input[name="max-task-interval-minutes"]').val(minutesPortion(user.maxTaskInterval()));
+  $('input[name="max-time-per-task-per-day-hours"]').val(Date.hours(user.maxTimePerTaskPerDay()));
+  $('input[name="max-time-per-task-per-day-minutes"]').val(minutesPortion(user.maxTimePerTaskPerDay()));
+  $('input[name="task-break-interval-hours"]').val(Date.hours(user.taskBreakInterval()));
+  $('input[name="task-break-interval-minutes"]').val(minutesPortion(user.taskBreakInterval()));
+
   gapi.syncCalendars();
 });
 
@@ -79,75 +124,9 @@ View.helpers({
     return calendars;
   },
 
-  startTime: function () {
-    var start = Meteor.user().startOfDay();
-    var str   = Date.timeString(start);
-    return str;
-  },
-
-  endTime: function () {
-    var end = Meteor.user().endOfDay();
-    var str = Date.timeString(end);
-    return str;
-  },
-
   hasOnboarded: function () {
     return Meteor.user().hasOnboarded('calendarSettings');
-  },
-
-  taskGranularityMinutes: function () {
-    return Date.minutes(Meteor.user().taskGranularity());
-  },
-
-  taskGranularity: function () {
-    return Date.minutes(Meteor.user().taskGranularity()) + ' minute';
-  },
-
-  maxTaskIntervalHours: function () {
-    return Date.hours(Meteor.user().maxTaskInterval());
-  },
-
-  maxTaskIntervalMinutes: function () {
-    var total = Meteor.user().maxTaskInterval();
-    total    -= Date.hours(total)*HOURS;
-    return Date.minutes(total);
-  },
-
-  maxTaskInterval: function () {
-    var total = Meteor.user().maxTaskInterval();
-    return hoursAndMinutes(total);
-  },
-
-  maxTimePerTaskPerDayHours: function () {
-    return Date.hours(Meteor.user().maxTimePerTaskPerDay());
-  },
-
-  maxTimePerTaskPerDayMinutes: function () {
-    var total = Meteor.user().maxTimePerTaskPerDay();
-    total    -= Date.hours(total)*HOURS;
-    return Date.minutes(total);
-  },
-
-  maxTimePerTaskPerDay: function () {
-    var total = Meteor.user().maxTimePerTaskPerDay();
-    return hoursAndMinutes(total);
-  },
-
-  taskBreakIntervalHours: function () {
-    return Date.hours(Meteor.user().taskBreakInterval());
-  },
-
-  taskBreakIntervalMinutes: function () {
-    var total = Meteor.user().taskBreakInterval();
-    total    -= Date.hours(total)*HOURS;
-    return Date.minutes(total);
-  },
-
-  taskBreakInterval: function () {
-    var total = Meteor.user().taskBreakInterval();
-    return hoursAndMinutes(total);
   }
-
 });
 
 View.events({
@@ -190,54 +169,38 @@ View.events({
     }
   },
 
-  'keydown .start-time.form-control, click button.start-time': function (e) {
-    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
-    Session.set('errorMessage', '');
-    var $input = $(e.target).parents('.input-group').find('input.start-time');
-    var val = $input.val();
-    var ret = Meteor.user().setStartOfDay(val);
-    if(ret) gapi.syncTasksWithCalendar();
+  'keydown input[name="start-of-workday"]': function (e) {
+    setTimeSetting(target, 'setStartOfDay');
   },
 
-  'keydown .end-time.form-control, click button.end-time': function (e) {
-    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
-    Session.set('errorMessage', '');
-    var $input = $(e.target).parents('.input-group').find('input.end-time');
-    var val = $input.val();
-    var ret = Meteor.user().setEndOfDay(val);
-    if(ret) gapi.syncTasksWithCalendar();
+  'keydown input[name="end-of-workday"]': function (e) {
+    setTimeSetting(e.target, 'setEndOfDay');
   },
 
-  'keydown form.inline-hrs-mins input, click form.inline-hrs-mins .btn.save': function (e) {
-    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
-    Session.set('errorMessage', '');
-
-    var $parent = $(e.target).parents('form');
-    var prop  = $parent.attr('id');
-    prop      = prop.substring(0, prop.length-4); // remove 'Form' from the end
-    prop      = _.capitalize(prop);
-    var hours = Number($parent.find('input.hours').val());
-    var mins  = Number($parent.find('input.minutes').val());
-    var val   = hours*HOURS + mins*MINUTES;
-
-    var ret   = Meteor.user()['set' + prop](val);
-    if(ret) gapi.syncTasksWithCalendar();
+  'keydown input[name="task-granularity"]': function (e) {
+    Meteor.setTimeout(function () {
+      Session.set('errorMessage', '');
+      var numMinutesStr = $(e.target).val();
+      var numMinutes =  Number(numMinutesStr);
+      console.log('numMinutes: ', numMinutes);
+      var newMinutesSetting = numMinutes*MINUTES;
+      console.log('newMinutesSetting: ', newMinutesSetting);
+      var user = Meteor.user();
+      var ret = user.setTaskGranularity(newMinutesSetting);
+      if(ret) gapi.syncTasksWithCalendar();
+    }, 0);
   },
 
-  'keydown form.inline-mins input, click form.inline-mins .btn.save': function (e) {
-    if(e.which && ! (e.which == 13 || e.which == 1) ) return;
-    Session.set('errorMessage', '');
+  'keydown input[name^="max-task-interval"]': function (e) {
+    setDurationSetting(e.target, 'max-task-interval', 'setMaxTaskInterval');
+  },
 
-    var $parent = $(e.target).parents('form');
-    var prop  = $parent.attr('id');
-    prop      = prop.substring(0, prop.length-4); // remove 'Form' from the end
-    prop      = _.capitalize(prop);
-    // var hours = Number($parent.find('input.hours').val());
-    var mins  = Number($parent.find('input.minutes').val());
-    var val   = mins*MINUTES;
+  'keydown input[name^="max-time-per-task-per-day"]': function (e) {
+    setDurationSetting(e.target, 'max-time-per-task-per-day', 'setMaxTimePerTaskPerDay');
+  },
 
-    var ret   = Meteor.user()['set' + prop](val);
-    if(ret) gapi.syncTasksWithCalendar();
+  'keydown input[name^="task-break-interval"]': function (e) {
+    setDurationSetting(e.target, 'task-break-interval', 'setTaskBreakInterval');
   },
 
   'click .btn-logout': function (e) {
