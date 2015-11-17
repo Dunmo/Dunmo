@@ -5,7 +5,7 @@
     margin: 0.5rem auto;
     border-radius: 0.25rem;
     background: $white;
-    
+
     &--warning {
         background: $yellow !important;
     }
@@ -38,6 +38,7 @@
 
             &--input {
                 width: 100%;
+                color: $grey !important;
             }
 
             &.expanded {
