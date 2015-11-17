@@ -170,7 +170,7 @@ View.events({
   },
 
   'keydown input[name="start-of-workday"]': function (e) {
-    setTimeSetting(target, 'setStartOfDay');
+    setTimeSetting(e.target, 'setStartOfDay');
   },
 
   'keydown input[name="end-of-workday"]': function (e) {
