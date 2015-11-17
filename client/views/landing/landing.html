@@ -15,10 +15,10 @@
 
     <div class="landing-navigation">
 
-        <img src="images/dunmo.png" class="landing-navigation__logo" />
+        <img src="images/logo.png" class="landing-navigation__logo" />
 
-        <a href="/" class="landing-navigation__link">About</a>
-        <a href="/" class="landing-navigation__link">Blog</a>
+        <a href="https://medium.com/dunmo-blog/we-are-dunmo-b3adb9fac014" class="landing-navigation__link" target="_blank">About us</a>
+        <a href="https://medium.com/dunmo-blog" class="landing-navigation__link" target="_blank">Blog</a>
 
         <a href="/login" class="landing-navigation__login">Log In</a>
 
@@ -41,7 +41,7 @@
 
             <div class="landing-hero__copy__content">
 
-                You've got a lot to manage.<br />Let's change that.<br />
+                You're busy.<br />We're busy helping you.<br />
 
                 <a href="#features" class="landing-hero__learn" data-scroll>Learn More</a>
                 <a href="#subscribe" class="landing-hero__action" data-scroll>Sign Up</a>
@@ -61,48 +61,48 @@
         <div class="landing-features__slide">
 
             <div class="landing-features__slide__copy landing-features__slide__copy--left">
-                <div class="landing-features__slide__copy__catch">Get your priorities straight</div>
-                Your task list will always be in priority order. Save time, energy, and stress by simply working on the most important things first.
+                <div class="landing-features__slide__copy__catch">Keep track of your tasks</div>
+                Dunmo is a place to store your tasks, and free up your mind. Clean and simple, no distractions. Add your tasks and get to work!
 
             </div>
 
-            <img src="images/1.jpg" class="landing-features__slide__screen landing-features__slide__screen--right" id="features1" />
+            <img src="images/task_list.png" class="landing-features__slide__screen landing-features__slide__screen--right" id="features1" />
 
         </div>
 
         <div class="landing-features__slide landing-features__slide--left">
 
             <div class="landing-features__slide__copy landing-features__slide__copy--right">
-                <div class="landing-features__slide__copy__catch">Stop worrying about finding time</div>
-                Connect your Google Calendar account and Dunmo will figure out when you have time to work on everything. This is the core of time management, and Dunmo can do it <i>for</i> you.
+                <div class="landing-features__slide__copy__catch">Get your priorities straight</div>
+                Dunmo keeps your priorities in order. The item at the top will always be the one you should finish first. Save time, energy, and stress by working on the highest priority tasks first.
 
             </div>
 
-            <img src="images/2.jpg" class="landing-features__slide__screen landing-features__slide__screen--left" id="features2"  />
+            <img src="images/priorities.png" class="landing-features__slide__screen landing-features__slide__screen--left" id="features2"  />
 
         </div>
 
         <div class="landing-features__slide">
 
             <div class="landing-features__slide__copy landing-features__slide__copy--left">
-                <div class="landing-features__slide__copy__catch">Filter for focus</div>
-                Want to be laser-focused? Dunmo's got your back. With tags, you can quickly hone in on what you want, and nothing you don't. <i>#wicked</i>
+                <div class="landing-features__slide__copy__catch">Finding time has never been easier</div>
+                Connect your Google Calendar account and Dunmo will figure out when you have time to work on everything. This is the core of time management, and Dunmo can do it <i>for</i>&nbsp; you.
 
             </div>
 
-            <img src="images/3.jpg" class="landing-features__slide__screen landing-features__slide__screen--right" id="features3"  />
+            <img src="images/schedule2.png" class="landing-features__slide__screen landing-features__slide__screen--right" id="features3"  />
 
         </div>
 
         <div class="landing-features__slide landing-features__slide--left">
 
             <div class="landing-features__slide__copy landing-features__slide__copy--right">
-                <div class="landing-features__slide__copy__catch">Project management made easy</div>
-                Projects will streamline your workflow and help you get things done. Got a team? With a roster of features, you'll be able to manage without breaking a sweat.
+                <div class="landing-features__slide__copy__catch">Hit your deadlines</div>
+                Dunmo keeps track of when things are due, how long it'll take to do them, and how long you have. You'll be always know if you're running short on time and if something's overdue.
 
             </div>
 
-            <img src="images/4.jpg" class="landing-features__slide__screen landing-features__slide__screen--left" id="features4"  />
+            <img src="images/warnings.png" class="landing-features__slide__screen landing-features__slide__screen--left" id="features4"  />
 
         </div>
 
@@ -112,18 +112,18 @@
 
         <div class="landing-comingsoon__item">
             <span class="landing-comingsoon__item__catch">
-                Get your priorities straight
+                Filter for focus
             </span>
             <!--(show layout without tasks)-->
-            Your task list will always be in priority order. Save time, energy, and stress by simply working on the most important things first.
+            Getting overwhelmed by all the things you have to do? Dunmo's got your back. With <i>#tags</i>, you can quickly zoom in on a category of tasks. Welcome to focus. It's nice, isn't it?
         </div>
 
         <div class="landing-comingsoon__item">
             <span class="landing-comingsoon__item__catch">
-                Stop worrying about finding time
+                Project management made easy
             </span>
             <!--(show agenda w/ a few tasks)-->
-            Connect your Google Calendar account and Dunmo will figure out when you have time to work on everything. This is the core of time management, and Dunmo can do it <i>for</i> you.
+            Too good to be true? With Dunmo helping you track task dependencies and progress towards milestones, you'll spend less time on time management and more time doing.
         </div>
 
     </div>
@@ -136,9 +136,9 @@
 
             <form id="subscription" class="landing-subscribe__form">
 
-                <input class="landing-subscribe__form__input" name="name" type="text" placeholder="Name" />
+                <input class="landing-subscribe__form__input" name="name" type="text" placeholder="Your Name" />
 
-                <input class="landing-subscribe__form__input" name="email" type="text" placeholder="Email" />
+                <input class="landing-subscribe__form__input" name="email" type="text" placeholder="Your Email" />
 
                 <button type="submit" class="landing-subscribe__form__submit">
                     {{#if subscribeLoading}}
@@ -158,8 +158,8 @@
 
         <div class="landing-footer__company">Dunmo LLC</div>
 
-        <a href="https://www.facebook.com/DunmoApp" class="landing-footer__social fa fa-facebook"></a>
-        <a href="https://twitter.com/dunmoapp" class="landing-footer__social fa fa-twitter"></a>
+        <a href="https://www.facebook.com/DunmoApp" class="landing-footer__social fa fa-facebook" target="_blank"></a>
+        <a href="https://twitter.com/dunmoapp" class="landing-footer__social fa fa-twitter" target="_blank"></a>
 
     </div>
 
