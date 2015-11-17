@@ -1,5 +1,9 @@
 
 Template.tasks.helpers({
+  isTodosView: function () {
+    return Session.get('task-filter') === 'todo';
+  },
+
   noTodos: function () {
     return Meteor.user().todos().count() === 0;
   },
