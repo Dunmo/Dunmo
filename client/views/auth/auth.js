@@ -63,14 +63,14 @@ function authWithGoogle () {
   }
 }
 
-Template.login.onCreated(function () {
+Template.auth.onCreated(function () {
   btnLoading.set(false);
   resetBtnDone.set(false);
   usedGmailForReset.set(false);
   googleBtnLoading.set(false);
 });
 
-Template.login.helpers({
+Template.auth.helpers({
   loggedIn: function () {
     return Meteor.userId();
   },
@@ -92,7 +92,7 @@ Template.login.helpers({
   }
 });
 
-Template.login.events({
+Template.auth.events({
 
   'click .signup-link': function (e) {
     if( $('.signup-link').hasClass('active') ) return false;
@@ -228,6 +228,7 @@ Template.login.events({
 
   'click .btn-gplus': function (e) {
     googleBtnLoading.set(true);
+<<<<<<< HEAD:client/views/login/login.js
 
     var options = {
       requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
@@ -243,6 +244,8 @@ Template.login.events({
       }
     }
 
+=======
+>>>>>>> 552d00daa73471df503a67dda13a5af969e190c9:client/views/auth/auth.js
     authWithGoogle();
   }
 

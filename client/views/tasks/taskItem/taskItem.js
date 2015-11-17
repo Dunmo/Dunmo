@@ -21,6 +21,11 @@ View.onRendered(function () {
 });
 
 View.helpers({
+  warningClass: function () {
+    if(this.isOverdue())        return 'app-taskitem--overdue';
+    else if(this.willBeOverdue) return 'app-taskitem--warning';
+  },
+
   shortDescription: function () {
     if(Session.get('currently-expanded-task') === this._id) return '';
     if(!this.description) return '';
@@ -58,6 +63,11 @@ View.helpers({
 
   isEditingTitle: function () {
     return isEditingTitle[this._id] && isEditingTitle[this._id].get();
+  },
+
+  chevronDirection: function () {
+    var isExpanded = (Session.get('currently-expanded-task') === this._id);
+    return isExpanded ? 'up' : 'down';
   }
 });
 

@@ -506,8 +506,12 @@ gapi.getFreetimes = function (startingFrom, callback) {
 ////////////////
 
 gapi.syncTasksWithCalendar = function () {
-  console.log('syncing tasks with calendar...');
+  var user = Meteor.user();
+
+  if(!user.isGoogleAuthed()) return false;
   if(gapi.isSyncing && gapi.isQueued) return;
+
+  console.log('syncing tasks with calendar...');
 
   if(gapi.isSyncing) gapi.isQueued = true;
   function _sync () {
@@ -521,22 +525,22 @@ gapi.syncTasksWithCalendar = function () {
     }
     gapi.getTaskCalendar(function () {
       var startingFrom = Date.now();
-      var granularity  = Meteor.user().taskGranularity();
+      var granularity  = user.taskGranularity();
       startingFrom     = Date.nearest(startingFrom, granularity);
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {
         // should not delete current task event
         gapi.deleteAllFutureFromCalendar(function () {
 
-          Meteor.user().fetchTodos().forEach(function (todo) {
+          user.fetchTodos().forEach(function (todo) {
             todo.setWillBeOverdue(false);
           });
 
           gapi.getFreetimes(startingFrom, function(freetimes) {
-            todos = Meteor.user().todoList(freetimes);
+            var todos = user.todoList(freetimes);
             gapi.pendingEvents = todos.length;
             todos.forEach(function(todo) {
-              if(todo.isOverdue) {
+              if(todo.willBeOverdue) {
                 todo.setWillBeOverdue(true);
                 if(!todo.start || !todo.end) {
                   gapi.pendingEvents--;

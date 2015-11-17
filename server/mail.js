@@ -1,4 +1,15 @@
 
+Accounts.emailTemplates.from = 'Dunmo <contact@dunmoapp.com>',
+Accounts.emailTemplates.siteName = 'dunmoapp.com',
+Accounts.emailTemplates.resetPassword.subject = function (user) {
+  return 'Reset your Dunmo Password';
+};
+Accounts.emailTemplates.resetPassword.html = function (user, url) {
+  var name = user.profile.name;
+  url = url.replace('#/', '');
+  return 'Please click the following link to reset your password:\n\n' + url;
+};
+
 check(process.env.SECRETS_MAILCHIMP, String);
 var mailChimp = new MailChimp(process.env.SECRETS_MAILCHIMP);
 var mailingListId = 'a2015f3903';

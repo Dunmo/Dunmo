@@ -1,6 +1,6 @@
 <template name="taskItem">
 
-  <div class="app-taskitem" data-id="{{_id}}">
+  <div class="app-taskitem {{warningClass}}" data-id="{{_id}}">
     {{!-- <div class="app-taskitem__quick-actions" {{quickActionFields}}>
       <div data-active="{{isDone}}"
            class="app-taskitem__quick-actions__button app-taskitem__quick-actions__button--done ion-checkmark"></div>
@@ -79,7 +79,7 @@
       {{/if}}
     </div>
 
-    <div class="app-taskitem__chevron ion-chevron-down"></div>
+    <div class="app-taskitem__chevron ion-chevron-{{chevronDirection}}"></div>
   </div>
 
 </template>

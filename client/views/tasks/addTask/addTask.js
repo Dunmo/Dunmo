@@ -27,7 +27,7 @@ View.helpers({
     return itemType() === 'task';
   },
   rank: function () {
-    var rankMap = { 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
+    var rankMap = { 0: 'rankzero', 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
     var rank = rankVar.get();
     return rankMap[rank];
   },
@@ -37,6 +37,13 @@ View.helpers({
 });
 
 View.events({
+  'click .app-addtask__section--importance': function (e, t) {
+    var rank = rankVar.get();
+    var newRank = rank + 1;
+    if(newRank > 3) newRank = 0;
+    rankVar.set(newRank);
+  },
+
   'submit form.app-addtask': function (e, t) {
     e.preventDefault();
     $('.warning').removeClass('warning');
