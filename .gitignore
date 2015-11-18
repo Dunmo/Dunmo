@@ -18,3 +18,4 @@ dunmo.sln
 packages/npm-container
 bin/dunmo
 *.map
+ENV
