@@ -36,6 +36,7 @@
         </div>
       </div>
 
+      {{#if currentUser.isGoogleAuthed}}
       <div class="row calendar-settings-container">
         <div class="setting col-lg-4 col-sm-6">
           <label for="start-of-workday">Start of Workday</label><br>
@@ -72,7 +73,9 @@
           <label class="task-break-interval-minutes-label">m</label>
         </div>
       </div>
+      {{/if}}
 
+      {{#if currentUser.isGoogleAuthed}}
       <div class="row calendar-listing-container">
         <header>Active Calendars</header>
         <ul class="calendar-list">
@@ -81,6 +84,7 @@
           {{/each}}
         </ul>
       </div>
+      {{/if}}
 
     </section>
   </section>
