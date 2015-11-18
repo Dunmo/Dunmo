@@ -3,7 +3,11 @@ var View = Template.calendarListItem;
 
 View.helpers({
   activeClass: function () {
-    return this.active ? '' : 'active';
+    return this.active ? 'settings__cal__list__item--active' : '';
+  },
+
+  checkActiveClass: function () {
+    return this.active ? 'settings__cal__list__item__active-icon--active' : '';
   }
 });
 
