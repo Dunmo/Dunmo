@@ -1,4 +1,5 @@
-ENV
+
+secrets.js
 tests/jasmine/server/unit/package-stubs.js
 tests/jasmine/server/unit/packageMocksSpec.js
 .screenshots
@@ -9,12 +10,8 @@ dunmo.tar.gz
 .DS_Store
 custom.bootstrap.less
 custom.bootstrap.mixins.import.less
+*.scssc
 public/config.rb
 dunmo.v12.suo
 dunmo.sln
 *.scssc
-*.sln
-*.suo
-packages/npm-container
-bin/dunmo
-*.map

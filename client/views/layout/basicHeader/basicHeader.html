@@ -1,0 +1,26 @@
+<template name="basicHeader">
+  <header id="header" class="navbar">
+    <div class="logo-wrapper">
+      <a class="navbar-brand" href="#">Dunmo</a>
+      <button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body">
+        <i class="fa fa-bars fa-lg text-default"></i>
+      </button>
+    </div>
+    <ul class="nav navbar-nav pull-left"><li class="input-wrapper">
+      {{> addTaskInput}}
+    </li></ul>
+    <ul class="nav navbar-nav pull-right question-nav">
+      <li class="question-btn dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          <i class="fa fa-2x fa-question-circle"></i>
+        </a>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <!-- <li class="tutorial-action"><a href="#"> View Tutorial     </a></li> -->
+          <!-- <li><a href="#"> Dunmo Tips and Tricks </a></li> -->
+          <!-- <li class="feature-action"><a href="#">  Suggest a Feature </a></li> -->
+          <li class="referral-action"><a href="/referralView"> Referrals         </a></li>
+        </ul>
+      </li>
+    </ul>
+  </header>
+</template>

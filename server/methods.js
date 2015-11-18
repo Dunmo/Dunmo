@@ -29,10 +29,6 @@ Meteor.methods({
     var event = Events.findOne({ googleEventId: googleEventId });
     if(event) return Events.remove(event._id);
     else      return 0;
-  },
-
-  updateTask: function (id, modifier) {
-    Tasks.update({_id: id}, modifier);
-  },
+  }
 
 });

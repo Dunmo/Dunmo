@@ -1,9 +1,2 @@
 COPYRIGHT © DUNMO 2015.
 ALL RIGHTS RESERVED.
-
-Permission is granted to copy, modify, and distribute this source code for free,
-provided that a copy of this LICENSE is bundled with each distribution.
-
-No entity is allowed to make money from use of this code, nor may any for profit
-venture use this code unless explicit written permissions are provided by
-DUNMO, LLC.
