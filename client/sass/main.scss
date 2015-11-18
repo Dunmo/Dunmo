@@ -6,10 +6,9 @@
 @import 'lib/normalize/normalize';
 
 @import 'lib/bourbon/bourbon';
-
-@import 'lib/bitters/base';
-    
 @import 'lib/neat/neat-helpers';
+@import 'lib/bitters/base';
+@import 'lib/neat/neat';
 
 // marked
 @import 'core/old-base';
@@ -19,7 +18,6 @@
 
 @import 'core/variables';
 @import 'core/objects';
-@import 'core/grid-settings'; // Neat overrides
 @import 'core/base';
 
 @import 'landing/general';
@@ -44,5 +42,3 @@
 @import 'app/addtask';
 @import 'app/addtaskbutton';
 // end
-
-@import 'lib/neat/neat';

@@ -47,7 +47,7 @@ ul {
     list-style: none;
 }
 
-.display-none { display: none; }
+.display-none { display: none !important; }
 
 .group:after {
   content: '';
