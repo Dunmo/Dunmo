@@ -228,7 +228,6 @@ Template.auth.events({
 
   'click .btn-gplus': function (e) {
     googleBtnLoading.set(true);
-<<<<<<< HEAD:client/views/login/login.js
 
     var options = {
       requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
@@ -244,8 +243,6 @@ Template.auth.events({
       }
     }
 
-=======
->>>>>>> 552d00daa73471df503a67dda13a5af969e190c9:client/views/auth/auth.js
     authWithGoogle();
   }
 

@@ -27,11 +27,11 @@ Template.taskView.onRendered(function () {
 
     if(!user.hasOnboarded('taskView')) setOnboardingTasks();
 
-    if(user.lastReviewed() < Date.startOfToday()) {
-      console.log('setting tasks to review...');
-      Tasks.setNeedsReviewed();
-      user.setLastReviewed(Date.now());
-    }
+    // if(user.lastReviewed() < Date.startOfToday()) {
+    //   console.log('setting tasks to review...');
+    //   Tasks.setNeedsReviewed();
+    //   user.setLastReviewed(Date.now());
+    // }
   }
 
   Session.set('lastRendered', Date.floorMinute(Date.now()));
