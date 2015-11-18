@@ -22,6 +22,8 @@ View.onRendered(function () {
 
 View.helpers({
   warningClass: function () {
+    if(this.isDone || this.isRemoved) return '';
+
     if(this.isOverdue())        return 'app-taskitem--overdue';
     else if(this.willBeOverdue) return 'app-taskitem--warning';
   },
