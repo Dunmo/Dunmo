@@ -3,6 +3,46 @@
 // Existing content in the file will not be touched
 // When deleting a .scss or .sass file you must manually delete it from here
 
-@import "client/sass/app.scss";
-@import "client/sass/ie.scss";
-@import "client/sass/landing.scss";
+@import 'lib/normalize/normalize';
+
+@import 'lib/bourbon/bourbon';
+
+@import 'lib/bitters/base'
+    
+@import 'lib/neat/neat-helpers';
+
+// marked
+@import 'core/old-base';
+@import 'core/old-objects';
+@import 'core/old-common';
+// end
+
+@import 'core/variables';
+@import 'core/objects';
+@import 'core/grid-settings'; // Neat overrides
+@import 'core/base';
+
+@import 'landing/general';
+@import 'landing/navigation';
+@import 'landing/hero';
+@import 'landing/body';
+@import 'landing/footer';
+@import 'landing/subscribe';
+@import 'landing/action';
+
+@import 'app/general';
+@import 'app/mainview';
+@import 'app/side';
+@import 'app/settings';
+@import 'app/task/add';
+@import 'app/task/item';
+
+// marked
+@import 'app/dimmer';
+@import 'app/topbar';
+@import 'app/taskitem';
+@import 'app/addtask';
+@import 'app/addtaskbutton';
+// end
+
+@import 'lib/neat/neat';
