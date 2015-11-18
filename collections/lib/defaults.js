@@ -18,19 +18,14 @@ Setters.setProp = function (prop) {
   };
 };
 
-_.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], function (collection) {
+_.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, UserSettings, Users], function (collection) {
 
   collection.helpers({
 
-    setIsRemoved: Setters.setBool('isRemoved'),
+    setRemoved: Setters.setBool('isRemoved'),
 
-    setRemoved: function (bool) { return this.setIsRemoved(bool); },
-
-    remove: function () { return this.setIsRemoved(true); },
-
-    toggleRemoved: function (bool) {
-      if(bool === undefined) bool = !this.isRemoved;
-      return this.setIsRemoved(bool);
+    remove: function () {
+      return this.setRemoved(true);
     },
 
     update: function (data) {
@@ -41,15 +36,15 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], f
         });
         data = { $set: data };
       }
-      return collection.update(self._id, data);
+      return collection.update(this._id, data);
     }
 
   });
 
   // does not include removed items
-  // collection.before.find(function(userId, selector, options) {
-  //   if(selector.isRemoved === undefined) selector.isRemoved = false;
-  // });
+  collection.before.find(function(userId, selector, options) {
+    if(!selector.isRemoved) selector.isRemoved = { $ne: true };
+  });
 
   collection.before.insert(function (userId, doc) {
     if(Array.isArray(doc)) {
@@ -58,7 +53,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], f
         collection.insert(doc);
       });
     }
-    doc.isRemoved = doc.isRemoved || false;
+    doc = {};
   });
 
   // includes removed items
@@ -77,7 +72,7 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], f
   // does not include removed items
   collection.fetch = function (selector, options) {
     selector   = selector || {};
-    if(selector.isRemoved === undefined) selector.isRemoved = false;
+    selector.isRemoved = { $ne: true };
     var result = collection.find(selector, options);
     result     = result.fetch();
     return result;

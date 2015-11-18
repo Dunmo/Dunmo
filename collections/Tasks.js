@@ -58,34 +58,6 @@ Tasks.helpers(setters);
 
 Tasks.helpers({
 
-  update: function (data) {
-    if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
-      var self = this;
-      _.forOwn(data, function(value, key) {
-        self[key] = value;
-      });
-      data = { $set: data };
-    }
-    return Meteor.call('updateTask', this._id, data);
-  },
-
-  setRemainingHrsMins: function (hrs, mins) {
-    return this.setRemaining(hrs*HOURS + mins*MINUTES);
-  },
-
-  hoursRemaining: function () {
-    return Date.hours(this.remaining);
-  },
-
-  minutesRemaining: function () {
-    return Date.minutes(this.remaining - Date.hours(this.remaining)*HOURS);
-  },
-
-  toggleDone: function (val) {
-    if(val) return this.markDone(val);
-    else    return this.markDone(!this.isDone);
-  },
-
   reParse: function (str) {
     var res = Natural.parseTask(str);
     res.inputString = str;
@@ -166,14 +138,6 @@ Tasks.helpers({
     return !this.isDone;
   },
 
-  isPastDue: function () {
-    return this.dueAt < Date.now();
-  },
-
-  isOverdue: function () {
-    return !this.isDone && this.isPastDue();
-  },
-
   addTag: function (tag) {
     if(tag.charAt(0) === '#') tag = tag.slice(1);
     if(tag.length === 0) return 0;
@@ -218,12 +182,10 @@ Tasks.helpers({
 
   hasProject: function () {
     return !!this.projectId;
-  },
+  }
 
+  // dueAtString
   // needs to handle relative dates
-  dueAtString: function () {
-    return moment(this.dueAt).format('YYYY-MM-DD');
-  },
 
 });
 
@@ -267,6 +229,7 @@ Tasks.create = function (str, obj) {
   obj.snoozedUntil     = obj.snoozedUntil     || 0;
   obj.dependencies     = obj.dependencies     || [];
   obj.isDone           = obj.isDone           || false;
+  obj.isRemoved        = obj.isRemoved        || false;
   obj.isOnboardingTask = obj.isOnboardingTask || false;
   obj.lastUpdatedAt    = obj.lastUpdatedAt    || Date.now();
 

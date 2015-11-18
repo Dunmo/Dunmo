@@ -1,26 +1,7 @@
 <template name="layout">
-  {{#if modalActive}}
-    <div class="app-dimmer"></div>
-    {{> addTask}}
-  {{/if}}
-
   {{> Template.dynamic template=header}}
-  {{> Template.dynamic template=nav}}
-
-  <div class="app-mainview">
-    <div class="app-mainview__tab-container display-none">
-
-        <div class="app-mainview__tab">Backlog</div>
-        <div class="app-mainview__tab">This Week</div>
-        <div class="app-mainview__tab">Tomorrow</div>
-        <div class="app-mainview__tab app-mainview__tab--active">Today</div>
-        <div class="app-mainview__tab">Done</div>
-
-    </div>
-
+  <div class="main-wrapper">
+    {{> Template.dynamic template=nav}}
     {{> Template.dynamic template=main}}
-
-    {{> addTaskButton}}
-
   </div>
 </template>
