@@ -1,0 +1,478 @@
+.landing {
+
+    &-nav {
+        @include user-select(none);
+        @include block(calc(3rem + 1px));
+        @include medium {
+            font: 0.75rem/3rem $sans-serif;
+        }
+        @include large {
+            font: 1rem/3rem $sans-serif;
+        }
+        @include larger {
+            font: 1.25rem/3rem $sans-serif;
+        }
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        //color: $black;
+        background: rgba($white,0.95);
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 1px solid $green;
+        z-index: 50;
+
+        &__item {
+            @include transition(all 0.25s ease-in-out);
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 0 0.5rem;
+            padding: 0 1rem;
+            cursor: pointer;
+            color: $black;
+            &:hover {
+                color: $fern;
+            }
+
+            &.current {
+                color: $green;
+                font-weight: bold;
+                //border-bottom: 3px solid $fern;
+            }
+        }
+
+        &__logo {
+            //display: none;
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            //width: 2rem;
+            //height: 2rem;
+            cursor: pointer;
+            font: 2rem/3rem $brand;
+            color: $green;
+            text-transform: lowercase;
+        }
+
+        &__action {
+            //display: none;
+            @include button(auto,2rem,0.75rem,$white,none,$green);
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            padding: 0 1rem;
+            //font: 1rem/3rem $sans-serif;
+            //color: $fern;
+            //font-size: 1rem;
+            //text-transform: uppercase;
+            &:hover {
+                background: $fern;
+            }
+        }
+
+    }
+
+    &-splash {
+        //@include user-select(none);
+        @include block(100%);
+        //@include background-image('../images/0b.jpg');
+        display: table; // to vertically center content
+        background: $white;//darken($white,1%);
+        //min-height: 40rem;
+        //@include padding;
+        color: $grey;
+
+        &__container { // to vertically center content
+            display: table-cell;
+            vertical-align: middle;
+            padding: 1rem;
+        }
+
+        &__brand {
+            @include small {
+                font: 6rem/6rem $sans-serif;
+            }
+            @include medium {
+                font: 8rem/8rem $sans-serif;
+            }
+            @include large {
+                font: 10rem/10rem $sans-serif;
+            }
+            @include larger {
+                //width: 50rem;
+            }
+            width: 100%;
+            display: block;
+            height: auto;
+            margin: auto;
+            font: 10rem/10rem $sans-serif;
+            color: $green;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        &__tagline {
+            @include small {
+                font: 1.5rem/2rem $sans-serif;
+            }
+            width: 100%;
+            text-align: center;
+            color: $grey;
+            font: 2rem/3rem $sans-serif;
+            margin: 0 auto;
+        }
+
+        &__action {
+            @include medium {
+                @include button(20rem,4rem,1.25rem,$green,1px solid $green);
+            }
+            @include large {
+                @include button(25rem,4rem,1.5rem,$green,1px solid $green);
+            }
+            @include larger {
+                @include button(30rem,5rem,2.5rem,$green,1px solid $green);
+            }
+            text-transform: uppercase;
+            margin: 2rem auto;
+            &:hover {
+                background: $green;
+                color: $white;
+            }
+        }
+
+        &__separator {
+            @include small {
+                width: 80%;
+            }
+            @include medium {
+                width: 40rem;
+            }
+            @include large {
+                width: 50rem;
+            }
+            @include larger {
+                width: 60rem;
+            }
+            margin: 2rem auto;
+        }
+
+        &__text {
+            width: 100%;
+            text-align: center;
+            color: $grey;
+            font: 1rem/2rem $sans-serif;
+            margin: 0 auto;
+
+        }
+
+        &__indicator {
+            @include transition(all 0.25s ease-in-out);
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translate(-50%,0);
+            width: 3rem;
+            height: 3rem;
+            font-size: 2.5rem;
+            line-height: 3rem;
+            text-align: center;
+            color: $grey;
+            border: none !important;
+            &::after {
+                content: 'learn more';
+                display: block;
+                position: absolute;
+                bottom: 3rem;
+                left: 50%;
+                transform: translate(-50%,0);
+                height: 2rem;
+                width: 500%;
+                font: 1rem/2rem $sans-serif;
+                color: $grey;
+                text-transform: uppercase;
+                text-align: center;
+            }
+            &:hover {
+                transform: translate(-50%,0.5rem);
+            }
+        }
+
+    }
+
+    &-story {
+        @include block;
+        @include padding(3rem);
+        background: $white;
+        color: $grey;
+
+            &__heading {
+                width: 100%;
+                text-align: center;
+                font: 2.5rem/4rem $sans-serif;
+                text-transform: uppercase;
+            }
+
+            &__text {
+                @include medium {
+                    width: 30rem;
+                }
+                @include large {
+                    width: 35rem;
+                }
+                @include larger {
+                    width: 50rem;
+                }
+                display: block;
+                margin: 1rem auto;
+                text-align: justify;
+            }
+
+    }
+
+    &-features {
+        @extend .group;
+        @include block;
+        padding: 2rem 0;
+        background: $green;
+        color: $white;
+
+            &__heading {
+                width: 100%;
+                text-align: center;
+                font: 2.5rem/4rem $sans-serif;
+                text-transform: uppercase;
+            }
+
+            &__slide {
+                @include block(100%);
+                @include small {
+                    width: 100%;
+                    padding: 1rem;
+                }
+                width: 46rem;
+                margin: 0 auto;
+
+                &__item {
+                    @include small {
+                        width: 95%;
+                        //margin: 1rem auto;
+                        float: none;
+                    }
+                    box-sizing: border-box;
+                    width: 23rem;
+                    padding: 0.5rem 1.5rem;
+                    margin: 1rem auto;
+                    float: left;
+                    font: 1rem/1.25rem $sans-serif;
+                    text-align: justify;
+
+                    &__catch {
+                        display: block;
+                        font: bold 1.25rem/2rem $sans-serif;
+                        text-align: left;
+                        //text-align: center;
+                        //text-transform: uppercase;
+                    }
+
+                }
+
+            }
+
+    }
+
+    &-team {
+        @include block;
+        @include padding(3rem);
+        background: $white;
+
+            &__heading {
+                width: 100%;
+                text-align: center;
+                font: 2.5rem/4rem $sans-serif;
+                text-transform: uppercase;
+            }
+
+            &__container {
+                @include medium {
+                    width: 45rem;
+                }
+                @include large {
+                    width: 72rem;
+                }
+                @include larger {
+                    width: 108rem;
+                }
+                margin: 1rem auto;
+            }
+
+            &__profile {
+                @include medium {
+                    width: 13rem;
+                    margin: 0 1rem;
+                }
+                @include large {
+                    width: 20rem;
+                    margin: 0 2rem;
+                }
+                @include larger {
+                    width: 30rem;
+                    margin: 0 3rem;
+                }
+                float: left;
+
+                &__picture {
+                    display: block;
+                    width: 10rem;
+                    height: 10rem;
+                    border-radius: 5rem;
+                    margin: 1rem auto;
+                }
+
+                &__name {
+                    width: 100%;
+                    font: 1.5rem/2rem $sans-serif;
+                    text-align: center;
+                }
+
+                &__position {
+                    width: 100%;
+                    font: 0.75rem/1rem $sans-serif;
+                    text-align: center;
+                }
+
+                &__bio {
+                    display: block;
+                    text-align: justify;
+                }
+
+            }
+
+    }
+
+//    &-contact,
+//    &-subscribe {
+//        @include block;
+//        @include padding(3rem);
+//        background: $white;
+//        color: $grey;
+//
+//            &__heading {
+//                @include small {
+//                    font: 2rem/3rem $sans-serif;
+//                }
+//                width: 100%;
+//                text-align: center;
+//                font: 2.25rem/4rem $sans-serif;
+//                text-transform: uppercase;
+//            }
+//
+//            &__form {
+//                @include small {
+//                    width: 90%;
+//                }
+//                @include medium {
+//                    width: 30rem;
+//                }
+//                @include large {
+//                    width: 35rem;
+//                }
+//                @include larger {
+//                    width: 50rem;
+//                }
+//                margin: 0 auto;
+//                text-align: center;
+//
+//                &__input,
+//                &__textarea {
+//                    display: block;
+//                    box-sizing: border-box;
+//                    width: 100%;
+//                    height: 2rem;
+//                    border-radius: 1rem;
+//                    border: none;
+//                    &:focus {
+//                        outline: none;
+//                    }
+//                }
+//                &__input {
+//                    margin: 1rem auto;
+//                    padding: 0 1rem;
+//                    font: 1rem/2rem $sans-serif;
+//                    text-align: center;
+//                    color: $green;
+//                }
+//                &__textarea {
+//                    height: 5rem;
+//                    margin: 1rem auto;
+//                    padding: 0.5rem 1rem;
+//                    font: 1rem/1.25rem $sans-serif;
+//                }
+//
+//                &__submit {
+//                    @include button(50%,3rem,1rem,$green,1px solid $green);
+//                    @include small {
+//                        background: $green;
+//                        color: $white;
+//                    }
+//                    text-transform: uppercase;
+//                    margin: 0 auto;
+//                    cursor: pointer;
+//                    &:hover {
+//                        color: $white;
+//                        background: $green;
+//                    }
+//                }
+//
+//            }
+//
+//    }
+
+//    &-subscribe {
+//        background: $white;
+//
+//        &__form__input {
+//            height: 3rem;
+//            font: 1rem/3rem $sans-serif;
+//            border-radius: 1.5rem;
+//            border: 1px solid $green;
+//        }
+//
+//        &__form__submit:hover {
+//            //color: $green;
+//        }
+//
+//    }
+
+    &-footer {
+        @include block;
+        @include padding;
+        background: $black;
+
+        &__company {
+            font: 1.25rem/5rem $sans-serif;
+            color: $white;
+        }
+
+        &__social {
+            position: absolute;
+            top: 0;
+            margin: 1.5rem 0.5rem;
+            display: block;
+            height: 2rem;
+            width: 2rem;
+            color: $white;
+            font-size: 1.5rem;
+            text-align: center;
+            line-height: 2rem;
+
+            &.fa-facebook {
+                right: 2rem;
+            }
+            &.fa-twitter {
+                right: 5rem;
+            }
+        }
+    }
+
+}

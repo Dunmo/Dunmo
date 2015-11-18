@@ -1,0 +1,33 @@
+<template name="sidebar">
+  {{#with user}}
+  <div class="app-sidebar">
+<!--
+    <div class="app-sidebar__section {{activeClass 'agenda'}}" data-section="agenda">
+      <span class="app-sidebar__section__heading">Agenda</span>
+    </div>
+ -->
+    <div class="app-sidebar__section {{activeClass 'tasks'}}" data-section="tasks">
+      <span class="app-sidebar__section__heading">Tasks</span>
+      <ul class="app-sidebar__subsection">
+        <li class="app-sidebar__subsection__item {{activeClass 'todo'}}" data-href="todo">Todo</li>
+        <li class="app-sidebar__subsection__item {{activeClass 'completed'}}" data-href="completed">Completed</li>
+        <li class="app-sidebar__subsection__item {{activeClass 'trash'}}" data-href="trash">Trash</li>
+      </ul>
+    </div>
+
+    {{!--
+    <div class="app-sidebar__section {{activeClass 'projects'}}" data-section="projects">
+      <span class="app-sidebar__section__heading">Projects</span>
+      <ul class="app-sidebar__subsection">
+        <li class="app-sidebar__subsection__item app-sidebar__subsection__item--add-project">+ Add New</li>
+        {{#each currentProjects}}
+        <li class="app-sidebar__subsection__item {{activeClass this._id}}" data-href="{{this._id}}">{{this.title}}</li>
+        {{/each}}
+        <li class="app-sidebar__subsection__item {{activeClass 'archive'}}" data-href="archive">Archive</li>
+      </ul>
+    </div>
+    --}}
+
+  </div>
+  {{/with}}
+</template>
