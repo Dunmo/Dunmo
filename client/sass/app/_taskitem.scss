@@ -1,0 +1,328 @@
+.app-taskitem {
+    @include transition(all 0.25s ease-in-out);
+    @include block;
+    //border: 1px solid $grey;
+    margin: 0.5rem auto;
+    border-radius: 0.25rem;
+    background: $white;
+
+    &--warning {
+        background: $yellow !important;
+    }
+    &--overdue {
+        background: $coral !important;
+        color: $white !important;
+    }
+    &--overdue &__importance::before {
+        color: $white !important;
+    }
+
+    &__container {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.5rem 4rem;
+        margin: 0;
+    }
+
+    &__head {
+        width: 100%;
+        height: 4rem;
+        padding: 0 0.5rem;
+        cursor: pointer;
+
+        &__title {
+            @include transition(all 0.25s ease-in-out);
+            height: 2rem;
+            font: 1.5rem/2rem $sans-serif;
+            //border: 2px solid $white;
+
+            &--input {
+                width: 100%;
+                color: $grey !important;
+            }
+
+            &.expanded {
+                line-height: 4rem;
+            }
+
+            &:hover {
+                border-color: $grey;
+            }
+        }
+
+        &__description {
+            height: 2rem;
+            font: 1rem/2rem $sans-serif;
+        }
+
+    }
+
+    &__body {
+        //@include clearfix;
+        @include block;
+        min-height: 16rem;
+
+        &__section {
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.5rem 0.5rem;
+            float: none;
+
+            &--duration {
+                width: 25%;
+                min-width: 8rem;
+                float: left;
+            }
+
+            &--due {
+                width: 30%;
+                float: left;
+            }
+
+            &--importance {
+                width: 45%;
+                float: left;
+            }
+        }
+
+        &__heading {
+            font: bold 1rem/1.5rem $sans-serif;
+        }
+
+        &__content {
+            @include clearfix;
+            position: relative;
+            box-sizing: border-box !important;
+            width: 100%;
+            font: 1rem/1.25rem $sans-serif;
+            color: $grey;
+            padding: 0 0.25rem;
+            &[disabled] {
+                background: $white;
+                color: $grey;
+                border: none;
+            }
+
+            &--duration-hour,
+            &--duration-minute {
+                height: 1.5rem;
+                width: 2rem;
+                text-align: right;
+                //float: left;
+                display: inline-block;
+                    //vertical-align: bottom;
+                &-label {
+                    display: inline-block;
+                    //vertical-align: bottom;
+                    width: 1.5rem;
+                    line-height: 1.5rem;
+                    //padding: 0 0.25rem;
+                    //float: left;
+                }
+            }
+
+            &--due {
+                height: 1.5rem;
+            }
+
+            &--importance {
+                label {
+                    $importance-label-border-color: darken($white,10%);
+                    @include transition(all 0.25s ease-in-out);
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                    height: 1.5rem;
+                    width: 25%;
+                    float: left;
+                    font: 1rem/1.5rem $sans-serif;
+                    text-align: center;
+                    border-top: 1px solid $importance-label-border-color;
+                    border-bottom: 1px solid $importance-label-border-color;
+                    &:nth-of-type(2n) {
+                        border: 1px solid $importance-label-border-color;
+                    }
+                    &:first-of-type {
+                        border-radius: 0.25rem 0 0 0.25rem;
+                        border-left: 1px solid $importance-label-border-color;
+                    }
+                    &:last-of-type {
+                        border-radius: 0 0.25rem 0.25rem 0;
+                    }
+                    &.active {
+                        font-weight: bold;
+                        background: $grey;
+                        color: $white;
+                    }
+                }
+                .group {
+                    box-sizing: border-box;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 0 0.25rem;
+                    opacity: 0 !important;
+                }
+                input {
+                    width: 25%;
+                    float: left;
+                    margin: 0;
+                    padding: 0;
+                    height: 1.5rem;
+                    cursor: pointer;
+                }
+            }
+
+        }
+
+    }
+
+    &__actions {
+        position: absolute;
+        top: 0;
+        left: -4rem;
+        box-sizing: border-box;
+        width: 3rem;
+        margin: 0 0.5rem;
+        //font: 1rem/3rem $icons;
+
+        &__button {
+            @include transition(all 0.25s ease-in-out);
+            box-sizing: border-box;
+            width: 3rem;
+            height: 3rem;
+            margin: 0.25rem 0;
+            //float: left;
+            font: 1.5rem/3rem $icons;
+            text-align: center;
+            border: none !important;
+            cursor: pointer;
+            &:hover,
+            &[data-active="true"]:hover {
+                color: lighten($grey,15%);
+            }
+
+            &--done {
+                &[data-active="true"],
+                &:hover {
+                    color: $green;
+                }
+
+            }
+
+            &--remove {
+                &[data-active="true"],
+                &:hover {
+                    color: $coral;
+                }
+
+            }
+
+        }
+
+    }
+
+    &__importance {
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        width: 3rem;
+        height: 3rem;
+        margin: 1rem 0.5rem;
+        font: 2rem/3rem $sans-serif;
+        text-align: center;
+        cursor: pointer;
+
+        &--rankzero::before {
+            content: '-';
+        }
+
+        &--rankone::before {
+            content: '!';
+            color: $coral;
+        }
+
+        &--ranktwo::before {
+            content: '!!';
+            color: $coral;
+        }
+
+        &--rankthree::before {
+            content: '!!!';
+            color: $coral;
+        }
+
+    }
+
+    &__chevron {
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        right: 0;
+        box-sizing: border-box;
+        width: 3rem;
+        height: 3rem;
+        margin: 1rem 0.5rem;
+        font: 1.5rem/3rem $icons;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    &__quick-actions {
+        @include transition(all 0.25s ease-in-out);
+        @include clearfix;
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        left: 4rem;
+        right: 4rem;
+        //width: calc(100% - 8rem);
+        padding: 0 calc((50% - 10rem));
+        //padding-left: 50%;
+        height: 5rem;
+        background: $white;//rgba($grey,0.75);
+        opacity: 0;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &__button {
+            @include transition(all 0.25s ease-in-out);
+            box-sizing: border-box;
+            width: 3rem;
+            height: 3rem;
+            margin: 1rem 0.5rem;
+            float: left;
+            font: 1.5rem/3rem $icons;
+            text-align: center;
+            border: none !important;
+            cursor: pointer;
+            &:hover {
+                color: lighten($grey,15%);
+            }
+        }
+
+    }
+    &:hover &__quick-actions {
+        //opacity: 1;
+    }
+
+    &--expanded {
+
+        &__containter {
+
+        }
+
+        &__controls {
+
+        }
+
+    }
+
+}

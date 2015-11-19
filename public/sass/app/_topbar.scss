@@ -1,0 +1,76 @@
+.app-topbar {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: $green;
+    color: $white;
+    box-shadow: 0 0 0.25rem 0.125rem $grey;
+
+    &__logo {
+        @include user-select(none);
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 1rem;
+        font: 2rem/4rem $sans-serif;
+        color: $white;
+        text-transform: uppercase;
+        border: none !important;
+    }
+
+    &__search {
+        @include transition(all 0.25s ease-in-out);
+        display: block;
+        box-sizing: border-box;
+        height: 2rem;
+        width: 30rem;
+        font: 1rem/2rem $sans-serif;
+        margin: 1rem auto;
+        padding: 0 1rem;
+        border-radius: 1rem;
+        border: none;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0.25rem 0.125rem $coral;
+        }
+        
+    }
+
+    &__button {
+        @include transition(all 0.25s ease-in-out);
+        @include user-select(none);
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0.75rem 0;
+        font: 1.5rem/2.5rem "Ionicons";
+        color: $white;
+        //border: 1px solid transparent !important;
+        border: none !important;
+        border-radius: 1.5rem;
+        text-align: center;
+        &:hover {
+            //border: 1px solid $white !important;
+            box-shadow: 0 0 0.25rem 0.125rem $white;
+        }
+
+        &--help {
+            right: 4.5rem;
+        }
+
+        &--settings {
+            right: 1rem;
+        }
+
+    }
+
+}

@@ -1,0 +1,64 @@
+@import "compass/reset";
+@import "compass/css3/transition";
+@import "compass/css3/user-interface";
+
+// Greyscale
+
+$black: rgba(20,20,20,1);
+$grey: rgba(150,150,150,1);
+$white: rgba(250,250,250,1);
+
+$dark-grey: mix($black,$grey);
+
+// Color Palette
+
+$green:   rgba( 90,218, 98,1); // primary
+$fern:    rgba(126,234,133,1);
+$mint:    rgba(105,247,115,1);
+$lime:    rgba(169,251,107,1);
+$forest:  rgba( 39,151, 46,1);
+$aqua:    rgba(104,243,187,1); // accent (blue)
+$coral:   rgba(255,140,137,1); // accent (red)
+
+// Social Media Colors
+$facebook: #3B5999;
+$twitter: #55ACEE;
+$google-plus: #DD4B39;
+
+// Fonts
+
+$brand: "Expletus Sans";
+$sans-serif: "Cantarell", "Helvetica", "Tahoma", sans-serif;
+$icons: "Ionicons";
+
+// Media Queries
+
+$breakpoint--small:    960px;  //  60rem
+$breakpoint--medium:  1440px;  //  90rem
+$breakpoint--large:   1920px;  // 120rem
+
+$media--small: "screen and (max-width: #{$breakpoint--small})";
+$media--medium: "screen and (min-width: #{$breakpoint--small + 1px}) and (max-width: #{$breakpoint--medium})";
+$media--large: "screen and (min-width: #{$breakpoint--medium + 1px}) and (max-width: #{$breakpoint--large})";
+$media--larger: "screen and (min-width: #{$breakpoint--large + 1px})";
+
+@mixin small {
+	@media #{$media--small} {
+		@content;
+	}
+}
+@mixin medium {
+	@media #{$media--medium} {
+		@content;
+	}
+}
+@mixin large {
+	@media #{$media--large} {
+		@content;
+	}
+}
+@mixin larger {
+	@media #{$media--larger} {
+		@content;
+	}
+}

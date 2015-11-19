@@ -1,0 +1,18 @@
+.purdue-login {
+    display: block;
+    box-sizing: border-box;
+    width: 20rem;
+    height: 7rem;
+    margin: 1rem auto;
+    border-radius: 0.5rem;
+    background: darken($white,20%);
+    border: 3px solid darken($white,30%);
+    padding: 1rem 2rem;
+    text-align: center;
+
+    img {
+        height: 100%;
+        width: auto;
+        opacity: 0.5;
+    }
+}

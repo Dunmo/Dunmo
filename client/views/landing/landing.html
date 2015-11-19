@@ -1,0 +1,166 @@
+<template name="landing">
+
+    <div class="landing-nav display-none">
+
+        <a href="#story" class="landing-nav__item landing-nav__item--story">Our Story</a>
+        <a href="#meet" class="landing-nav__item landing-nav__item--meet">Features</a>
+        <a href="#team" class="landing-nav__item landing-nav__item--team">The Team</a>
+        <a href="#contact" class="landing-nav__item landing-nav__item--contact">Contact Us</a>
+
+        <div class="landing-nav__logo">Dunmo</div>
+
+        <a href="" class="landing-nav__action">Get the Beta</a>
+
+    </div>
+
+    <div class="landing-navigation">
+
+        <img src="images/logo.png" class="landing-navigation__logo" />
+
+        <a href="https://medium.com/dunmo-blog/we-are-dunmo-b3adb9fac014" class="landing-navigation__link" target="_blank">About us</a>
+        <a href="https://medium.com/dunmo-blog" class="landing-navigation__link" target="_blank">Blog</a>
+
+        <a href="/login" class="landing-navigation__login">Log In</a>
+
+    </div>
+
+    <div class="landing-hero" id="hero">
+
+        <div class="landing-hero__slash">
+
+            <div class="landing-hero__slash__content">
+
+                <div class="landing-hero__slash__brand">Dunmo</div>
+                <div class="landing-hero__slash__tagline">Productivity with intelligence.</div>
+
+            </div>
+
+        </div>
+
+        <div class="landing-hero__copy">
+
+            <div class="landing-hero__copy__content">
+
+                You're busy.<br />We're busy helping you.<br />
+
+                <a href="#features" class="landing-hero__learn" data-scroll>Learn More</a>
+                <a href="#subscribe" class="landing-hero__action" data-scroll>Sign Up</a>
+
+            </div>
+
+        </div>
+
+        <a href="#features" class="landing-splash__indicator fa fa-angle-down display-none"></a>
+
+    </div>
+
+    <div class="landing-features" id="features">
+
+        <div class="landing-features__heading">Why use Dunmo?</div>
+
+        <div class="landing-features__slide">
+
+            <div class="landing-features__slide__copy landing-features__slide__copy--left">
+                <div class="landing-features__slide__copy__catch">Keep track of your tasks</div>
+                Dunmo is a place to store your tasks, and free up your mind. Clean and simple, no distractions. Add your tasks and get to work!
+
+            </div>
+
+            <img src="images/task_list.png" class="landing-features__slide__screen landing-features__slide__screen--right" id="features1" />
+
+        </div>
+
+        <div class="landing-features__slide landing-features__slide--left">
+
+            <div class="landing-features__slide__copy landing-features__slide__copy--right">
+                <div class="landing-features__slide__copy__catch">Get your priorities straight</div>
+                Dunmo keeps your priorities in order. The item at the top will always be the one you should finish first. Save time, energy, and stress by working on the highest priority tasks first.
+
+            </div>
+
+            <img src="images/priorities.png" class="landing-features__slide__screen landing-features__slide__screen--left" id="features2"  />
+
+        </div>
+
+        <div class="landing-features__slide">
+
+            <div class="landing-features__slide__copy landing-features__slide__copy--left">
+                <div class="landing-features__slide__copy__catch">Finding time has never been easier</div>
+                Connect your Google Calendar account and Dunmo will figure out when you have time to work on everything. This is the core of time management, and Dunmo can do it <i>for</i>&nbsp; you.
+
+            </div>
+
+            <img src="images/schedule2.png" class="landing-features__slide__screen landing-features__slide__screen--right" id="features3"  />
+
+        </div>
+
+        <div class="landing-features__slide landing-features__slide--left">
+
+            <div class="landing-features__slide__copy landing-features__slide__copy--right">
+                <div class="landing-features__slide__copy__catch">Hit your deadlines</div>
+                Dunmo keeps track of when things are due, how long it'll take to do them, and how long you have. You'll be always know if you're running short on time and if something's overdue.
+
+            </div>
+
+            <img src="images/warnings.png" class="landing-features__slide__screen landing-features__slide__screen--left" id="features4"  />
+
+        </div>
+
+    </div>
+
+    <div class="landing-comingsoon" id="soon">
+
+        <div class="landing-comingsoon__item">
+            <span class="landing-comingsoon__item__catch">
+                Filter for focus
+            </span>
+            <!--(show layout without tasks)-->
+            Getting overwhelmed by all the things you have to do? Dunmo's got your back. With <i>#tags</i>, you can quickly zoom in on a category of tasks. Welcome to focus. It's nice, isn't it?
+        </div>
+
+        <div class="landing-comingsoon__item">
+            <span class="landing-comingsoon__item__catch">
+                Project management made easy
+            </span>
+            <!--(show agenda w/ a few tasks)-->
+            Too good to be true? With Dunmo helping you track task dependencies and progress towards milestones, you'll spend less time on time management and more time doing.
+        </div>
+
+    </div>
+
+    <div class="landing-subscribe" id="subscribe">
+
+        <div class="landing-subscribe__content">
+
+            <div class="landing-subscribe__heading">Get early access!</div>
+
+            <form id="subscription" class="landing-subscribe__form">
+
+                <input class="landing-subscribe__form__input" name="name" type="text" placeholder="Your Name" />
+
+                <input class="landing-subscribe__form__input" name="email" type="text" placeholder="Your Email" />
+
+                <button type="submit" class="landing-subscribe__form__submit">
+                    {{#if subscribeLoading}}
+                        <i class="fa fa-spinner fa-spin"></i>
+                    {{else}}
+                        {{subscribeBtnText}}
+                    {{/if}}
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="landing-footer">
+
+        <div class="landing-footer__company">Dunmo LLC</div>
+
+        <a href="https://www.facebook.com/DunmoApp" class="landing-footer__social fa fa-facebook" target="_blank"></a>
+        <a href="https://twitter.com/dunmoapp" class="landing-footer__social fa fa-twitter" target="_blank"></a>
+
+    </div>
+
+</template>

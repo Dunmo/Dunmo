@@ -1,14 +1,16 @@
 
-Template.calendarListItem.helpers({
+var View = Template.calendarListItem;
+
+View.helpers({
   activeClass: function () {
-    return this.active ? "active" : ""
+    return this.active ? '' : 'active';
   }
 });
 
-Template.calendarListItem.events({
+View.events({
   'click .list-group-item' : function (e) {
     var active = !this.active;
     this.update({ active: active });
-    // gapi.syncTasksWithCalendar();
+    gapi.syncTasksWithCalendar();
   }
 });
