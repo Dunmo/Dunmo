@@ -35,7 +35,7 @@ For other operating systems, you'll need to build on the server.
 The manual deployment process is as follows:
 
 - Connect to the production server: `ssh root@dunmoapp.com`
-- Ensure you have the latest versions of system packages: `sudo apt-get update && sudo apt-get upgrade`
+- Ensure you have the latest versions of system packages: `sudo apt-get update && sudo apt-get upgrade && sudo apt-get autoclean`
 - Ensure you have the latest LTS node version from https://nodejs.org: `node --version`
 - Navigate to the git repository: `cd /home/dunmo/source`
 - Update the remote git references: `git remote update -p`
