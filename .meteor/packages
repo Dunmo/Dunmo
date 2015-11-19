@@ -4,21 +4,16 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 insecure
 accounts-google
 dburles:collection-helpers
 fastclick
-less
 matb33:collection-hooks
-nemo64:bootstrap
 stevezhu:lodash
 service-configuration
 jaywon:meteor-node-uuid
 digilord:sugarjs
 momentjs:moment
-meteorhacks:flow-router
-meteorhacks:flow-layout@1.3.0
 meteorhacks:picker
 meteorhacks:fast-render
 msavin:jetsetter
@@ -31,4 +26,35 @@ velocity:console-reporter
 aramk:rrule
 aldeed:collection2
 mondora:connect-with
+arillo:flow-router-helpers
+meteorhacks:kadira
+kadira:blaze-layout
+kadira:flow-router
+reactive-var
+jjman505:rfc5322
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+fourseven:scss@=3.2.0
+twbs:bootstrap
+less
+raix:handlebar-helpers
+percolate:migrations
+miro:mailchimp
+slam310:smooth-scroll
+bigu:waypoints
+sha
+jparker:crypto-aes
+wylio:mandrill
 mquandalle:harmony

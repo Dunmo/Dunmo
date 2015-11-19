@@ -7,10 +7,29 @@
  * profile.name                : String
  * services.google.id          : String
  * services.google.accessToken : String
- *
- * Meteor.logoutOtherClients
+ * settings                    : UserSettings
  *
  */
+
+ /*
+  * UserSettings
+  * ==================
+  * userId               : String
+  * startOfDay           : Number<milliseconds>
+  * endOfDay             : Number<milliseconds>
+  * taskCalendarId       : String
+  * referrals            : String[]
+  * isReferred           : Boolean
+  * hasOnboarded         : { flow:Boolean }
+  * lastReviewed         : Date
+  * maxTaskInterval      : Number<milliseconds>
+  * maxTimePerTaskPerDay : Number<milliseconds>
+  * taskBreakInterval    : Number<milliseconds>
+  * taskGranularity      : Number<milliseconds>
+  * lastDayOfWeek        : Number<0-6>
+  * workWeek             : Number<0-6>[]
+  *
+  */
 
 var settingsPropsAndDefaults = [
   ['startOfDay', Date.parseTime('08:00')],
@@ -32,7 +51,7 @@ settingsPropsAndDefaults.forEach(function (pair) {
   var prop       = pair[0];
   var defaultVal = pair[1];
   settingsGetters[prop] = function () {
-    var settings = this.settings();
+    var settings = this.profile.settings;
     if(!settings[prop]) return defaultVal;
     else                return settings[prop];
   };
@@ -95,12 +114,12 @@ settingsSettersAndFilters.forEach(function (pair) {
   var filter     = pair[1];
   var setterName = 'set' + prop.capitalize();
   settingsSetters[setterName] = function (value) {
-    var settings = this.settings();
+    var settings = this.profile.settings;
     value = filter(value, settings);
     if(value && value.err) return false;
     var obj = {};
-    obj[prop] = value;
-    return settings.update(obj);
+    obj['profile.settings.' + prop] = value;
+    return this.update(obj);
   };
 });
 
@@ -125,30 +144,19 @@ Users.helpers({
     return emails;
   },
 
-  createSettings: function () {
-    var settingsId = UserSettings.create({ userId: this._id });
-    return UserSettings.findOne(settingsId);
-  },
-
-  settings: function () {
-    var settings = UserSettings.findOne({ userId: this._id });
-    if(!settings) settings = this.createSettings();
-    return settings;
-  },
-
   isGoogleAuthed: function () {
     return !!this.gmailAddress();
   },
 
   hasOnboarded: function (key) {
-    var settings = this.settings();
+    var settings = this.profile.settings;
     if(!settings.hasOnboarded) settings.hasOnboarded = {};
     if(key === null || key === undefined) return settings.hasOnboarded;
     else                                  return settings.hasOnboarded[key];
   },
 
   setHasOnboarded: function (key, bool) {
-    var settings = this.settings();
+    var settings = this.profile.settings;
     if(bool === undefined || bool === null) bool = true;
     key = 'hasOnboarded.' + key;
     var selector = {};
@@ -157,19 +165,20 @@ Users.helpers({
   },
 
   addReferral: function (str) {
-    var settings = this.settings();
+    var settings = this.profile.settings;
     if(str) return settings.update({ $addToSet: { referrals: str } });
   },
 
   removeReferral: function (str) {
-    var settings = this.settings();
+    var settings = this.profile.settings;
     if(str) return settings.update({ $pull: { referrals: str } });
     else    return null;
   },
 
   // TODO: create custom selectors, i.e. selectors.todo = { isDone: { $ne: true } }
   tasks: function (selector, options) {
-    selector = _.extend({}, { ownerId: this._id }, selector);
+    var defaults = { ownerId: this._id, isRemoved: false };
+    selector = _.extend({}, defaults, selector);
     return Tasks.find(selector, options);
   },
 
@@ -179,6 +188,24 @@ Users.helpers({
 
   fetchSortedTasks: function (selector, options) {
     return Tasks.advancedSort(this.fetchTasks(selector, options));
+  },
+
+  doneTasks: function (selector, options) {
+    selector = _.extend({}, { isDone: true }, selector);
+    return this.tasks(selector, options);
+  },
+
+  fetchDoneTasks: function (selector, options) {
+    return this.doneTasks(selector, options).fetch();
+  },
+
+  removedTasks: function (selector, options) {
+    selector = _.extend({}, { ownerId: this._id, isRemoved: true }, selector);
+    return Tasks.direct.find(selector, options);
+  },
+
+  fetchRemovedTasks: function (selector, options) {
+    return this.removedTasks(selector, options).fetch();
   },
 
   todos: function (selector, options) {
@@ -278,6 +305,33 @@ Users.helpers({
       taskBreakInterval:    this.taskBreakInterval()
     });
     return todoList;
+  },
+
+  projects: function (selector, options) {
+    selector = _.extend({}, { ownerId: this._id }, selector);
+    return Projects.find(selector, options);
+  },
+
+  fetchProjects: function (selector, options) {
+    return this.projects(selector, options).fetch();
+  },
+
+  currentProjects: function (selector, options) {
+    selector = _.extend({}, { isArchived: { $ne: true } }, selector);
+    return this.projects(selector, options);
+  },
+
+  fetchCurrentProjects: function (selector, options) {
+    return this.currentProjects(selector, options).fetch();
+  },
+
+  archivedProjects: function (selector, options) {
+    selector = _.extend({}, { isArchived: true }, selector);
+    return this.projects(selector, options);
+  },
+
+  fetchArchivedProjects: function (selector, options) {
+    return this.fetchArchivedProjects(selector, options).fetch();
   },
 
   events: function (selector, options) {

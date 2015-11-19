@@ -193,7 +193,6 @@ Projects.create = function (arg) {
   var project = _.cloneDeep(arg);
 
   project.ownerId       = project.ownerId       || null; // Meteor.userId();
-  project.isRemoved     = project.isRemoved     || false;
   project.lastUpdatedAt = project.lastUpdatedAt || Date.now();
 
   if(!project.title) return { err: 'Title not found.' };

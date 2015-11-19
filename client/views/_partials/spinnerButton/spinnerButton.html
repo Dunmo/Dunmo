@@ -1,0 +1,9 @@
+<template name="spinnerButton">
+  <button {{this}} disabled={{$or waitOn done}}>
+    {{#if waitOn}}
+      <i class="fa fa-spinner fa-spin"></i>
+    {{else}}
+      {{> Template.contentBlock}}
+    {{/if}}
+  </button>
+</template>

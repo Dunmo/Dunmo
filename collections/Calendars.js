@@ -5,7 +5,6 @@
  * googleCalendarId : String
  * title            : String
  * active           : Boolean
- * isRemoved        : Boolean
  *
  */
 
@@ -28,8 +27,10 @@ Calendars.updateOrCreate = function(obj) {
     });
   } else if(typeof(obj) === 'object') {
     var doc = _.cloneDeep(obj);
-    doc.googleCalendarId = doc.googleCalendarId || doc.id || null;
+    var docId = doc.id || null;
     delete doc.id;
+    var defaults = { googleCalendarId: docId };
+    doc = lodash.defaults({}, defaults, doc);
 
     if(doc.googleCalendarId === null) throw new Meteor.error('Invalid googleCalendarId');
 
@@ -37,6 +38,7 @@ Calendars.updateOrCreate = function(obj) {
     if(calendar) {
       return calendar.update(doc);
     } else {
+      doc = lodash.defaults({}, { active: true }, doc);
       return Calendars.insert(doc);
     }
   } else {

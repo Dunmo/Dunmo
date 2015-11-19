@@ -1,0 +1,101 @@
+
+.settings-container {
+
+  .row {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .auth-container {
+    max-width: 300px;
+    margin: 60px auto;
+
+    .lead {
+      font-size: 18px;
+      color: #999;
+    }
+  }
+
+  .calendar-settings-container {
+    .setting {
+      margin-bottom: 20px;
+    }
+  }
+
+  .calendar-listing-container {
+    padding-left: 40px;
+    padding-right: 60px;
+
+    header {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      font-size: 32px;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
+
+  .calendar-list {
+    padding-left: 0;
+
+    .list-group-item {
+      cursor: pointer;
+    }
+  }
+
+  .message {
+    display: none;
+
+    .text {
+      text-align: center;
+    }
+  }
+
+  .calendar-panel {
+    margin-top: 0;
+  }
+
+  form.inline-hrs-mins,
+  form.inline-mins {
+    > .form-group {
+      height: 30px;
+
+      &:not(:first-child) {
+        margin-left: 20px;
+      }
+
+      > label:not(.inline) {
+        display: block;
+      }
+
+      > label.inline {
+        margin-left: 5px;
+      }
+
+      > .input-group {
+        display: inline-block;
+        max-width: 110px;
+        margin: 0;
+        vertical-align: initial;
+      }
+
+      > .input-group > .input-group-addon {
+        width: 0;
+        height: 30px;
+      }
+
+      > .btn.add-task {
+        margin-top: 23px;
+      }
+
+      .input-group-btn:first-child,
+      .input-group-btn:last-child {
+        > .btn {
+          margin-bottom: 24px;
+          border-radius: 3px;
+        }
+      }
+    }
+  }
+
+} /* settings-container */

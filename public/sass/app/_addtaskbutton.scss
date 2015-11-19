@@ -1,0 +1,11 @@
+.app-addtaskbutton {
+  position: fixed;
+  z-index: 50;
+  right: 3rem;
+  bottom: 1rem;
+
+  &__body {
+    @include button(3rem,3rem,1.25rem,$white,none,$green);
+    cursor: pointer;
+  }
+}
