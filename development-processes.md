@@ -40,6 +40,7 @@ The manual deployment process is as follows:
 - Navigate to the git repository: `cd /home/dunmo/source`
 - Update the remote git references: `git remote update -p`
 - Checkout the branch you'd like to deploy, i.e. `git checkout origin/master`
+- Remove testing packages, i.e. `meteor remove sanjo:jasmine velocity:html-reporter velocity:console-reporter`
 - Build the bundle: `meteor build . --debug`
 - Move the tar file: `mv -f source.tar.gz /home/dunmo/`
 - Remove the backup bundle: `rm -rf /home/dunmo/archive/bundle`
