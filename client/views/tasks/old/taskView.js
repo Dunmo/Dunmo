@@ -26,12 +26,6 @@ Template.taskView.onRendered(function () {
                     email: user.primaryEmailAddress() });
 
     if(!user.hasOnboarded('taskView')) setOnboardingTasks();
-
-    // if(user.lastReviewed() < Date.startOfToday()) {
-    //   console.log('setting tasks to review...');
-    //   Tasks.setNeedsReviewed();
-    //   user.setLastReviewed(Date.now());
-    // }
   }
 
   Session.set('lastRendered', Date.floorMinute(Date.now()));
