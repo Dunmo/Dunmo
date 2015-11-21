@@ -1,26 +1,24 @@
-/*
- * Task
- * ==========
- * ownerId            : String
- * projectId          : String
- * title              : String
- * importance         : <1,2,3>
- * dueAt              : DateTime
- * remaining          : Number<milliseconds>
- * spent              : Number<milliseconds>
- * snoozedUntil       : DateTime
- * needsReviewed      : Boolean
- * willBeOverdue      : Boolean
- * isDone             : Boolean
- * isOnboardingTask   : Boolean
- * timeLastMarkedDone : DateTime
- * description        : String
- * dependencyIds      : String[]
- * tags               : String[]
- * assigneeIds        : String[]
- * recurrenceRule     : RRule
- *
- */
+
+Schemas.Task = new SimpleSchema([Schemas.Default, {
+  ownerId:          { type: String },
+  projectId:        { type: String,   optional: true },
+  dependencyIds:    { type: [String], defaultValue: [] },
+  assigneeIds:      { type: [String], defaultValue: [] },
+  title:            { type: String },
+  description:      { type: String,   defaultValue: '' },
+  tags:             { type: [String], defaultValue: [] },
+  importance:       { type: Number,   min: 0, max: 3 },  // inclusive
+  dueAt:            { type: Date },
+  remaining:        { type: Number },                    // milliseconds
+  spent:            { type: Number,   defaultValue: 0 }, // milliseconds
+  willBeOverdue:    { type: Boolean,  defaultValue: false },
+  isDone:           { type: Boolean,  defaultValue: false },
+  snoozedUntil:     { type: Date,     defaultValue: new Date() },
+  lastMarkedDoneAt: { type: Date,     optional: true },
+  recurrenceRule:   { type: RRule,    optional: true },
+}]);
+
+Tasks.attachSchema(Schemas.Task);
 
 var props = [
   'projectId',

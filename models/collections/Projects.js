@@ -1,13 +1,14 @@
-/*
- * Project
- * ==========
- * ownerId            : String
- * title              : String
- * dueAt              : DateTime
- * readerIds          : String[]
- * writerIds          : String[]
- * managerIds         : String[]
- */
+
+Schemas.Project = new SimpleSchema([Schemas.Default, {
+  ownerId:    { type: String },
+  title:      { type: String },
+  dueAt:      { type: Date   },
+  readerIds:  { type: [String], defaultValue: [] },
+  writerIds:  { type: [String], defaultValue: [] },
+  managerIds: { type: [String], defaultValue: [] },
+}]);
+
+Projects.attachSchema(Schemas.Project);
 
 var props = [
   'title',
@@ -37,20 +38,21 @@ Projects.helpers({
   },
 
   addMember: function (user, type) {
+    var actionRoleMethodMap = {
+      'reader':  'addReader',
+      'read':    'addReader',
+      'writer':  'addWriter',
+      'write':   'addWriter',
+      'manager': 'addManager',
+      'manage':  'addManager',
+    };
+
     var userId;
     if(typeof user === 'string') userId = user;
     else                         userId = user._id;
-    switch (type) {
-      case 'reader':
-      case 'read':
-        return this.addReader(userId);
-      case 'writer':
-      case 'write':
-        return this.addWriter(userId);
-      case 'manager':
-      case 'manage':
-        return this.addManager(userId);
-    }
+
+    var addMethod = actionRoleMethodMap[type];
+    return this[addMethod](userId);
   },
 
   removeMember: function (user) {

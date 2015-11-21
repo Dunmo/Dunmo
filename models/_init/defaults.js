@@ -1,4 +1,8 @@
 
+Schemas.Default = new SimpleSchema({
+  isRemoved: { type: Boolean, defaultValue: false },
+});
+
 Setters = {};
 
 Setters.setBool = function (prop) {
@@ -18,7 +22,7 @@ Setters.setProp = function (prop) {
   };
 };
 
-_.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], function (collection) {
+_.each([Calendars, Events, Projects, Tasks, TaskComments, Users], function (collection) {
 
   collection.helpers({
 
