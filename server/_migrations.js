@@ -45,6 +45,16 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 3,
+  up: function() {
+    Tasks.find({ isRemoved: true, lastRemovedAt: { $exists: false } }).forEach(function (task) {
+      var lastUpdatedAt = task.lastUpdatedAt;
+      Tasks.update(task._id, { $set: { lastRemovedAt: lastUpdatedAt } });
+    });
+  }
+});
+
 Meteor.startup(function () {
   Migrations.migrateTo('latest');
 });
