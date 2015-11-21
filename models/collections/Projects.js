@@ -37,20 +37,21 @@ Projects.helpers({
   },
 
   addMember: function (user, type) {
+    var actionRoleMethodMap = {
+      'reader':  'addReader',
+      'read':    'addReader',
+      'writer':  'addWriter',
+      'write':   'addWriter',
+      'manager': 'addManager',
+      'manage':  'addManager',
+    };
+
     var userId;
     if(typeof user === 'string') userId = user;
     else                         userId = user._id;
-    switch (type) {
-      case 'reader':
-      case 'read':
-        return this.addReader(userId);
-      case 'writer':
-      case 'write':
-        return this.addWriter(userId);
-      case 'manager':
-      case 'manage':
-        return this.addManager(userId);
-    }
+
+    var addMethod = actionRoleMethodMap[type];
+    return this[addMethod](userId);
   },
 
   removeMember: function (user) {
