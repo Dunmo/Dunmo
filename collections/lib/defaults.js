@@ -22,7 +22,17 @@ _.each([Calendars, Events, Projects, Subscribers, Tasks, TaskComments, Users], f
 
   collection.helpers({
 
-    setIsRemoved: Setters.setBool('isRemoved'),
+    // returns number of documents updated
+    setIsRemoved: function (prop) {
+      return function (bool) {
+        if(bool === undefined || bool === null) bool = true;
+        var selector = {};
+        if(selector[prop] === bool) return 0;
+        selector[prop] = bool;
+        if(selector[prop] === true) selector['lastRemovedAt'] = Date.now();
+        return this.update(selector);
+      };
+    },
 
     setRemoved: function (bool) { return this.setIsRemoved(bool); },
 
