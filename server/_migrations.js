@@ -55,6 +55,19 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 4,
+  up: function() {
+    Tasks.find({ timeLastMarkedDone: { $exists: true } }).forEach(function (task) {
+      var lastMarkedDoneAt = task.timeLastMarkedDone;
+      Tasks.update(task._id, {
+        $set: { lastMarkedDoneAt: lastMarkedDoneAt },
+        $unset: { needsReviewed: true, timeLastMarkedDone: true }
+      });
+    });
+  }
+});
+
 Meteor.startup(function () {
   Migrations.migrateTo('latest');
 });

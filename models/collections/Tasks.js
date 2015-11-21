@@ -1,7 +1,7 @@
 
-TaskSchema = new SimpleSchema({
+Schemas.Task = new SimpleSchema({
   ownerId:          { type: String },
-  projectId:        { type: String },
+  projectId:        { type: String,   optional: true },
   dependencyIds:    { type: [String], defaultValue: [] },
   assigneeIds:      { type: [String], defaultValue: [] },
   title:            { type: String },
@@ -14,9 +14,11 @@ TaskSchema = new SimpleSchema({
   willBeOverdue:    { type: Boolean,  defaultValue: false },
   isDone:           { type: Boolean,  defaultValue: false },
   snoozedUntil:     { type: Date,     defaultValue: new Date() },
-  lastMarkedDoneAt: { type: Date,     defaultValue: null },
-  recurrenceRule:   { type: RRule },
+  lastMarkedDoneAt: { type: Date,     optional: true },
+  recurrenceRule:   { type: RRule,    optional: true },
 });
+
+Tasks.attachSchema(Schemas.Task);
 
 var props = [
   'projectId',
