@@ -126,6 +126,12 @@ gapi.getCalendarList = function (callback) {
 gapi.syncCalendars = function () {
   gapi.getCalendarList(function (calendarList) {
     var calendars   = calendarList.items;
+
+    if(! calendars) {
+      console.error('[syncCalendars]', 'gapi.getCalendarList failed. calendarList.items is null.');
+      return;
+    }
+
     var calendarIds = _.pluck(calendars, 'id');
 
     var user   = Meteor.user();
