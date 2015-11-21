@@ -1,13 +1,14 @@
-/*
- * Project
- * ==========
- * ownerId            : String
- * title              : String
- * dueAt              : DateTime
- * readerIds          : String[]
- * writerIds          : String[]
- * managerIds         : String[]
- */
+
+Schemas.Project = new SimpleSchema([Schemas.Default, {
+  ownerId:    { type: String },
+  title:      { type: String },
+  dueAt:      { type: Date   },
+  readerIds:  { type: [String], defaultValue: [] },
+  writerIds:  { type: [String], defaultValue: [] },
+  managerIds: { type: [String], defaultValue: [] },
+}]);
+
+Projects.attachSchema(Schemas.Project);
 
 var props = [
   'title',
