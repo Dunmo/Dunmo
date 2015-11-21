@@ -103,8 +103,6 @@ Template.taskItem.events({
     } else {
       Session.set('currently-expanded-task', this._id);
     }
-      console.log(this);
-      console.log(this._id);
   },
 
   'click .app-taskitem__head__title': function (e, t) {
