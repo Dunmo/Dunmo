@@ -192,6 +192,7 @@ Users.helpers({
 
   doneTasks: function (selector, options) {
     selector = _.extend({}, { isDone: true }, selector);
+    options  = _.extend({}, { sort: [['timeLastMarkedDone', 'desc']] }, options);
     return this.tasks(selector, options);
   },
 
@@ -201,6 +202,7 @@ Users.helpers({
 
   removedTasks: function (selector, options) {
     selector = _.extend({}, { ownerId: this._id, isRemoved: true }, selector);
+    options  = _.extend({}, { sort: [['lastRemovedAt', 'desc']] }, options);
     return Tasks.direct.find(selector, options);
   },
 
