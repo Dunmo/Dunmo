@@ -27,12 +27,10 @@ Migrations.add({
             taskCalendarId: null,
             referrals: [],
             isReferred: false,
-            lastReviewed: 0,
             maxTaskInterval: 2*HOURS,
             maxTimePerTaskPerDay: 6*HOURS,
             taskBreakInterval: 30*MINUTES,
             taskGranularity: 5*MINUTES,
-            onboardingIndex: 0,
             lastDayOfWeek: 'monday'
           }
         }
