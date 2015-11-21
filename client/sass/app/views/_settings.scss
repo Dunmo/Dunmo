@@ -5,19 +5,19 @@
 }
 
 .settings {
-    
+
     &__cal {
-        
+
         &__field {
             width: 50% !important;
             min-width: 7.5rem !important;
         }
-        
+
         &__halffield {
             width: 25% !important;
             min-width: 5rem !important;
         }
-        
+
         &__halffield,
         &__field {
             @include transition(all 0.25s);
@@ -27,7 +27,7 @@
             //border: none;
             //height: 2rem;
             //padding: 0 0.25rem;
-            
+
             &:focus {
                 //background: $white;
             }
