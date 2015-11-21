@@ -1,5 +1,5 @@
 
-Schemas.Task = new SimpleSchema({
+Schemas.Task = new SimpleSchema([Schemas.Default, {
   ownerId:          { type: String },
   projectId:        { type: String,   optional: true },
   dependencyIds:    { type: [String], defaultValue: [] },
@@ -16,7 +16,7 @@ Schemas.Task = new SimpleSchema({
   snoozedUntil:     { type: Date,     defaultValue: new Date() },
   lastMarkedDoneAt: { type: Date,     optional: true },
   recurrenceRule:   { type: RRule,    optional: true },
-});
+}]);
 
 Tasks.attachSchema(Schemas.Task);
 
