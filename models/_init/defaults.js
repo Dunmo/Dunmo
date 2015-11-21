@@ -1,4 +1,8 @@
 
+Schemas.Default = new SimpleSchema({
+  isRemoved: { type: Boolean, defaultValue: false },
+});
+
 Setters = {};
 
 Setters.setBool = function (prop) {
