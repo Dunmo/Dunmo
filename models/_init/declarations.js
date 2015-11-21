@@ -1,4 +1,6 @@
 
+Schemas      = {};
+
 Daylists     = {};
 Freetimes    = {};
 Tags         = {};
