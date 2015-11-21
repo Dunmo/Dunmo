@@ -192,6 +192,7 @@ Users.helpers({
 
   doneTasks: function (selector, options) {
     selector = _.extend({}, { isDone: true }, selector);
+    options  = _.extend({}, { sort: [['timeLastMarkedDone', 'desc']] }, options);
     return this.tasks(selector, options);
   },
 
