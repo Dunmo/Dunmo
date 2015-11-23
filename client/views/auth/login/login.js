@@ -42,6 +42,21 @@ View.onCreated(function () {
 
 View.onRendered(function () {
   if(window.location.hash === '#reset') synchronize('.login', '.reset');
+
+//  $('.auth__container').each(function(index) {
+//    $(this).children('li').first().children('a').addClass('is-active').next().addClass('is-open').show();
+//  });
+    $('.auth__tab').first().addClass('active').next().show().addClass('open');
+    $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
+        event.preventDefault();
+        if (!$(this).hasClass('active')) {
+            $('.open').hide().removeClass('open');
+            $(this).next().show().addClass('open');
+            $('.active').removeClass('active');
+            $(this).addClass('active');
+        }
+    });
+
 });
 
 View.helpers({

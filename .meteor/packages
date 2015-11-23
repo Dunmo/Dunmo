@@ -19,7 +19,6 @@ meteorhacks:fast-render
 msavin:jetsetter
 accounts-password
 digilord:faker
-tsega:bootstrap3-datetimepicker
 sanjo:jasmine
 velocity:html-reporter
 velocity:console-reporter
@@ -47,8 +46,6 @@ ejson
 spacebars
 check
 fourseven:scss@=3.2.0
-twbs:bootstrap
-less
 raix:handlebar-helpers
 percolate:migrations
 miro:mailchimp

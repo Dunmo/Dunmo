@@ -29,16 +29,20 @@
 @import 'landing/action';
 
 @import 'app/general';
-@import 'app/mainview';
-@import 'app/side';
-@import 'app/settings';
+@import 'app/views/auth';
+@import 'app/views/side';
+@import 'app/views/main';
+@import 'app/views/settings';
+@import 'app/views/onboarding';
 @import 'app/task/add';
 @import 'app/task/item';
 
 // marked
-@import 'app/dimmer';
 @import 'app/topbar';
 @import 'app/taskitem';
 @import 'app/addtask';
 @import 'app/addtaskbutton';
 // end
+
+@import 'dev/experimental';
+@import 'dev/shame';
