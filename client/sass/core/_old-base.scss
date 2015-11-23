@@ -24,7 +24,6 @@ $google-plus: #DD4B39;
 
 // Fonts
 
-$brand: "Expletus Sans";
 $sans-serif: "Cantarell", "Helvetica", "Tahoma", sans-serif;
 $icons: "Ionicons";
 
@@ -40,22 +39,22 @@ $media--large: "screen and (min-width: #{$breakpoint--medium + 1px}) and (max-wi
 $media--larger: "screen and (min-width: #{$breakpoint--large + 1px})";
 
 @mixin small {
-	@media #{$media--small} {
-		@content;
-	}
+  @media #{$media--small} {
+    @content;
+  }
 }
 @mixin medium {
-	@media #{$media--medium} {
-		@content;
-	}
+  @media #{$media--medium} {
+    @content;
+  }
 }
 @mixin large {
-	@media #{$media--large} {
-		@content;
-	}
+  @media #{$media--large} {
+    @content;
+  }
 }
 @mixin larger {
-	@media #{$media--larger} {
-		@content;
-	}
+  @media #{$media--larger} {
+    @content;
+  }
 }
