@@ -63,6 +63,10 @@ View.onCreated(function () {
 });
 
 View.onRendered(function () {
+  // TODO: where do these go?
+  Session.set('task-filter', '');
+  Session.set('active-sidebar-section', '');
+
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
