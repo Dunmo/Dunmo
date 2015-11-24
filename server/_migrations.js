@@ -27,12 +27,10 @@ Migrations.add({
             taskCalendarId: null,
             referrals: [],
             isReferred: false,
-            lastReviewed: 0,
             maxTaskInterval: 2*HOURS,
             maxTimePerTaskPerDay: 6*HOURS,
             taskBreakInterval: 30*MINUTES,
             taskGranularity: 5*MINUTES,
-            onboardingIndex: 0,
             lastDayOfWeek: 'monday'
           }
         }
@@ -51,6 +49,19 @@ Migrations.add({
     Tasks.find({ isRemoved: true, lastRemovedAt: { $exists: false } }).forEach(function (task) {
       var lastUpdatedAt = task.lastUpdatedAt;
       Tasks.update(task._id, { $set: { lastRemovedAt: lastUpdatedAt } });
+    });
+  }
+});
+
+Migrations.add({
+  version: 4,
+  up: function() {
+    Tasks.find({ timeLastMarkedDone: { $exists: true } }).forEach(function (task) {
+      var lastMarkedDoneAt = task.timeLastMarkedDone;
+      Tasks.update(task._id, {
+        $set: { lastMarkedDoneAt: lastMarkedDoneAt },
+        $unset: { needsReviewed: true, timeLastMarkedDone: true }
+      });
     });
   }
 });
