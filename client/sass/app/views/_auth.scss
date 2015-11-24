@@ -34,6 +34,7 @@ $auth-background: $white;
     background-color: darken($white, 3%);
     font-weight: bold;
     line-height: 2;
+    color: $grey !important;
     padding: 0 1rem;
     //text-decoration: none;
     //border-top: $auth-border;
@@ -41,9 +42,9 @@ $auth-background: $white;
     border-top-left-radius: $auth-border-radius;
     border-top-right-radius: $auth-border-radius;
 
-    &:hover {
-      color: $aqua;
-    }
+//    &:hover, &:focus, &:visited {
+//      color: $green;
+//    }
 
     &:focus {
       outline: none;
@@ -56,7 +57,7 @@ $auth-background: $white;
       margin-bottom: -2px;
     }
 
-    &--signup,
+//    &--signup,
     &--forgot {
       display: none !important;
     }

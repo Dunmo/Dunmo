@@ -13,7 +13,7 @@ html, body {
 
 b { font-weight: bold; }
 i { font-style: italic; }
-a {
+a, a:hover, a:focus, a:visited {
     color: $coral;
     text-decoration: none !important;
 //    &:hover {

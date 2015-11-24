@@ -9,7 +9,7 @@
     padding: 0;
     margin: 0;
     background: $green;
-    color: $white;
+    color: $white !important;
     box-shadow: 0 0 0.25rem 0.125rem $grey;
 
     &__logo {
@@ -19,7 +19,7 @@
         top: 0;
         left: 1rem;
         font: 2rem/4rem $sans-serif;
-        color: $white;
+        color: $white !important;
         text-transform: uppercase;
         border: none !important;
     }
