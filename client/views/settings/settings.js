@@ -247,7 +247,11 @@ View.events({
         if(err) {
           console.log('err: ', err);
           var reason = err.reason || err.error || 'Unknown error';
-          if(reason === 'User already exists') reason = 'Google account has already been linked to a different Dunmo account.';
+          if(reason === 'User already exists') {
+            reason = 'Google account has' +
+              ' already been linked to a different Dunmo account. If you' +
+              ' believe this is an error, send us an email at contact@dunmoapp.com.';
+          }
           if(reason === 'No matching login attempt found') reason = '';
           Session.set('errorMessage', reason);
           googleBtnLoading.set(false);
