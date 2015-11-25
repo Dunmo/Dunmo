@@ -66,6 +66,23 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 5,
+  up: function() {
+    Users.update({
+      $or: [
+        { 'profile.settings.lastDayOfWeek': { $exists: true } },
+        { 'profile.settings.workWeek': { $exists: true } },
+      ]
+    }, {
+      $unset: {
+        'profile.settings.lastDayOfWeek': true,
+        'profile.settings.workWeek': true
+      }
+    });
+  }
+});
+
 Meteor.startup(function () {
   Migrations.migrateTo('latest');
 });
