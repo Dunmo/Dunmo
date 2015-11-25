@@ -37,6 +37,11 @@ View.helpers({
 });
 
 View.events({
+  'keydown': function (e, t) {
+    if(e.which !== 27) return;
+    Session.set('add-task-is-active', false);
+  },
+
   'click .app-addtask__section--importance': function (e, t) {
     var rank = rankVar.get();
     var newRank = rank + 1;
