@@ -90,6 +90,13 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 6,
+  up: function () {
+    Users.update({}, { $set: { 'profile.settings.minTaskInterval': 15*MINUTES } });
+  }
+});
+
 Meteor.startup(function () {
   Migrations.migrateTo('latest');
 });

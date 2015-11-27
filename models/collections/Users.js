@@ -15,6 +15,7 @@ Schemas.UserSettings = new SimpleSchema({
   taskCalendarId:       { type: String,   optional: true },
   referrals:            { type: [String], defaultValue: [] },
   isReferred:           { type: Boolean,  defaultValue: false },
+  minTaskInterval:      { type: Number,   defaultValue: 15*MINUTES, min: 0, max: 24*HOURS },
   maxTaskInterval:      { type: Number,   defaultValue: 2*HOURS,    min: 0, max: 24*HOURS },
   maxTimePerTaskPerDay: { type: Number,   defaultValue: 6*HOURS,    min: 0, max: 24*HOURS },
   taskBreakInterval:    { type: Number,   defaultValue: 30*MINUTES, min: 0, max: 24*HOURS },
@@ -45,6 +46,7 @@ var settingsPropsAndDefaults = [
   ['taskCalendarId', null],
   ['referrals', []],
   ['isReferred', false],
+  ['minTaskInterval', 15*MINUTES],
   ['maxTaskInterval', 2*HOURS],
   ['maxTimePerTaskPerDay', 6*HOURS],
   ['taskBreakInterval', 30*MINUTES],
@@ -84,6 +86,10 @@ var settingsSettersAndFilters = [
       return { err: true };
     }
     return time;
+  }],
+  ['minTaskInterval', function (time) {
+    if(!time) time = 15*MINUTES;
+    return _.bound(time, 0, 24*HOURS);
   }],
   ['maxTaskInterval', function (time) {
     if(!time) time = 24*HOURS;
@@ -301,6 +307,7 @@ Users.helpers({
     freetimes = freetimes || this.freetimes();
     todoList  = Scheduler.generateTodoList(freetimes, todos, {
       algorithm:            'greedy',
+      minTaskInterval:      this.minTaskInterval(),
       maxTaskInterval:      this.maxTaskInterval(),
       maxTimePerTaskPerDay: this.maxTimePerTaskPerDay(),
       taskBreakInterval:    this.taskBreakInterval()
