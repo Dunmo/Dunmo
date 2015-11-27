@@ -74,7 +74,6 @@ View.onRendered(function () {
   var user = Meteor.user();
   $('input[name="start-of-workday"]').val(Date.timeString(user.startOfDay()));
   $('input[name="end-of-workday"]').val(Date.timeString(user.endOfDay()));
-  $('input[name="task-granularity"]').val(Date.minutes(user.taskGranularity()));
   $('input[name="max-task-interval-hours"]').val(Date.hours(user.maxTaskInterval()));
   $('input[name="max-task-interval-minutes"]').val(minutesPortion(user.maxTaskInterval()));
   $('input[name="max-time-per-task-per-day-hours"]').val(Date.hours(user.maxTimePerTaskPerDay()));
@@ -179,20 +178,6 @@ View.events({
 
   'keydown input[name="end-of-workday"]': function (e) {
     setTimeSetting(e.target, 'setEndOfDay');
-  },
-
-  'keydown input[name="task-granularity"]': function (e) {
-    Meteor.setTimeout(function () {
-      Session.set('errorMessage', '');
-      var numMinutesStr = $(e.target).val();
-      var numMinutes =  Number(numMinutesStr);
-      console.log('numMinutes: ', numMinutes);
-      var newMinutesSetting = numMinutes*MINUTES;
-      console.log('newMinutesSetting: ', newMinutesSetting);
-      var user = Meteor.user();
-      var ret = user.setTaskGranularity(newMinutesSetting);
-      if(ret) gapi.syncTasksWithCalendar();
-    }, 0);
   },
 
   'keydown input[name^="max-task-interval"]': function (e) {

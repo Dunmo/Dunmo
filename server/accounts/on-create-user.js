@@ -14,10 +14,10 @@ Accounts.onCreateUser(function(options, user) {
         taskCalendarId: null,
         referrals: [],
         isReferred: false,
+        minTaskInterval: 15*MINUTES,
         maxTaskInterval: 2*HOURS,
         maxTimePerTaskPerDay: 6*HOURS,
         taskBreakInterval: 30*MINUTES,
-        taskGranularity: 5*MINUTES,
         lastDayOfWeek: 'FRIDAY',
       }
     }
