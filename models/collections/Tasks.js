@@ -36,7 +36,6 @@ var props = [
 ];
 
 var boolProps = [
-  'needsReviewed',
   'willBeOverdue',
   'isDone',
   'isOnboardingTask'

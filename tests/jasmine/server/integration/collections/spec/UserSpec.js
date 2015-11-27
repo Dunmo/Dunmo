@@ -142,60 +142,6 @@ describe('user', function () {
 
   });
 
-  describe('recentTodos', function () {
-
-    beforeEach(function () {
-      var userId = user._id;
-      var tasks  = [
-        { id: 1, ownerId: userId, needsReviewed: true  },
-        { id: 2, ownerId: userId, needsReviewed: false }
-      ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
-    });
-
-    it('should return the correct tasks', function () {
-      var tasks   = user.recentTodos();
-      tasks.forEach(function (task) {
-        expect(task.id).toEqual(1);
-      });
-    });
-
-    it('should only return tasks for which needsReviewed is true', function () {
-      var tasks   = user.recentTodos();
-      tasks.forEach(function (task) {
-        expect(task.needsReviewed).toBeTruthy();
-      });
-    });
-
-  });
-
-  describe('upcomingTodos', function () {
-
-    beforeEach(function () {
-      var userId = user._id;
-      var tasks  = [
-        { id: 1, ownerId: userId, needsReviewed: true  },
-        { id: 2, ownerId: userId, needsReviewed: false }
-      ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
-    });
-
-    it('should return the correct tasks', function () {
-      var tasks   = user.upcomingTodos();
-      tasks.forEach(function (task) {
-        expect(task.id).toEqual(2);
-      });
-    });
-
-    it('should only return tasks for which needsReviewed is false', function () {
-      var tasks   = user.upcomingTodos();
-      tasks.forEach(function (task) {
-        expect(task.needsReviewed).toBeFalsy();
-      });
-    });
-
-  });
-
   describe('onboardingTasks', function () {
 
     beforeEach(function () {
