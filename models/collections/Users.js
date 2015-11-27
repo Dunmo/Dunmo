@@ -18,7 +18,6 @@ Schemas.UserSettings = new SimpleSchema({
   maxTaskInterval:      { type: Number,   defaultValue: 2*HOURS,    min: 0, max: 24*HOURS },
   maxTimePerTaskPerDay: { type: Number,   defaultValue: 6*HOURS,    min: 0, max: 24*HOURS },
   taskBreakInterval:    { type: Number,   defaultValue: 30*MINUTES, min: 0, max: 24*HOURS },
-  taskGranularity:      { type: Number,   defaultValue: 5*MINUTES,  min: 1*MINUTES, max: 1*HOURS },
   // lastDayOfWeek:        { type: Number, min: 0, max: 6 }, // inclusive
   // workWeek:             { type: RRule },
   // "workWeek.$":         { type: Number, min: 0, max: 6},
@@ -49,7 +48,6 @@ var settingsPropsAndDefaults = [
   ['maxTaskInterval', 2*HOURS],
   ['maxTimePerTaskPerDay', 6*HOURS],
   ['taskBreakInterval', 30*MINUTES],
-  ['taskGranularity', 5*MINUTES],
   ['lastDayOfWeek', 'monday']
 ];
 
@@ -96,10 +94,6 @@ var settingsSettersAndFilters = [
     return _.bound(time, 0, 24*HOURS);
   }],
   ['taskBreakInterval', function (time) {
-    if(!time) time = 0;
-    return _.bound(time, 0, 24*HOURS);
-  }],
-  ['taskGranularity', function (time) {
     if(!time) time = 0;
     return _.bound(time, 0, 24*HOURS);
   }],

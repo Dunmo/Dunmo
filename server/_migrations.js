@@ -83,6 +83,13 @@ Migrations.add({
   }
 });
 
+Migrations.add({
+  version: 6,
+  up: function () {
+    Users.update({}, { $unset: { 'profile.settings.taskGranularity': true } });
+  }
+});
+
 Meteor.startup(function () {
   Migrations.migrateTo('latest');
 });

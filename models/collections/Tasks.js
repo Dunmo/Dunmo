@@ -18,6 +18,8 @@ Schemas.Task = new SimpleSchema([Schemas.Default, {
   recurrenceRule:   { type: RRule,    optional: true },
 }]);
 
+Tasks.GRANULARITY = 5*MINUTES;
+
 Tasks.attachSchema(Schemas.Task);
 
 var props = [
@@ -268,7 +270,7 @@ Tasks.create = function (str, obj) {
   obj.isOnboardingTask = obj.isOnboardingTask || false;
   obj.lastUpdatedAt    = obj.lastUpdatedAt    || Date.now();
 
-  var granularity = Users.findOne(obj.ownerId).taskGranularity();
+  var granularity = Tasks.GRANULARITY;
   obj.remaining   = Date.nearest(obj.remaining, granularity);
   if(obj.remaining == 0) obj.remaining = granularity;
 

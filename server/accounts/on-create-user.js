@@ -17,7 +17,6 @@ Accounts.onCreateUser(function(options, user) {
         maxTaskInterval: 2*HOURS,
         maxTimePerTaskPerDay: 6*HOURS,
         taskBreakInterval: 30*MINUTES,
-        taskGranularity: 5*MINUTES,
         lastDayOfWeek: 'FRIDAY',
       }
     }
