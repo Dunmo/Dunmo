@@ -238,16 +238,6 @@ Users.helpers({
     return this.fetchSortedTodos(selector, options);
   },
 
-  recentTodos: function (selector, options) {
-    selector = _.extend({}, { needsReviewed: true }, selector);
-    return this.fetchUnsnoozedTodos(selector, options);
-  },
-
-  upcomingTodos: function (selector, options) {
-    selector = _.extend({}, { needsReviewed: { $ne: true } }, selector);
-    return this.fetchUnsnoozedTodos(selector, options);
-  },
-
   onboardingTasks: function (selector, options) {
     selector = _.extend({}, { isOnboardingTask: true }, selector);
     return this.fetchUnsnoozedTodos(selector, options);
