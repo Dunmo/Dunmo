@@ -1,35 +1,44 @@
 
-/*
- * User
- * =========
- * appleCredentialsId          : String
- * emails                      : [{ address : String, verified : Boolean }]
- * profile.name                : String
- * services.google.id          : String
- * services.google.accessToken : String
- * settings                    : UserSettings
- *
- */
+Schemas.UserSettings = new SimpleSchema({
+  startOfDay: {
+    type:         Number,
+    defaultValue: Date.parseTime('08:00'),
+    min:          Date.parseTime('00:00'),
+    max:          Date.parseTime('24:00'),
+  },
+  endOfDay: {
+    type:         Number,
+    defaultValue: Date.parseTime('22:00'),
+    min:          Date.parseTime('00:00'),
+    max:          Date.parseTime('24:00'),
+  },
+  taskCalendarId:       { type: String,   optional: true },
+  referrals:            { type: [String], defaultValue: [] },
+  isReferred:           { type: Boolean,  defaultValue: false },
+  minTaskInterval:      { type: Number,   defaultValue: 15*MINUTES, min: 0, max: 24*HOURS },
+  maxTaskInterval:      { type: Number,   defaultValue: 2*HOURS,    min: 0, max: 24*HOURS },
+  maxTimePerTaskPerDay: { type: Number,   defaultValue: 6*HOURS,    min: 0, max: 24*HOURS },
+  taskBreakInterval:    { type: Number,   defaultValue: 30*MINUTES, min: 0, max: 24*HOURS },
+  // lastDayOfWeek:        { type: Number, min: 0, max: 6 }, // inclusive
+  // workWeek:             { type: RRule },
+  // "workWeek.$":         { type: Number, min: 0, max: 6},
+});
 
- /*
-  * UserSettings
-  * ==================
-  * userId               : String
-  * startOfDay           : Number<milliseconds>
-  * endOfDay             : Number<milliseconds>
-  * taskCalendarId       : String
-  * referrals            : String[]
-  * isReferred           : Boolean
-  * hasOnboarded         : { flow:Boolean }
-  * lastReviewed         : Date
-  * maxTaskInterval      : Number<milliseconds>
-  * maxTimePerTaskPerDay : Number<milliseconds>
-  * taskBreakInterval    : Number<milliseconds>
-  * taskGranularity      : Number<milliseconds>
-  * lastDayOfWeek        : Number<0-6>
-  * workWeek             : Number<0-6>[]
-  *
-  */
+Schemas.UserProfile = new SimpleSchema({
+  givenName:  { type: String },
+  familyName: { type: String },
+  settings:   { type: Schemas.UserSettings },
+});
+
+Schemas.User = new SimpleSchema([Schemas.Default, {
+  emails:              { type: [Object], optional: true },
+  "emails.$":          { type: Object  },
+  "emails.$.address":  { type: String,   regEx: SimpleSchema.RegEx.Email },
+  "emails.$.verified": { type: Boolean },
+  createdAt:           { type: Date    },
+  services:            { type: Object,   optional: true, blackbox: true },
+  profile:             { type: Schemas.UserProfile, optional: true },
+}]);
 
 var settingsPropsAndDefaults = [
   ['startOfDay', Date.parseTime('08:00')],
@@ -37,12 +46,10 @@ var settingsPropsAndDefaults = [
   ['taskCalendarId', null],
   ['referrals', []],
   ['isReferred', false],
-  ['lastReviewed', 0],
+  ['minTaskInterval', 15*MINUTES],
   ['maxTaskInterval', 2*HOURS],
   ['maxTimePerTaskPerDay', 6*HOURS],
   ['taskBreakInterval', 30*MINUTES],
-  ['taskGranularity', 5*MINUTES],
-  ['onboardingIndex', 0],
   ['lastDayOfWeek', 'monday']
 ];
 
@@ -60,7 +67,6 @@ settingsPropsAndDefaults.forEach(function (pair) {
 Users.helpers(settingsGetters);
 
 var settingsSettersAndFilters = [
-  ['lastReviewed', function (time) { return Number(new Date(time)); }],
   ['endOfDay', function (str, settings) {
     if(!str || str === '') str = '22:00';
     var time = Date.parseTime(str);
@@ -81,7 +87,10 @@ var settingsSettersAndFilters = [
     }
     return time;
   }],
-  ['onboardingIndex', function (index) { return _.bound(index, 0, Infinity); }],
+  ['minTaskInterval', function (time) {
+    if(!time) time = 15*MINUTES;
+    return _.bound(time, 0, 24*HOURS);
+  }],
   ['maxTaskInterval', function (time) {
     if(!time) time = 24*HOURS;
     return _.bound(time, 0, 24*HOURS);
@@ -91,10 +100,6 @@ var settingsSettersAndFilters = [
     return _.bound(time, 0, 24*HOURS);
   }],
   ['taskBreakInterval', function (time) {
-    if(!time) time = 0;
-    return _.bound(time, 0, 24*HOURS);
-  }],
-  ['taskGranularity', function (time) {
     if(!time) time = 0;
     return _.bound(time, 0, 24*HOURS);
   }],
@@ -192,7 +197,7 @@ Users.helpers({
 
   doneTasks: function (selector, options) {
     selector = _.extend({}, { isDone: true }, selector);
-    options  = _.extend({}, { sort: [['timeLastMarkedDone', 'desc']] }, options);
+    options  = _.extend({}, { sort: [['lastMarkedDoneAt', 'desc']] }, options);
     return this.tasks(selector, options);
   },
 
@@ -231,16 +236,6 @@ Users.helpers({
   fetchSnoozedTodos: function (selector, options) {
     selector = _.extend({}, { snoozedUntil: { $gt: Date.now() } }, selector);
     return this.fetchSortedTodos(selector, options);
-  },
-
-  recentTodos: function (selector, options) {
-    selector = _.extend({}, { needsReviewed: true }, selector);
-    return this.fetchUnsnoozedTodos(selector, options);
-  },
-
-  upcomingTodos: function (selector, options) {
-    selector = _.extend({}, { needsReviewed: { $ne: true } }, selector);
-    return this.fetchUnsnoozedTodos(selector, options);
   },
 
   onboardingTasks: function (selector, options) {
@@ -302,6 +297,7 @@ Users.helpers({
     freetimes = freetimes || this.freetimes();
     todoList  = Scheduler.generateTodoList(freetimes, todos, {
       algorithm:            'greedy',
+      minTaskInterval:      this.minTaskInterval(),
       maxTaskInterval:      this.maxTaskInterval(),
       maxTimePerTaskPerDay: this.maxTimePerTaskPerDay(),
       taskBreakInterval:    this.taskBreakInterval()

@@ -27,12 +27,10 @@ Migrations.add({
             taskCalendarId: null,
             referrals: [],
             isReferred: false,
-            lastReviewed: 0,
             maxTaskInterval: 2*HOURS,
             maxTimePerTaskPerDay: 6*HOURS,
             taskBreakInterval: 30*MINUTES,
             taskGranularity: 5*MINUTES,
-            onboardingIndex: 0,
             lastDayOfWeek: 'monday'
           }
         }
@@ -52,6 +50,50 @@ Migrations.add({
       var lastUpdatedAt = task.lastUpdatedAt;
       Tasks.update(task._id, { $set: { lastRemovedAt: lastUpdatedAt } });
     });
+  }
+});
+
+Migrations.add({
+  version: 4,
+  up: function() {
+    Tasks.find({ timeLastMarkedDone: { $exists: true } }).forEach(function (task) {
+      var lastMarkedDoneAt = task.timeLastMarkedDone;
+      Tasks.update(task._id, {
+        $set: { lastMarkedDoneAt: lastMarkedDoneAt },
+        $unset: { needsReviewed: true, timeLastMarkedDone: true }
+      });
+    });
+  }
+});
+
+Migrations.add({
+  version: 5,
+  up: function() {
+    Users.update({
+      $or: [
+        { 'profile.settings.lastDayOfWeek': { $exists: true } },
+        { 'profile.settings.workWeek': { $exists: true } },
+      ]
+    }, {
+      $unset: {
+        'profile.settings.lastDayOfWeek': true,
+        'profile.settings.workWeek': true
+      }
+    });
+  }
+});
+
+Migrations.add({
+  version: 6,
+  up: function () {
+    Users.update({}, { $unset: { 'profile.settings.taskGranularity': true } });
+  }
+});
+
+Migrations.add({
+  version: 6,
+  up: function () {
+    Users.update({}, { $set: { 'profile.settings.minTaskInterval': 15*MINUTES } });
   }
 });
 

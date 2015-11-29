@@ -1,12 +1,20 @@
-/*
- * Calendar
- * =========
- * ownerId          : String
- * googleCalendarId : String
- * title            : String
- * active           : Boolean
- *
- */
+
+Schemas.Calendar = new SimpleSchema([Schemas.Default, {
+  ownerId:          { type: String },
+  googleCalendarId: { type: String },                       // field: id
+  summary:          { type: String },                       // field: summary
+  active:           { type: Boolean,  defaultValue: true }, // field: active
+  kind:             { type: String,   defaultValue: '' },
+  etag:             { type: String,   defaultValue: '' },
+  timeZone:         { type: String,   defaultValue: '' },
+  colorId:          { type: String,   defaultValue: '' },
+  backgroundColor:  { type: String,   defaultValue: '' },
+  foregroundColor:  { type: String,   defaultValue: '' },
+  accessRole:       { type: String,   defaultValue: '' },
+  defaultReminders: { type: [Object], defaultValue: [] },
+}]);
+
+Calendars.attachSchema(Schemas.Calendar);
 
 // GET https://www.googleapis.com/calendar/v3/users/me/calendarList?key=185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com
 

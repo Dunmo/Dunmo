@@ -228,7 +228,7 @@ gapi.getAllFutureFromCalendar = function (callback) {
 };
 
 gapi.getCurrentTaskEvent = function (callback) {
-  var granularity = Meteor.user().taskGranularity();
+  var granularity = Tasks.GRANULARITY;
   var now = Date.now();
   var min = Date.floor(now, granularity);
   var max = Date.ceiling(now, granularity);
@@ -264,7 +264,7 @@ gapi.fixCurrentTaskEvent = function (startingFrom, callback) {
       var taskId      = doc.taskId;
       var user        = Meteor.user();
       var firstTask   = user.fetchSortedTodos()[0];
-      var granularity = user.taskGranularity();
+      var granularity = Tasks.GRANULARITY;
 
       // current task is first task
       if(firstTask && taskId === firstTask._id) {
@@ -496,7 +496,7 @@ gapi.getFreetimes = function (startingFrom, callback) {
   gapi.getBusytimes(function(busytimes) {
     var user      = Meteor.user();
     var freetimes = Freetimes.fromBusytimes(busytimes, {
-      granularity       : user.taskGranularity(),
+      granularity       : Tasks.GRANULARITY,
       minTime           : startingFrom,
       maxTime           : startingFrom + 30*DAYS,
       startOfDay        : user.startOfDay(),
@@ -531,7 +531,7 @@ gapi.syncTasksWithCalendar = function () {
     }
     gapi.getTaskCalendar(function () {
       var startingFrom = Date.now();
-      var granularity  = user.taskGranularity();
+      var granularity  = Tasks.GRANULARITY;
       startingFrom     = Date.nearest(startingFrom, granularity);
 
       gapi.fixCurrentTaskEvent(startingFrom, function(startingFrom) {

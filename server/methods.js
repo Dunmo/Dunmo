@@ -21,10 +21,6 @@ Meteor.methods({
     if (ret == 1) user.referred(true);
   },
 
-  fetchMailingList: function () {
-    return Subscribers.fetch();
-  },
-
   removeEvent: function (googleEventId) {
     var event = Events.findOne({ googleEventId: googleEventId });
     if(event) return Events.remove(event._id);

@@ -6,34 +6,6 @@ var POST   = Router.filter(function(req, res) { return req.method == "POST"   })
 var PUT    = Router.filter(function(req, res) { return req.method == "PUT"    });
 var DELETE = Router.filter(function(req, res) { return req.method == "DELETE" });
 
-GET.route('/api/subscribers/:userId', function (params, req, res, next) {
-  var userId, ret, subscriber;
-
-  userId     = params.userId;
-  subscriber = Subscribers.findOne({ userId: userId });
-
-  if(subscriber) ret = { subscriber: subscriber };
-  else           ret = { subscriber: null  };
-
-  ret = JSON.stringify(ret);
-  res.end(ret);
-});
-
-// get all subscribers
-GET.route('/api/subscribers', function (params, req, res, next) {
-  var subscribers = Subscribers.fetch();
-  subscribers     = JSON.stringify(subscribers);
-  res.end(subscribers);
-});
-
-POST.route('/api/subscribers/:email', function (params, req, res, next) {
-  var email        = params.email;
-  var subscriberId = Subscribers.create(email);
-  var subscriber   = Subscribers.findOne(subscriberId);
-  subscriber       = JSON.stringify(subscriber);
-  res.end(subscriber);
-});
-
 // GET.route('/emails/receive', function (params, req, res, next) {
 //   var user_addr = req.body.Sender;
 //   var text = req.body['Text-part'];
