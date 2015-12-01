@@ -8,6 +8,7 @@
 Accounts.onCreateUser(function(options, user) {
   var defaultSettings = {
     profile: {
+      name: options && options.profile && options.profile.name,
       settings: {
         startOfDay: Date.parseTime('08:00'),
         endOfDay: Date.parseTime('22:00'),
