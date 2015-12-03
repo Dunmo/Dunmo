@@ -163,10 +163,10 @@ Users.helpers({
   setHasOnboarded: function (key, bool) {
     var settings = this.profile.settings;
     if(bool === undefined || bool === null) bool = true;
-    key = 'hasOnboarded.' + key;
-    var selector = {};
-    selector[key] = bool;
-    return settings.update(selector);
+    key = 'profile.settings.hasOnboarded.' + key;
+    var modifier = {};
+    modifier[key] = bool;
+    return this.update(modifier);
   },
 
   addReferral: function (str) {
