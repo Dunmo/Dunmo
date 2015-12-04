@@ -242,7 +242,7 @@ UserHelpers = {
   },
 
   events: function (selector, options) {
-    selector = _.extend({}, { ownerId: this._id }, selector);
+    selector = _.extend({}, { ownerId: this._id, isRemoved: { $ne: true } }, selector);
     return Events.find(selector, options);
   },
 
