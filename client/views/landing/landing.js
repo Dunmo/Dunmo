@@ -129,6 +129,7 @@ View.events({
         email: email
       }, function (err, res) {
         if(err) {
+          if(err.error === 214) subscribeDone.set(true); // already subscribed
           console.error('[subscribe] Error:', err);
         } else {
           subscribeDone.set(true);
