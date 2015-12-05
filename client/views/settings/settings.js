@@ -53,14 +53,14 @@ function isGoogleAuthed () {
   return user && user.isGoogleAuthed();
 }
 
-View.onCreated(() => {
+View.onCreated(function () {
   btnLoading.set(false);
   googleBtnLoading.set(false);
   resetBtnLoading.set(false);
   resetBtnDone.set(false);
 });
 
-View.onRendered(() => {
+View.onRendered(function () {
   // TODO: where do these go?
   Session.set('task-filter', '');
   Session.set('active-sidebar-section', '');

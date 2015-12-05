@@ -6,7 +6,7 @@ let rankVar = new ReactiveVar();
 // later, we can add projects, events, etc.
 function itemType () { return 'task'; }
 
-View.onRendered(() => {
+View.onRendered(function () {
   rankVar.set(1);
   $('.app-addtask__content--title').focus();
 });

@@ -1,10 +1,10 @@
 
-let View = View;
+let View = Template.signup;
 
 let btnLoading = new ReactiveVar();
 const delay    = 500;
 
-View.onCreated(() => { btnLoading.set(false) });
+View.onCreated(function () { btnLoading.set(false) });
 
 View.helpers({
   loggedIn:   () => { Meteor.userId()  },

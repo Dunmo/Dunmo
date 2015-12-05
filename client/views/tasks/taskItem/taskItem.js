@@ -3,13 +3,13 @@ let View = Template.taskItem;
 
 let isEditingTitle = {};
 
-View.onCreated(() => {
+View.onCreated(function () {
   var task = this.data;
   isEditingTitle[task._id] = new ReactiveVar();
   isEditingTitle[task._id].set(false);
 });
 
-View.onRendered(() => {
+View.onRendered(function () {
   var task = this.data;
   if (isEditingTitle[task._id].get()) {
     $('.app-taskitem__head__title--input').focus();

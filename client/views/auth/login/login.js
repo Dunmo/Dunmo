@@ -31,13 +31,13 @@ function synchronize(src, dest) {
   $dest.find('input.password').val(password);
 }
 
-View.onCreated(() => {
+View.onCreated(function () {
   btnLoading.set(false);
   resetBtnDone.set(false);
   usedGmailForReset.set(false);
 });
 
-View.onRendered(() => {
+View.onRendered(function () {
   if(window.location.hash === '#reset') synchronize('.login', '.reset');
 });
 

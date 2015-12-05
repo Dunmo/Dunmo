@@ -4,12 +4,12 @@ let View = Template.landing;
 let subscribeLoading = new ReactiveVar();
 let subscribeDone    = new ReactiveVar();
 
-View.onCreated(() => {
+View.onCreated(function () {
   subscribeLoading.set(false);
   subscribeDone.set(false);
 });
 
-View.onRendered(() => {
+View.onRendered(function () {
 
   let $nav   = $('.landing-navigation');
   const fnav = 'landing-navigation--fixed';

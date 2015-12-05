@@ -4,7 +4,7 @@ const delay    = 500;
 
 let View = Template.resetPassword;
 
-View.onCreated(() => { btnLoading.set(false) });
+View.onCreated(function () { btnLoading.set(false) });
 
 View.helpers({
   btnLoading: () => { btnLoading.get() },
