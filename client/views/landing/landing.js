@@ -1,140 +1,121 @@
 
-var subscribeLoading = new ReactiveVar();
-var subscribeDone = new ReactiveVar();
+let View = Template.landing;
 
-var View = Template.landing;
+let subscribeLoading = new ReactiveVar();
+let subscribeDone    = new ReactiveVar();
 
-View.onCreated(function () {
+View.onCreated(() => {
   subscribeLoading.set(false);
   subscribeDone.set(false);
 });
 
-View.onRendered(function () {
+View.onRendered(() => {
 
-  var $nav = $('.landing-navigation');
-  var fnav = 'landing-navigation--fixed';
+  let $nav   = $('.landing-navigation');
+  const fnav = 'landing-navigation--fixed';
 
-  var navigation = new Waypoint({
+  const navigation = new Waypoint({
     element: document.getElementById('hero'),
-    handler: function (direction) {
+    handler (direction) {
       $nav.toggleClass(fnav);
     },
-    offset: -10
-  })
+    offset: -10,
+  });
 
-  var slideLeft = {
+  const slideLeft = {
     opacity: 1,
-    right: 0
+    right: 0,
   };
 
-  var slideLeftReturn = {
+  const slideLeftReturn = {
     opacity: 0,
-    right: '-50%'
+    right: '-50%',
   };
 
-  var slideRight = {
+  const slideRight = {
     opacity: 1,
-    left: 0
+    left: 0,
   };
 
-  var slideRightReturn = {
+  const slideRightReturn = {
     opacity: 0,
-    left: '-50%'
+    left: '-50%',
   };
 
-  var duration = 350;
+  const duration = 350;
 
-  var featureAnimate = function (id, direction, side) {
+  const featureAnimate = function (id, direction, side) {
     if (side == 'left') {
       if (direction == 'down') {
-        $('#features' + id).animate(slideRight, duration);
+        $(`#features${id}`).animate(slideRight, duration);
       } else if (direction == 'up') {
-        $('#features' + id).animate(slideRightReturn, duration);
+        $(`#features${id}`).animate(slideRightReturn, duration);
       }
     } else if (side == 'right') {
       if (direction == 'down') {
-        $('#features' + id).animate(slideLeft, duration);
+        $(`#features${id}`).animate(slideLeft, duration);
       } else if (direction == 'up') {
-        $('#features' + id).animate(slideLeftReturn, duration);
+        $(`#features${id}`).animate(slideLeftReturn, duration);
       }
     }
-  }
+  };
 
-  var featureOffset = 400;
+  const featureOffset = 400;
 
-  var features1 = new Waypoint({
+  const features1 = new Waypoint({
     element: document.getElementById('features1'),
-    handler: function (direction) {
-      featureAnimate(1, direction, 'right');
-    },
-    offset: featureOffset
-  })
-
-  var features2 = new Waypoint({
-    element: document.getElementById('features2'),
-    handler: function (direction) {
-      featureAnimate(2, direction, 'left');
-    },
-    offset: featureOffset
-  })
-
-  var features3 = new Waypoint({
-    element: document.getElementById('features3'),
-    handler: function (direction) {
-      featureAnimate(3, direction, 'right');
-    },
-    offset: featureOffset
-  })
-
-  var features4 = new Waypoint({
-    element: document.getElementById('features4'),
-    handler: function (direction) {
-      featureAnimate(4, direction, 'left');
-    },
-    offset: featureOffset
+    handler (direction) { featureAnimate(1, direction, 'right') },
+    offset: featureOffset,
   });
+
+  const features2 = new Waypoint({
+    element: document.getElementById('features2'),
+    handler (direction) { featureAnimate(2, direction, 'left') },
+    offset: featureOffset,
+  });
+
+  const features3 = new Waypoint({
+    element: document.getElementById('features3'),
+    handler (direction) { featureAnimate(3, direction, 'right') },
+    offset: featureOffset,
+  });
+
+  const features4 = new Waypoint({
+    element: document.getElementById('features4'),
+    handler (direction) { featureAnimate(4, direction, 'left') },
+    offset: featureOffset,
+  });;
 
 });
 
 View.helpers({
-  subscribeLoading: function () {
-    return subscribeLoading.get();
-  },
-
-  subscribeDone: function () {
-    return subscribeDone.get();
-  },
-
-  subscribeBtnText: function () {
-    return subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!';
-  }
+  subscribeLoading () { subscribeLoading.get() },
+  subscribeDone    () { subscribeDone.get()    },
+  subscribeBtnText () { subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!' },
 });
 
 View.events({
-  'click .landing-subscribe__form__submit, submit #subscription': function (e, t) {
+  'click .landing-subscribe__form__submit, submit #subscription': (e, t) => {
     e.preventDefault();
     subscribeLoading.set(true);
 
-    var name = $('.landing-subscribe__form__input[name="name"]').val();
-    var email = $('.landing-subscribe__form__input[name="email"]').val();
+    const name  = $('.landing-subscribe__form__input[name="name"]').val();
+    const email = $('.landing-subscribe__form__input[name="email"]').val();
 
-    var names = name.trim().split(/\s+/);
+    const names = name.trim().split(/\s+/);
 
     // only capture first and last name
     if(names.length > 2) names[1] = _.last(names);
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       Meteor.call('mailing-list/subscribe', {
         firstname: names[0],
-        lastname: names[1],
-        email: email
-      }, function (err, res) {
-        if(err) {
-          console.error('[subscribe] Error:', err);
-        } else {
-          subscribeDone.set(true);
-        }
+        lastname:  names[1],
+        email:     email,
+      }, (err, res) => {
+        if(err) console.error('[subscribe] Error:', err);
+        else    subscribeDone.set(true);
         subscribeLoading.set(false);
       });
     }, 500);
-  }
+  },
 });

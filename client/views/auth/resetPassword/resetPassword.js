@@ -1,34 +1,30 @@
 
-var btnLoading = new ReactiveVar();
+let btnLoading = new ReactiveVar();
+const delay    = 500;
 
-var View = Template.resetPassword;
+let View = Template.resetPassword;
 
-View.onCreated(function () {
-  btnLoading.set(false);
-});
+View.onCreated(() => { btnLoading.set(false) });
 
 View.helpers({
-  btnLoading: function () {
-    return btnLoading.get();
-  }
+  btnLoading: () => { btnLoading.get() },
 });
 
 View.events({
 
-  'submit form.reset-password, click form.reset-password button.reset-password': function (e, t) {
+  'submit form.reset-password, click form.reset-password button.reset-password': (e, t) => {
     e.preventDefault();
     btnLoading.set(true);
 
-    var delay = 500;
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       if(Meteor.userId() || Meteor.loggingIn()) {
         btnLoading.set(false);
         return false;
       }
 
-      var $parent = $('form.reset-password');
-      var password = $parent.find('input.password').val();
-      var passwordConfirm = $parent.find('input.password-confirm').val();
+      const $parent = $('form.reset-password');
+      const password = $parent.find('input.password').val();
+      const passwordConfirm = $parent.find('input.password-confirm').val();
 
       if( !(password && passwordConfirm) ) {
         $('.notice').html('Both fields are required.');
@@ -42,9 +38,9 @@ View.events({
         return;
       }
 
-      var token = Session.get('resetToken');
+      const token = Session.get('resetToken');
 
-      Accounts.resetPassword(token, password, function (err) {
+      Accounts.resetPassword(token, password, err => {
         if(err) {
           $('.notice').html(err.reason);
           btnLoading.set(false);
@@ -53,5 +49,5 @@ View.events({
         }
       });
     }, delay);
-  }
+  },
 });

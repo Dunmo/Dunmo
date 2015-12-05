@@ -1,15 +1,13 @@
 
-Template.tasks.helpers({
-  isTodosView: function () {
-    return Session.get('task-filter') === 'todo';
-  },
+let View = Template.tasks;
 
-  noTodos: function () {
-    return Meteor.user().todos().count() === 0;
-  },
+View.helpers({
 
-  tasksEmptyMessage: function () {
-    var user = Meteor.user();
+  isTodosView () { Session.get('task-filter') === 'todo' },
+  noTodos     () { Meteor.user().todos().count() === 0   },
+
+  tasksEmptyMessage () {
+    const user = Meteor.user();
     if(user.tasks().count() === 0) {
       return 'You don\'t have any tasks yet. Add some with the green plus button.';
     } else {
@@ -17,16 +15,16 @@ Template.tasks.helpers({
     }
   },
 
-  tasks: function () {
-    var filter = Session.get('task-filter');
-    switch(filter) {
-      case 'completed':
-        return Meteor.user().doneTasks();
-      case 'trash':
-        return Meteor.user().fetchRemovedTasks();
-      case 'todo':
-      default:
-        return Meteor.user().fetchSortedTodos();
+  tasks () {
+    let filterCursorMap = {
+      completed: Meteor.user().doneTasks(),
+      trash:     Meteor.user().fetchRemovedTasks(),
+      todo:      Meteor.user().fetchSortedTodos(),
+      undefined: Meteor.user().fetchSortedTodos(),
     }
-  }
+    const  filter = Session.get('task-filter');
+    let    cursor = filterCursorMap[filter];
+    return cursor
+  },
+
 });
