@@ -89,10 +89,10 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  subscribeLoading () { subscribeLoading.get() },
-  subscribeDone    () { subscribeDone.get()    },
-  disabledIfDone   () { subscribeDone.get() ? 'disabled'  : '' },
-  subscribeBtnText () { subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!' },
+  subscribeLoading () { return subscribeLoading.get() },
+  subscribeDone    () { return subscribeDone.get()    },
+  disabledIfDone   () { return subscribeDone.get() ? 'disabled'  : '' },
+  subscribeBtnText () { return subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!' },
 });
 
 View.events({

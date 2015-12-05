@@ -35,10 +35,10 @@ View.helpers({
     else return this.description.substring(0, 140) + '...';
   },
 
-  expanded   () { Session.get('currently-expanded-task') === this._id },
-  editing    () { Session.get('currently-editing-task')  === this._id },
-  notEditing () { Session.get('currently-editing-task')  !== this._id },
-  isEditingTitle () { isEditingTitle[this._id] && isEditingTitle[this._id].get() },
+  expanded   () { return Session.get('currently-expanded-task') === this._id },
+  editing    () { return Session.get('currently-editing-task')  === this._id },
+  notEditing () { return Session.get('currently-editing-task')  !== this._id },
+  isEditingTitle () { return isEditingTitle[this._id] && isEditingTitle[this._id].get() },
 
   rank () {
     const  ranks = ['rankzero', 'rankone', 'ranktwo', 'rankthree'];

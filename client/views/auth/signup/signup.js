@@ -4,11 +4,11 @@ let View = Template.signup;
 let btnLoading = new ReactiveVar();
 const delay    = 500;
 
-View.onCreated(function () { btnLoading.set(false) });
+View.onCreated(function () { return btnLoading.set(false) });
 
 View.helpers({
-  loggedIn:   () => { Meteor.userId()  },
-  btnLoading: () => { btnLoading.get() },
+  loggedIn:   () => { return Meteor.userId()  },
+  btnLoading: () => { return btnLoading.get() },
 });
 
 View.events({

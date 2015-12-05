@@ -42,10 +42,10 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  loggedIn          () { Meteor.userId()         },
-  btnLoading        () { btnLoading.get()        },
-  resetBtnDone      () { resetBtnDone.get()      },
-  usedGmailForReset () { usedGmailForReset.get() },
+  loggedIn          () { return Meteor.userId()         },
+  btnLoading        () { return btnLoading.get()        },
+  resetBtnDone      () { return resetBtnDone.get()      },
+  usedGmailForReset () { return usedGmailForReset.get() },
 });
 
 View.events({

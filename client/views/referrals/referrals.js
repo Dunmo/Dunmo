@@ -2,7 +2,7 @@
 let view = Template.referrals;
 
 view.helpers({
-  referred () { Meteor.user().referred() },
+  referred () { return Meteor.user().referred() },
 });
 
 function submitEmail () {

@@ -2,7 +2,7 @@
 let View = Template.layout;
 
 View.helpers({
-  modalActive () { Session.get('add-task-is-active') },
+  modalActive () { return Session.get('add-task-is-active') },
 });
 
 View.events({

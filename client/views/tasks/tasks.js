@@ -3,8 +3,8 @@ let View = Template.tasks;
 
 View.helpers({
 
-  isTodosView () { Session.get('task-filter') === 'todo' },
-  noTodos     () { Meteor.user().todos().count() === 0   },
+  isTodosView () { return Session.get('task-filter') === 'todo' },
+  noTodos     () { return Meteor.user().todos().count() === 0   },
 
   tasksEmptyMessage () {
     const user = Meteor.user();
@@ -21,10 +21,10 @@ View.helpers({
       trash:     Meteor.user().fetchRemovedTasks(),
       todo:      Meteor.user().fetchSortedTodos(),
       undefined: Meteor.user().fetchSortedTodos(),
-    }
+    };
     const  filter = Session.get('task-filter');
     let    cursor = filterCursorMap[filter];
-    return cursor
+    return cursor;
   },
 
 });

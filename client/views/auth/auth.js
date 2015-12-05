@@ -67,11 +67,11 @@ View.onCreated(function () {
 });
 
 View.helpers({
-  loggedIn          () { Meteor.userId()         },
-  googleBtnLoading  () { googleBtnLoading.get()  },
-  btnLoading        () { btnLoading.get()        },
-  resetBtnDone      () { resetBtnDone.get()      },
-  usedGmailForReset () { usedGmailForReset.get() },
+  loggedIn          () { return Meteor.userId()         },
+  googleBtnLoading  () { return googleBtnLoading.get()  },
+  btnLoading        () { return btnLoading.get()        },
+  resetBtnDone      () { return resetBtnDone.get()      },
+  usedGmailForReset () { return usedGmailForReset.get() },
 });
 
 View.events({

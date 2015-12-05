@@ -1,5 +1,5 @@
 
-var View = Template.settings;
+let View = Template.settings;
 
 let btnLoading       = new ReactiveVar();
 let googleBtnLoading = new ReactiveVar();
@@ -40,7 +40,7 @@ function setDurationSetting (target, inputNamePrefix, setterName) {
     const $parent = $(target).parents('.setting');
     const numHoursStr = $parent.find(`input[name="${inputNamePrefix}-hours"]`).val();
     const numHours = Number(numHoursStr);
-    const numMinutesStr = $parent.find(`input[name=${inputNamePrefix}-minutes"]`).val();
+    const numMinutesStr = $parent.find(`input[name="${inputNamePrefix}-minutes"]`).val();
     const numMinutes = Number(numMinutesStr);
     const newDurationSetting = numHours*HOURS + numMinutes*MINUTES;
     const ret = user[setterName](newDurationSetting);
@@ -81,12 +81,12 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  btnLoading             () { btnLoading.get()                   },
-  googleBtnLoading       () { googleBtnLoading.get()             },
-  googleBtnDisabledClass () { isGoogleAuthed() ? 'disabled' : '' },
-  resetBtnLoading        () { resetBtnLoading.get()              },
-  resetBtnDone           () { resetBtnDone.get()                 },
-  errorMessage           () { Session.get('errorMessage')        },
+  btnLoading             () { return btnLoading.get()                   },
+  googleBtnLoading       () { return googleBtnLoading.get()             },
+  googleBtnDisabledClass () { return isGoogleAuthed() ? 'disabled' : '' },
+  resetBtnLoading        () { return resetBtnLoading.get()              },
+  resetBtnDone           () { return resetBtnDone.get()                 },
+  errorMessage           () { return Session.get('errorMessage')        },
 
   hasCalendars () {
     const calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
@@ -95,8 +95,8 @@ View.helpers({
 
   calendars () {
     let calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
-    calendars = _.sortBy(calendars, cal => { cal.summary.toLowerCase() });
-    calendars = _.sortBy(calendars, cal => { !cal.active });
+    calendars = _.sortBy(calendars, cal => cal.summary.toLowerCase());
+    calendars = _.sortBy(calendars, cal => !cal.active);
     return calendars;
   },
 });

@@ -2,9 +2,9 @@
 let View = Template.topbar;
 
 View.helpers({
-  spinClass () { Session.get('isSyncing') ? 'spin' : '' },
+  spinClass () { return Session.get('isSyncing') ? 'spin' : '' },
 });
 
 View.events({
-  'click .app-topbar__button--sync' (e, t) { gapi.syncTasksWithCalendar() },
+  'click .app-topbar__button--sync' (e, t) { return gapi.syncTasksWithCalendar() },
 });

@@ -12,11 +12,11 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  addTaskIsActive () { Session.get('add-task-is-active') },
-  itemType        () { itemType()                        },
-  itemName        () { itemType().capitalize()           },
-  isTask          () { itemType() === 'task'             },
-  today           () { moment().format('YYYY-MM-DD')     },
+  addTaskIsActive () { return Session.get('add-task-is-active') },
+  itemType        () { return itemType()                        },
+  itemName        () { return itemType().capitalize()           },
+  isTask          () { return itemType() === 'task'             },
+  today           () { return moment().format('YYYY-MM-DD')     },
 
   rank () {
     const rankMap = { 0: 'rankzero', 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
