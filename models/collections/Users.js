@@ -439,27 +439,35 @@ var settingsSettersAndFilters = [
   }],
   ['minTaskInterval', function (time) {
     if(!time) time = 15*MINUTES;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
     return _.bound(time, 0, 24*HOURS);
   }],
   ['maxTaskInterval', function (time) {
     if(!time) time = 24*HOURS;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
     return _.bound(time, 0, 24*HOURS);
   }],
   ['maxTimePerTaskPerDay', function (time) {
     if(!time) time = 24*HOURS;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
     return _.bound(time, 0, 24*HOURS);
   }],
   ['taskBreakInterval', function (time) {
     if(!time) time = 0;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
     return _.bound(time, 0, 24*HOURS);
   }],
-  ['lastDayOfWeek', function (number) {
-    return _.bound(number, 0, 6);
-  }],
-  ['workWeek', function (numbers) {
-    numbers = numbers.map(_.bound(0, 6));
-    return _.uniq(numbers);
-  }],
+  // ['lastDayOfWeek', function (number) {
+  //   return _.bound(number, 0, 6);
+  // }],
+  // ['workWeek', function (numbers) {
+  //   numbers = numbers.map(_.bound(0, 6));
+  //   return _.uniq(numbers);
+  // }],
   ['isReferred', function (bool) { return bool; }]
 ];
 

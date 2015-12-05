@@ -134,7 +134,15 @@ Freetimes.fromBusytimes = function (busytimes, options) {
 
   freetimes = freetimes.map(function(freetime) {
     freetime = _.extend({}, options.defaultProperties, freetime);
-    freetime.remaining = function () { return this.end - this.start; };
+
+    // options: { granularity }
+    freetime.remaining = function (options) {
+      var granularity      = options.granularity || 1*MINUTES;
+      var remaining        = this.end - this.start;
+      var roundedRemaining = Math.round(remaining / granularity) * granularity;
+      return roundedRemaining;
+    };
+
     return freetime;
   });
 
