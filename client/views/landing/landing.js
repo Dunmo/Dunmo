@@ -105,12 +105,20 @@ View.helpers({
     return subscribeDone.get();
   },
 
+  disabledIfDone: function () {
+    return subscribeDone.get() ? 'disabled' : '';
+  },
+
   subscribeBtnText: function () {
     return subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!';
   }
 });
 
 View.events({
+  'keydown .landing-subscribe__form__input': function (e, t) {
+    subscribeDone.set(false);
+  },
+
   'click .landing-subscribe__form__submit, submit #subscription': function (e, t) {
     e.preventDefault();
     subscribeLoading.set(true);
