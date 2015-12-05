@@ -1,7 +1,5 @@
-var View = Template.addTaskButton;
+let View = Template.addTaskButton;
 
 View.events({
-  'click .app-addtaskbutton__body': function (e, t) {
-    Session.set('add-task-is-active', true);
-  }
+  'click .app-addtaskbutton__body': (e, t) => { return Session.set('add-task-is-active', true) },
 });

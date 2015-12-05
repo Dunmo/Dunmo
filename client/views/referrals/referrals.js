@@ -1,36 +1,31 @@
 
-var view = Template.referrals;
+let view = Template.referrals;
 
 view.helpers({
-  referred: function () {
-    return Meteor.user().referred();
-  }
+  referred () { return Meteor.user().referred() },
 });
 
-var submitEmail = function () {
-  var referrerEmail = $('.referrer-input').val();
-  $('.referrer-input').val('');
-  $('.referrer-input').attr('placeholder', 'Success!');
+function submitEmail () {
+  let   $input        = $('.referrer-input');
+  const referrerEmail = $input.val();
+  const userEmail     = Meteor.user().primaryEmailAddress();
 
-  var userEmail = Meteor.user().primaryEmailAddress();
+  $input.val('');
+  $input.attr('placeholder', 'Success!');
 
-  var data = { referrerEmail: referrerEmail, userEmail: userEmail };
-  // data = JSON.stringify(data);
-
-
-  Meteor.call('createReferral', data);
-
-  // $.post('/api/referral', data, function(res) {
-  //   res = JSON.parse(res);
-  //   console.log('res: ', res);
-  // });
+  Meteor.call('createReferral', {
+    referrerEmail: referrerEmail,
+    userEmail: userEmail,
+  });
 };
 
 view.events({
-  'keypress .referrer-input' : function(e) {
+
+  'keypress .referrer-input' (e, t) {
     if(e.which != 13) return;
     submitEmail();
   },
 
-  'click .btn-submit' : submitEmail
+  'click .btn-submit' : submitEmail,
+
 });
