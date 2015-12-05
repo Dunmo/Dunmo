@@ -2,14 +2,14 @@
     @include block(100%);
     display: table;
     background: $green;
-    
+
     &__content {
         display: table-cell;
         vertical-align:middle;
         padding: 1rem;
         width: 100%;
     }
-    
+
     &__heading {
         width: 100%;
         font: 2.5rem/4rem $sans-serif;
@@ -18,13 +18,13 @@
         text-transform: uppercase;
         margin: 1.5rem auto;
     }
-    
+
     &__form {
         width: 100%;
         max-width: 50rem;
         margin: 0 auto;
         text-align: right;
-        
+
         &__input {
             display: block;
             box-sizing: border-box;
@@ -41,7 +41,7 @@
                 outline: none;
             }
         }
-        
+
         &__submit {
             @include transition(all 0.25s ease-in-out);
             display: inline-block;
@@ -55,7 +55,7 @@
             text-align: center;
             background: $coral;
             cursor: pointer;
-            &:hover {
+            &:hover:not(:disabled) {
                 background: darken($coral,5%);
             }
         }

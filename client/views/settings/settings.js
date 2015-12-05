@@ -37,12 +37,9 @@ function setDurationSetting (target, inputNamePrefix, setterName) {
     var $parent = $(target).parents('.setting');
     var numHoursStr = $parent.find('input[name="'+inputNamePrefix+'-hours"]').val();
     var numHours = Number(numHoursStr);
-    console.log('numHours: ', numHours);
     var numMinutesStr = $parent.find('input[name="'+inputNamePrefix+'-minutes"]').val();
     var numMinutes = Number(numMinutesStr);
-    console.log('numMinutes: ', numMinutes);
     var newDurationSetting = numHours*HOURS + numMinutes*MINUTES;
-    console.log('newDurationSetting: ', newDurationSetting);
     var ret = user[setterName](newDurationSetting);
     if(ret) gapi.syncTasksWithCalendar();
   }, 0);
