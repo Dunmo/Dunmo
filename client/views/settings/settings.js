@@ -109,8 +109,6 @@ View.helpers({
     return Session.get('errorMessage');
   },
 
-  isGoogleAuthed: isGoogleAuthed,
-
   hasCalendars: function () {
     var calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
     return calendars.length > 0;

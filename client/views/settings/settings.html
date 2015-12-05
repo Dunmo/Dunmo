@@ -24,15 +24,17 @@
         <div class="row">
           {{#spinnerButton class="btn btn-gplus btn-block {{googleBtnDisabledClass}}" waitOn=googleBtnLoading}}
             <i class="fa fa-google-plus"></i>
-            {{#if isGoogleAuthed}}
+            {{#if currentUser.isGoogleAuthed}}
               Disconnect from Google
             {{else}}
               Connect with Google
             {{/if}}
           {{/spinnerButton}}
-          {{#unless isGoogleAuthed}}
+          {{#if currentUser.isGoogleAuthed}}
+            <p class="text-center lead"> Currently connected to: {{currentUser.gmailAddress}} </p>
+          {{else}}
             <p class="lead"> Use Google, and we can plan around your events. </p>
-          {{/unless}}
+          {{/if}}
         </div>
       </div>
 
