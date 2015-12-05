@@ -30,9 +30,11 @@
               Connect with Google
             {{/if}}
           {{/spinnerButton}}
-          {{#unless currentUser.isGoogleAuthed}}
+          {{#if currentUser.isGoogleAuthed}}
+            <p class="text-center lead"> Currently connected to: {{currentUser.gmailAddress}} </p>
+          {{else}}
             <p class="lead"> Use Google, and we can plan around your events. </p>
-          {{/unless}}
+          {{/if}}
         </div>
       </div>
 
