@@ -91,11 +91,15 @@ View.onRendered(() => {
 View.helpers({
   subscribeLoading () { subscribeLoading.get() },
   subscribeDone    () { subscribeDone.get()    },
+  disabledIfDone   () { subscribeDone.get() ? 'disabled'  : '' },
   subscribeBtnText () { subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!' },
 });
 
 View.events({
-  'click .landing-subscribe__form__submit, submit #subscription': (e, t) => {
+
+  'keydown .landing-subscribe__form__input' (e, t) { subscribeDone.set(false) },
+
+  'click .landing-subscribe__form__submit, submit #subscription' (e, t) {
     e.preventDefault();
     subscribeLoading.set(true);
 
@@ -112,8 +116,12 @@ View.events({
         lastname:  names[1],
         email:     email,
       }, (err, res) => {
-        if(err) console.error('[subscribe] Error:', err);
-        else    subscribeDone.set(true);
+        if(err) {
+          if(err.error === 214) subscribeDone.set(true); // already subscribed
+          console.error('[subscribe] Error:', err);
+        } else {
+          subscribeDone.set(true);
+        }
         subscribeLoading.set(false);
       });
     }, 500);

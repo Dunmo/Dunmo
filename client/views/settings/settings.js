@@ -38,9 +38,9 @@ function setDurationSetting (target, inputNamePrefix, setterName) {
     const user = Meteor.user();
     Session.set('errorMessage', '');
     const $parent = $(target).parents('.setting');
-    const numHoursStr = $parent.find('input[name="'+inputNamePrefix+'-hours"]').val();
+    const numHoursStr = $parent.find(`input[name="${inputNamePrefix}-hours"]`).val();
     const numHours = Number(numHoursStr);
-    const numMinutesStr = $parent.find('input[name="'+inputNamePrefix+'-minutes"]').val();
+    const numMinutesStr = $parent.find(`input[name=${inputNamePrefix}-minutes"]`).val();
     const numMinutes = Number(numMinutesStr);
     const newDurationSetting = numHours*HOURS + numMinutes*MINUTES;
     const ret = user[setterName](newDurationSetting);
