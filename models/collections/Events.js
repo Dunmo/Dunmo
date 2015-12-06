@@ -144,7 +144,6 @@ Events.recentTaskEvents = function (selector, options) {
   selector = selector || {};
   _.extend(selector, {
     taskId: { $exists: true },
-    needsReviewed: true,
     end: { $lt: new Date() }
   });
   return Events.fetch(selector, options);

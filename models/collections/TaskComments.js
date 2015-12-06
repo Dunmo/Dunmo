@@ -1,13 +1,11 @@
-/*
- * TaskComment
- * ==========
- * ownerId     : String
- * taskId      : String
- * text        : String
- * timestamp   : DateTime
- * mentionsIds : String[]
- *
- */
+
+Schemas.TaskComment = new SimpleSchema([Schemas.Default, {
+  ownerId:     { type: String },
+  taskId:      { type: String },
+  mentionsIds: { type: [String], defaultValue: [] },
+  text:        { type: String },
+  timestamp:   { type: Date   },
+}]);
 
 var props = [
   'text',

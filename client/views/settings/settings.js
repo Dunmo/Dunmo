@@ -63,6 +63,10 @@ View.onCreated(function () {
 });
 
 View.onRendered(function () {
+  // TODO: where do these go?
+  Session.set('task-filter', '');
+  Session.set('active-sidebar-section', '');
+
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
@@ -70,7 +74,6 @@ View.onRendered(function () {
   var user = Meteor.user();
   $('input[name="start-of-workday"]').val(Date.timeString(user.startOfDay()));
   $('input[name="end-of-workday"]').val(Date.timeString(user.endOfDay()));
-  $('input[name="task-granularity"]').val(Date.minutes(user.taskGranularity()));
   $('input[name="max-task-interval-hours"]').val(Date.hours(user.maxTaskInterval()));
   $('input[name="max-task-interval-minutes"]').val(minutesPortion(user.maxTaskInterval()));
   $('input[name="max-time-per-task-per-day-hours"]').val(Date.hours(user.maxTimePerTaskPerDay()));
@@ -177,20 +180,6 @@ View.events({
     setTimeSetting(e.target, 'setEndOfDay');
   },
 
-  'keydown input[name="task-granularity"]': function (e) {
-    Meteor.setTimeout(function () {
-      Session.set('errorMessage', '');
-      var numMinutesStr = $(e.target).val();
-      var numMinutes =  Number(numMinutesStr);
-      console.log('numMinutes: ', numMinutes);
-      var newMinutesSetting = numMinutes*MINUTES;
-      console.log('newMinutesSetting: ', newMinutesSetting);
-      var user = Meteor.user();
-      var ret = user.setTaskGranularity(newMinutesSetting);
-      if(ret) gapi.syncTasksWithCalendar();
-    }, 0);
-  },
-
   'keydown input[name^="max-task-interval"]': function (e) {
     setDurationSetting(e.target, 'max-task-interval', 'setMaxTaskInterval');
   },
@@ -243,7 +232,11 @@ View.events({
         if(err) {
           console.log('err: ', err);
           var reason = err.reason || err.error || 'Unknown error';
-          if(reason === 'User already exists') reason = 'Google account has already been linked to a different Dunmo account.';
+          if(reason === 'User already exists') {
+            reason = 'Google account has' +
+              ' already been linked to a different Dunmo account. If you' +
+              ' believe this is an error, send us an email at contact@dunmoapp.com.';
+          }
           if(reason === 'No matching login attempt found') reason = '';
           Session.set('errorMessage', reason);
           googleBtnLoading.set(false);
