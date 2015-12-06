@@ -46,8 +46,9 @@ _.each([Calendars, Events, Projects, Tasks, TaskComments, Users], function (coll
     },
 
     update: function (data) {
-      if( _.keys(data).every(function(k) { return k.charAt(0) !== '$'; }) ) {
-        var self = this;
+      var self = this;
+      var isSetOperation = _.keys(data).every(function(k) { return k.charAt(0) !== '$'; });
+      if(isSetOperation) {
         _.forOwn(data, function(value, key) {
           self[key] = value;
         });

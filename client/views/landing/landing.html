@@ -140,7 +140,7 @@
 
                 <input class="landing-subscribe__form__input" name="email" type="text" placeholder="Your Email" />
 
-                <button type="submit" id="subscribe-submit" class="landing-subscribe__form__submit">
+                <button type="submit" id="subscribe-submit" class="landing-subscribe__form__submit" {{disabledIfDone}}>
                     {{#if subscribeLoading}}
                         <i class="fa fa-spinner fa-spin"></i>
                     {{else}}

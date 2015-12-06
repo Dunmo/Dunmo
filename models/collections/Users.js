@@ -4,13 +4,13 @@ Schemas.UserSettings = new SimpleSchema({
     type:         Number,
     defaultValue: Date.parseTime('08:00'),
     min:          Date.parseTime('00:00'),
-    max:          Date.parseTime('24:00'),
+    max:          Date.parseTime('23:59'),
   },
   endOfDay: {
     type:         Number,
     defaultValue: Date.parseTime('22:00'),
     min:          Date.parseTime('00:00'),
-    max:          Date.parseTime('24:00'),
+    max:          Date.parseTime('23:59'),
   },
   taskCalendarId:       { type: String,   optional: true },
   referrals:            { type: [String], defaultValue: [] },
@@ -40,98 +40,7 @@ Schemas.User = new SimpleSchema([Schemas.Default, {
   profile:             { type: Schemas.UserProfile, optional: true },
 }]);
 
-var settingsPropsAndDefaults = [
-  ['startOfDay', Date.parseTime('08:00')],
-  ['endOfDay', Date.parseTime('22:00')],
-  ['taskCalendarId', null],
-  ['referrals', []],
-  ['isReferred', false],
-  ['minTaskInterval', 15*MINUTES],
-  ['maxTaskInterval', 2*HOURS],
-  ['maxTimePerTaskPerDay', 6*HOURS],
-  ['taskBreakInterval', 30*MINUTES],
-  ['lastDayOfWeek', 'monday']
-];
-
-var settingsGetters = {};
-settingsPropsAndDefaults.forEach(function (pair) {
-  var prop       = pair[0];
-  var defaultVal = pair[1];
-  settingsGetters[prop] = function () {
-    var settings = this.profile.settings;
-    if(!settings[prop]) return defaultVal;
-    else                return settings[prop];
-  };
-});
-
-Users.helpers(settingsGetters);
-
-var settingsSettersAndFilters = [
-  ['endOfDay', function (str, settings) {
-    if(!str || str === '') str = '22:00';
-    var time = Date.parseTime(str);
-    if(time < settings.startOfDay) {
-      Session.set('errorMessage', 'You can\'t end before you start!');
-      $('.message').show();
-      return { err: true };
-    }
-    return time;
-  }],
-  ['startOfDay', function (str, settings) {
-    if(!str || str === '') str = '08:00';
-    var time = Date.parseTime(str);
-    if(time > settings.endOfDay) {
-      Session.set('errorMessage', 'You can\'t start after you end!');
-      $('.message').show();
-      return { err: true };
-    }
-    return time;
-  }],
-  ['minTaskInterval', function (time) {
-    if(!time) time = 15*MINUTES;
-    return _.bound(time, 0, 24*HOURS);
-  }],
-  ['maxTaskInterval', function (time) {
-    if(!time) time = 24*HOURS;
-    return _.bound(time, 0, 24*HOURS);
-  }],
-  ['maxTimePerTaskPerDay', function (time) {
-    if(!time) time = 24*HOURS;
-    return _.bound(time, 0, 24*HOURS);
-  }],
-  ['taskBreakInterval', function (time) {
-    if(!time) time = 0;
-    return _.bound(time, 0, 24*HOURS);
-  }],
-  ['lastDayOfWeek', function (number) {
-    return _.bound(number, 0, 6);
-  }],
-  ['workWeek', function (numbers) {
-    numbers = numbers.map(_.bound(0, 6));
-    return _.uniq(numbers);
-  }],
-  ['isReferred', function (bool) { return bool; }]
-];
-
-var settingsSetters = {};
-settingsSettersAndFilters.forEach(function (pair) {
-  var prop       = pair[0];
-  var filter     = pair[1];
-  var setterName = 'set' + prop.capitalize();
-  settingsSetters[setterName] = function (value) {
-    var settings = this.profile.settings;
-    value = filter(value, settings);
-    if(value && value.err) return false;
-    var obj = {};
-    obj['profile.settings.' + prop] = value;
-    return this.update(obj);
-  };
-});
-
-Users.helpers(settingsSetters);
-
-Users.helpers({
-
+UserHelpers = {
   gmailAddress: function () {
     return this.services && this.services.google && this.services.google.email;
   },
@@ -163,10 +72,10 @@ Users.helpers({
   setHasOnboarded: function (key, bool) {
     var settings = this.profile.settings;
     if(bool === undefined || bool === null) bool = true;
-    key = 'hasOnboarded.' + key;
-    var selector = {};
-    selector[key] = bool;
-    return settings.update(selector);
+    key = 'profile.settings.hasOnboarded.' + key;
+    var modifier = {};
+    modifier[key] = bool;
+    return this.update(modifier);
   },
 
   addReferral: function (str) {
@@ -333,7 +242,7 @@ Users.helpers({
   },
 
   events: function (selector, options) {
-    selector = _.extend({}, { ownerId: this._id }, selector);
+    selector = _.extend({}, { ownerId: this._id, isRemoved: { $ne: true } }, selector);
     return Events.find(selector, options);
   },
 
@@ -482,7 +391,101 @@ Users.helpers({
     return percentage;
   }
 
+};
+
+var settingsPropsAndDefaults = [
+  ['startOfDay', Date.parseTime('08:00')],
+  ['endOfDay', Date.parseTime('22:00')],
+  ['taskCalendarId', null],
+  ['referrals', []],
+  ['isReferred', false],
+  ['minTaskInterval', 15*MINUTES],
+  ['maxTaskInterval', 2*HOURS],
+  ['maxTimePerTaskPerDay', 6*HOURS],
+  ['taskBreakInterval', 30*MINUTES],
+  ['lastDayOfWeek', 'monday']
+];
+
+settingsPropsAndDefaults.forEach(function (pair) {
+  var prop       = pair[0];
+  var defaultVal = pair[1];
+  UserHelpers[prop] = function () {
+    var settings = this.profile.settings;
+    if(!settings[prop]) return defaultVal;
+    else                return settings[prop];
+  };
 });
+
+var settingsSettersAndFilters = [
+  ['endOfDay', function (str, settings) {
+    if(!str || str === '') str = '22:00';
+    var time = Date.parseTime(str);
+    if(time < settings.startOfDay) {
+      Session.set('errorMessage', 'You can\'t end before you start!');
+      $('.message').show();
+      return { err: true };
+    }
+    return time;
+  }],
+  ['startOfDay', function (str, settings) {
+    if(!str || str === '') str = '08:00';
+    var time = Date.parseTime(str);
+    if(time > settings.endOfDay) {
+      Session.set('errorMessage', 'You can\'t start after you end!');
+      $('.message').show();
+      return { err: true };
+    }
+    return time;
+  }],
+  ['minTaskInterval', function (time) {
+    if(!time) time = 15*MINUTES;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['maxTaskInterval', function (time) {
+    if(!time) time = 24*HOURS;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['maxTimePerTaskPerDay', function (time) {
+    if(!time) time = 24*HOURS;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  ['taskBreakInterval', function (time) {
+    if(!time) time = 0;
+    var granularity = Tasks.GRANULARITY;
+    time = Math.round(time / granularity) * granularity;
+    return _.bound(time, 0, 24*HOURS);
+  }],
+  // ['lastDayOfWeek', function (number) {
+  //   return _.bound(number, 0, 6);
+  // }],
+  // ['workWeek', function (numbers) {
+  //   numbers = numbers.map(_.bound(0, 6));
+  //   return _.uniq(numbers);
+  // }],
+  ['isReferred', function (bool) { return bool; }]
+];
+
+settingsSettersAndFilters.forEach(function (pair) {
+  var prop       = pair[0];
+  var filter     = pair[1];
+  var setterName = 'set' + prop.capitalize();
+  UserHelpers[setterName] = function (value) {
+    var settings = this.profile.settings;
+    value = filter(value, settings);
+    if(value && value.err) return false;
+    var obj = {};
+    obj['profile.settings.' + prop] = value;
+    return this.update(obj);
+  };
+});
+
+Users.helpers(UserHelpers);
 
 Users.findByEmail = function (email) {
   return Users.findBy({ email: email });

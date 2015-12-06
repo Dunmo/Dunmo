@@ -1,11 +1,10 @@
 
-var rankVar = new ReactiveVar();
+let View = Template.addTask;
 
-var View = Template.addTask;
+let rankVar = new ReactiveVar();
 
-function itemType () {
-  return 'task';
-}
+// later, we can add projects, events, etc.
+function itemType () { return 'task'; }
 
 View.onRendered(function () {
   rankVar.set(1);
@@ -13,58 +12,49 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  addTaskIsActive: function () {
-    return Session.get('add-task-is-active');
-  },
-  itemType: function () {
-    // later, we can add projects, events, etc.
-    return itemType();
-  },
-  itemName: function () {
-    return itemType().capitalize();
-  },
-  isTask: function () {
-    return itemType() === 'task';
-  },
-  rank: function () {
-    var rankMap = { 0: 'rankzero', 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
-    var rank = rankVar.get();
+  addTaskIsActive () { return Session.get('add-task-is-active') },
+  itemType        () { return itemType()                        },
+  itemName        () { return itemType().capitalize()           },
+  isTask          () { return itemType() === 'task'             },
+  today           () { return moment().format('YYYY-MM-DD')     },
+
+  rank () {
+    const rankMap = { 0: 'rankzero', 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
+    const rank = rankVar.get();
     return rankMap[rank];
   },
-  today: function () {
-    return moment().format('YYYY-MM-DD');
-  }
 });
 
 View.events({
-  'keydown': function (e, t) {
+
+  'keydown' (e, t) {
     if(e.which !== 27) return;
     Session.set('add-task-is-active', false);
   },
 
-  'click .app-addtask__section--importance': function (e, t) {
-    var rank = rankVar.get();
-    var newRank = rank + 1;
+  'click .app-addtask__section--importance' (e, t) {
+    const rank    = rankVar.get();
+    let   newRank = rank + 1;
     if(newRank > 3) newRank = 0;
     rankVar.set(newRank);
   },
 
-  'submit form.app-addtask': function (e, t) {
+  'submit form.app-addtask' (e, t) {
     e.preventDefault();
     $('.warning').removeClass('warning');
 
-    var $parent = $('.app-addtask');
+    const $parent = $('.app-addtask');
 
-    var importance = rankVar.get();
+    const importance = rankVar.get();
 
-    var title = $parent.find('input.app-addtask__content--title').val();
+    const title = $parent.find('input.app-addtask__content--title').val();
 
-    var hours = Number($parent.find('input.app-addtask__content--duration-hour').val());
-    var mins = Number($parent.find('input.app-addtask__content--duration-minute').val());
-    var duration = moment.duration({ hours: hours, minutes: mins }).asMilliseconds();
+    const hours = Number($parent.find('input.app-addtask__content--duration-hour').val());
+    const mins = Number($parent.find('input.app-addtask__content--duration-minute').val());
+    const duration = moment.duration({ hours: hours, minutes: mins }).asMilliseconds();
 
-    var duedate = $parent.find('input.app-addtask__content--due').val();
-    var dueAt = moment(duedate).toDate();
+    const duedate = $parent.find('input.app-addtask__content--due').val();
+    const dueAt = moment(duedate).toDate();
 
     if(!duration || duration <= 0) {
       $('.app-addtask__section--duration').addClass('warning');
@@ -86,5 +76,6 @@ View.events({
     gapi.syncTasksWithCalendar();
 
     return false;
-  }
+  },
+
 });

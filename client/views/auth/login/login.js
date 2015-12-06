@@ -1,20 +1,17 @@
 
-var View = Template.login;
+let View = Template.login;
 
-var btnLoading = new ReactiveVar();
-var resetBtnDone = new ReactiveVar();
-var usedGmailForReset = new ReactiveVar();
-var savedPassword = '';
-
-function isGmailAddress(email) {
-  return email.substring(email.length-10, email.length) === '@gmail.com';
-}
+let btnLoading        = new ReactiveVar();
+let resetBtnDone      = new ReactiveVar();
+let usedGmailForReset = new ReactiveVar();
+let savedPassword     = '';
+const delay           = 500;
 
 function synchronize(src, dest) {
   $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
-  $(dest + '-link').addClass('active');
-  $('form' + src).hide();
+  $(`${dest}-link`).addClass('active');
+  $(`form${src}`).hide();
   if(dest === '.reset') {
     $('.social-login').hide();
     $('.reset-header').show();
@@ -24,12 +21,12 @@ function synchronize(src, dest) {
     $('.reset-header').hide();
   }
   $('form' + dest).show();
-  var $src = $('form' + src);
-  var $dest = $('form' + dest);
-  var email = $src.find('input.email').val();
-  var password = $src.find('input.password').val();
-  if(password === undefined) password = savedPassword;
-  else                       savedPassword = password;
+  const $src   = $(`form${src}`);
+  const $dest  = $(`form${dest}`);
+  const email  = $src.find('input.email').val();
+  let password = $src.find('input.password').val();
+  if(_.isUndefined(password)) password = savedPassword;
+  else                        savedPassword = password;
   $dest.find('input.email').val(email);
   $dest.find('input.password').val(password);
 }
@@ -45,48 +42,36 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  loggedIn: function () {
-    return Meteor.userId();
-  },
-
-  btnLoading: function () {
-    return btnLoading.get();
-  },
-
-  resetBtnDone: function () {
-    return resetBtnDone.get();
-  },
-
-  usedGmailForReset: function () {
-    return usedGmailForReset.get();
-  }
+  loggedIn          () { return Meteor.userId()         },
+  btnLoading        () { return btnLoading.get()        },
+  resetBtnDone      () { return resetBtnDone.get()      },
+  usedGmailForReset () { return usedGmailForReset.get() },
 });
 
 View.events({
 
-  'click .login-link': function (e) {
+  'click .login-link': e => {
     if( $('.login-link').hasClass('active') ) return false;
     synchronize('.reset', '.login');
   },
 
-  'click .reset-link': function (e) {
+  'click .reset-link': e => {
     synchronize('.login', '.reset');
   },
 
-  'submit form.login, click form.login button.login': function (e, t) {
+  'submit form.login, click form.login button.login': (e, t) => {
     e.preventDefault();
     btnLoading.set(true);
 
-    var delay = 500;
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       if(Meteor.userId() || Meteor.loggingIn()) {
         btnLoading.set(false);
         return false;
       }
 
-      var $parent  = $('form.login');
-      var email    = $parent.find('input.email').val();
-      var password = $parent.find('input.password').val();
+      const $parent  = $('form.login');
+      const email    = $parent.find('input.email').val();
+      const password = $parent.find('input.password').val();
 
       if( !(email && password) ) {
         $('.notice').html('Email and Password are both required.');
@@ -100,9 +85,9 @@ View.events({
         return;
       }
 
-      Meteor.loginWithPassword(email, password, function (err) {
+      Meteor.loginWithPassword(email, password, err => {
         if(err) {
-          var reason = err.reason;
+          let reason = err.reason;
           if(reason === 'User has no password set') {
             reason = 'You used this address to authenticate with Google.' +
               ' Please log in with Google, or, if you create a password in' +
@@ -117,13 +102,12 @@ View.events({
     }, delay);
   },
 
-  'submit form.reset, click form.reset button.reset': function (e, t) {
+  'submit form.reset, click form.reset button.reset': (e, t) => {
     e.preventDefault();
     btnLoading.set(true);
 
-    var delay = 500;
-    Meteor.setTimeout(function () {
-      var email = $('form.reset').find('input.email').val();
+    Meteor.setTimeout(() => {
+      const email = $('form.reset').find('input.email').val();
 
       if( ! RFC5322.isValidAddress(email) ) {
         $('.notice').html('Please enter a valid email address.');
@@ -131,16 +115,16 @@ View.events({
         return;
       }
 
-      Accounts.forgotPassword({ email: email }, function (err) {
+      Accounts.forgotPassword({ email: email }, err => {
         btnLoading.set(false);
         if(err) {
           $('.notice').html(err.reason);
         } else {
           $('.notice').html('');
           resetBtnDone.set(true);
-          if(isGmailAddress(email)) usedGmailForReset.set(true);
+          if(Helpers.isGmailAddress(email)) usedGmailForReset.set(true);
         }
       });
     }, delay);
-  }
+  },
 });
