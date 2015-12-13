@@ -1,0 +1,72 @@
+// Fonts
+
+$sans-serif: "Cantarell", "Helvetica", "Tahoma", sans-serif;
+$icons: "Ionicons";
+
+
+// Colors
+
+  // Specific
+    $black:      rgba(20,20,20,1);
+    $white:      rgba(245,245,245,1);
+    $grey:       rgba(150,150,150,1);
+    $light-grey: rgba(220,220,220,1);
+    $dark-grey:  rgba(75,75,75,1);
+
+    $green:   rgba( 90,218, 98,1); // Dunmo green
+    $mint:    rgba(100,241,109,1);
+//    $forest:  rgba( 12,136, 20,1);
+    $forest:  rgba( 39,151, 46,1);
+    $orange:  rgba(255,106, 23,1);
+    $apricot: rgba(255,159,106,1);
+//    $red:     rgba(255, 29, 23,1);
+    $coral:   rgba(255,109,106,1);
+    $teal:    rgba( 17,194,145,1);
+    $aqua:    rgba( 96,232,194,1);
+    $cream:   rgba(255,235,172,1); // light yellow
+
+  // Abstract
+    $primary-color:          $green;
+    $lighter-primary-color:  $mint;
+    $darker-primary-color:   $forest;
+    $contrast-color:         $apricot;
+    $analog-color:           $teal;
+    $lighter-analog-color:   $aqua;
+      
+  // Social Media Colors
+    $facebook: #3B5999;
+    $twitter: #55ACEE;
+    $google-plus: #DD4B39;
+
+
+// Media Queries
+
+$breakpoint--small:    960px;  //  60rem
+$breakpoint--medium:  1440px;  //  90rem
+$breakpoint--large:   1920px;  // 120rem
+
+$media--small: "screen and (max-width: #{$breakpoint--small})";
+$media--medium: "screen and (min-width: #{$breakpoint--small + 1px}) and (max-width: #{$breakpoint--medium})";
+$media--large: "screen and (min-width: #{$breakpoint--medium + 1px}) and (max-width: #{$breakpoint--large})";
+$media--larger: "screen and (min-width: #{$breakpoint--large + 1px})";
+
+@mixin small {
+  @media #{$media--small} {
+    @content;
+  }
+}
+@mixin medium {
+  @media #{$media--medium} {
+    @content;
+  }
+}
+@mixin large {
+  @media #{$media--large} {
+    @content;
+  }
+}
+@mixin larger {
+  @media #{$media--larger} {
+    @content;
+  }
+}

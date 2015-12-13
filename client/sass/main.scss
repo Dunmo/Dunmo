@@ -3,6 +3,9 @@
 // Existing content in the file will not be touched
 // When deleting a .scss or .sass file you must manually delete it from here
 
+@import 'core/variables';
+@import 'core/objects';
+
 @import 'lib/normalize/normalize';
 
 @import 'lib/bourbon/bourbon';
@@ -16,9 +19,7 @@
 @import 'core/old-common';
 // end
 
-@import 'core/variables';
-@import 'core/objects';
-@import 'core/base';
+@import 'general/general';
 
 @import 'landing/general';
 @import 'landing/navigation';
