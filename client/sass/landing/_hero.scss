@@ -1,7 +1,7 @@
 .landing-hero {
     //@include user-select(none);
     @include block(100%);
-    @include background-image('../images/0b.jpg');
+    @include full-background-image('../images/0b.jpg');
     @include background-tint(rgba($grey,0.25));
     @include small {
         min-height: 55rem;
