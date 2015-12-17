@@ -1,6 +1,10 @@
 
 let View = Template.layout;
 
+View.onCreated( () => {
+  Helpers.heapIdentify();
+});
+
 View.helpers({
   modalActive () { return Session.get('add-task-is-active') },
 });
