@@ -96,6 +96,7 @@ View.events({
           $('.notice').html(reason);
           btnLoading.set(false);
         } else {
+          Helpers.heapIdentify();
           Router.go('app');
         }
       });
