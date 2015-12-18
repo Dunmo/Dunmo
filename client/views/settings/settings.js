@@ -58,6 +58,9 @@ View.onCreated(function () {
   googleBtnLoading.set(false);
   resetBtnLoading.set(false);
   resetBtnDone.set(false);
+
+  this.autorun( () => this.profileSubscription = this.subscribe('myProfile') );
+  this.autorun( () => this.subscribe('myCalendars') );
 });
 
 View.onRendered(function () {
