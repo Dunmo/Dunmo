@@ -1,4 +1,6 @@
 
+let fullName = ({ givenName = '', familyName = '' }) => `${givenName} ${familyName}`;
+
 Schemas.UserSettings = new SimpleSchema({
   startOfDay: {
     type:         Number,
@@ -41,14 +43,42 @@ Schemas.User = new SimpleSchema([Schemas.Default, {
 }]);
 
 UserHelpers = {
-  gmailAddress: function () {
-    return this.services && this.services.google && this.services.google.email;
+  googleProfile () {
+    let googleProfile = {}
+    if(this.services && this.services.google) {
+      googleProfile = _.cloneDeep(this.services.google);
+      googleProfile = _.renamedProp(googleProfile, 'given_name', 'givenName');
+      googleProfile = _.renamedProp(googleProfile, 'family_name', 'familyName');
+    }
+    return googleProfile;
+  },
+
+  googleProfileName () {
+    let googleProfile = this.googleProfile();
+    return fullName(googleProfile);
+  },
+
+  fullName () {
+    let profile = this.profile;
+    return fullName(profile);
+  },
+
+  profileName () {
+    return this.fullName();
+  },
+
+  displayName () {
+    return this.profileName()
+  },
+
+  gmailAddress () {
+    return this.googleProfile().email;
   },
 
   primaryEmailAddress: function () {
-    var email = this.gmailAddress();
-    if(email) return email;
-    else      return this.emails && this.emails[0] && this.emails[0].address;
+    var gmailAddress = this.gmailAddress();
+    if(gmailAddress) return gmailAddress;
+    else return this.emails && this.emails[0] && this.emails[0].address;
   },
 
   allEmails: function () {

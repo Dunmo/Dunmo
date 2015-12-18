@@ -1,9 +1,11 @@
 
 let View = Template.layout;
 
-// TODO: where to put this?
 View.onCreated(function () {
+  // TODO: where to put this?
   this.autorun( () => this.subscribe('mySyncables') );
+
+  Helpers.heapIdentify();
 });
 
 View.helpers({

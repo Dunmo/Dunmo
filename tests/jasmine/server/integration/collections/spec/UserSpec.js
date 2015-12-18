@@ -23,19 +23,23 @@ describe('user', function () {
 
   describe('primaryEmailAddress', function () {
 
-    it('should work when there\'s no services property', function () {
+    it('should work when the services property is null', function () {
       user.services = null;
       user.primaryEmailAddress(); // shouldn't throw an error
+    });
 
+    it('should work when there\'s no services property', function () {
       delete user.services;
       user.primaryEmailAddress(); // shouldn't throw an error
     });
 
-    it('should work when there\'s no services.google property', function () {
+    it('should work when the services.google property is null', function () {
       user.services = { google: null };
       user.primaryEmailAddress(); // shouldn't throw an error
+    });
 
-      if(user.services && user.services.google) delete user.services.google;
+    it('should work when there\'s no services.google property', function () {
+      user.services = {};
       user.primaryEmailAddress(); // shouldn't throw an error
     });
 
