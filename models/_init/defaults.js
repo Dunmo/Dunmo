@@ -22,7 +22,8 @@ Setters.setProp = function (prop) {
   };
 };
 
-_.each([Calendars, Events, Projects, Tasks, TaskComments, Users], function (collection) {
+_.each(['Calendars', 'Events', 'Projects', 'Tasks', 'TaskComments', 'Users'], function (collectionName) {
+  let collection = Collections[collectionName];
 
   collection.helpers({
 
@@ -46,15 +47,7 @@ _.each([Calendars, Events, Projects, Tasks, TaskComments, Users], function (coll
     },
 
     update: function (data) {
-      var self = this;
-      var isSetOperation = _.keys(data).every(function(k) { return k.charAt(0) !== '$'; });
-      if(isSetOperation) {
-        _.forOwn(data, function(value, key) {
-          self[key] = value;
-        });
-        data = { $set: data };
-      }
-      return collection.update(self._id, data);
+      return Meteor.call('update', collectionName, this._id, data);
     }
 
   });
