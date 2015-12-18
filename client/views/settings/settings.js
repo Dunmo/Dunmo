@@ -70,16 +70,6 @@ View.onRendered(function () {
 
   $('[data-toggle="tooltip"]').tooltip();
 
-  const user = Meteor.user();
-  $('input[name="start-of-workday"]').val(Date.timeString(user.startOfDay()));
-  $('input[name="end-of-workday"]').val(Date.timeString(user.endOfDay()));
-  $('input[name="max-task-interval-hours"]').val(Date.hours(user.maxTaskInterval()));
-  $('input[name="max-task-interval-minutes"]').val(minutesPortion(user.maxTaskInterval()));
-  $('input[name="max-time-per-task-per-day-hours"]').val(Date.hours(user.maxTimePerTaskPerDay()));
-  $('input[name="max-time-per-task-per-day-minutes"]').val(minutesPortion(user.maxTimePerTaskPerDay()));
-  $('input[name="task-break-interval-hours"]').val(Date.hours(user.taskBreakInterval()));
-  $('input[name="task-break-interval-minutes"]').val(minutesPortion(user.taskBreakInterval()));
-
   gapi.syncCalendars();
 });
 
@@ -90,6 +80,15 @@ View.helpers({
   resetBtnLoading        () { return resetBtnLoading.get()              },
   resetBtnDone           () { return resetBtnDone.get()                 },
   errorMessage           () { return Session.get('errorMessage')        },
+
+  startOfWorkday () { return Date.timeString(Meteor.user().startOfDay()) },
+  endOfWorkday () { return Date.timeString(Meteor.user().endOfDay()) },
+  maxTaskIntervalHours () { return Date.hours(Meteor.user().maxTaskInterval()) },
+  maxTaskIntervalMinutes () { return minutesPortion(Meteor.user().maxTaskInterval()) },
+  maxTimePerTaskPerDayHours () { return Date.hours(Meteor.user().maxTimePerTaskPerDay()) },
+  maxTimePerTaskPerDayMinutes () { return minutesPortion(Meteor.user().maxTimePerTaskPerDay()) },
+  taskBreakIntervalHours () { return Date.hours(Meteor.user().taskBreakInterval()) },
+  taskBreakIntervalMinutes () { return minutesPortion(Meteor.user().taskBreakInterval()) },
 
   hasCalendars () {
     const calendars = Meteor.user().fetchCalendars({ summary: { $not: 'Dunmo Tasks' } });
