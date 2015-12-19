@@ -2,12 +2,14 @@
 let View = Template.addTask;
 
 let rankVar = new ReactiveVar();
+let hasDueDate = new ReactiveVar();
 
 // later, we can add projects, events, etc.
 function itemType () { return 'task'; }
 
 View.onRendered(function () {
   rankVar.set(1);
+  hasDueDate.set(true);
   $('.app-addtask__content--title').focus();
 });
 
@@ -17,6 +19,7 @@ View.helpers({
   itemName        () { return itemType().capitalize()           },
   isTask          () { return itemType() === 'task'             },
   today           () { return moment().format('YYYY-MM-DD')     },
+  hasDueDate      () { return hasDueDate.get()                  },
 
   rank () {
     const rankMap = { 0: 'rankzero', 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
@@ -39,6 +42,12 @@ View.events({
     rankVar.set(newRank);
   },
 
+  'change .app-addtask__content--has-due-date' (e, t) {
+    let target    = e.target || {};
+    let isChecked = target.checked;
+    if(!_.isUndefined(isChecked)) hasDueDate.set(isChecked);
+  },
+
   'submit form.app-addtask' (e, t) {
     e.preventDefault();
     $('.warning').removeClass('warning');
@@ -54,7 +63,8 @@ View.events({
     const duration = moment.duration({ hours: hours, minutes: mins }).asMilliseconds();
 
     const duedate = $parent.find('input.app-addtask__content--due').val();
-    const dueAt = moment(duedate).toDate();
+    let   dueAt = moment(duedate).toDate();
+    if(!hasDueDate.get()) dueAt = Date.maxDate();
 
     if(!duration || duration <= 0) {
       $('.app-addtask__section--duration').addClass('warning');

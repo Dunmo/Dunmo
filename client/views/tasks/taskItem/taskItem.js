@@ -2,22 +2,29 @@
 let View = Template.taskItem;
 
 let isEditingTitle = {};
+let dueAdded       = {};
 
 View.onCreated(function () {
   var task = this.data;
+
   isEditingTitle[task._id] = new ReactiveVar();
   isEditingTitle[task._id].set(false);
+
+  dueAdded[task._id] = new ReactiveVar();
+  dueAdded[task._id].set(false);
 });
 
 View.onRendered(function () {
   var task = this.data;
+
   if (isEditingTitle[task._id].get()) {
     $('.app-taskitem__head__title--input').focus();
   }
   task.editTitleIsCanceled = false;
-    $('.app-taskitem__chevron').click(() => {
-        $(this).toggleClass('ion-chevron-down ion-chevron-up')
-    })
+
+  $('.app-taskitem__chevron').click(() => {
+    $(this).toggleClass('ion-chevron-down ion-chevron-up')
+  });
 });
 
 View.helpers({
@@ -39,6 +46,7 @@ View.helpers({
   editing    () { return Session.get('currently-editing-task')  === this._id },
   notEditing () { return Session.get('currently-editing-task')  !== this._id },
   isEditingTitle () { return isEditingTitle[this._id] && isEditingTitle[this._id].get() },
+  dueAdded   () { return dueAdded[this._id] && dueAdded[this._id].get() },
 
   rank () {
     const  ranks = ['rankzero', 'rankone', 'ranktwo', 'rankthree'];
@@ -144,8 +152,24 @@ Template.taskItem.events({
   'focusout .app-taskitem__body__content--due' (e) {
     let due_at = $(e.target).val();
     due_at = moment(due_at)._d;
-    if(due_at.toString() !== 'Invalid Date') this.setDueAt(due_at);
+    dueAdded[this._id].set(false);
+    if(due_at.toString() === 'Invalid Date') return;
+    this.setDueAt(due_at);
     gapi.syncTasksWithCalendar();
+  },
+
+  'click .app-taskitem__body__content--add-due' (e, t) {
+    dueAdded[this._id].set(true);
+    Meteor.setTimeout( () => {
+      const tomorrow  = moment().add(1, 'days').toDate();
+      const newDueVal = tomorrow.toHtmlDate();
+      t.$(`.app-taskitem__body__content--due`).val(newDueVal);
+    }, 0);
+  },
+
+  'click .app-taskitem__body__content--remove-due' (e, t) {
+    const forever = Date.maxDate();
+    this.setDueAt(forever);
   },
 
 });

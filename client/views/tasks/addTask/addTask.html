@@ -31,7 +31,11 @@
       </div>
 
       <div class="app-addtask__inputgroup">
-        <input class="app-addtask__content app-addtask__content--due" type="date" value="{{today}}" required />
+        <input class="app-addtask__content--has-due-date" type="checkbox" checked="{{hasDueDate}}">
+      </div>
+
+      <div class="app-addtask__inputgroup">
+        <input class="app-addtask__content app-addtask__content--due" type="date" value="{{today}}" required="{{hasDueDate}}" disabled="{{$not hasDueDate}}" />
       </div>
     </div>
 

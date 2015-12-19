@@ -126,6 +126,10 @@
                 height: 1.5rem;
             }
 
+            &--remove-due {
+                cursor: pointer;
+            }
+
             &--importance {
                 label {
                     $importance-label-border-color: darken($white,10%);

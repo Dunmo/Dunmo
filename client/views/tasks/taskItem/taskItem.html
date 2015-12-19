@@ -50,8 +50,15 @@
             </div>
 
             <div class="app-taskitem__body__section app-taskitem__body__section--due">
-              <div class="app-taskitem__body__heading">Due</div>
-              <input class="app-taskitem__body__content app-taskitem__body__content--due" type="date" value="{{dueAtString}}"/>
+              <div class="app-taskitem__body__heading">
+                Due
+                {{#if hasDueDate}} <i class="fa fa-times app-taskitem__body__content--remove-due"></i> {{/if}}
+              </div>
+              {{#if $or hasDueDate dueAdded}}
+                <input class="app-taskitem__body__content app-taskitem__body__content--due" type="date" value="{{dueAtString}}"/>
+              {{else}}
+                <p><a class="app-taskitem__body__content--add-due" href="">Add a due date</a></p>
+              {{/if}}
             </div>
 
             <div class="app-taskitem__body__section app-taskitem__body__section--importance">
