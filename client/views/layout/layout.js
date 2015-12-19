@@ -16,7 +16,7 @@ View.events({
 
   'click' (e, t) {
     if( $(e.target).closest('.app-taskitem').length > 0 ) return false;
-    Session.set('currently-expanded-task', null);
+    Session.set('currently-expanded-task', '');
   },
 
   'click .app-dimmer' (e, t) {
