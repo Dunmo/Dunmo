@@ -224,6 +224,10 @@ Tasks.helpers({
     return moment(this.dueAt).format('YYYY-MM-DD');
   },
 
+  hasDueDate: function () {
+    return ! this.dueAt.equals(Date.maxDate());
+  },
+
 });
 
 Tasks.advancedSort = function (tasks) {
