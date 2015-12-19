@@ -1,6 +1,7 @@
 
 Helpers = {
-  heapIdentify (profile = { name, email }) {
+  // profile: { name, email }
+  heapIdentify (profile = {}) {
     let user = Meteor.user();
     if(user) {
       profile = _.defaults(profile, {
