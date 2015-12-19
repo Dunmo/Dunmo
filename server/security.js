@@ -5,9 +5,16 @@ Security.defineMethod("ifOwner", {
   deny (type, arg, userId, doc, fields, modifier) { return doc.ownerId !== userId; },
 });
 
-// Calenders.permit(['insert', 'update', 'remove']).apply();
-// Events.permit(['insert', 'update', 'remove']).apply();
-// Projects.permit(['insert', 'update', 'remove']).apply();
-// TaskComments.permit(['insert', 'update', 'remove']).apply();
-Tasks.permit(['insert']).ifOwner().apply();
-// Users.permit(['insert', 'update', 'remove']).apply();
+Calendars   .permit(['insert', 'remove']).ifOwner().apply();
+Events      .permit(['insert', 'remove']).ifOwner().apply();
+Projects    .permit(['insert', 'remove']).ifOwner().apply();
+TaskComments.permit(['insert', 'remove']).ifOwner().apply();
+Tasks       .permit(['insert', 'remove']).ifOwner().apply();
+
+Calendars   .permit(['update']).ifOwner().exceptProps(['ownerId']).apply();
+Events      .permit(['update']).ifOwner().exceptProps(['ownerId']).apply();
+Projects    .permit(['update']).ifOwner().exceptProps(['ownerId']).apply();
+TaskComments.permit(['update']).ifOwner().exceptProps(['ownerId']).apply();
+Tasks       .permit(['update']).ifOwner().exceptProps(['ownerId']).apply();
+
+Users       .permit(['update']).onlyProps('profile').apply();
