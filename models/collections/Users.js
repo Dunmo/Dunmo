@@ -223,7 +223,9 @@ UserHelpers = {
   },
 
   _latestTodo: function () {
-    return _.max(this.fetchTodos(), 'dueAt');
+    const todos    = this.fetchTodos();
+    const dueTodos = _.reject(todos, (t) => Date.isMaxDate(t.dueAt));
+    return _.max(dueTodos, 'dueAt');
   },
 
   latestTodoTime: function () {
