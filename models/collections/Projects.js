@@ -65,7 +65,7 @@ Projects.helpers({
   readers: function (selector, options) {
     selector = selector || {};
     selector._id = selector._id || { $in: this.readerIds };
-    return this.members()
+    return this.members(selector, options);
   },
 
   fetchReaders: function (selector, options) {
@@ -89,7 +89,7 @@ Projects.helpers({
   writers: function (selector, options) {
     selector = selector || {};
     selector._id = selector._id || { $in: this.writerIds };
-    return this.members()
+    return this.members(selector, options);
   },
 
   fetchWriters: function (selector, options) {
