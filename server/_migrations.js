@@ -91,7 +91,7 @@ Migrations.add({
 });
 
 Migrations.add({
-  version: 6,
+  version: 7,
   up: function () {
     Users.update({}, { $set: { 'profile.settings.minTaskInterval': 15*MINUTES } });
   }
