@@ -7,17 +7,6 @@ let resetBtnLoading  = new ReactiveVar();
 let resetBtnDone     = new ReactiveVar();
 const delay          = 500;
 
-function hoursAndMinutes (milliseconds) {
-  const hours     = Date.hours(milliseconds);
-  milliseconds   -= hours*HOURS;
-  const mins      = Date.minutes(milliseconds);
-  let str         = '';
-  if(hours > 0)             str += hours + ' hours';
-  if(hours > 0 && mins > 0) str += ' and ';
-  if(mins  > 0)             str += mins + ' minutes';
-  return str;
-}
-
 function minutesPortion (total) {
   total -= Date.hours(total)*HOURS;
   return Date.minutes(total);
