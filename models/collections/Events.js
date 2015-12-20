@@ -10,6 +10,33 @@
  *
  */
 
+Schemas.Event = new SimpleSchema([Schemas.Default, {
+  ownerId:       { type: String },
+  taskId:        { type: String },
+  googleEventId: { type: String },                   // field: id
+  title:         { type: String },                   // field: summary
+  isTransparent: { type: Boolean },                  // field: transparency
+  start:         { type: Number },
+  end:           { type: Number },
+  id:            { type: String },                   // field: id
+  summary:       { type: String },                   // field: summary
+  transparency:  { type: String },                   // field: transparency
+  status:        { type: String, defaultValue: '' },
+  htmlLink:      { type: String, defaultValue: '' },
+  created:       { type: String, defaultValue: '' },
+  updated:       { type: String, defaultValue: '' },
+  kind:          { type: String, defaultValue: '' },
+  etag:          { type: String, defaultValue: '' },
+  iCalUID:       { type: String, defaultValue: '' },
+  sequence:      { type: Number },
+  creator:       { type: Object, optional: true, blackbox: true },
+  organizer:     { type: Object, optional: true, blackbox: true },
+  reminders:     { type: Object, optional: true, blackbox: true },
+  result:        { type: Object, optional: true, blackbox: true },
+}]);
+
+Events.attachSchema(Schemas.Event);
+
 Events.helpers({
 
   task: function () {
