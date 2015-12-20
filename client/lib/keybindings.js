@@ -1,4 +1,15 @@
 
+Mousetrap.bind(['esc'], function () {
+  Helpers.toggleAddTaskIsActive(false);
+});
+
+Mousetrap.bind(['a', 'n'], function () {
+  // to prevent key from appearing in first add task input
+  Meteor.setTimeout(function () {
+    Helpers.toggleAddTaskIsActive(true);
+  });
+});
+
 Mousetrap.bind(['t'], function () {
   Router.go('/tasks/todo');
 });

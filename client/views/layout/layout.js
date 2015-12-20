@@ -20,7 +20,7 @@ View.events({
   },
 
   'click .app-dimmer' (e, t) {
-    Session.set('add-task-is-active', false);
+    Helpers.toggleAddTaskIsActive(false);
   },
 
 });
