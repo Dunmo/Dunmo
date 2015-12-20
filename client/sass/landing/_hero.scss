@@ -1,14 +1,14 @@
 .landing-hero {
     //@include user-select(none);
     @include block(100%);
-    @include background-image('../images/0b.jpg');
+    @include background-image('../images/workspace-blur.jpg');
     @include background-tint(rgba($grey,0.25));
     @include small {
         min-height: 55rem;
     }
     //color: $grey;
     //overflow: hidden;
-    
+
     &__slash {
         display: table;
         position: absolute;
@@ -42,7 +42,7 @@
                 border-bottom: none;
             }
         }
-        
+
         &__content {
             position: relative;
             //left: 0;
@@ -55,7 +55,7 @@
                 padding: 1rem;
             }
         }
-        
+
         &__brand {
             //width: 100%;
             //display: block;
@@ -71,7 +71,7 @@
                 font: 6rem/6rem $sans-serif;
             }
         }
-        
+
         &__tagline {
             box-sizing: border-box;
             font: 2rem/3rem $sans-serif;
@@ -81,10 +81,10 @@
                 font: 1.5rem/2rem $sans-serif;
             }
         }
-            
-        
+
+
     }
-    
+
     &__copy {
         display: table;
         position: absolute;
@@ -97,7 +97,7 @@
             height: 25rem;
             width: 100%;
         }
-        
+
         &__content {
             display: table-cell;
             vertical-align: middle;
@@ -109,12 +109,12 @@
                 font: 1.25rem/1.5rem $sans-serif;
             }
             @include small {
-                
+
             }
         }
-        
+
     }
-    
+
     &__learn,
     &__action {
         @include transition(all 0.25s ease-in-out);
@@ -148,5 +148,5 @@
             //color: $coral;
         }
     }
-    
+
 }
