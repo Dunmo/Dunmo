@@ -227,6 +227,17 @@ gapi.getAllFutureFromCalendar = function (callback) {
   gapi.getTaskEvents({ start: minTime }, callback);
 };
 
+function isHappeningNow (event) {
+  if( !event ) return false;
+  var start = Date.ISOToMilliseconds(event.start.dateTime);
+  var end = Date.ISOToMilliseconds(event.end.dateTime);
+  var now = Date.now();
+
+  var ret = start < now && now < end;
+
+  return ret;
+};
+
 gapi.getCurrentTaskEvent = function (callback) {
   var granularity = Tasks.GRANULARITY;
   var now = Date.now();
@@ -298,17 +309,6 @@ gapi.deleteAllFromCalendarAfter = function (minTime, callback) {
       else                         window.setTimeout(_local, 50);
     })();
   });
-};
-
-function isHappeningNow (event) {
-  if( !event ) return false;
-  var start = Date.ISOToMilliseconds(event.start.dateTime);
-  var end = Date.ISOToMilliseconds(event.end.dateTime);
-  var now = Date.now();
-
-  var ret = start < now && now < end;
-
-  return ret;
 };
 
 // will not delete the current task event
