@@ -48,7 +48,7 @@ Events.createOrUpdate = function (obj) {
     if(Meteor.userId) obj.ownerId = obj.ownerId || Meteor.userId();
     var event = Events.findOne({ googleEventId: obj.googleEventId });
     if(event) {
-      var ret = Events.update(event._id, { $set: obj });
+      Events.update(event._id, { $set: obj });
       return event._id;
     } else {
       return Events.insert(obj);
