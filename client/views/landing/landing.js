@@ -84,7 +84,7 @@ View.onRendered(function () {
     element: document.getElementById('features4'),
     handler (direction) { featureAnimate(4, direction, 'left') },
     offset: featureOffset,
-  });;
+  });
 
 });
 
