@@ -29,7 +29,7 @@ View.events({
 
   'keydown' (e, t) {
     if(e.which !== 27) return;
-    Session.set('add-task-is-active', false);
+    Helpers.toggleAddTaskIsActive(false);
   },
 
   'click .app-addtask__section--importance' (e, t) {
@@ -71,7 +71,7 @@ View.events({
       remaining: duration
     });
 
-    Session.set('add-task-is-active', false);
+    Helpers.toggleAddTaskIsActive(false);
 
     gapi.syncTasksWithCalendar();
 
