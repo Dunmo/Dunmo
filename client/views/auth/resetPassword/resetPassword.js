@@ -1,19 +1,20 @@
 
-let btnLoading = new ReactiveVar();
-const delay    = 500;
+const View = Template.resetPassword;
+const delay = 500;
 
-let View = Template.resetPassword;
-
-View.onCreated(function () { return btnLoading.set(false) });
+View.onCreated(function () {
+  Template.instance().btnLoading = new ReactiveVar(false);
+});
 
 View.helpers({
-  btnLoading: () => { return btnLoading.get() },
+  btnLoading: () => { return Template.instance().btnLoading.get() },
 });
 
 View.events({
 
   'submit form.reset-password, click form.reset-password button.reset-password': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(() => {

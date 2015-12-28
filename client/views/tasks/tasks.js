@@ -24,14 +24,16 @@ View.helpers({
   },
 
   tasks () {
-    let filterCursorMap = {
-      completed: Meteor.user().doneTasks(),
-      trash:     Meteor.user().fetchRemovedTasks(),
-      todo:      Meteor.user().fetchSortedTodos(),
-      undefined: Meteor.user().fetchSortedTodos(),
+    const filterQueryMap = {
+      completed: 'doneTasks',
+      trash:     'fetchRemovedTasks',
+      todo:      'fetchSortedTodos',
+      undefined: 'fetchSortedTodos',
     };
-    const  filter = Session.get('task-filter');
-    let    cursor = filterCursorMap[filter];
+    const filter = Session.get('task-filter');
+    const query  = filterQueryMap[filter];
+    const user   = Meteor.user();
+    const cursor = user[query]();
     return cursor;
   },
 

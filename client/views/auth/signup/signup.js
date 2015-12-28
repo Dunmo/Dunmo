@@ -1,20 +1,21 @@
 
-let View = Template.signup;
+const View  = Template.signup;
+const delay = 500;
 
-let btnLoading = new ReactiveVar();
-const delay    = 500;
-
-View.onCreated(function () { return btnLoading.set(false) });
+View.onCreated(function () {
+  Template.instance().btnLoading = new ReactiveVar(false);
+});
 
 View.helpers({
   loggedIn:   () => { return Meteor.userId()  },
-  btnLoading: () => { return btnLoading.get() },
+  btnLoading: () => { return Template.instance().btnLoading.get() },
 });
 
 View.events({
 
   'submit form.signup, click form.signup button.signup': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(() => {

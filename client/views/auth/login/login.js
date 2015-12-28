@@ -1,11 +1,6 @@
 
-let View = Template.login;
-
-let btnLoading        = new ReactiveVar();
-let resetBtnDone      = new ReactiveVar();
-let usedGmailForReset = new ReactiveVar();
-let savedPassword     = '';
-const delay           = 500;
+const View  = Template.login;
+const delay = 500;
 
 function synchronize(src, dest) {
   $('.nav-tabs > li').removeClass('active');
@@ -20,10 +15,10 @@ function synchronize(src, dest) {
     $('.social-login').show();
     $('.reset-header').hide();
   }
-  $('form' + dest).show();
-  const $src   = $(`form${src}`);
-  const $dest  = $(`form${dest}`);
-  const email  = $src.find('input.email').val();
+  $(`form${dest}`).show();
+  const $src = $(`form${src}`);
+  const $dest = $(`form${dest}`);
+  const email = $src.find('input.email').val();
   let password = $src.find('input.password').val();
   if(_.isUndefined(password)) password = savedPassword;
   else                        savedPassword = password;
@@ -32,9 +27,11 @@ function synchronize(src, dest) {
 }
 
 View.onCreated(function () {
-  btnLoading.set(false);
-  resetBtnDone.set(false);
-  usedGmailForReset.set(false);
+  const instance = Template.instance();
+  instance.btnLoading        = new ReactiveVar(false);
+  instance.resetBtnDone      = new ReactiveVar(false);
+  instance.usedGmailForReset = new ReactiveVar(false);
+  instance.savedPassword     = '';
 });
 
 View.onRendered(function () {
@@ -42,10 +39,10 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  loggedIn          () { return Meteor.userId()         },
-  btnLoading        () { return btnLoading.get()        },
-  resetBtnDone      () { return resetBtnDone.get()      },
-  usedGmailForReset () { return usedGmailForReset.get() },
+  loggedIn          () { return Meteor.userId()                             },
+  btnLoading        () { return Template.instance().btnLoading.get()        },
+  resetBtnDone      () { return Template.instance().resetBtnDone.get()      },
+  usedGmailForReset () { return Template.instance().usedGmailForReset.get() },
 });
 
 View.events({
@@ -61,6 +58,7 @@ View.events({
 
   'submit form.login, click form.login button.login': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(() => {
@@ -105,6 +103,7 @@ View.events({
 
   'submit form.reset, click form.reset button.reset': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(() => {
@@ -122,8 +121,10 @@ View.events({
           $('.notice').html(err.reason);
         } else {
           $('.notice').html('');
-          resetBtnDone.set(true);
-          if(Helpers.isGmailAddress(email)) usedGmailForReset.set(true);
+          Template.instance().resetBtnDone.set(true);
+          if(Helpers.isGmailAddress(email)) {
+            Template.instance().usedGmailForReset.set(true);
+          }
         }
       });
     }, delay);

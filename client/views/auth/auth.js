@@ -1,12 +1,9 @@
+const connectWithGoogle = GoogleAuth.connectWithGoogle;
+const loginWithGoogle   = GoogleAuth.loginWithGoogle;
+const authWithGoogle    = GoogleAuth.authWithGoogle;
 
-let View = Template.auth;
-
-let btnLoading        = new ReactiveVar();
-let resetBtnDone      = new ReactiveVar();
-let usedGmailForReset = new ReactiveVar();
-let googleBtnLoading  = new ReactiveVar();
-let savedPassword     = '';
-const delay           = 500;
+const View  = Template.auth;
+const delay = 500;
 
 function synchronize(src, dest) {
   $('.nav-tabs > li').removeClass('active');
@@ -32,46 +29,21 @@ function synchronize(src, dest) {
   $dest.find('input.password').val(password);
 }
 
-var options = {
-  requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
-  requestOfflineToken: true,
-};
-
-function callback(err) {
-  if(err) {
-    $('.notice').html(err.reason);
-    googleBtnLoading.set(false);
-  } else {
-    Router.go('app');
-  }
-}
-
-function connectWithGoogle () {
-  Meteor.connectWith('google', options, callback);
-}
-
-function loginWithGoogle () {
-  Meteor.loginWithGoogle(options, callback);
-}
-
-function authWithGoogle () {
-  if(Meteor.user()) connectWithGoogle();
-  else              loginWithGoogle();
-}
-
 View.onCreated(function () {
-  btnLoading.set(false);
-  resetBtnDone.set(false);
-  usedGmailForReset.set(false);
-  googleBtnLoading.set(false);
+  const instance = Template.instance();
+  instance.btnLoading        = new ReactiveVar(false);
+  instance.resetBtnDone      = new ReactiveVar(false);
+  instance.usedGmailForReset = new ReactiveVar(false);
+  instance.googleBtnLoading  = new ReactiveVar(false);
+  instance.savedPassword     = '';
 });
 
 View.helpers({
   loggedIn          () { return Meteor.userId()         },
-  googleBtnLoading  () { return googleBtnLoading.get()  },
-  btnLoading        () { return btnLoading.get()        },
-  resetBtnDone      () { return resetBtnDone.get()      },
-  usedGmailForReset () { return usedGmailForReset.get() },
+  googleBtnLoading  () { return Template.instance().googleBtnLoading.get()  },
+  btnLoading        () { return Template.instance().btnLoading.get()        },
+  resetBtnDone      () { return Template.instance().resetBtnDone.get()      },
+  usedGmailForReset () { return Template.instance().usedGmailForReset.get() },
 });
 
 View.events({
@@ -92,6 +64,7 @@ View.events({
 
   'submit form.login, click form.login button.login': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(() => {
@@ -135,6 +108,7 @@ View.events({
 
   'submit form.signup, click form.signup button.signup': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(() => {
@@ -179,6 +153,7 @@ View.events({
 
   'submit form.reset, click form.reset button.reset': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
     Meteor.setTimeout(function () {
@@ -196,21 +171,17 @@ View.events({
           $('.notice').html(err.reason);
         } else {
           $('.notice').html('');
-          resetBtnDone.set(true);
-          if(Helpers.isGmailAddress(email)) usedGmailForReset.set(true);
+          Template.instance().resetBtnDone.set(true);
+          if(Helpers.isGmailAddress(email)) {
+            Template.instance().usedGmailForReset.set(true);
+          }
         }
       });
     }, delay);
   },
 
   'click .btn-gplus': e => {
-    googleBtnLoading.set(true);
-
-    var options = {
-      requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
-      requestOfflineToken: true,
-    };
-
+    Template.instance().googleBtnLoading.set(true);
     authWithGoogle();
   },
 

@@ -1,12 +1,10 @@
 
-let View = Template.landing;
-
-let subscribeLoading = new ReactiveVar();
-let subscribeDone    = new ReactiveVar();
+const View = Template.landing;
 
 View.onCreated(function () {
-  subscribeLoading.set(false);
-  subscribeDone.set(false);
+  const instance = Template.instance();
+  instance.subscribeLoading = new ReactiveVar(false);
+  instance.subscribeDone    = new ReactiveVar(false);
 });
 
 View.onRendered(function () {
@@ -89,18 +87,20 @@ View.onRendered(function () {
 });
 
 View.helpers({
-  subscribeLoading () { return subscribeLoading.get() },
-  subscribeDone    () { return subscribeDone.get()    },
-  disabledIfDone   () { return subscribeDone.get() ? 'disabled'  : '' },
-  subscribeBtnText () { return subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!' },
+  subscribeLoading () { return Template.instance().subscribeLoading.get() },
+  subscribeDone    () { return Template.instance().subscribeDone.get()    },
+  disabledIfDone   () { return Template.instance().subscribeDone.get() ? 'disabled'  : '' },
+  subscribeBtnText () { return Template.instance().subscribeDone.get() ? 'Signed Up' : 'Sign Me Up!' },
 });
 
 View.events({
 
-  'keydown .landing-subscribe__form__input' (e, t) { subscribeDone.set(false) },
+  'keydown .landing-subscribe__form__input' (e, t) { Template.instance().subscribeDone.set(false) },
 
   'click .landing-subscribe__form__submit, submit #subscription' (e, t) {
     e.preventDefault();
+    const subscribeLoading = Template.instance().subscribeLoading;
+    const subscribeDone    = Template.instance().subscribeDone;
     subscribeLoading.set(true);
 
     const name  = $('.landing-subscribe__form__input[name="name"]').val();

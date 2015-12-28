@@ -1,17 +1,13 @@
 
 let View = Template.taskItem;
 
-let isEditingTitle = {};
-
 View.onCreated(function () {
-  var task = this.data;
-  isEditingTitle[task._id] = new ReactiveVar();
-  isEditingTitle[task._id].set(false);
+  Template.instance().isEditingTitle = new ReactiveVar(false);
 });
 
 View.onRendered(function () {
   var task = this.data;
-  if (isEditingTitle[task._id].get()) {
+  if (Template.instance().isEditingTitle.get()) {
     $('.app-taskitem__head__title--input').focus();
   }
   task.editTitleIsCanceled = false;
@@ -38,7 +34,11 @@ View.helpers({
   expanded   () { return Session.get('currently-expanded-task') === this._id },
   editing    () { return Session.get('currently-editing-task')  === this._id },
   notEditing () { return Session.get('currently-editing-task')  !== this._id },
-  isEditingTitle () { return isEditingTitle[this._id] && isEditingTitle[this._id].get() },
+
+  isEditingTitle () {
+    const  isEditingTitle = Template.instance().isEditingTitle;
+    return isEditingTitle && isEditingTitle.get();
+  },
 
   rank () {
     const  ranks = ['rankzero', 'rankone', 'ranktwo', 'rankthree'];
@@ -96,17 +96,18 @@ Template.taskItem.events({
 
   'click .app-taskitem__head__title' (e, t) {
     e.stopPropagation();
-    isEditingTitle[this._id].set(true);
+    Template.instance().isEditingTitle.set(true);
     Meteor.setTimeout(() => { $('.app-taskitem__head__title--input').focus() }, 0);
   },
 
   'click .app-taskitem__head__title--input': function (e, t) { e.stopPropagation() },
 
   'blur .app-taskitem__head__title--input, keydown .app-taskitem__head__title--input' (e, t) {
+    const isEditingTitle = Template.instance().isEditingTitle;
     if(this.editTitleIsCanceled) return this.editTitleIsCanceled = false;
     if(e.type === 'keydown' && e.which !== 13 && e.which !== 27) return;
     if(e.which === 27) {
-      isEditingTitle[this._id].set(false);
+      isEditingTitle.set(false);
       return this.editTitleIsCanceled = true;
     }
     e.stopPropagation();
@@ -115,7 +116,7 @@ Template.taskItem.events({
     title = _.trim(title);
     if(e.which === 27 || title.length === 0) title = prevTitle;
     this.setTitle(title);
-    isEditingTitle[this._id].set(false);
+    isEditingTitle.set(false);
     if(title !== prevTitle) gapi.syncTasksWithCalendar();
   },
 

@@ -1,13 +1,11 @@
 
 let View = Template.addTask;
 
-let rankVar = new ReactiveVar();
-
 // later, we can add projects, events, etc.
 function itemType () { return 'task'; }
 
 View.onRendered(function () {
-  rankVar.set(1);
+  Template.instance().rankVar = new ReactiveVar(1);
   $('.app-addtask__content--title').focus();
 });
 
@@ -20,7 +18,7 @@ View.helpers({
 
   rank () {
     const rankMap = { 0: 'rankzero', 1: 'rankone', 2: 'ranktwo', 3: 'rankthree' };
-    const rank = rankVar.get();
+    const rank = Template.instance().rankVar.get();
     return rankMap[rank];
   },
 });
@@ -33,6 +31,7 @@ View.events({
   },
 
   'click .app-addtask__section--importance' (e, t) {
+    const rankVar = Template.instance().rankVar;
     const rank    = rankVar.get();
     let   newRank = rank + 1;
     if(newRank > 3) newRank = 0;
@@ -45,7 +44,7 @@ View.events({
 
     const $parent = $('.app-addtask');
 
-    const importance = rankVar.get();
+    const importance = Template.instance().rankVar.get();
 
     const title = $parent.find('input.app-addtask__content--title').val();
 
