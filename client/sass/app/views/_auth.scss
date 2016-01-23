@@ -41,6 +41,7 @@ $auth-background: $white;
     border-top: 0;
     border-top-left-radius: $auth-border-radius;
     border-top-right-radius: $auth-border-radius;
+    cursor: pointer !important;
 
 //    &:hover, &:focus, &:visited {
 //      color: $green;
@@ -57,8 +58,8 @@ $auth-background: $white;
       margin-bottom: -2px;
     }
 
-//    &--signup,
-    &--forgot {
+    &--signup {//,
+    //&--forgot {
       display: none !important;
     }
 

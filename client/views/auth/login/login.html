@@ -3,9 +3,44 @@
   <div class="auth">
     <ul class="auth__container">
 
-      <li>
+      <li> <!-- FIRST TAB -->
         <a href="javascript:void(0)" class="auth__tab auth__tab--login">Log In</a>
-        <div class="auth__content auth__content--login">
+        <div class="auth__content auth__content--{{tabClass}}">
+
+          <p class="notice"></p>
+
+          <form role="form" class="form login" novalidate>
+            <div class="form-group">
+              <input type="email" placeholder="Email" class="form-control email" required/>
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control password" required/>
+            </div>
+            <div class="actions">
+              {{#spinnerButton class="btn btn-default login" waitOn=btnLoading}}
+                Log In
+              {{/spinnerButton}}
+            </div>
+        <!--
+            <div class="reset">
+              <a class="reset-link" href="#reset"> Forgot your password? </a>
+            </div>
+        -->
+          </form>
+
+        </div>
+      </li> <!-- END FIRST TAB -->
+
+      <li> <!-- SECOND TAB -->
+        <a href="javascript:void(0)" class="auth__tab auth__tab--signup">Sign Up</a>
+        <div class="auth__content auth__tab--signup">
+        </div>
+      </li> <!-- END SECOND TAB -->
+
+      <li> <!-- THIRD TAB -->
+        <a href="javascript:void(0)" class="auth__tab auth__tab--forgot">Forgot Password</a>
+        <div class="auth__content auth__content--forgot">
+                    
               <div hidden="hidden" class="reset-header">
                 <p class="lead">
                   {{#if resetBtnDone}}
@@ -22,27 +57,9 @@
                 </p>
                 <hr>
               </div>
-
-              <p class="notice"></p>
-
-              <form role="form" class="form login" novalidate>
-                <div class="form-group">
-                  <input type="email" placeholder="Email" class="form-control email" required/>
-                </div>
-                <div class="form-group">
-                  <input type="password" placeholder="Password" class="form-control password" required/>
-                </div>
-                <div class="actions">
-                  {{#spinnerButton class="btn btn-default login" waitOn=btnLoading}}
-                    Log In
-                  {{/spinnerButton}}
-                </div>
-                <div class="reset">
-                  <a class="reset-link" href="#reset"> Forgot your password? </a>
-                </div>
-              </form>
-
-              <form role="form" hidden="hidden" class="form reset" novalidate>
+          
+          
+              <form role="form" class="form reset" novalidate>
                 <div class="form-group">
                   <input type="email"
                          placeholder="Which email did you sign up with?"
@@ -60,20 +77,9 @@
                   {{/spinnerButton}}
                 </div>
               </form>
+          
         </div>
-      </li>
-
-      <li>
-        <a href="javascript:void(0)" class="auth__tab auth__tab--signup">Sign Up</a>
-        <div class="auth__content auth__tab--signup">
-        </div>
-      </li>
-
-      <li>
-        <a href="javascript:void(0)" class="auth__tab auth__tab--forgot">Forgot Password</a>
-        <div class="auth__content auth__content--forgot">
-        </div>
-      </li>
+      </li> <!-- END THIRD TAB -->
 
     </ul>
   </div>

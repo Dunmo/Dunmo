@@ -11,7 +11,7 @@ function isGmailAddress(email) {
 }
 
 function synchronize(src, dest) {
-  $('.nav-tabs > li').removeClass('active');
+//  $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
   $(dest + '-link').addClass('active');
   $('form' + src).hide();
@@ -41,23 +41,21 @@ View.onCreated(function () {
 });
 
 View.onRendered(function () {
-  if(window.location.hash === '#reset') synchronize('.login', '.reset');
-
-//  $('.auth__container').each(function(index) {
-//    $(this).children('li').first().children('a').addClass('is-active').next().addClass('is-open').show();
-//  });
+//  if(window.location.hash === '#reset') synchronize('.login', '.reset');
+  
     $('.auth__tab').first().addClass('active').next().show().addClass('open');
-    $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
-        event.preventDefault();
-        if (!$(this).hasClass('active')) {
-            $('.open').hide().removeClass('open');
-            $(this).next().show().addClass('open');
-            $('.active').removeClass('active');
-            $(this).addClass('active');
-        }
-    });
 
-});
+        $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
+            event.preventDefault();
+            if (!$(this).hasClass('active')) {
+                $('.open').hide().removeClass('open');
+                $(this).next().show().addClass('open');
+                $('.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+
+    });
 
 View.helpers({
   loggedIn: function () {
@@ -79,14 +77,14 @@ View.helpers({
 
 View.events({
 
-  'click .login-link': function (e) {
-    if( $('.login-link').hasClass('active') ) return false;
-    synchronize('.reset', '.login');
-  },
-
-  'click .reset-link': function (e) {
-    synchronize('.login', '.reset');
-  },
+//  'click .login-link': function (e) {
+//    if( $('.login-link').hasClass('active') ) return false;
+//    synchronize('.reset', '.login');
+//  },
+//
+//  'click .reset-link': function (e) {
+//    synchronize('.login', '.reset');
+//  },
 
   'submit form.login, click form.login button.login': function (e, t) {
     e.preventDefault();
