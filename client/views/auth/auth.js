@@ -1,8 +1,9 @@
 
+var View = Template.auth;
+
 var btnLoading = new ReactiveVar();
 var resetBtnDone = new ReactiveVar();
 var usedGmailForReset = new ReactiveVar();
-var googleBtnLoading = new ReactiveVar();
 var savedPassword = '';
 
 function isGmailAddress(email) {
@@ -10,7 +11,7 @@ function isGmailAddress(email) {
 }
 
 function synchronize(src, dest) {
-  $('.nav-tabs > li').removeClass('active');
+//  $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
   $(dest + '-link').addClass('active');
   $('form' + src).hide();
@@ -33,50 +34,32 @@ function synchronize(src, dest) {
   $dest.find('input.password').val(password);
 }
 
-var options = {
-  requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
-  requestOfflineToken: true
-};
-
-function callback(err) {
-  if(err) {
-    $('.notice').html(err.reason);
-    googleBtnLoading.set(false);
-  } else {
-    Router.go('app');
-  }
-}
-
-function connectWithGoogle () {
-  Meteor.connectWith('google', options, callback);
-}
-
-function loginWithGoogle () {
-  Meteor.loginWithGoogle(options, callback);
-}
-
-function authWithGoogle () {
-  if(Meteor.user()) {
-    connectWithGoogle();
-  } else {
-    loginWithGoogle();
-  }
-}
-
-Template.auth.onCreated(function () {
+View.onCreated(function () {
   btnLoading.set(false);
   resetBtnDone.set(false);
   usedGmailForReset.set(false);
-  googleBtnLoading.set(false);
 });
 
-Template.auth.helpers({
+View.onRendered(function () {
+//  if(window.location.hash === '#reset') synchronize('.login', '.reset');
+  
+    $('.auth__tab').first().addClass('active').next().show().addClass('open');
+
+        $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
+            event.preventDefault();
+            if (!$(this).hasClass('active')) {
+                $('.open').hide().removeClass('open');
+                $(this).next().show().addClass('open');
+                $('.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+
+    });
+
+View.helpers({
   loggedIn: function () {
     return Meteor.userId();
-  },
-
-  googleBtnLoading: function () {
-    return googleBtnLoading.get();
   },
 
   btnLoading: function () {
@@ -92,23 +75,16 @@ Template.auth.helpers({
   }
 });
 
-Template.auth.events({
+View.events({
 
-  'click .signup-link': function (e) {
-    if( $('.signup-link').hasClass('active') ) return false;
-    else if( $('.login-link').hasClass('active') ) synchronize('.login', '.signup');
-    else synchronize('.reset', '.signup');
-  },
-
-  'click .login-link': function (e) {
-    if( $('.login-link').hasClass('active') ) return false;
-    else if( $('.signup-link').hasClass('active') ) synchronize('.signup', '.login');
-    else synchronize('.reset', '.login');
-  },
-
-  'click .reset-link': function (e) {
-    synchronize('.login', '.reset');
-  },
+//  'click .login-link': function (e) {
+//    if( $('.login-link').hasClass('active') ) return false;
+//    synchronize('.reset', '.login');
+//  },
+//
+//  'click .reset-link': function (e) {
+//    synchronize('.login', '.reset');
+//  },
 
   'submit form.login, click form.login button.login': function (e, t) {
     e.preventDefault();
@@ -154,51 +130,6 @@ Template.auth.events({
     }, delay);
   },
 
-  'submit form.signup, click form.signup button.signup': function (e, t) {
-    e.preventDefault();
-    btnLoading.set(true);
-
-    var delay = 500;
-    Meteor.setTimeout(function () {
-      if(Meteor.userId() || Meteor.loggingIn()) {
-        btnLoading.set(false);
-        return false;
-      }
-
-      var $parent  = $('form.signup');
-      var name     = $parent.find('input.name').val();
-      var email    = $parent.find('input.email').val();
-      var password = $parent.find('input.password').val();
-
-      if( !(name && email && password) ) {
-        $('.notice').html('All fields are required.');
-        btnLoading.set(false);
-        return;
-      }
-
-      if( ! RFC5322.isValidAddress(email) ) {
-        $('.notice').html('Please enter a valid email address.');
-        btnLoading.set(false);
-        return;
-      }
-
-      Accounts.createUser({
-        password: password,
-        email: email,
-        profile: {
-          name: name
-        }
-      }, function (err) {
-        if(err) {
-          $('.notice').html(err.reason);
-          btnLoading.set(false);
-        } else {
-          Router.go('app');
-        }
-      });
-    }, delay);
-  },
-
   'submit form.reset, click form.reset button.reset': function (e, t) {
     e.preventDefault();
     btnLoading.set(true);
@@ -224,26 +155,5 @@ Template.auth.events({
         }
       });
     }, delay);
-  },
-
-  'click .btn-gplus': function (e) {
-    googleBtnLoading.set(true);
-
-    var options = {
-      requestPermissions: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/tasks'],
-      requestOfflineToken: true
-    };
-
-    function callback(err) {
-      if(err) {
-        $('.notice').html(err.reason);
-        googleBtnLoading.set(false);
-      } else {
-        Router.go('app');
-      }
-    }
-
-    authWithGoogle();
   }
-
 });
