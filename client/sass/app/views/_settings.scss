@@ -15,6 +15,7 @@
   
   section {
     @include outer-container;
+    margin: 0.25rem;
     
     & > div {
       @include span-columns(6);
@@ -47,6 +48,11 @@
     
     & > input {
       @include span-columns(6);
+    }
+    
+    span {
+      height: $base-font-size * 2.5;
+      line-height: $base-font-size * 2.5;
     }
     
   }
@@ -114,6 +120,7 @@
   
   & > span {
 //    @include span-columns(9);
+    line-height: 1 !important;
     margin-left: 2rem;
   }
   
