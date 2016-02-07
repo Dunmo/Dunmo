@@ -35,10 +35,12 @@ select[multiple=multiple] {
   box-sizing: border-box;
   font-family: $base-font-family;
   font-size: $base-font-size;
+  //line-height: 1.5;
   margin-bottom: $small-spacing;
-  padding: $base-spacing / 3;
+  padding: 0 ($base-spacing / 3);
   transition: border-color $base-duration $base-timing;
   width: 100%;
+  height: $base-font-size * 2.5;
 
   &:hover {
     border-color: shade($base-border-color, 20%);

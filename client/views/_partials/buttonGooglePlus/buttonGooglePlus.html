@@ -1,0 +1,20 @@
+<template name="buttonGooglePlus">
+
+  <button class="button-GooglePlus {{googleBtnDisabledClass}}" waitOn=googleBtnLoading disabled={{$or waitOn done}}>
+    
+    {{#if waitOn}}
+      <i class="fa fa-spinner fa-spin"></i>
+    {{else}}
+      <i class="fa fa-google-plus"></i>
+    {{/if}}
+    <span>
+      {{#if isGoogleAuthed}}
+        Disconnect from Google
+      {{else}}
+        Connect with Google
+      {{/if}}
+    </span>
+    
+  </button>
+  
+</template>

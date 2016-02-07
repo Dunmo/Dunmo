@@ -5,33 +5,53 @@
 }
 
 .settings {
+  @include block();
+  padding: 0 2rem;
+  
+  & > h6 {
+    font: 1.5rem/1.5 $sans-serif;
+    color: $base-font-color;
+  }
+  
+  section {
+    @include outer-container;
+    
+    & > div {
+      @include span-columns(6);
+      
+      &.one {
+        & > input {
+          @include span-columns(5 of 6);
+        }
+        & > span {
+          @include span-columns(1 of 6);
+        }
+      }
+      
+      &.two {
+        & > input {
+          @include span-columns(2 of 6);
+        }
+        & > span {
+          @include span-columns(1 of 6);
+        }
+      }
+      
+    }
+    
+    & > label {
+      @include span-columns(6);
+      height: $base-font-size * 2.5;
+      line-height: $base-font-size * 2.5;
+    }
+    
+    & > input {
+      @include span-columns(6);
+    }
+    
+  }
 
     &__cal {
-
-        &__field {
-            width: 50% !important;
-            min-width: 7.5rem !important;
-        }
-
-        &__halffield {
-            width: 25% !important;
-            min-width: 5rem !important;
-        }
-
-        &__halffield,
-        &__field {
-            @include transition(all 0.25s);
-            //box-sizing: border-box;
-            text-align: center;
-            //background: none;
-            //border: none;
-            //height: 2rem;
-            //padding: 0 0.25rem;
-
-            &:focus {
-                //background: $white;
-            }
-        }
 
         &__list {
 
@@ -60,6 +80,43 @@
 
     }
 
+}
+
+.button-GooglePlus {
+//  @include outer-container;
+  box-sizing: border-box;
+  position: relative;
+  background: $google-plus;
+//  padding: $small-spacing 0.5rem;
+//  line-height: $base-line-height;
+//  padding: ($small-spacing / 2) $base-spacing;
+//  vertical-align: middle;
+//  white-space: nowrap;
+  width: auto;
+  
+  &:hover,
+  &:visited,
+  &:active {
+    background: shade($google-plus, 15%);
+  }
+  
+  & > .fa {
+//    @include span-columns(1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: $base-font-size;
+    line-height: 2;
+    height: 2rem;
+    width: 2rem;
+    margin: 0.25rem ($base-spacing / 2);
+  }
+  
+  & > span {
+//    @include span-columns(9);
+    margin-left: 2rem;
+  }
+  
 }
 
 .btn-reset,

@@ -40,6 +40,9 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=date]::-webkit-inner-spin-button {
     display: none;
 }
+input[type=time]::-webkit-inner-spin-button {
+    display: none;
+}
 
 ul {
     list-style: none;
