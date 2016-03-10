@@ -1,41 +1,33 @@
 
-var btnLoading = new ReactiveVar();
+const View  = Template.signup;
+const delay = 500;
 
-function isGmailAddress(email) {
-  return email.substring(email.length-10, email.length) === '@gmail.com';
-}
-
-Template.signup.onCreated(function () {
-  btnLoading.set(false);
+View.onCreated(function () {
+  Template.instance().btnLoading = new ReactiveVar(false);
 });
 
-Template.signup.helpers({
-  loggedIn: function () {
-    return Meteor.userId();
-  },
-
-  btnLoading: function () {
-    return btnLoading.get();
-  }
+View.helpers({
+  loggedIn:   () => { return Meteor.userId()  },
+  btnLoading: () => { return Template.instance().btnLoading.get() },
 });
 
-Template.signup.events({
+View.events({
 
-  'submit form.signup, click form.signup button.signup': function (e, t) {
+  'submit form.signup, click form.signup button.signup': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
-    var delay = 500;
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       if(Meteor.userId() || Meteor.loggingIn()) {
         btnLoading.set(false);
         return false;
       }
 
-      var $parent  = $('form.signup');
-      var name     = $parent.find('input.name').val();
-      var email    = $parent.find('input.email').val();
-      var password = $parent.find('input.password').val();
+      const $parent  = $('form.signup');
+      const name     = $parent.find('input.name').val();
+      const email    = $parent.find('input.email').val();
+      const password = $parent.find('input.password').val();
 
       if( !(name && email && password) ) {
         $('.notice').html('All fields are required.');
@@ -54,8 +46,8 @@ Template.signup.events({
         email: email,
         profile: {
           name: name
-        }
-      }, function (err) {
+        },
+      }, err => {
         if(err) {
           $('.notice').html(err.reason);
           btnLoading.set(false);
@@ -64,5 +56,5 @@ Template.signup.events({
         }
       });
     }, delay);
-  }
+  },
 });

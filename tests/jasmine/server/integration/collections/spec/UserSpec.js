@@ -2,6 +2,19 @@
 describe('user', function () {
   var user;
 
+  var defaultTask = {
+    title: 'req',
+    importance: 1,      // required
+    remaining: 1*HOURS, // required
+    dueAt: moment().add(1, 'days').toDate(), // required
+  };
+
+  var defaultCalendar = {
+    ownerId: 'req',
+    googleCalendarId: 'req',
+    summary: 'req',
+  };
+
   beforeEach(function () {
     user = TestHelpers.fakeUser();
   });
@@ -10,19 +23,23 @@ describe('user', function () {
 
   describe('primaryEmailAddress', function () {
 
-    it('should work when there\'s no services property', function () {
+    it('should work when the services property is null', function () {
       user.services = null;
       user.primaryEmailAddress(); // shouldn't throw an error
+    });
 
+    it('should work when there\'s no services property', function () {
       delete user.services;
       user.primaryEmailAddress(); // shouldn't throw an error
     });
 
-    it('should work when there\'s no services.google property', function () {
+    it('should work when the services.google property is null', function () {
       user.services = { google: null };
       user.primaryEmailAddress(); // shouldn't throw an error
+    });
 
-      if(user.services && user.services.google) delete user.services.google;
+    it('should work when there\'s no services.google property', function () {
+      user.services = {};
       user.primaryEmailAddress(); // shouldn't throw an error
     });
 
@@ -34,7 +51,7 @@ describe('user', function () {
 
   });
 
-  describe('hasOnboarded', function () {
+  xdescribe('hasOnboarded', function () {
 
     it('should return the hasOnboarded object when no input is given', function () {
       user.setHasOnboarded('taskView', true);
@@ -55,7 +72,7 @@ describe('user', function () {
 
   });
 
-  describe('addReferral', function () {
+  xdescribe('addReferral', function () {
 
     it('should insert the email', function () {
       var email = "test@example.com";
@@ -77,7 +94,7 @@ describe('user', function () {
 
   });
 
-  describe('removeReferral', function () {
+  xdescribe('removeReferral', function () {
 
     it('should work', function () {
       var email = "test@example.com";
@@ -94,9 +111,12 @@ describe('user', function () {
       var userId = user._id;
       var tasks  = [
         { id: 1, ownerId: userId   },
-        { id: 2, ownerId: 'someId' }
+        { id: 2, ownerId: 'someId' },
       ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
+      tasks.forEach(function (task) {
+        task = _.defaults(task, defaultTask);
+        Tasks.insert(task);
+      });
     });
 
     it('should only return tasks owned by this user', function () {
@@ -117,9 +137,12 @@ describe('user', function () {
       var tasks  = [
         { id: 1, ownerId: userId,   isDone: true  },
         { id: 2, ownerId: userId,   isDone: false },
-        { id: 3, ownerId: 'someId', isDone: false }
+        { id: 3, ownerId: 'someId', isDone: false },
       ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
+      tasks.forEach(function (task) {
+        task = _.defaults(task, defaultTask);
+        Tasks.insert(task);
+      });
     });
 
     it('should only return tasks owned by this user', function () {
@@ -142,61 +165,7 @@ describe('user', function () {
 
   });
 
-  describe('recentTodos', function () {
-
-    beforeEach(function () {
-      var userId = user._id;
-      var tasks  = [
-        { id: 1, ownerId: userId, needsReviewed: true  },
-        { id: 2, ownerId: userId, needsReviewed: false }
-      ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
-    });
-
-    it('should return the correct tasks', function () {
-      var tasks   = user.recentTodos();
-      tasks.forEach(function (task) {
-        expect(task.id).toEqual(1);
-      });
-    });
-
-    it('should only return tasks for which needsReviewed is true', function () {
-      var tasks   = user.recentTodos();
-      tasks.forEach(function (task) {
-        expect(task.needsReviewed).toBeTruthy();
-      });
-    });
-
-  });
-
-  describe('upcomingTodos', function () {
-
-    beforeEach(function () {
-      var userId = user._id;
-      var tasks  = [
-        { id: 1, ownerId: userId, needsReviewed: true  },
-        { id: 2, ownerId: userId, needsReviewed: false }
-      ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
-    });
-
-    it('should return the correct tasks', function () {
-      var tasks   = user.upcomingTodos();
-      tasks.forEach(function (task) {
-        expect(task.id).toEqual(2);
-      });
-    });
-
-    it('should only return tasks for which needsReviewed is false', function () {
-      var tasks   = user.upcomingTodos();
-      tasks.forEach(function (task) {
-        expect(task.needsReviewed).toBeFalsy();
-      });
-    });
-
-  });
-
-  describe('onboardingTasks', function () {
+  xdescribe('onboardingTasks', function () {
 
     beforeEach(function () {
       var userId = user._id;
@@ -204,7 +173,10 @@ describe('user', function () {
         { id: 1, ownerId: userId, isOnboardingTask: true  },
         { id: 2, ownerId: userId, isOnboardingTask: false }
       ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
+      tasks.forEach(function (task) {
+        task = _.defaults(task, defaultTask);
+        Tasks.insert(task);
+      });
     });
 
     it('should return the correct tasks', function () {
@@ -223,31 +195,31 @@ describe('user', function () {
 
   });
 
-  // describe('freetimes', function () {
+  xdescribe('freetimes', function () {
 
-  //   beforeEach(function () {
-  //     var userId = user._id;
-  //     var freetimes  = [
-  //       { id: 1, ownerId: userId },
-  //       { id: 2, ownerId: userId }
-  //     ];
-  //     freetimes.forEach(function (task) { Freetimes.insert(task); });
-  //   });
+    beforeEach(function () {
+      var userId = user._id;
+      var freetimes  = [
+        { id: 1, ownerId: userId },
+        { id: 2, ownerId: userId }
+      ];
+      freetimes.forEach(function (task) { Freetimes.insert(task); });
+    });
 
-  //   it('should return freetimes', function () {
-  //     var freetimes = user.freetimes();
-  //     expect(freetime.length).toBeGreaterThan(0);
-  //   });
+    it('should return freetimes', function () {
+      var freetimes = user.freetimes();
+      expect(freetime.length).toBeGreaterThan(0);
+    });
 
-  //   it('should only return freetimes for this user', function () {
-  //     var userId = user._id;
-  //     var freetimes = user.freetimes();
-  //     freetimes.forEach(function (freetime) {
-  //       expect(freetime.ownerId).toEqual(userId);
-  //     });
-  //   });
+    it('should only return freetimes for this user', function () {
+      var userId = user._id;
+      var freetimes = user.freetimes();
+      freetimes.forEach(function (freetime) {
+        expect(freetime.ownerId).toEqual(userId);
+      });
+    });
 
-  // });
+  });
 
   describe('calendars', function () {
 
@@ -255,9 +227,12 @@ describe('user', function () {
       var userId    = user._id;
       var calendars = [
         { id: 1, ownerId: userId   },
-        { id: 2, ownerId: 'someId' }
+        { id: 2, ownerId: 'someId' },
       ];
-      calendars.forEach(function (calendar) { Calendars.insert(calendar); });
+      calendars.forEach(function (calendar) {
+        calendar = _.defaults(calendar, defaultCalendar);
+        Calendars.insert(calendar);
+      });
     });
 
     it('should return calendars', function () {
@@ -282,7 +257,10 @@ describe('user', function () {
         { id: 1, ownerId: user._id, active: true  },
         { id: 2, ownerId: user._id, active: false }
       ];
-      calendars.forEach(function (calendar) { Calendars.insert(calendar); });
+      calendars.forEach(function (calendar) {
+        calendar = _.defaults(calendar, defaultCalendar);
+        Calendars.insert(calendar);
+      });
     });
 
     it('should return calendars', function () {
@@ -303,9 +281,12 @@ describe('user', function () {
 
     beforeEach(function () {
       var calendars = [
-        { id: 1, googleCalendarId: 'gcalId' }
+        { id: 1, googleCalendarId: 'gcalId' },
       ];
-      calendars.forEach(function (calendar) { Calendars.insert(calendar); });
+      calendars.forEach(function (calendar) {
+        calendar = _.defaults(calendar, defaultCalendar);
+        Calendars.insert(calendar);
+      });
     });
 
     it('should return calendarIdObjects', function () {
@@ -324,9 +305,12 @@ describe('user', function () {
       var tasks = [
         { id: 1, ownerId: userId, tags: []               },
         { id: 2, ownerId: userId, tags: ['tag1']         },
-        { id: 3, ownerId: userId, tags: ['tag1', 'tag2'] }
+        { id: 3, ownerId: userId, tags: ['tag1', 'tag2'] },
       ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
+      tasks.forEach(function (task) {
+        task = _.defaults(task, defaultTask);
+        Tasks.insert(task);
+      });
     });
 
     it('should return tags', function () {
@@ -348,9 +332,12 @@ describe('user', function () {
       var tasks = [
         { id: 1, ownerId: userId, isDone: true,  tags: ['tag1']         },
         { id: 2, ownerId: userId, isDone: true,  tags: ['tag2']         },
-        { id: 3, ownerId: userId, isDone: false, tags: ['tag2', 'tag3'] }
+        { id: 3, ownerId: userId, isDone: false, tags: ['tag2', 'tag3'] },
       ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
+      tasks.forEach(function (task) {
+        task = _.defaults(task, defaultTask);
+        Tasks.insert(task);
+      });
     });
 
     it('should return tags', function () {
@@ -366,19 +353,24 @@ describe('user', function () {
   });
 
   describe('latestTodoTime', function () {
+    var laterDate;
 
     beforeEach(function () {
       var userId = user._id;
+      laterDate = moment().add(1, 'days').toDate();
       var tasks = [
-        { id: 1, ownerId: userId, dueAt: 1 },
-        { id: 2, ownerId: userId, dueAt: 2 }
+        { id: 1, ownerId: userId, dueAt: new Date() },
+        { id: 2, ownerId: userId, dueAt: laterDate },
       ];
-      tasks.forEach(function (task) { Tasks.insert(task); });
+      tasks.forEach(function (task) {
+        task = _.defaults(task, defaultTask);
+        Tasks.insert(task);
+      });
     });
 
     it('should return the value of dueAt for the latest due task', function () {
       var latestTodoTime = user.latestTodoTime();
-      expect(latestTodoTime).toEqual(2);
+      expect(latestTodoTime).toEqual(laterDate);
     });
 
   });
@@ -389,8 +381,9 @@ describe('user', function () {
       var userId = user._id;
       var events = [
         { id: 1, ownerId: userId },
-        { id: 2, ownerId: userId, isRemoved: true },
-        { id: 2, ownerId: 'someId' }
+        { id: 2, ownerId: userId, isRemoved: false },
+        { id: 3, ownerId: userId, isRemoved: true },
+        { id: 4, ownerId: 'someId' }
       ];
       events.forEach(function (event) { Events.insert(event); });
     });
@@ -498,24 +491,56 @@ describe('user', function () {
   });
 
   describe('lengthOfWorkday', function () {
+    var customUser;
 
     beforeEach(function () {
-      user.setStartOfDay('09:30');
-      user.setEndOfDay('17:30');
+      customUser = {
+        startOfDay: UserHelpers.startOfDay,
+        endOfDay:  UserHelpers.endOfDay,
+        lengthOfWorkday: UserHelpers.lengthOfWorkday,
+      }
     });
 
     it('should work', function () {
-      var actual = user.lengthOfWorkday();
+      customUser.profile = {
+        settings: {
+          startOfDay: Date.parseTime('09:30'),
+          endOfDay: Date.parseTime('17:30'),
+        }
+      };
+      var actual = customUser.lengthOfWorkday();
       expect(actual).toEqual(8*HOURS);
     });
 
   });
 
-  describe('workTimeInRange', function () {
+  xdescribe('workTimeInRange', function () {
+    var customUser;
 
     beforeEach(function () {
-      user.setStartOfDay('09:30');
-      user.setEndOfDay('17:30');
+      customUser = {
+        profile: {
+          settings: {
+            startOfDay: Date.parseTime('09:30'),
+            endOfDay:   Date.parseTime('17:30'),
+          }
+        },
+        startOfDay: UserHelpers.startOfDay,
+        endOfDay:   UserHelpers.endOfDay,
+        _lastStart: UserHelpers._lastStart,
+
+        _isOutsideDay:     UserHelpers._isOutsideDay,
+        _nextStart:        UserHelpers._nextStart,
+        _lastEnd:          UserHelpers._lastEnd,
+        _isSameWorkday:    UserHelpers._isSameWorkday,
+        _numberOfWorkdaysInRangeInclusive: UserHelpers._numberOfWorkdaysInRangeInclusive,
+        lengthOfWorkday:   UserHelpers.lengthOfWorkday,
+        _beginningSegment: UserHelpers._beginningSegment,
+        _endSegment:       UserHelpers._endSegment,
+
+        workTimeInRange: UserHelpers.workTimeInRange,
+
+      }
     });
 
     describe('for one workday', function () {

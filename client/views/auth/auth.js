@@ -1,20 +1,16 @@
+const connectWithGoogle = GoogleAuth.connectWithGoogle;
+const loginWithGoogle   = GoogleAuth.loginWithGoogle;
+const authWithGoogle    = GoogleAuth.authWithGoogle;
 
-var View = Template.auth;
+const View  = Template.auth;
+const delay = 500;
 
-var btnLoading = new ReactiveVar();
-var resetBtnDone = new ReactiveVar();
-var usedGmailForReset = new ReactiveVar();
-var savedPassword = '';
-
-function isGmailAddress(email) {
-  return email.substring(email.length-10, email.length) === '@gmail.com';
-}
 
 function synchronize(src, dest) {
 //  $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
-  $(dest + '-link').addClass('active');
-  $('form' + src).hide();
+  $(`${dest}-link`).addClass('active');
+  $(`form${src}`).hide();
   if(dest === '.reset') {
     $('.social-login').hide();
     $('.reset-header').show();
@@ -23,83 +19,81 @@ function synchronize(src, dest) {
     $('.social-login').show();
     $('.reset-header').hide();
   }
-  $('form' + dest).show();
-  var $src = $('form' + src);
-  var $dest = $('form' + dest);
-  var email = $src.find('input.email').val();
-  var password = $src.find('input.password').val();
-  if(password === undefined) password = savedPassword;
-  else                       savedPassword = password;
+  $(`form${dest}`).show();
+  const $src = $(`form${src}`);
+  const $dest = $(`form${dest}`);
+  const email = $src.find('input.email').val();
+  let password = $src.find('input.password').val();
+  if(_.isUndefined(password)) password = savedPassword;
+  else                        savedPassword = password;
   $dest.find('input.email').val(email);
   $dest.find('input.password').val(password);
 }
 
 View.onCreated(function () {
-  btnLoading.set(false);
-  resetBtnDone.set(false);
-  usedGmailForReset.set(false);
+  const instance = Template.instance();
+  instance.btnLoading        = new ReactiveVar(false);
+  instance.resetBtnDone      = new ReactiveVar(false);
+  instance.usedGmailForReset = new ReactiveVar(false);
+  instance.googleBtnLoading  = new ReactiveVar(false);
+  instance.savedPassword     = '';
+});
+
+View.helpers({
+  loggedIn          () { return Meteor.userId()         },
+  googleBtnLoading  () { return Template.instance().googleBtnLoading.get()  },
+  btnLoading        () { return Template.instance().btnLoading.get()        },
+  resetBtnDone      () { return Template.instance().resetBtnDone.get()      },
+  usedGmailForReset () { return Template.instance().usedGmailForReset.get() },
 });
 
 View.onRendered(function () {
 //  if(window.location.hash === '#reset') synchronize('.login', '.reset');
-  
-    $('.auth__tab').first().addClass('active').next().show().addClass('open');
 
-        $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
-            event.preventDefault();
-            if (!$(this).hasClass('active')) {
-                $('.open').hide().removeClass('open');
-                $(this).next().show().addClass('open');
-                $('.active').removeClass('active');
-                $(this).addClass('active');
-            }
-        });
+  $('.auth__tab').first().addClass('active').next().show().addClass('open');
 
-    });
+  $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
+      event.preventDefault();
+      if (!$(this).hasClass('active')) {
+          $('.open').hide().removeClass('open');
+          $(this).next().show().addClass('open');
+          $('.active').removeClass('active');
+          $(this).addClass('active');
+      }
+  });
 
-View.helpers({
-  loggedIn: function () {
-    return Meteor.userId();
-  },
-
-  btnLoading: function () {
-    return btnLoading.get();
-  },
-
-  resetBtnDone: function () {
-    return resetBtnDone.get();
-  },
-
-  usedGmailForReset: function () {
-    return usedGmailForReset.get();
-  }
 });
 
 View.events({
 
-//  'click .login-link': function (e) {
-//    if( $('.login-link').hasClass('active') ) return false;
-//    synchronize('.reset', '.login');
-//  },
-//
-//  'click .reset-link': function (e) {
-//    synchronize('.login', '.reset');
-//  },
+  'click .signup-link': e => {
+    if( $('.signup-link').hasClass('active') ) return false;
+    else if( $('.login-link').hasClass('active') ) synchronize('.login', '.signup');
+    else synchronize('.reset', '.signup');
+  },
 
-  'submit form.login, click form.login button.login': function (e, t) {
+  'click .login-link': e => {
+    if( $('.login-link').hasClass('active') ) return false;
+    else if( $('.signup-link').hasClass('active') ) synchronize('.signup', '.login');
+    else synchronize('.reset', '.login');
+  },
+
+  'click .reset-link': e => { synchronize('.login', '.reset') },
+
+  'submit form.login, click form.login button.login': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
-    var delay = 500;
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       if(Meteor.userId() || Meteor.loggingIn()) {
         btnLoading.set(false);
         return false;
       }
 
-      var $parent  = $('form.login');
-      var email    = $parent.find('input.email').val();
-      var password = $parent.find('input.password').val();
+      const $parent  = $('form.login');
+      const email    = $parent.find('input.email').val();
+      const password = $parent.find('input.password').val();
 
       if( !(email && password) ) {
         $('.notice').html('Email and Password are both required.');
@@ -113,9 +107,9 @@ View.events({
         return;
       }
 
-      Meteor.loginWithPassword(email, password, function (err) {
+      Meteor.loginWithPassword(email, password, err => {
         if(err) {
-          var reason = err.reason;
+          let reason = err.reason;
           if(reason === 'User has no password set') {
             reason = 'You used this address to authenticate with Google.' +
               ' Please log in with Google, or, if you create a password in' +
@@ -130,13 +124,27 @@ View.events({
     }, delay);
   },
 
-  'submit form.reset, click form.reset button.reset': function (e, t) {
+  'submit form.signup, click form.signup button.signup': (e, t) => {
     e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
 
-    var delay = 500;
-    Meteor.setTimeout(function () {
-      var email = $('form.reset').find('input.email').val();
+    Meteor.setTimeout(() => {
+      if(Meteor.userId() || Meteor.loggingIn()) {
+        btnLoading.set(false);
+        return false;
+      }
+
+      const $parent  = $('form.signup');
+      const name     = $parent.find('input.name').val();
+      const email    = $parent.find('input.email').val();
+      const password = $parent.find('input.password').val();
+
+      if( !(name && email && password) ) {
+        $('.notice').html('All fields are required.');
+        btnLoading.set(false);
+        return;
+      }
 
       if( ! RFC5322.isValidAddress(email) ) {
         $('.notice').html('Please enter a valid email address.');
@@ -144,16 +152,55 @@ View.events({
         return;
       }
 
-      Accounts.forgotPassword({ email: email }, function (err) {
+      Accounts.createUser({
+        password: password,
+        email: email,
+        profile: {
+          name: name
+        },
+      }, err => {
+        if(err) {
+          $('.notice').html(err.reason);
+          btnLoading.set(false);
+        } else {
+          Router.go('app');
+        }
+      });
+    }, delay);
+  },
+
+  'submit form.reset, click form.reset button.reset': (e, t) => {
+    e.preventDefault();
+    const btnLoading = Template.instance().btnLoading;
+    btnLoading.set(true);
+
+    Meteor.setTimeout(function () {
+      const email = $('form.reset').find('input.email').val();
+
+      if( ! RFC5322.isValidAddress(email) ) {
+        $('.notice').html('Please enter a valid email address.');
+        btnLoading.set(false);
+        return;
+      }
+
+      Accounts.forgotPassword({ email: email }, err => {
         btnLoading.set(false);
         if(err) {
           $('.notice').html(err.reason);
         } else {
           $('.notice').html('');
-          resetBtnDone.set(true);
-          if(isGmailAddress(email)) usedGmailForReset.set(true);
+          Template.instance().resetBtnDone.set(true);
+          if(Helpers.isGmailAddress(email)) {
+            Template.instance().usedGmailForReset.set(true);
+          }
         }
       });
     }, delay);
-  }
+  },
+
+  'click .btn-gplus': e => {
+    Template.instance().googleBtnLoading.set(true);
+    authWithGoogle();
+  },
+
 });

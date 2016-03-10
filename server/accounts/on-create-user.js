@@ -8,19 +8,18 @@
 Accounts.onCreateUser(function(options, user) {
   var defaultSettings = {
     profile: {
+      name: options && options.profile && options.profile.name,
       settings: {
         startOfDay: Date.parseTime('08:00'),
         endOfDay: Date.parseTime('22:00'),
         taskCalendarId: null,
         referrals: [],
         isReferred: false,
-        lastReviewed: 0,
+        minTaskInterval: 15*MINUTES,
         maxTaskInterval: 2*HOURS,
         maxTimePerTaskPerDay: 6*HOURS,
         taskBreakInterval: 30*MINUTES,
-        taskGranularity: 5*MINUTES,
-        onboardingIndex: 0,
-        lastDayOfWeek: 'monday'
+        lastDayOfWeek: 'FRIDAY',
       }
     }
   };

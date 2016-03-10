@@ -3,9 +3,9 @@
     <a href="{{pathFor 'landing'}}" class="app-topbar__logo">Dunmo</a>
     {{#if currentUser}}
       {{#if currentUser.isGoogleAuthed}}
-        <a href="#" class="app-topbar__button app-topbar__button--sync ion-loop {{spinClass}}"></a>
+        <a class="app-topbar__button app-topbar__button--sync ion-loop {{spinClass}}"></a>
       {{/if}}
-      {{!-- <a href="{{pathFor 'help'}}" class="app-topbar__button app-topbar__button--help ion-help"></a> --}}
+      <a href="{{helpUrl}}" class="app-topbar__button app-topbar__button--help ion-help" target="_blank"></a>
       <a href="{{pathFor 'settings'}}" class="app-topbar__button app-topbar__button--settings ion-gear-a"></a>
     {{/if}}
   </div>

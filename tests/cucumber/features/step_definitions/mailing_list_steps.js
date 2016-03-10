@@ -5,7 +5,6 @@
   module.exports = function () {
 
     // You can use normal require here, cucumber is NOT run in a Meteor context (by design)
-    var url    = require('url');
     var _      = require('lodash');
     var assert = require('chai').assert;
 

@@ -1,8 +1,9 @@
 
 <template name="settings">
-  
+
   <div class="settings">
-  
+
+    {{#if currentUser.isGoogleAuthed}}
     <h6>Dunmo Settings</h6>
 
     <section>
@@ -47,9 +48,13 @@
         <span>m</span>
       </div>
     </section>
-    
+
+    {{/if}}
+
+
+    {{#if currentUser.isGoogleAuthed}}
     <h6>Active Calendars</h6>
-    
+
     <section>
       <ul class="calendar-list settings__cal__list">
         {{#each calendars}}
@@ -57,10 +62,11 @@
         {{/each}}
       </ul>
     </section>
-    
-    
+    {{/if}}
+
+
     <h6>Account</h6>
-    
+
     <section><p class="notice text-center">{{errorMessage}}</p></section>
     <section>
       {{#spinnerButton class="button-reset" waitOn=resetBtnLoading done=resetBtnDone}}
@@ -78,11 +84,13 @@
     </section>
     <section>
       {{>buttonGooglePlus}}
-      {{#unless isGoogleAuthed}}
+      {{#if currentUser.isGoogleAuthed}}
+        <p class="text-center lead"> Currently connected to: {{currentUser.gmailAddress}} </p>
+      {{else}}
         <p class="lead"> Use Google, and we can plan around your events. </p>
-      {{/unless}}
+      {{/if}}
     </section>
-    
+
   </div>
-  
+
 </template>
