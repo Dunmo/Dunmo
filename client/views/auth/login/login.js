@@ -1,4 +1,3 @@
-
 const View  = Template.login;
 const delay = 500;
 

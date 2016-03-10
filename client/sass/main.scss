@@ -3,6 +3,49 @@
 // Existing content in the file will not be touched
 // When deleting a .scss or .sass file you must manually delete it from here
 
-@import "client/sass/app.scss";
-@import "client/sass/ie.scss";
-@import "client/sass/landing.scss";
+@import 'lib/font-awesome/font-awesome';
+
+@import 'core/variables';
+@import 'core/objects';
+
+@import 'lib/normalize/normalize';
+
+@import 'lib/bourbon/bourbon';
+@import 'lib/neat/neat-helpers';
+@import 'lib/bitters/base';
+@import 'lib/neat/neat';
+
+// marked
+//@import 'core/old-base';
+//@import 'core/old-objects';
+//@import 'core/old-common';
+// end
+
+@import 'general/general';
+
+@import 'landing/general';
+@import 'landing/navigation';
+@import 'landing/hero';
+@import 'landing/body';
+@import 'landing/footer';
+@import 'landing/subscribe';
+@import 'landing/action';
+
+@import 'app/general';
+@import 'app/views/auth';
+@import 'app/views/side';
+@import 'app/views/main';
+@import 'app/views/settings';
+@import 'app/views/onboarding';
+@import 'app/task/add';
+@import 'app/task/item';
+
+// marked
+@import 'app/topbar';
+@import 'app/taskitem';
+@import 'app/addtask';
+@import 'app/addtaskbutton';
+// end
+
+@import 'dev/experimental';
+@import 'dev/shame';

@@ -1,94 +1,96 @@
 
 <template name="settings">
-  <section id="content">
-    <section class="main padder settings-container">
 
-      <div class="auth-container">
-        <div class="row">
-          <p class="notice text-center text-danger">{{errorMessage}}</p>
-        </div>
-        <div class="row">
-          {{#spinnerButton class="btn btn-reset btn-block" waitOn=resetBtnLoading done=resetBtnDone}}
-            {{#if resetBtnDone}}
-              Email Sent!
-            {{else}}
-              Send Password Reset Email
-            {{/if}}
-          {{/spinnerButton}}
-        </div>
-        <div class="row">
-          {{#spinnerButton class="btn btn-logout btn-block" waitOn=btnLoading}}
-            <i class="fa fa-logout"></i> Logout
-          {{/spinnerButton}}
-        </div>
-        <div class="row">
-          {{#spinnerButton class="btn btn-gplus btn-block {{googleBtnDisabledClass}}" waitOn=googleBtnLoading}}
-            <i class="fa fa-google-plus"></i>
-            {{#if currentUser.isGoogleAuthed}}
-              Disconnect from Google
-            {{else}}
-              Connect with Google
-            {{/if}}
-          {{/spinnerButton}}
-          {{#if currentUser.isGoogleAuthed}}
-            <p class="text-center lead"> Currently connected to: {{currentUser.gmailAddress}} </p>
-          {{else}}
-            <p class="lead"> Use Google, and we can plan around your events. </p>
-          {{/if}}
-        </div>
-      </div>
+  <div class="settings">
 
-      {{#if currentUser.isGoogleAuthed}}
-      <div class="row calendar-settings-container">
-        <div class="setting col-lg-4 col-sm-6">
-          <label for="start-of-workday">Start of Workday</label><br>
-          <input name="start-of-workday" type="time" class="settings__cal__field" value="{{startOfWorkday}}">
-        </div>
-        <div class="setting col-lg-4 col-sm-6">
-          <label for="end-of-workday">End of Workday</label> <br>
-          <input name="end-of-workday" type="time" class="settings__cal__field" value="{{endOfWorkday}}">
-        </div>
-        <div class="setting col-lg-4 col-sm-6">
-          <label for="max-task-interval">Max Work Time</label> <br>
-          <input name="max-task-interval-hours" type="number" min="0" max="24" class="settings__cal__halffield"
-                 value="{{maxTaskIntervalHours}}">
-          <label class="max-task-interval-hours-label">h</label>
-          <input name="max-task-interval-minutes" type="number" min="0" max="60" class="settings__cal__halffield"
-                 value="{{maxTaskIntervalMinutes}}">
-          <label class="max-task-interval-minutes-label">m</label>
-        </div>
-        <div class="setting col-lg-4 col-sm-6">
-          <label for="max-time-per-task-per-day">Max Time Per Task Per Day</label> <br>
-          <input name="max-time-per-task-per-day-hours" type="number" min="0" max="24" class="settings__cal__halffield"
-                 value="{{maxTimePerTaskPerDayHours}}">
-          <label class="max-time-per-task-per-day-hours-label">h</label>
-          <input name="max-time-per-task-per-day-minutes" type="number" min="0" max="60" class="settings__cal__halffield"
-                 value="{{maxTimePerTaskPerDayMinutes}}">
-          <label class="max-time-per-task-per-day-minutes-label">m</label>
-        </div>
-        <div class="setting col-lg-4 col-sm-6">
-          <label for="task-break-interval">Break Length</label> <br>
-          <input name="task-break-interval-hours" type="number" min="0" max="24" class="settings__cal__halffield"
-                 value="{{taskBreakIntervalHours}}">
-          <label class="task-break-interval-hours-label">h</label>
-          <input name="task-break-interval-minutes" type="number" min="0" max="60" class="settings__cal__halffield"
-                 value="{{taskBreakIntervalMinutes}}">
-          <label class="task-break-interval-minutes-label">m</label>
-        </div>
-      </div>
-      {{/if}}
+    {{#if currentUser.isGoogleAuthed}}
+    <h6>Dunmo Settings</h6>
 
-      {{#if currentUser.isGoogleAuthed}}
-      <div class="row calendar-listing-container">
-        <header>Active Calendars</header>
-        <ul class="calendar-list settings__cal__list">
-          {{#each calendars}}
-            {{> calendarListItem}}
-          {{/each}}
-        </ul>
-      </div>
-      {{/if}}
-
+    <section>
+      <label for="start-of-workday">Start of Workday</label>
+      <input name="start-of-workday" type="time">
     </section>
-  </section>
+    <section>
+      <label for="end-of-workday">End of Workday</label>
+      <input name="end-of-workday" type="time">
+    </section>
+    <section>
+      <label for="task-granularity">Task Granularity</label>
+      <div class="one">
+        <input name="task-granularity" type="number" min="1" max="60" step="1">
+        <span>m</span>
+      </div>
+    </section>
+    <section>
+      <label for="max-task-interval">Max Task Interval</label>
+      <div class="two">
+        <input name="max-task-interval-hours" type="number" min="0" max="24">
+        <span>h</span>
+        <input name="max-task-interval-minutes" type="number" min="0" max="60">
+        <span>m</span>
+      </div>
+    </section>
+    <section>
+      <label for="max-time-per-task-per-day">Max Time Per Task Per Day</label>
+      <div class="two">
+        <input name="max-time-per-task-per-day-hours" type="number" min="0" max="24">
+        <span>h</span>
+        <input name="max-time-per-task-per-day-minutes" type="number" min="0" max="60">
+        <span>m</span>
+      </div>
+    </section>
+    <section>
+      <label for="task-break-interval">Task Break Interval</label>
+      <div class="two">
+        <input name="task-break-interval-hours" type="number" min="0" max="24">
+        <span>h</span>
+        <input name="task-break-interval-minutes" type="number" min="0" max="60">
+        <span>m</span>
+      </div>
+    </section>
+
+    {{/if}}
+
+
+    {{#if currentUser.isGoogleAuthed}}
+    <h6>Active Calendars</h6>
+
+    <section>
+      <ul class="calendar-list settings__cal__list">
+        {{#each calendars}}
+          {{> calendarListItem}}
+        {{/each}}
+      </ul>
+    </section>
+    {{/if}}
+
+
+    <h6>Account</h6>
+
+    <section><p class="notice text-center">{{errorMessage}}</p></section>
+    <section>
+      {{#spinnerButton class="button-reset" waitOn=resetBtnLoading done=resetBtnDone}}
+        {{#if resetBtnDone}}
+          Email Sent!
+        {{else}}
+          Send Password Reset Email
+        {{/if}}
+      {{/spinnerButton}}
+    </section>
+    <section>
+      {{#spinnerButton class="button-logout" waitOn=btnLoading}}
+        <i class="fa fa-logout"></i> Logout
+      {{/spinnerButton}}
+    </section>
+    <section>
+      {{>buttonGooglePlus}}
+      {{#if currentUser.isGoogleAuthed}}
+        <p class="text-center lead"> Currently connected to: {{currentUser.gmailAddress}} </p>
+      {{else}}
+        <p class="lead"> Use Google, and we can plan around your events. </p>
+      {{/if}}
+    </section>
+
+  </div>
+
 </template>

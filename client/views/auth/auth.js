@@ -5,8 +5,9 @@ const authWithGoogle    = GoogleAuth.authWithGoogle;
 const View  = Template.auth;
 const delay = 500;
 
+
 function synchronize(src, dest) {
-  $('.nav-tabs > li').removeClass('active');
+//  $('.nav-tabs > li').removeClass('active');
   $('.notice').html('');
   $(`${dest}-link`).addClass('active');
   $(`form${src}`).hide();
@@ -44,6 +45,23 @@ View.helpers({
   btnLoading        () { return Template.instance().btnLoading.get()        },
   resetBtnDone      () { return Template.instance().resetBtnDone.get()      },
   usedGmailForReset () { return Template.instance().usedGmailForReset.get() },
+});
+
+View.onRendered(function () {
+//  if(window.location.hash === '#reset') synchronize('.login', '.reset');
+
+  $('.auth__tab').first().addClass('active').next().show().addClass('open');
+
+  $('.auth__container').on('click', 'li > a.auth__tab', function(event) {
+      event.preventDefault();
+      if (!$(this).hasClass('active')) {
+          $('.open').hide().removeClass('open');
+          $(this).next().show().addClass('open');
+          $('.active').removeClass('active');
+          $(this).addClass('active');
+      }
+  });
+
 });
 
 View.events({

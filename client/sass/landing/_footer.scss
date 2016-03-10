@@ -1,6 +1,20 @@
 .landing-footer {
     @include block;
-    @include padding;
+    @include small {
+        padding: 0 1rem;
+    }
+
+    @include medium {
+        padding: 0 2rem;
+    }
+
+    @include large {
+        padding: 0 4rem;
+    }
+
+    @include larger {
+        padding: 0 6rem;
+    }
     background: $black;
 
     &__company {

@@ -91,7 +91,7 @@ View.helpers({
 });
 
 View.events({
-  'click .btn-reset' (e, t) {
+  'click .button-reset' (e, t) {
     e.preventDefault();
     const resetBtnLoading = Template.instance().resetBtnLoading;
     resetBtnLoading.set(true);
@@ -150,7 +150,7 @@ View.events({
     setDurationSetting(e.target, 'task-break-interval', 'setTaskBreakInterval');
   },
 
-  'click .btn-logout' (e) {
+  'click .button-logout' (e) {
     Session.set('errorMessage', '');
     const btnLoading = Template.instance().btnLoading;
     btnLoading.set(true);
@@ -163,13 +163,13 @@ View.events({
           Session.set('errorMessage', reason);
           btnLoading.set(false);
         } else {
-          Router.go('login');
+          Router.go('auth');
         }
       });
     }, delay);
   },
 
-  'click .btn-gplus' (e) {
+  'click .button-GooglePlus' (e) {
     Session.set('errorMessage', '');
     Template.instance().googleBtnLoading.set(true);
 
