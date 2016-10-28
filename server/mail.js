@@ -10,7 +10,14 @@ Accounts.emailTemplates.resetPassword.html = function (user, url) {
   return 'Please click the following link to reset your password:\n\n' + url;
 };
 
-check(process.env.SECRETS_MAILCHIMP, String);
+// check(process.env.SECRETS_MAILCHIMP, String);
+// TODO: hack, switch after meteor upgrade
+if (typeof process.env.SECRETS_MAILCHIMP !== 'string') {
+  console.error('expected String for process.env.SECRETS_MAILCHIMP, got:',
+    process.env.SECRETS_MAILCHIMP,
+    ',',
+    typeof process.env.SECRETS_MAILCHIMP);
+}
 var mailChimp = new MailChimp(process.env.SECRETS_MAILCHIMP);
 var mailingListId = 'a2015f3903';
 
