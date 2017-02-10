@@ -1,6 +1,11 @@
 
 let View = Template.layout;
 
+// TODO: where to put this?
+View.onCreated(function () {
+  this.autorun( () => this.subscribe('mySyncables') );
+});
+
 View.helpers({
   modalActive () { return Session.get('add-task-is-active') },
 });

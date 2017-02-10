@@ -1,6 +1,14 @@
 
 let View = Template.tasks;
 
+View.onCreated(function () {
+  this.autorun( () => {
+    // TODO: using filter without flash of empty state
+    // const filter = Session.get('task-filter') || 'todo';
+    this.subscribe('myTasks');
+  });
+});
+
 View.helpers({
 
   isTodosView () { return Session.get('task-filter') === 'todo' },
