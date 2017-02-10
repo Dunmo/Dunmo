@@ -42,31 +42,37 @@
       <div class="row calendar-settings-container">
         <div class="setting col-lg-4 col-sm-6">
           <label for="start-of-workday">Start of Workday</label><br>
-          <input name="start-of-workday" type="time" class="settings__cal__field">
+          <input name="start-of-workday" type="time" class="settings__cal__field" value="{{startOfWorkday}}">
         </div>
         <div class="setting col-lg-4 col-sm-6">
           <label for="end-of-workday">End of Workday</label> <br>
-          <input name="end-of-workday" type="time" class="settings__cal__field">
+          <input name="end-of-workday" type="time" class="settings__cal__field" value="{{endOfWorkday}}">
         </div>
         <div class="setting col-lg-4 col-sm-6">
           <label for="max-task-interval">Max Work Time</label> <br>
-          <input name="max-task-interval-hours" type="number" min="0" max="24" class="settings__cal__halffield">
+          <input name="max-task-interval-hours" type="number" min="0" max="24" class="settings__cal__halffield"
+                 value="{{maxTaskIntervalHours}}">
           <label class="max-task-interval-hours-label">h</label>
-          <input name="max-task-interval-minutes" type="number" min="0" max="60" class="settings__cal__halffield">
+          <input name="max-task-interval-minutes" type="number" min="0" max="60" class="settings__cal__halffield"
+                 value="{{maxTaskIntervalMinutes}}">
           <label class="max-task-interval-minutes-label">m</label>
         </div>
         <div class="setting col-lg-4 col-sm-6">
           <label for="max-time-per-task-per-day">Max Time Per Task Per Day</label> <br>
-          <input name="max-time-per-task-per-day-hours" type="number" min="0" max="24" class="settings__cal__halffield">
+          <input name="max-time-per-task-per-day-hours" type="number" min="0" max="24" class="settings__cal__halffield"
+                 value="{{maxTimePerTaskPerDayHours}}">
           <label class="max-time-per-task-per-day-hours-label">h</label>
-          <input name="max-time-per-task-per-day-minutes" type="number" min="0" max="60" class="settings__cal__halffield">
+          <input name="max-time-per-task-per-day-minutes" type="number" min="0" max="60" class="settings__cal__halffield"
+                 value="{{maxTimePerTaskPerDayMinutes}}">
           <label class="max-time-per-task-per-day-minutes-label">m</label>
         </div>
         <div class="setting col-lg-4 col-sm-6">
           <label for="task-break-interval">Break Length</label> <br>
-          <input name="task-break-interval-hours" type="number" min="0" max="24" class="settings__cal__halffield">
+          <input name="task-break-interval-hours" type="number" min="0" max="24" class="settings__cal__halffield"
+                 value="{{taskBreakIntervalHours}}">
           <label class="task-break-interval-hours-label">h</label>
-          <input name="task-break-interval-minutes" type="number" min="0" max="60" class="settings__cal__halffield">
+          <input name="task-break-interval-minutes" type="number" min="0" max="60" class="settings__cal__halffield"
+                 value="{{taskBreakIntervalMinutes}}">
           <label class="task-break-interval-minutes-label">m</label>
         </div>
       </div>

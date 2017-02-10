@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-insecure
 accounts-google
 dburles:collection-helpers
 fastclick
@@ -57,5 +56,6 @@ bigu:waypoints
 sha
 jparker:crypto-aes
 wylio:mandrill
-lai:ddp-inspector
 ecmascript
+ongoworks:security
+mousetrap:mousetrap

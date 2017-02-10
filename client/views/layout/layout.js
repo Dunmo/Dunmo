@@ -1,6 +1,13 @@
 
 let View = Template.layout;
 
+View.onCreated(function () {
+  // TODO: where to put this?
+  this.autorun( () => this.subscribe('mySyncables') );
+
+  Helpers.heapIdentify();
+});
+
 View.helpers({
   modalActive () { return Session.get('add-task-is-active') },
 });
@@ -13,7 +20,7 @@ View.events({
   },
 
   'click .app-dimmer' (e, t) {
-    Session.set('add-task-is-active', false);
+    Helpers.toggleAddTaskIsActive(false);
   },
 
 });
