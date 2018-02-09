@@ -1,6 +1,8 @@
+var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 
-var clientId = '185519853107-4u8h81a0ji0sc44c460guk6eru87h21g.apps.googleusercontent.com';
-var scopes   = 'https://www.googleapis.com/auth/calendar';
+var clientId = GOOGLE_CLIENT_ID.web.client_id;
+var api_key = 'AIzaSyBLQKK9m3xpxg2OOGmbFqNQBSKxeWwLkdU';
+var scopes = "https://www.googleapis.com/auth/calendar.readonly";
 
 gapi.TASK_CALENDAR_NAME = 'Dunmo Tasks';
 gapi.AUTH_PARAMS = {
@@ -8,6 +10,36 @@ gapi.AUTH_PARAMS = {
   scope:     scopes,
   immediate: true
 };
+
+// gapi.load('client:auth2', initClient);
+
+// function initClient() {
+//   gapi.client.init({
+//     apiKey: API_KEY,
+//     clientId: CLIENT_ID,
+//     discoveryDocs: DISCOVERY_DOCS,
+//     scope: SCOPES
+//   }).then(function () {
+//     // Listen for sign-in state changes.
+//     gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+//
+//     // Handle the initial sign-in state.
+//     updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+//     authorizeButton.onclick = handleAuthClick;
+//     signoutButton.onclick = handleSignoutClick;
+//   });
+// }
+
+// gapi.auth2.getAuthInstance().signIn();
+
+// gapi.auth2.getAuthInstance().signOut();
+
+// gapi.client.calendar.events.list({...}).then(...)
+
+// <script async defer src="https://apis.google.com/js/api.js"
+//   onload="this.onload=function(){};handleClientLoad()"
+//   onreadystatechange="if (this.readyState === 'complete') this.onload()">
+// </script>
 
 gapi.onAuth = function (callback) {
   if(gapi.isAuthed && gapi.client.calendarIsLoaded) {
